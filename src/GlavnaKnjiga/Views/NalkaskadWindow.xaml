@@ -1,0 +1,48 @@
+<Window x:Class="GlavnaKnjiga.Views.NalkaskadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KASKADNO SLAGANJE NALOGA"
+        Height="240" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#95BC94"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#FFFF80" Padding="8,4" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Napomena: Ovom opcijom briše se odredjeni nalog u svim analitikama"
+                           FontSize="12" TextWrapping="Wrap"/>
+                <TextBlock Text="Opcija može poslužiti za brisanje obračunatih kursnih razlika radi ponovnog obračuna"
+                           FontSize="12" TextWrapping="Wrap" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Unesite broj naloga" 
+                       FontSize="12" TextDecorations="Underline" FontWeight="Bold"
+                       VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBox Grid.Column="1" Text="{Binding BrojNaloga, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="12" MaxLength="6" Width="120" HorizontalAlignment="Left"/>
+        </Grid>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Potvrda" Width="100" Height="30" Background="#C0C0C0"
+                    Command="{Binding PotvrdaCommand}"/>
+            <Button Content="IZLAZ" Width="100" Height="30" Margin="12,0,0,0" Background="#C0C0C0"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

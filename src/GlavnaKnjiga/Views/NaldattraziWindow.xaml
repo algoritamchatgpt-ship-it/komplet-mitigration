@@ -1,0 +1,15 @@
+<Window x:Class="GlavnaKnjiga.Views.NaldattraziWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TRAŽENJE DATUMA" Topmost="True" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        Background="#B7BCF9" KeyDown="Window_KeyDown"
+        Loaded="Window_Loaded" FocusManager.FocusedElement="{Binding ElementName=DtPicker}">
+    <StackPanel Margin="15">
+        <Label Content="Unesite datum (dd.MM.yyyy):" FontWeight="Bold"/>
+        <DatePicker x:Name="DtPicker" SelectedDate="{Binding TraziVrednost}"
+                    Width="180" Margin="0,5" LostFocus="DtPicker_LostFocus"/>
+        <Button Content="IZLAZ" Width="80" Height="28" Margin="0,8,0,0"
+                Command="{Binding ZatvoriCommand}" HorizontalAlignment="Right"/>
+    </StackPanel>
+</Window>

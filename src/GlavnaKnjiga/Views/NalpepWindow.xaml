@@ -1,0 +1,169 @@
+<Window x:Class="GlavnaKnjiga.Views.NalpepWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PREUZIMANJE ELEKTRONSKIH NALOGA"
+        Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#B7BCF9"
+        KeyDown="Window_KeyDown">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#80FF80" Padding="4">
+            <TextBlock Text="{Binding LblNalog}" FontWeight="Bold" FontSize="10"/>
+        </Border>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelektovaniRed}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  Background="#F5F5F5"
+                  GridLinesVisibility="All"
+                  FontSize="10"
+                  SelectionMode="Single"
+                  Margin="0,0,120,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Konto" Width="100"
+                                    Binding="{Binding Konto, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Dug" Width="120"
+                                    Binding="{Binding Dug, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N2}"
+                                    Foreground="Blue"/>
+                <DataGridTextColumn Header="Pot" Width="120"
+                                    Binding="{Binding Pot, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N2}"
+                                    Foreground="Red"/>
+                <DataGridTextColumn Header="Opis" Width="300"
+                                    Binding="{Binding Opis, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Sifra" Width="60"
+                                    Binding="{Binding Sifra, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Naziv" Width="320"
+                                    Binding="{Binding Naziv, Mode=OneWay}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Brrac" Width="180"
+                                    Binding="{Binding Brrac, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Datdok" Width="100"
+                                    Binding="{Binding Datdok, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Valuta" Width="100"
+                                    Binding="{Binding Valuta, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Brnal" Width="80"
+                                    Binding="{Binding Brnal, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Pozivz" Width="160"
+                                    Binding="{Binding Pozivz, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Pozivp" Width="140"
+                                    Binding="{Binding Pozivp, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Mp" Width="50"
+                                    Binding="{Binding Mp, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Mtr" Width="60"
+                                    Binding="{Binding Mtr, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <DataGridTextColumn Header="Dok" Width="60"
+                                    Binding="{Binding Dok, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="4" Width="110">
+            <Button Content="&#x25BC;" Height="24" Margin="0,0,0,2"
+                    Command="{Binding IdiDoleCommand}" Background="#C0C0C0"/>
+            <Button Content="&#x25B2;" Height="24" Margin="0,0,0,2"
+                    Command="{Binding IdiGoreCommand}" Background="#C0C0C0"/>
+            <Button Content="&#x23EC;" Height="24" Margin="0,0,0,2"
+                    Command="{Binding IdiNaDnoCommand}" Background="#C0C0C0"/>
+            <Button Content="&#x23EB;" Height="24" Margin="0,0,0,2"
+                    Command="{Binding IdiNaVrhCommand}" Background="#C0C0C0"/>
+            <Button Content="+" Height="24" Margin="0,0,0,2"
+                    Command="{Binding DodajCommand}" Background="#C0C0C0"
+                    ToolTip="DODAVANJE NOVOG REDA"/>
+            <Button Content="BRISI PRAZNINE" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding BrisiPraznineCommand}" Background="#C0C0C0"
+                    ToolTip="BRISANJE PRAZNINA"/>
+            <Button Content="KONTNI PLAN" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding KontniPlanCommand}" Background="#C0C0C0"
+                    ToolTip="KONTNI PLAN"/>
+            <Button Content="PARTNERI F4" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding PartneriF4Command}" Background="#C0C0C0"
+                    ToolTip="PARTNERI F4"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Margin="4" Width="110">
+            <Button Content="BRISANJE NALOGA" Height="28" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding BrisiNalogCommand}" Background="#C0C0C0"
+                    ToolTip="BRISANJE CELOG NALOGA"/>
+            <Button Content="PREUZIMANJE FX" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding PreuzimanjeFxCommand}" Background="#C0C0C0"
+                    ToolTip="PREUZIMANJE FX"/>
+            <Button Content="PREUZIMANJE RF" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding PreuzimanjeRfCommand}" Background="#C0C0C0"
+                    ToolTip="PREUZIMANJE RF"/>
+            <Button Content="PREUZIMANJE XML" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding PreuzimanjeXmlCommand}" Background="#C0C0C0"
+                    ToolTip="PREUZIMANJE XML"/>
+            <Button Content="PREUZIMANJE XML2" Height="24" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding PreuzimanjeXml2Command}" Background="#C0C0C0"
+                    ToolTip="PREUZIMANJE XML2"/>
+            <Button Content="ODREDJIVANJE NALOGA" Height="28" Margin="0,0,0,2" FontSize="9"
+                    Command="{Binding OdredjivanjeNalogaCommand}" Background="#C0C0C0"
+                    ToolTip="ODREDJIVANJE NALOGA"/>
+            <Button Content="IZLAZ" Height="24" Margin="0,0,0,2"
+                    Command="{Binding IzlazCommand}" Background="#C0C0C0" Foreground="Red"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" Background="#FFFF00" Padding="4">
+            <TextBlock Text="{Binding LblPartner}" FontWeight="Bold" FontSize="10"/>
+        </Border>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Border Background="#FF8040" Padding="4,2" Margin="0,0,4,0">
+                    <TextBlock Text="{Binding LblKonto}" FontWeight="Bold" FontSize="11"/>
+                </Border>
+                <Border Background="#0080FF" Padding="4,2" Margin="0,0,4,0">
+                    <TextBlock Text="{Binding LblGrad}" FontWeight="Bold" FontSize="11"/>
+                </Border>
+                <Border Background="#808000" Padding="4,2" Margin="0,0,4,0">
+                    <TextBlock Text="{Binding LblMtr}" FontWeight="Bold" FontSize="11"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Border Background="#0000FF" Padding="4,1" Margin="0,0,2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding LblDug}" FontWeight="Bold" FontSize="11" Foreground="#FFFF00"/>
+                        <TextBlock Text="{Binding LblDugIznos}" FontWeight="Bold" FontSize="11" Foreground="#FFFF00" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#FFFFFF" Padding="4,1" Margin="0,0,2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding LblPot}" FontWeight="Bold" FontSize="11" Foreground="Red"/>
+                        <TextBlock Text="{Binding LblPotIznos}" FontWeight="Bold" FontSize="11" Foreground="Red" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#008000" Padding="4,1" Margin="0,0,2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding LblSaldo}" FontWeight="Bold" FontSize="11" Foreground="#00FF00"/>
+                        <TextBlock Text="{Binding LblSaldoIznos}" FontWeight="Bold" FontSize="11" Foreground="#00FF00" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#C0C0C0" Padding="4,1">
+                    <TextBlock Text="{Binding LblRec}" FontWeight="Bold" FontStyle="Italic" FontSize="10" Foreground="Red"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

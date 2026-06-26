@@ -1,0 +1,150 @@
+<Window x:Class="GlavnaKnjiga.Views.NalpdevWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="knjiženje deviznih promena"
+        Height="520" Width="460"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#E9ECD8"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="20,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Konto" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Konto, Mode=OneWay}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5" Foreground="Black"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Duguje" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Dug, Mode=OneWay, StringFormat=N2}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5" Foreground="Blue"/>
+        </Grid>
+        <Grid Grid.Row="2" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Potražuje" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Pot, Mode=OneWay, StringFormat=N2}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5" Foreground="Blue"/>
+        </Grid>
+        <Grid Grid.Row="3" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Opis" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Opis, Mode=OneWay}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+        </Grid>
+        <Grid Grid.Row="4" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="datum promene" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Datdok, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+            <TextBlock Grid.Column="2" Text="broj naloga" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center" Margin="12,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="5" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="mesto plaćanja" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Mp, Mode=OneWay}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+            <TextBlock Grid.Column="2" Text="MTR" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Column="3" Text="{Binding Mtr, Mode=OneWay}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+            <TextBlock Grid.Column="4" Text="objekat" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center" Margin="12,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="6" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Dok" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Dok, Mode=OneWay}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+        </Grid>
+
+        <Separator Grid.Row="7" Margin="0,8"/>
+
+        <Grid Grid.Row="8" Margin="0,4,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="šifra devize" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Dev, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                     FontSize="11" MaxLength="3" Foreground="Red"/>
+        </Grid>
+        <Grid Grid.Row="9" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="devizni kurs" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Devkurs, Mode=OneWay, StringFormat=N4}" IsReadOnly="True" FontSize="11"
+                     Background="#CFCDF5"/>
+        </Grid>
+        <Grid Grid.Row="10" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="devizno duguje" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Devdug, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                     FontSize="11" Foreground="Red"/>
+        </Grid>
+        <Grid Grid.Row="11" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="devizno potražuje" Foreground="#AB212C" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding Devpot, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                     FontSize="11" Foreground="Red"/>
+        </Grid>
+
+        <StackPanel Grid.Row="14" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="IZLAZ" Width="100" Height="30" Background="#C0C0C0"
+                    Command="{Binding SnimiCommand}"/>
+            <Button Content="IZLAZ" Width="100" Height="30" Margin="12,0,0,0" Background="#C0C0C0"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

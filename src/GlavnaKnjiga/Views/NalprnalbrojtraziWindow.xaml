@@ -1,0 +1,15 @@
+<Window x:Class="GlavnaKnjiga.Views.NalprnalbrojtraziWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TRAŽI NALOG" Topmost="True" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        Background="#B7BCF9" KeyDown="Window_KeyDown"
+        Loaded="Window_Loaded" FocusManager.FocusedElement="{Binding ElementName=TxtTrazi}">
+    <StackPanel Margin="15">
+        <Label Content="Unesite broj naloga:" FontWeight="Bold"/>
+        <TextBox x:Name="TxtTrazi" Text="{Binding TraziVrednost, UpdateSourceTrigger=PropertyChanged}"
+                 Width="180" Margin="0,5" LostFocus="TxtTrazi_LostFocus"/>
+        <Button Content="IZLAZ" Width="80" Height="28" Margin="0,8,0,0"
+                Command="{Binding ZatvoriCommand}" HorizontalAlignment="Right"/>
+    </StackPanel>
+</Window>
