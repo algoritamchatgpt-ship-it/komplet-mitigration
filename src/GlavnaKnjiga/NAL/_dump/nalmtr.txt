@@ -1,0 +1,1898 @@
+num records 117
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 158
+    Left = 506
+    Width = 520
+    Height = 451
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALMTR | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "EVIDENCIJA MESTA TROŠKOVA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALMTR"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEighT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    USE FIRMA IN 0
+    USE NALMTR IN 0 EXCLU
+    USE NALMTRK IN 0 EXCLUSIVE ORDER 1
+    SELECT NALMTRK
+    IF RECCOUNT()<1
+       FOR I=1 TO 30
+          APPEND BLANK
+          DO CASE I
+             CASE I=1
+                REPLACE KONTOTR WITH '95000'
+                REPLACE NAZIV WITH 'PROMET ALATA'
+             CASE I=2
+                REPLACE KONTOTR WITH '95070'
+                REPLACE NAZIV WITH 'REZNI ALAT'
+             CASE I=3
+                REPLACE KONTOTR WITH '95080'
+                REPLACE NAZIV WITH 'POM.MAT.AMBAL.MAZIVA'
+             CASE I=4
+                REPLACE KONTOTR WITH '95110'
+                REPLACE NAZIV WITH 'INŽENJERING'
+             CASE I=5
+                REPLACE KONTOTR WITH '95120'
+                REPLACE NAZIV WITH 'CNC GLODANJE NA VELIKIM MAŠINAMA'
+             CASE I=6
+                REPLACE KONTOTR WITH '95130'
+                REPLACE NAZIV WITH 'CNC GLODANJE NA MALIM MAŠINAMA'
+             CASE I=7
+                REPLACE KONTOTR WITH '95140'
+                REPLACE NAZIV WITH 'MONTAŽA'
+             CASE I=8
+                REPLACE KONTOTR WITH '95150'
+                REPLACE NAZIV WITH 'PRESE'
+             CASE I=9
+                REPLACE KONTOTR WITH '95160'
+                REPLACE NAZIV WITH 'KONTROLA'
+             CASE I=10
+                REPLACE KONTOTR WITH '95170'
+                REPLACE NAZIV WITH 'LASER'
+             CASE I=11
+                REPLACE KONTOTR WITH '95180'
+                REPLACE NAZIV WITH 'CAM'
+             CASE I=12
+                REPLACE KONTOTR WITH '95400'
+                REPLACE NAZIV WITH 'TROŠKOVI RADA ZA VODJENJE PROIZVODNJE/POSLOVODJE'
+             CASE I=13
+                REPLACE KONTOTR WITH '95450'
+                REPLACE NAZIV WITH 'LOGISTIKA'
+             CASE I=14
+                REPLACE KONTOTR WITH '95600'
+                REPLACE NAZIV WITH 'PRODAJA'
+             CASE I=15
+                REPLACE KONTOTR WITH '95630'
+                REPLACE NAZIV WITH 'PROJEKTNO VODJENJE'
+             CASE I=16
+                REPLACE KONTOTR WITH '95900'
+                REPLACE NAZIV WITH 'UPRAVA'
+             CASE I=17
+                REPLACE KONTOTR WITH '95930'
+                REPLACE NAZIV WITH 'FINANSIJE,KONTROLA,KADROVSKA'
+             CASE I=18
+                REPLACE KONTOTR WITH '95940'
+                REPLACE NAZIV WITH 'IT'
+             CASE I=19
+                REPLACE KONTOTR WITH '95950'
+                REPLACE NAZIV WITH 'ZAJEDNIČKI TROŠKOVI'
+             CASE I=20
+                REPLACE KONTOTR WITH '95962'
+                REPLACE NAZIV WITH 'TROŠKOVI FINANSIRANJA'
+             CASE I=21
+                REPLACE KONTOTR WITH '95920'
+                REPLACE NAZIV WITH 'ŠKOLSKI CENTAR'
+             CASE I=22
+                REPLACE KONTOTR WITH '95190'
+                REPLACE NAZIV WITH 'KLASIČNA OBRADA'
+             CASE I=23
+                REPLACE KONTOTR WITH '95200'
+                REPLACE NAZIV WITH 'ODRŽAVANJE'
+             CASE I=24
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=25
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=26
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=27
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=28
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=29
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+             CASE I=30
+                REPLACE KONTOTR WITH '99999'
+                REPLACE NAZIV WITH 'NEMA'
+          ENDCASE
+       NEXT
+    ENDIF   
+    DECLARE MKON[30]
+    GO TOP
+    I=1
+    DO WHILE.NOT.EOF()
+       MKON[I]=KONTOTR+' '+NAZIV
+       I=I+1
+       SKIP
+    ENDDO   
+    
+    
+    SELECT NALMTR
+    THISFORM.GRD0.RECORDSOURCE='NALMTR'
+    THISFORM.GRD0.COLUMN7.Header1.Caption=MKON[1]
+    THISFORM.GRD0.COLUMN8.Header1.Caption=MKON[2]
+    THISFORM.GRD0.COLUMN9.Header1.Caption=MKON[3]
+    THISFORM.GRD0.COLUMN10.Header1.Caption=MKON[4]
+    THISFORM.GRD0.COLUMN11.Header1.Caption=MKON[5]
+    THISFORM.GRD0.COLUMN12.Header1.Caption=MKON[6]
+    THISFORM.GRD0.COLUMN13.Header1.Caption=MKON[7]
+    THISFORM.GRD0.COLUMN14.Header1.Caption=MKON[8]
+    THISFORM.GRD0.COLUMN15.Header1.Caption=MKON[9]
+    THISFORM.GRD0.COLUMN16.Header1.Caption=MKON[10]
+    THISFORM.GRD0.COLUMN17.Header1.Caption=MKON[11]
+    THISFORM.GRD0.COLUMN18.Header1.Caption=MKON[12]
+    THISFORM.GRD0.COLUMN19.Header1.Caption=MKON[13]
+    THISFORM.GRD0.COLUMN20.Header1.Caption=MKON[14]
+    THISFORM.GRD0.COLUMN21.Header1.Caption=MKON[15]
+    THISFORM.GRD0.COLUMN22.Header1.Caption=MKON[16]
+    THISFORM.GRD0.COLUMN23.Header1.Caption=MKON[17]
+    THISFORM.GRD0.COLUMN24.Header1.Caption=MKON[18]
+    THISFORM.GRD0.COLUMN25.Header1.Caption=MKON[19]
+    THISFORM.GRD0.COLUMN26.Header1.Caption=MKON[20]
+    THISFORM.GRD0.COLUMN27.Header1.Caption=MKON[21]
+    THISFORM.GRD0.COLUMN28.Header1.Caption=MKON[22]
+    THISFORM.GRD0.COLUMN29.Header1.Caption=MKON[23]
+    THISFORM.GRD0.COLUMN30.Header1.Caption=MKON[24]
+    THISFORM.GRD0.COLUMN31.Header1.Caption=MKON[25]
+    THISFORM.GRD0.COLUMN32.Header1.Caption=MKON[26]
+    THISFORM.GRD0.COLUMN33.Header1.Caption=MKON[27]
+    THISFORM.GRD0.COLUMN34.Header1.Caption=MKON[28]
+    THISFORM.GRD0.COLUMN35.Header1.Caption=MKON[29]
+    THISFORM.GRD0.COLUMN36.Header1.Caption=MKON[30]
+    THISFORM.GRD0.SETFOCUS
+    SET PROCEDURE TO TASTERI2
+       DO NALMTRTAST
+    SET PROCEDURE TO   
+    
+    *THISFORM.REFRESH
+    
+    ENDPROC
+    PROCEDURE Unload
+    CLOSE ALL TABLES
+    POP KEY
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALMTR
+  PROPERTIES:
+    Top =  29.20
+    Left =   3.40
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    SpecialEffect = 0
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALMTR
+  PROPERTIES:
+    Top =  29.20
+    Left =  11.20
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    SpecialEffect = 0
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    *THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALMTR
+  PROPERTIES:
+    Top =  29.20
+    Left =  19.00
+    Height =   1.80
+    Width =  10.00
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    SpecialEffect = 0
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALMTR
+  PROPERTIES:
+    Top =  29.20
+    Left =  28.80
+    Height =   1.80
+    Width =   8.00
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    SpecialEffect = 0
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | CMDIZLAZ | parent=NALMTR
+  PROPERTIES:
+    Top =  38.40
+    Left = 182.40
+    Height =   2.33
+    Width =  15.80
+    Picture = ..\dodaci\_cancel.bmp
+    Caption = ""
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 2
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBLREC | parent=NALMTR
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 162.80
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== grid | grd0 | parent=NALMTR
+  PROPERTIES:
+    ColumnCount = 41
+    FontBold = .F.
+    FontSize = 10
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  23.93
+    Left =   0.80
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 19
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   3.27
+    Width = 203.40
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 170,255,170
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 255,193,164
+    SelectedItemForeColor = 64,0,0
+    HighlightStyle = 1
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =  15.60
+    Column1.ReadOnly = .T.
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  17.60
+    Column2.ReadOnly = .T.
+    Column2.Visible = .T.
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  13.80
+    Column3.ReadOnly = .T.
+    Column3.Visible = .T.
+    Column3.ForeColor = 255,0,0
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  21.80
+    Column4.ReadOnly = .T.
+    Column4.Visible = .T.
+    Column4.Format = "999"
+    Column4.InputMask = "999 999 999 999.99"
+    Column4.ForeColor = 0,0,255
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =  21.80
+    Column5.ReadOnly = .T.
+    Column5.Visible = .T.
+    Column5.Format = "999"
+    Column5.InputMask = "999 999 999 999.99"
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  21.40
+    Column6.ReadOnly = .T.
+    Column6.Visible = .T.
+    Column6.Format = "999"
+    Column6.InputMask = "999 999 999 999.99"
+    Column6.ForeColor = 255,0,0
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =  31.60
+    Column7.Visible = .T.
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =  29.60
+    Column8.Visible = .T.
+    Column8.InputMask = "999 999 999 999.99"
+    Column8.BackColor = 245,245,245
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =  30.60
+    Column9.Visible = .T.
+    Column9.BackColor = 245,245,245
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =  31.20
+    Column10.Visible = .T.
+    Column10.InputMask = "999 999 999 999.99"
+    Column10.BackColor = 245,245,245
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  31.60
+    Column11.Visible = .T.
+    Column11.BackColor = 245,245,245
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  33.80
+    Column12.Visible = .T.
+    Column12.InputMask = "999 999 999 999.99"
+    Column12.BackColor = 245,245,245
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =  33.00
+    Column13.Visible = .T.
+    Column13.BackColor = 245,245,245
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =  30.80
+    Column14.Visible = .T.
+    Column14.InputMask = "999 999 999 999.99"
+    Column14.BackColor = 245,245,245
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =  34.80
+    Column15.Visible = .T.
+    Column15.BackColor = 245,245,245
+    Column15.Name = "Column15"
+    Column16.FontBold = .F.
+    Column16.FontSize = 10
+    Column16.ControlSource = ""
+    Column16.Width =  33.60
+    Column16.Visible = .T.
+    Column16.InputMask = "999 999 999 999.99"
+    Column16.BackColor = 245,245,245
+    Column16.Name = "Column16"
+    Column17.FontBold = .F.
+    Column17.FontSize = 10
+    Column17.ControlSource = ""
+    Column17.Width =  34.80
+    Column17.Visible = .T.
+    Column17.BackColor = 245,245,245
+    Column17.Name = "Column17"
+    Column18.FontBold = .F.
+    Column18.FontSize = 10
+    Column18.ControlSource = ""
+    Column18.Width =  32.20
+    Column18.Visible = .T.
+    Column18.InputMask = "999 999 999 999.99"
+    Column18.BackColor = 245,245,245
+    Column18.Name = "Column18"
+    Column19.FontBold = .F.
+    Column19.FontSize = 10
+    Column19.ControlSource = ""
+    Column19.Width =  33.60
+    Column19.Visible = .T.
+    Column19.BackColor = 245,245,245
+    Column19.Name = "Column19"
+    Column20.FontBold = .F.
+    Column20.FontSize = 10
+    Column20.ControlSource = ""
+    Column20.Width =  34.00
+    Column20.Visible = .T.
+    Column20.InputMask = "999 999 999 999.99"
+    Column20.BackColor = 245,245,245
+    Column20.Name = "Column20"
+    Column21.FontBold = .F.
+    Column21.FontSize = 10
+    Column21.ControlSource = ""
+    Column21.Width =  34.60
+    Column21.Visible = .T.
+    Column21.BackColor = 245,245,245
+    Column21.Name = "Column21"
+    Column22.FontBold = .F.
+    Column22.FontSize = 10
+    Column22.ControlSource = ""
+    Column22.Width =  37.00
+    Column22.Visible = .T.
+    Column22.InputMask = "999 999 999 999.99"
+    Column22.BackColor = 245,245,245
+    Column22.Name = "Column22"
+    Column23.FontBold = .F.
+    Column23.FontSize = 10
+    Column23.ControlSource = ""
+    Column23.Width =  34.40
+    Column23.Visible = .T.
+    Column23.BackColor = 245,245,245
+    Column23.Name = "Column23"
+    Column24.FontBold = .F.
+    Column24.FontSize = 10
+    Column24.ControlSource = ""
+    Column24.Width =  33.20
+    Column24.Visible = .T.
+    Column24.InputMask = "999 999 999 999.99"
+    Column24.BackColor = 245,245,245
+    Column24.Name = "Column24"
+    Column25.FontBold = .F.
+    Column25.FontSize = 10
+    Column25.ControlSource = ""
+    Column25.Width =  33.20
+    Column25.Visible = .T.
+    Column25.BackColor = 245,245,245
+    Column25.Name = "Column25"
+    Column26.FontBold = .F.
+    Column26.FontSize = 10
+    Column26.ControlSource = ""
+    Column26.Width =  31.40
+    Column26.Visible = .T.
+    Column26.InputMask = "999 999 999 999.99"
+    Column26.BackColor = 245,245,245
+    Column26.Name = "Column26"
+    Column27.FontBold = .F.
+    Column27.FontSize = 10
+    Column27.ControlSource = ""
+    Column27.Width =  29.40
+    Column27.Visible = .T.
+    Column27.BackColor = 245,245,245
+    Column27.Name = "Column27"
+    Column28.FontBold = .F.
+    Column28.FontSize = 10
+    Column28.ControlSource = ""
+    Column28.Width =  35.00
+    Column28.Visible = .T.
+    Column28.InputMask = "999 999 999 999.99"
+    Column28.BackColor = 245,245,245
+    Column28.Name = "Column28"
+    Column29.FontBold = .F.
+    Column29.FontSize = 10
+    Column29.ControlSource = ""
+    Column29.Width =  37.20
+    Column29.Visible = .T.
+    Column29.BackColor = 245,245,245
+    Column29.Name = "Column29"
+    Column30.FontBold = .F.
+    Column30.FontSize = 10
+    Column30.ControlSource = ""
+    Column30.Width =  36.80
+    Column30.Visible = .T.
+    Column30.InputMask = "999 999 999 999.99"
+    Column30.BackColor = 245,245,245
+    Column30.Name = "Column30"
+    Column31.FontBold = .F.
+    Column31.FontSize = 10
+    Column31.ControlSource = ""
+    Column31.Width =  37.80
+    Column31.Visible = .T.
+    Column31.BackColor = 245,245,245
+    Column31.Name = "Column31"
+    Column32.FontBold = .F.
+    Column32.FontSize = 10
+    Column32.ControlSource = ""
+    Column32.Width =  35.80
+    Column32.Visible = .T.
+    Column32.InputMask = "999 999 999 999.99"
+    Column32.BackColor = 245,245,245
+    Column32.Name = "Column32"
+    Column33.FontBold = .F.
+    Column33.FontSize = 10
+    Column33.ControlSource = ""
+    Column33.Width =  38.60
+    Column33.Visible = .T.
+    Column33.BackColor = 245,245,245
+    Column33.Name = "Column33"
+    Column34.FontBold = .F.
+    Column34.FontSize = 10
+    Column34.ControlSource = ""
+    Column34.Width =  34.40
+    Column34.Visible = .T.
+    Column34.InputMask = "999 999 999 999.99"
+    Column34.BackColor = 245,245,245
+    Column34.Name = "Column34"
+    Column35.FontBold = .F.
+    Column35.FontSize = 10
+    Column35.ControlSource = ""
+    Column35.Width =  33.20
+    Column35.Visible = .T.
+    Column35.BackColor = 245,245,245
+    Column35.Name = "Column35"
+    Column36.FontBold = .F.
+    Column36.FontSize = 10
+    Column36.ControlSource = ""
+    Column36.Width =  36.00
+    Column36.Visible = .T.
+    Column36.InputMask = "999 999 999 999.99"
+    Column36.BackColor = 245,245,245
+    Column36.Name = "Column36"
+    Column37.FontBold = .F.
+    Column37.FontSize = 10
+    Column37.ControlSource = ""
+    Column37.Width =  68.80
+    Column37.Visible = .T.
+    Column37.BackColor = 245,245,245
+    Column37.Name = "Column37"
+    Column38.FontBold = .F.
+    Column38.FontSize = 10
+    Column38.ControlSource = ""
+    Column38.Width =  37.60
+    Column38.Visible = .T.
+    Column38.InputMask = "999 999 999 999.99"
+    Column38.BackColor = 245,245,245
+    Column38.Name = "Column38"
+    Column39.FontBold = .F.
+    Column39.FontSize = 10
+    Column39.ControlSource = ""
+    Column39.Width =  26.60
+    Column39.Visible = .T.
+    Column39.BackColor = 245,245,245
+    Column39.Name = "Column39"
+    Column40.FontBold = .F.
+    Column40.FontSize = 10
+    Column40.ControlSource = ""
+    Column40.Width =  23.60
+    Column40.Visible = .T.
+    Column40.InputMask = "999 999 999 999.99"
+    Column40.BackColor = 245,245,245
+    Column40.Name = "Column40"
+    Column41.FontBold = .F.
+    Column41.FontSize = 10
+    Column41.ControlSource = ""
+    Column41.Width =   8.80
+    Column41.Visible = .T.
+    Column41.BackColor = 245,245,245
+    Column41.Name = "Column41"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY clear     
+    SELECT NALMTR
+    *------------PRIKAZ PODATAKA NA EKRANU 
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    DO NALMTRRAC
+    THISFORM.REFRESH
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datdok"
+    ForeColor = 0,0,255
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 1
+    InputMask = "999999999999.99"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brnal"
+    ForeColor = 255,0,0
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Dug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Pot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Saldo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    TabStop = .F.
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos01"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos02"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTR.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos03"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos04"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos05"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos06"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos07"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos08"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos09"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos10"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos11"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Iznos12"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos13"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos14"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos15"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos16"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos17"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos18"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos19"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos20"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos21"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos22"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos23"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos24"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos25"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column32
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos26"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column32
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column33
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos27"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column33
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column34
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos28"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column34
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column35
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos29"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column35
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column36
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Iznos30"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column36
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column37
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column37
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column38
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column38
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column39
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ukupno"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column39
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column40
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Razlika"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column40
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== header | Header1 | parent=NALMTR.grd0.Column41
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Arhiva"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTR.grd0.Column41
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+
+=== commandbutton | Command26 | parent=NALMTR
+  PROPERTIES:
+    Top =  29.20
+    Left =  43.20
+    Height =   1.87
+    Width =  36.40
+    FontSize = 10
+    Caption = "PRENOS KNJIŽENJA"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command26"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALMTRPRENOS
+    
+    ENDPROC
+
+=== textbox | txtNaziv | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.naziv"
+    Height =   1.53
+    Left =  30.80
+    MaxLength = 60
+    ReadOnly = .T.
+    TabIndex = 25
+    Top =  27.40
+    Width =  85.60
+    Name = "txtNaziv"
+
+=== label | lblNaziv | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Naziv"
+    Left =  24.60
+    Top =  27.53
+    Width =   5.80
+    TabIndex = 24
+    Name = "lblNaziv"
+
+=== textbox | txtOpis | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.opis"
+    Height =   1.53
+    Left =  55.00
+    MaxLength = 30
+    ReadOnly = .T.
+    TabIndex = 27
+    Top =   0.00
+    Width =  43.80
+    Name = "txtOpis"
+
+=== label | lblOpis | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "OPIS"
+    Left =  49.20
+    Top =   0.40
+    Width =   5.60
+    TabIndex = 26
+    Name = "lblOpis"
+
+=== textbox | txtKonto | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.konto"
+    Height =   1.53
+    Left =   7.80
+    MaxLength = 10
+    ReadOnly = .T.
+    TabIndex = 29
+    Top =  27.40
+    Width =  16.80
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Konto"
+    Left =   1.00
+    Top =  27.60
+    Width =   6.40
+    TabIndex = 28
+    Name = "lblKonto"
+
+=== textbox | txtDatdok | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.datdok"
+    Height =   1.53
+    Left =  11.00
+    ReadOnly = .T.
+    TabIndex = 31
+    Top =   0.00
+    Width =  14.60
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM"
+    Left =   2.20
+    Top =   0.40
+    Width =   8.00
+    TabIndex = 30
+    Name = "lblDatdok"
+
+=== textbox | txtBrnal | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.brnal"
+    Height =   1.53
+    Left =  36.40
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 33
+    Top =   0.00
+    Width =  11.00
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NALOG"
+    Left =  27.80
+    Top =   0.40
+    Width =   8.20
+    TabIndex = 32
+    Name = "lblBrnal"
+
+=== commandbutton | Command5 | parent=NALMTR
+  PROPERTIES:
+    Top =  32.00
+    Left =   2.40
+    Height =   1.87
+    Width =  30.40
+    FontSize = 10
+    Caption = "BRISANJE TABELE"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO  NALMTRBRISITAB
+    
+    ENDPROC
+
+=== textbox | txtSaldo | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.saldo"
+    Height =   1.53
+    Left =  94.00
+    ReadOnly = .T.
+    TabIndex = 35
+    Top =   1.80
+    Width =  26.20
+    Name = "txtSaldo"
+
+=== label | lblSaldo | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Saldo"
+    Left =  86.80
+    Top =   2.13
+    Width =   6.40
+    TabIndex = 34
+    Name = "lblSaldo"
+
+=== textbox | txtUkupno | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.ukupno"
+    Height =   1.53
+    Left = 130.40
+    ReadOnly = .T.
+    TabIndex = 37
+    Top =   1.80
+    Width =  26.20
+    Name = "txtUkupno"
+
+=== label | lblUkupno | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Ukupno"
+    Left = 121.40
+    Top =   2.13
+    Width =   8.60
+    TabIndex = 36
+    Name = "lblUkupno"
+
+=== textbox | txtRazlika | parent=NALMTR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "nalmtr.razlika"
+    Height =   1.53
+    Left = 166.40
+    ReadOnly = .T.
+    TabIndex = 39
+    Top =   1.80
+    Width =  26.20
+    Name = "txtRazlika"
+
+=== label | lblRazlika | parent=NALMTR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Razlika"
+    Left = 158.00
+    Top =   2.13
+    Width =   8.00
+    TabIndex = 38
+    Name = "lblRazlika"
+
+=== commandbutton | Command6 | parent=NALMTR
+  PROPERTIES:
+    Top =  32.00
+    Left =  43.20
+    Height =   1.87
+    Width =  36.40
+    FontSize = 10
+    Caption = "KONTA MESTA TROŠKOVA"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALMTRK
+    
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALMTR
+  PROPERTIES:
+    Top =  32.00
+    Left =  81.60
+    Height =   1.87
+    Width =  36.40
+    FontSize = 10
+    Caption = "PREGLED ZA PERIOD"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALMTRPREGLED
+    
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALMTR
+  PROPERTIES:
+    Top =  34.40
+    Left =   2.40
+    Height =   1.87
+    Width =  30.40
+    FontSize = 10
+    Caption = "BRISANJE NALOGA"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO  NALMTRBRISINAL
+    
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALMTR
+  PROPERTIES:
+    Top =  30.87
+    Left = 124.80
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE KONTA F5"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE KONTA"
+    SpecialEffect = 2
+    BackColor = 255,255,157
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALTRKONTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command19 | parent=NALMTR
+  PROPERTIES:
+    Top =  28.80
+    Left = 124.80
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE NALOGA F9"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 2
+    BackColor = 128,255,128
+    Name = "Command19"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALTRNALTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command20 | parent=NALMTR
+  PROPERTIES:
+    Top =  33.07
+    Left = 124.80
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE DATUMA F8"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE DATUMA"
+    SpecialEffect = 2
+    BackColor = 255,255,157
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALTRDATTRAZI
+    
+    ENDPROC

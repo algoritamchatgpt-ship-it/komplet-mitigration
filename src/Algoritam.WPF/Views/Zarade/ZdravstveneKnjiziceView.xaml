@@ -1,0 +1,122 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.ZdravstveneKnjiziceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Zdravstvene knjižice"
+        Width="1060" Height="640"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#1B5E20" Height="50">
+            <TextBlock Text="{Binding Naslov}"
+                       Foreground="White" FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                       VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <Border Grid.Row="1" Background="#E8F5E9" Padding="10,7"
+                BorderBrush="#C8E6C9" BorderThickness="0,0,0,1">
+            <WrapPanel>
+                <!-- Sub-forme iz LDOBRKNJIZICE -->
+                <Button Content="ČLANOVI PORODICE" Width="148" Height="27" Margin="0,0,4,0"
+                        Background="#1B5E20" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        Command="{Binding ClanPorodiceCommand}"
+                        ToolTip="Pregled članova porodice izabranog radnika (ldradcl.dbf) — FoxPro: LDRADCL"/>
+                <Button Content="ZZO MARKICE BAZA" Width="144" Height="27" Margin="0,0,4,0"
+                        Background="#006064" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZahtevMarkiceBazaCommand}"
+                        ToolTip="Tekstualna baza zahteva za markice (ldzzo01.dbf)"/>
+                <Button Content="ZZO ZAHTEV MARKICE" Width="152" Height="27" Margin="0,0,4,0"
+                        Background="#006064" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZahtevMarkiceCommand}"
+                        ToolTip="Zahtev za markice iz ldzzo01.dbf"/>
+                <Button Content="OVLAŠĆENJE BAZA" Width="130" Height="27" Margin="0,0,4,0"
+                        Background="#4A148C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding OvlascenjeBazaCommand}"
+                        ToolTip="Tekstualna baza ovlascenja (ldzzo02.dbf)"/>
+                <Button Content="OVLAŠĆENJE TEKST" Width="134" Height="27" Margin="0,0,12,0"
+                        Background="#4A148C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding OvlascenjeTekstCommand}"
+                        ToolTip="Ovlascenje iz ldzzo02.dbf"/>
+                <!-- Pretraga i navigacija -->
+                <TextBlock Text="Pretraga:" VerticalAlignment="Center"
+                           FontFamily="Tahoma" FontSize="11" Margin="0,0,6,0"/>
+                <TextBox Width="220" Height="27" VerticalContentAlignment="Center"
+                         FontFamily="Tahoma" FontSize="11" Margin="0,0,8,0"
+                         Text="{Binding Pretraga, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Pretrazuj po imenu, JMBG, LBO ili ZK broju"/>
+                <Button Content="F5 OSVEZI" Width="84" Height="27" Margin="0,0,4,0"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding OsveziCommand}"/>
+                <Button Content="ZATVORI" Width="84" Height="27"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Click="ZatvoriClick"/>
+            </WrapPanel>
+        </Border>
+
+        <DataGrid Grid.Row="2"
+                  Margin="12,10"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  Background="White"
+                  AlternatingRowBackground="#E8F5E9"
+                  BorderBrush="#C8E6C9"
+                  BorderThickness="1"
+                  RowHeight="22"
+                  FontFamily="Tahoma"
+                  FontSize="11">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br." Binding="{Binding Broj}" Width="55"/>
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding ImePrez}" Width="240"/>
+                <DataGridTextColumn Header="JMBG" Binding="{Binding Maticnibr}" Width="140"/>
+                <DataGridTextColumn Header="LBO broj" Binding="{Binding LboBroj}" Width="120"/>
+                <DataGridTextColumn Header="ZK broj" Binding="{Binding ZkBroj}" Width="120"/>
+                <DataGridTextColumn Header="Osig. od"
+                                    Binding="{Binding DatumOd, StringFormat=dd.MM.yyyy}"
+                                    Width="100"/>
+                <DataGridTextColumn Header="Osig. do"
+                                    Binding="{Binding DatumDo, StringFormat=dd.MM.yyyy}"
+                                    Width="100"/>
+                <DataGridTextColumn Header="Osnov osiguranja" Binding="{Binding OsnovOsiguranja}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border Grid.Row="3" Background="#E8F5E9" Padding="16,7"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <DockPanel>
+                <TextBlock Text="{Binding Stavke.Count, StringFormat='Prikazano: {0} radnika'}"
+                           FontFamily="Tahoma" FontSize="11" Foreground="#37474F"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Poruka}"
+                           FontFamily="Tahoma" FontSize="11" Foreground="#546E7A"
+                           VerticalAlignment="Center" Margin="24,0,0,0"/>
+            </DockPanel>
+        </Border>
+
+    </Grid>
+</Window>

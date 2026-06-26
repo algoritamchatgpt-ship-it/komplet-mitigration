@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldinv">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="CASOVI" type="N" length="0" decimals="0" />
+    <column name="NAK2003" type="N" length="2" decimals="0" />
+    <column name="PROS2002" type="N" length="2" decimals="0" />
+    <column name="PROCUSKL" type="N" length="2" decimals="0" />
+    <column name="USKLADJ" type="N" length="2" decimals="0" />
+    <column name="NEUSKLADJ" type="N" length="2" decimals="0" />
+    <column name="USKLADJ2" type="N" length="2" decimals="0" />
+    <column name="OSTVARCAS" type="N" length="0" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DOPZDR" type="N" length="2" decimals="0" />
+    <column name="SVEGA" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

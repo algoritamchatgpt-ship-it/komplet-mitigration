@@ -1,0 +1,127 @@
+<Window x:Class="GlavnaKnjiga.Views.NalanparWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PARAMETRI KNJIŽENJA ANALITIKE"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="#EBE9D8">
+
+    <Window.Resources>
+        <Style x:Key="LblStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="#BE0000"/>
+            <Setter Property="Background" Value="#FFFF80"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="2,4,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="290"/>
+        </Style>
+        <Style x:Key="TxtStyle" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Margin" Value="0,4,4,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="10">
+        <!-- Row 1: KNJAN -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="KNJIŽENJE IZVODA=D RAČUNA=N"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Knjan, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- Row 2: VRNAL -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="UOBIČAJENA VRSTA NALOGA"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="60"
+                       Text="{Binding Vrnal, UpdateSourceTrigger=PropertyChanged}" MaxLength="3"
+                       LostFocus="TxtVrnal_LostFocus"/>
+        </Grid>
+
+        <!-- Row 3: KONTO -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="PRVI KONTO KOD IZVODA"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="120"
+                       Text="{Binding Konto, UpdateSourceTrigger=PropertyChanged}" MaxLength="10"/>
+        </Grid>
+
+        <!-- Row 4: KPLANS -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="SILAZAK U KONTNI PLAN"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Kplans, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- Row 5: KONDOPU -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="DOPUNI KONTO DO 10 CIFARA"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Kondopu, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- Row 6: KTKR -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="KNJIŽI RAZDUŽENJE KOD T.K. D=DA N=NE"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Ktkr, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- Row 7: KANAUTOZ -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="AUTOMATSKI ZATVARAJ ANALITIKU D=DA N=NE"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Kanautoz, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- Row 8: KNACIN -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource LblStyle}" Text="Promeni način knjiženja  D/N"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource TxtStyle}" Width="40"
+                       Text="{Binding Knacin, UpdateSourceTrigger=PropertyChanged}" MaxLength="1"/>
+        </Grid>
+
+        <!-- IZLAZ button -->
+        <Button Content="IZLAZ" Width="120" Margin="0,16,0,4"
+                HorizontalAlignment="Right"
+                Command="{Binding IzlazCommand}"
+                FontFamily="Tahoma" FontSize="11"
+                Background="#C0C0C0"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,2542 @@
+num records 151
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "nalp"
+    CursorSource = ..\databaze\nalp.dbf
+    Name = "Cursor1"
+
+=== form | NAL | parent=(root)
+  PROPERTIES:
+    BorderStyle = 3
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    ShowTips = .T.
+    Caption = "DNEVNIK GLAVNE KNJIGE"
+    WindowType = 1
+    WindowState = 2
+    HelpContextID = 1
+    BackColor = 183,188,249
+    Name = "NAL"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    push key clear
+       MIME=THISFORM.NAME
+    CLOSE ALL TABLES
+    pop key
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PARAMETERS NOVAGK
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEighT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    USE FIRMA IN 0
+    
+    IF novagk=0
+    IF TGKREDNI='1'
+       KNAL='NAL'
+       USE NAL IN 0 ALIAS NAL
+    ELSE
+       KNAL='NAL'+ALLTRIM(TGKREDNI)
+       USE &KNAL IN 0 ALIAS NAL
+    ENDIF
+    ELSE
+       USE NALnovi IN 0 ALIAS NAL
+    endif   
+    SELECT NAL
+    SET ORDER TO 3
+    
+    USE NALBROJ IN 0 ORDER 1 ALIAS NALBROJ
+    SELECT NALBROJ
+    
+    USE &KNALVRSTA IN 0 ORDER 1 ALIAS NALVRSTA
+    SELECT nalvrsta
+    SET ORDER TO 1
+    
+    SELECT NALBROJ
+    SET RELATION TO VRNAL INTO NALvrsta ADDITIVE
+    
+    USE &KKONTO ALIAS KONTO IN 0 ORDER 1
+    USE &KMESTA ALIAS MESTA IN 0 ORDER 1
+    USE AN0 IN 0 ORDER 1 ALIAS AN0
+    USE AAAN IN 0 ALIAS AAAN ORDER 1
+    USE MTR IN 0 ORDER 1 ALIAS MTR
+    USE &kdat ALIAS DATUMI IN 0 
+    SELECT DATUMI
+    REPLACE PAR1 WITH '0'
+    
+    SELECT NAL
+    SET RELATION TO BRNAL INTO NALBROJ  ADDITIVE
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SET RELATION TO MP INTO MESTA ADDITIVE
+    SET RELATION TO MTR INTO MTR ADDITIVE
+    GO TOP
+    
+    IF NOVAGK=1
+       THISFORM.GRD0.BackColor=RGB(255,255,210)
+       THISFORM.CAPTION=' NOVA KONTA DNEVNIK GLAVNE KNJIGE '+OPERATER+' '+AKORIME   
+    ELSE
+       THISFORM.CAPTION=' DNEVNIK GLAVNE KNJIGE '+OPERATER+' '+AKORIME   
+    ENDIF
+    *--------------------ODREDJIVANJE BOJA--------------------
+    *THISFORM.GRD0.BackColor=RGB(MBOJA1POZ1,MBOJA1POZ2,MBOJA1POZ3)
+    *THISFORM.GRD0.FOREColor=RGB(MBOJA1SLO1,MBOJA1SLO2,MBOJA1SLO3)
+    
+    *THISFORM.BackColor=RGB(MBOJA3POZ1,MBOJA3POZ2,MBOJA3POZ3)
+    *THISFORM.FOREColor=RGB(MBOJA3SLO1,MBOJA3SLO2,MBOJA3SLO3)
+    *-------------------KRAJ ODREDJIVANJA BOJA----------------
+    
+    THISFORM.GRD0.RECORDSOURCE='NAL'
+    
+    SET EXACT OFF
+    SELECT NAL
+    GO BOTTOM
+    
+    THISFORM.GRD0.SETFOCUS
+    SET PROCEDURE TO TASTERI2
+      DO NALTAST
+    SET PROCEDURE TO
+    THISFORM.REFRESH
+    
+    ENDPROC
+
+=== shape | Shape2 | parent=NAL
+  PROPERTIES:
+    Top =  27.40
+    Left =  88.20
+    Height =   2.47
+    Width =  42.20
+    BackColor = 128,255,255
+    Name = "Shape2"
+
+=== commandbutton | Command1 | parent=NAL
+  PROPERTIES:
+    Top =  27.73
+    Left =  90.00
+    Height =   1.80
+    Width =   9.60
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    ToolTipText = "dole"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NAL
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NAL
+  PROPERTIES:
+    Top =  27.73
+    Left =  99.60
+    Height =   1.80
+    Width =   9.60
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    ToolTipText = "gore"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NAL
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NAL
+  PROPERTIES:
+    Top =  27.73
+    Left = 109.20
+    Height =   1.80
+    Width =   9.60
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    ToolTipText = "kraj tabele"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NAL
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NAL
+  PROPERTIES:
+    Top =  27.73
+    Left = 118.80
+    Height =   1.80
+    Width =   9.60
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    ToolTipText = "pocetak tabele"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NAL
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NAL
+  PROPERTIES:
+    Top =  36.00
+    Left = 182.40
+    Height =   4.60
+    Width =  17.00
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "izlaz"
+    TabIndex = 9
+    ToolTipText = "POVRATAK NAZAD"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NAL
+  PROPERTIES:
+    Top =  33.07
+    Left =  74.00
+    Height =   2.13
+    Width =  36.80
+    FontSize = 11
+    Caption = "\<KONTNI PLAN F4"
+    TabIndex = 8
+    ToolTipText = "SIFARNIK KONTA"
+    SpecialEffect = 0
+    BackColor = 197,254,180
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALKONTO
+    
+    
+      
+    
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NAL
+  PROPERTIES:
+    Top =  35.13
+    Left =  74.00
+    Height =   2.13
+    Width =  36.80
+    FontSize = 11
+    Caption = "\<GRADOVI S+F1"
+    TabIndex = 8
+    ToolTipText = "SIFARNIK GRADOVA ZA POLJE MP"
+    SpecialEffect = 0
+    BackColor = 197,254,180
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALFMESTA
+    
+      
+    
+    ENDPROC
+
+=== commandbutton | Command11 | parent=NAL
+  PROPERTIES:
+    Top =  37.13
+    Left =  74.00
+    Height =   2.13
+    Width =  36.80
+    FontSize = 11
+    Caption = "\<MESTA TROŠKOVA S+F2"
+    TabIndex = 8
+    ToolTipText = "SIFARNIK MESTA TROSKOVA ZA POLJE MTR"
+    SpecialEffect = 0
+    BackColor = 197,254,180
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALFMESTATR
+     
+    
+    ENDPROC
+
+=== label | lblkonto | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.00
+    Top =  26.87
+    Width =  84.20
+    TabIndex = 11
+    BackColor = 226,254,218
+    Name = "lblkonto"
+
+=== label | lblgrad | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.07
+    Left =   0.00
+    Top =  28.47
+    Width =  84.20
+    TabIndex = 11
+    BackColor = 226,254,218
+    Name = "lblgrad"
+
+=== label | lblmtr | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.07
+    Left =   0.00
+    Top =  29.47
+    Width =  84.20
+    TabIndex = 11
+    BackColor = 226,254,218
+    Name = "lblmtr"
+
+=== commandbutton | Command13 | parent=NAL
+  PROPERTIES:
+    Top =  33.07
+    Left =  37.80
+    Height =   2.13
+    Width =  34.40
+    FontSize = 11
+    Caption = "PREGLED NALOGA F10"
+    TabIndex = 7
+    ToolTipText = "PREGLED NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command13"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREG
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NAL
+  PROPERTIES:
+    Top =  35.13
+    Left =   2.00
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE KONTA F5"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE KONTA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALKONTRAZI
+    
+    ENDPROC
+
+=== label | LBLREC | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 164.40
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 11
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== label | lblgkid | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.27
+    Left =   0.00
+    Top =  30.53
+    Width = 100.40
+    TabIndex = 18
+    BackColor = 210,252,255
+    Name = "lblgkid"
+
+=== label | lblgkpodek | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.27
+    Left =   0.00
+    Top =  31.73
+    Width = 100.40
+    TabIndex = 18
+    BackColor = 210,252,255
+    Name = "lblgkpodek"
+
+=== label | lblgkizvor | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.27
+    Left = 100.20
+    Top =  30.53
+    Width = 100.40
+    TabIndex = 18
+    BackColor = 210,252,255
+    Name = "lblgkizvor"
+
+=== label | lblgkidplan | parent=NAL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.27
+    Left = 100.20
+    Top =  31.73
+    Width = 100.40
+    TabIndex = 18
+    BackColor = 210,252,255
+    Name = "lblgkidplan"
+
+=== commandbutton | Command9 | parent=NAL
+  PROPERTIES:
+    Top =  33.07
+    Left = 112.20
+    Height =   2.13
+    Width =  29.40
+    FontSize = 11
+    Caption = "DEVIZNI NALOG"
+    TabIndex = 7
+    ToolTipText = "DEVIZNO KNJIŽENJE"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGD
+    
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NAL
+  PROPERTIES:
+    Top =  35.13
+    Left = 112.20
+    Height =   2.13
+    Width =  29.40
+    FontSize = 11
+    Caption = "DEVIZNI KONTO"
+    TabIndex = 7
+    ToolTipText = "PREGLED KONTA DEVIZNO"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGDKONTO
+    
+    ENDPROC
+
+=== commandbutton | Command18 | parent=NAL
+  PROPERTIES:
+    Top =  35.13
+    Left =  37.80
+    Height =   2.20
+    Width =  34.40
+    FontSize = 11
+    Caption = "PREGLED KONTA F6"
+    TabIndex = 7
+    ToolTipText = "PREGLED KONTA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command18"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGKONTO1
+    
+    ENDPROC
+
+=== commandbutton | Command19 | parent=NAL
+  PROPERTIES:
+    Top =  33.07
+    Left =   2.00
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE NALOGA F9"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command19"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALNALTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command20 | parent=NAL
+  PROPERTIES:
+    Top =  37.27
+    Left =   2.00
+    Height =   2.20
+    Width =  34.00
+    FontSize = 11
+    Caption = "TRAŽENJE DATUMA F8"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE DATUMA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALDATTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command16 | parent=NAL
+  PROPERTIES:
+    Top =  35.07
+    Left = 144.60
+    Height =   2.13
+    Width =  26.20
+    FontSize = 11
+    Caption = "RAZNO A+F2"
+    TabIndex = 7
+    ToolTipText = "SERVISNE OPERACIJE"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command16"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALRAZNO
+    
+    ENDPROC
+
+=== commandbutton | Command15 | parent=NAL
+  PROPERTIES:
+    Top =  33.00
+    Left = 144.60
+    Height =   2.13
+    Width =  26.20
+    FontSize = 11
+    Caption = "IZVEŠTAJI A+F1"
+    TabIndex = 7
+    ToolTipText = "RAZNI PREGLEDI"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command15"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALIZV
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NAL
+  PROPERTIES:
+    Top =  37.13
+    Left = 144.60
+    Height =   2.13
+    Width =  26.20
+    FontSize = 11
+    Caption = "SORT"
+    TabIndex = 7
+    ToolTipText = "PROMENA SORTIRANJA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NAL
+    MORDER=TAGNO()
+    DO CASE MORDER 
+    CASE MORDER=0
+       SET ORDER TO 1
+    CASE MORDER=1
+       SET ORDER TO 2
+    CASE MORDER=2
+       SET ORDER TO 3
+    OTHERWISE 
+       SET ORDER TO
+    ENDCASE
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== shape | Shape1 | parent=NAL
+  PROPERTIES:
+    Top =   0.00
+    Left =   1.00
+    Height =   1.67
+    Width = 163.40
+    Name = "Shape1"
+
+=== textbox | txtBrnal | parent=NAL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "NAL.brnal"
+    Height =   1.53
+    Left =  17.80
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 45
+    Top =   0.07
+    Width =  13.80
+    BackColor = 254,255,198
+    DisabledBackColor = 254,255,198
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NAL
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "NALOG"
+    Height =   1.27
+    Left =   5.40
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 44
+    Name = "lblBrnal"
+
+=== textbox | txtDatdok | parent=NAL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "NAL.datdok"
+    Height =   1.53
+    Left =  45.20
+    ReadOnly = .T.
+    TabIndex = 47
+    Top =   0.07
+    Width =  17.80
+    BackColor = 254,255,198
+    DisabledBackColor = 254,255,198
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NAL
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "DATUM"
+    Height =   1.27
+    Left =  32.80
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 46
+    Name = "lblDatdok"
+
+=== commandbutton | Command22 | parent=NAL
+  PROPERTIES:
+    Top =  37.27
+    Left =  37.80
+    Height =   2.20
+    Width =  34.40
+    FontSize = 11
+    Caption = "KARTICA MATERIJALA"
+    TabIndex = 7
+    ToolTipText = "PREGLED KONTA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command22"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGMAT
+    
+    ENDPROC
+
+=== commandbutton | Command23 | parent=NAL
+  PROPERTIES:
+    Top =  39.40
+    Left =  37.80
+    Height =   2.20
+    Width =  34.40
+    FontSize = 11
+    Caption = "SALDO MATERIJALA"
+    TabIndex = 7
+    ToolTipText = "PREGLED KONTA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command23"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGMATS
+    
+    ENDPROC
+
+=== commandbutton | Command14 | parent=NAL
+  PROPERTIES:
+    Top =  39.20
+    Left =  74.00
+    Height =   2.13
+    Width =  36.60
+    FontSize = 11
+    Caption = "NALOG SINTETIKA"
+    TabIndex = 7
+    ToolTipText = "PREGLED NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command14"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPREGS
+    
+    ENDPROC
+
+=== grid | grd0 | parent=NAL
+  PROPERTIES:
+    ColumnCount = 55
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    DeleteMark = .F.
+    Height =  25.27
+    Left =   0.80
+    Panel = 1
+    ReadOnly = .T.
+    RecordSourceType = 1
+    RowHeight = 19
+    TabIndex = 1
+    Top =   1.60
+    Width = 199.60
+    BackColor = 242,242,242
+    GridLineColor = 183,188,249
+    HighlightBackColor = 183,219,255
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 79,152,176
+    SelectedItemForeColor = 255,255,255
+    HighlightStyle = 1
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontName = "Tahoma"
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =  16.20
+    Column1.ReadOnly = .T.
+    Column1.Visible = .T.
+    Column1.BackColor = 242,242,242
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontName = "Tahoma"
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  25.60
+    Column2.ReadOnly = .T.
+    Column2.Visible = .T.
+    Column2.Format = "999"
+    Column2.InputMask = "999 999 999 999.99"
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 242,242,242
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontName = "Tahoma"
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  24.00
+    Column3.ReadOnly = .T.
+    Column3.Visible = .T.
+    Column3.Format = "999"
+    Column3.InputMask = "999 999 999 999.99"
+    Column3.ForeColor = 255,0,0
+    Column3.BackColor = 242,242,242
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontName = "Tahoma"
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  55.00
+    Column4.ReadOnly = .T.
+    Column4.Visible = .T.
+    Column4.BackColor = 242,242,242
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontName = "Tahoma"
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =  14.40
+    Column5.ReadOnly = .T.
+    Column5.Visible = .T.
+    Column5.BackColor = 242,242,242
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontName = "Tahoma"
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  10.60
+    Column6.ReadOnly = .T.
+    Column6.Visible = .T.
+    Column6.BackColor = 242,242,242
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontName = "Tahoma"
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =   6.20
+    Column7.ReadOnly = .T.
+    Column7.Visible = .T.
+    Column7.BackColor = 242,242,242
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontName = "Tahoma"
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =   4.20
+    Column8.ReadOnly = .T.
+    Column8.Visible = .T.
+    Column8.BackColor = 242,242,242
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontName = "Tahoma"
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =   6.40
+    Column9.ReadOnly = .T.
+    Column9.Visible = .T.
+    Column9.BackColor = 242,242,242
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontName = "Tahoma"
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =  13.20
+    Column10.ReadOnly = .T.
+    Column10.Visible = .T.
+    Column10.BackColor = 242,242,242
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontName = "Tahoma"
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  14.60
+    Column11.ReadOnly = .T.
+    Column11.Visible = .T.
+    Column11.Format = "999"
+    Column11.InputMask = "999 999 999.9999"
+    Column11.BackColor = 242,242,242
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontName = "Tahoma"
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  22.00
+    Column12.ReadOnly = .T.
+    Column12.Visible = .T.
+    Column12.Format = "999"
+    Column12.InputMask = "9 999 999 999.9999"
+    Column12.BackColor = 242,242,242
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontName = "Tahoma"
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =  22.20
+    Column13.ReadOnly = .T.
+    Column13.Visible = .T.
+    Column13.Format = "999"
+    Column13.InputMask = "999 999 999 999.9999"
+    Column13.BackColor = 242,242,242
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontName = "Tahoma"
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =  33.00
+    Column14.ReadOnly = .T.
+    Column14.Visible = .T.
+    Column14.BackColor = 242,242,242
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontName = "Tahoma"
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =  57.60
+    Column15.ReadOnly = .T.
+    Column15.Visible = .T.
+    Column15.BackColor = 242,242,242
+    Column15.Name = "Column15"
+    Column16.FontBold = .F.
+    Column16.FontName = "Tahoma"
+    Column16.FontSize = 10
+    Column16.ControlSource = ""
+    Column16.Width =  60.20
+    Column16.ReadOnly = .T.
+    Column16.Visible = .T.
+    Column16.BackColor = 242,242,242
+    Column16.Name = "Column16"
+    Column17.FontBold = .F.
+    Column17.FontName = "Tahoma"
+    Column17.FontSize = 10
+    Column17.ControlSource = ""
+    Column17.Width =  24.00
+    Column17.ReadOnly = .T.
+    Column17.Visible = .T.
+    Column17.BackColor = 242,242,242
+    Column17.Name = "Column17"
+    Column18.FontBold = .F.
+    Column18.FontName = "Tahoma"
+    Column18.FontSize = 10
+    Column18.ControlSource = ""
+    Column18.Width =  20.40
+    Column18.ReadOnly = .T.
+    Column18.Visible = .T.
+    Column18.BackColor = 242,242,242
+    Column18.Name = "Column18"
+    Column19.FontBold = .F.
+    Column19.FontName = "Tahoma"
+    Column19.FontSize = 10
+    Column19.ControlSource = ""
+    Column19.Width =  22.60
+    Column19.ReadOnly = .T.
+    Column19.Visible = .T.
+    Column19.BackColor = 242,242,242
+    Column19.Name = "Column19"
+    Column20.FontBold = .F.
+    Column20.FontName = "Tahoma"
+    Column20.FontSize = 10
+    Column20.ControlSource = ""
+    Column20.Width =  20.00
+    Column20.ReadOnly = .T.
+    Column20.Visible = .T.
+    Column20.BackColor = 242,242,242
+    Column20.Name = "Column20"
+    Column21.FontBold = .F.
+    Column21.FontName = "Tahoma"
+    Column21.FontSize = 10
+    Column21.ControlSource = ""
+    Column21.Width =  20.40
+    Column21.ReadOnly = .T.
+    Column21.Visible = .T.
+    Column21.BackColor = 242,242,242
+    Column21.Name = "Column21"
+    Column22.FontBold = .F.
+    Column22.FontName = "Tahoma"
+    Column22.FontSize = 10
+    Column22.ControlSource = ""
+    Column22.Width =  22.60
+    Column22.ReadOnly = .T.
+    Column22.Visible = .T.
+    Column22.BackColor = 242,242,242
+    Column22.Name = "Column22"
+    Column23.FontBold = .F.
+    Column23.FontName = "Tahoma"
+    Column23.FontSize = 10
+    Column23.ControlSource = ""
+    Column23.Width =  20.00
+    Column23.ReadOnly = .T.
+    Column23.Visible = .T.
+    Column23.BackColor = 242,242,242
+    Column23.Name = "Column23"
+    Column24.FontBold = .F.
+    Column24.FontName = "Tahoma"
+    Column24.FontSize = 10
+    Column24.ControlSource = ""
+    Column24.Width =  21.00
+    Column24.ReadOnly = .T.
+    Column24.Visible = .T.
+    Column24.BackColor = 242,242,242
+    Column24.Name = "Column24"
+    Column25.FontBold = .F.
+    Column25.FontName = "Tahoma"
+    Column25.FontSize = 10
+    Column25.ControlSource = ""
+    Column25.Width =  25.20
+    Column25.ReadOnly = .T.
+    Column25.Visible = .T.
+    Column25.BackColor = 242,242,242
+    Column25.Name = "Column25"
+    Column26.FontBold = .F.
+    Column26.FontName = "Tahoma"
+    Column26.FontSize = 10
+    Column26.ControlSource = ""
+    Column26.Width =  11.60
+    Column26.ReadOnly = .T.
+    Column26.Visible = .T.
+    Column26.BackColor = 242,242,242
+    Column26.Name = "Column26"
+    Column27.FontBold = .F.
+    Column27.FontName = "Tahoma"
+    Column27.FontSize = 10
+    Column27.ControlSource = ""
+    Column27.Width =  35.60
+    Column27.ReadOnly = .T.
+    Column27.Visible = .T.
+    Column27.BackColor = 242,242,242
+    Column27.Name = "Column27"
+    Column28.FontBold = .F.
+    Column28.FontName = "Tahoma"
+    Column28.FontSize = 10
+    Column28.ControlSource = ""
+    Column28.Width =  26.40
+    Column28.ReadOnly = .T.
+    Column28.Visible = .T.
+    Column28.BackColor = 242,242,242
+    Column28.Name = "Column28"
+    Column29.FontBold = .F.
+    Column29.FontName = "Tahoma"
+    Column29.FontSize = 10
+    Column29.ControlSource = ""
+    Column29.Width =  24.40
+    Column29.ReadOnly = .T.
+    Column29.Visible = .T.
+    Column29.BackColor = 242,242,242
+    Column29.Name = "Column29"
+    Column30.FontBold = .F.
+    Column30.FontName = "Tahoma"
+    Column30.FontSize = 10
+    Column30.ControlSource = ""
+    Column30.Width =  17.80
+    Column30.ReadOnly = .T.
+    Column30.Visible = .T.
+    Column30.BackColor = 242,242,242
+    Column30.Name = "Column30"
+    Column31.FontBold = .F.
+    Column31.FontName = "Tahoma"
+    Column31.FontSize = 10
+    Column31.ControlSource = ""
+    Column31.Width =  18.00
+    Column31.ReadOnly = .T.
+    Column31.Visible = .T.
+    Column31.BackColor = 242,242,242
+    Column31.Name = "Column31"
+    Column32.FontBold = .F.
+    Column32.FontName = "Tahoma"
+    Column32.FontSize = 10
+    Column32.ControlSource = ""
+    Column32.Width =  15.80
+    Column32.ReadOnly = .T.
+    Column32.Visible = .T.
+    Column32.BackColor = 242,242,242
+    Column32.Name = "Column32"
+    Column33.FontBold = .F.
+    Column33.FontName = "Tahoma"
+    Column33.FontSize = 10
+    Column33.ControlSource = ""
+    Column33.Width =  11.00
+    Column33.ReadOnly = .T.
+    Column33.Visible = .T.
+    Column33.BackColor = 242,242,242
+    Column33.Name = "Column33"
+    Column34.FontBold = .F.
+    Column34.FontName = "Tahoma"
+    Column34.FontSize = 10
+    Column34.ControlSource = ""
+    Column34.Width =  19.60
+    Column34.ReadOnly = .T.
+    Column34.Visible = .T.
+    Column34.BackColor = 242,242,242
+    Column34.Name = "Column34"
+    Column35.FontBold = .F.
+    Column35.FontName = "Tahoma"
+    Column35.FontSize = 10
+    Column35.ControlSource = ""
+    Column35.Width =  21.00
+    Column35.ReadOnly = .T.
+    Column35.Visible = .T.
+    Column35.BackColor = 242,242,242
+    Column35.Name = "Column35"
+    Column36.FontBold = .F.
+    Column36.FontName = "Tahoma"
+    Column36.FontSize = 10
+    Column36.ControlSource = ""
+    Column36.Width =  17.80
+    Column36.ReadOnly = .T.
+    Column36.Visible = .T.
+    Column36.BackColor = 242,242,242
+    Column36.Name = "Column36"
+    Column37.FontBold = .F.
+    Column37.FontName = "Tahoma"
+    Column37.FontSize = 10
+    Column37.ControlSource = ""
+    Column37.Width =  13.00
+    Column37.ReadOnly = .T.
+    Column37.Visible = .T.
+    Column37.BackColor = 242,242,242
+    Column37.Name = "Column37"
+    Column38.FontBold = .F.
+    Column38.FontName = "Tahoma"
+    Column38.FontSize = 10
+    Column38.ControlSource = ""
+    Column38.Width =   7.40
+    Column38.ReadOnly = .T.
+    Column38.Visible = .T.
+    Column38.BackColor = 242,242,242
+    Column38.Name = "Column38"
+    Column39.FontBold = .F.
+    Column39.FontName = "Tahoma"
+    Column39.FontSize = 10
+    Column39.ControlSource = ""
+    Column39.Width =   9.20
+    Column39.ReadOnly = .T.
+    Column39.Visible = .T.
+    Column39.BackColor = 242,242,242
+    Column39.Name = "Column39"
+    Column40.FontBold = .F.
+    Column40.FontName = "Tahoma"
+    Column40.FontSize = 10
+    Column40.ControlSource = ""
+    Column40.Width =  18.80
+    Column40.ReadOnly = .T.
+    Column40.Visible = .T.
+    Column40.BackColor = 242,242,242
+    Column40.Name = "Column40"
+    Column41.FontBold = .F.
+    Column41.FontName = "Tahoma"
+    Column41.FontSize = 10
+    Column41.ControlSource = ""
+    Column41.Width =   8.80
+    Column41.ReadOnly = .T.
+    Column41.Visible = .T.
+    Column41.BackColor = 242,242,242
+    Column41.Name = "Column41"
+    Column42.FontBold = .F.
+    Column42.FontName = "Tahoma"
+    Column42.FontSize = 10
+    Column42.ControlSource = ""
+    Column42.Width =  10.40
+    Column42.ReadOnly = .T.
+    Column42.Visible = .T.
+    Column42.BackColor = 242,242,242
+    Column42.Name = "Column42"
+    Column43.FontBold = .F.
+    Column43.FontName = "Tahoma"
+    Column43.FontSize = 10
+    Column43.ControlSource = ""
+    Column43.Width =  11.40
+    Column43.ReadOnly = .T.
+    Column43.Visible = .T.
+    Column43.BackColor = 242,242,242
+    Column43.Name = "Column43"
+    Column44.FontBold = .F.
+    Column44.FontName = "Tahoma"
+    Column44.FontSize = 10
+    Column44.ControlSource = ""
+    Column44.Width =   7.60
+    Column44.ReadOnly = .T.
+    Column44.Visible = .T.
+    Column44.BackColor = 242,242,242
+    Column44.Name = "Column44"
+    Column45.FontBold = .F.
+    Column45.FontName = "Tahoma"
+    Column45.FontSize = 10
+    Column45.ControlSource = ""
+    Column45.Width =  16.60
+    Column45.ReadOnly = .T.
+    Column45.Visible = .T.
+    Column45.BackColor = 242,242,242
+    Column45.Name = "Column45"
+    Column46.FontBold = .F.
+    Column46.FontName = "Tahoma"
+    Column46.FontSize = 10
+    Column46.ControlSource = ""
+    Column46.Width =  14.40
+    Column46.ReadOnly = .T.
+    Column46.Visible = .T.
+    Column46.BackColor = 242,242,242
+    Column46.Name = "Column46"
+    Column47.FontBold = .F.
+    Column47.FontName = "Tahoma"
+    Column47.FontSize = 10
+    Column47.ControlSource = ""
+    Column47.Width =  45.20
+    Column47.ReadOnly = .T.
+    Column47.Visible = .T.
+    Column47.BackColor = 242,242,242
+    Column47.Name = "Column47"
+    Column48.FontBold = .F.
+    Column48.FontName = "Tahoma"
+    Column48.FontSize = 10
+    Column48.ControlSource = ""
+    Column48.Width =  10.00
+    Column48.ReadOnly = .T.
+    Column48.Visible = .T.
+    Column48.BackColor = 242,242,242
+    Column48.Name = "Column48"
+    Column49.FontBold = .F.
+    Column49.FontName = "Tahoma"
+    Column49.FontSize = 10
+    Column49.ControlSource = ""
+    Column49.Width =  11.00
+    Column49.ReadOnly = .T.
+    Column49.Visible = .T.
+    Column49.BackColor = 242,242,242
+    Column49.Name = "Column49"
+    Column50.FontBold = .F.
+    Column50.FontName = "Tahoma"
+    Column50.FontSize = 10
+    Column50.ControlSource = ""
+    Column50.Width =   3.80
+    Column50.ReadOnly = .T.
+    Column50.Visible = .T.
+    Column50.BackColor = 242,242,242
+    Column50.Name = "Column50"
+    Column51.FontBold = .F.
+    Column51.FontName = "Tahoma"
+    Column51.FontSize = 10
+    Column51.ControlSource = ""
+    Column51.Width =  27.00
+    Column51.ReadOnly = .T.
+    Column51.Visible = .T.
+    Column51.BackColor = 242,242,242
+    Column51.Name = "Column51"
+    Column52.FontBold = .F.
+    Column52.FontName = "Tahoma"
+    Column52.FontSize = 10
+    Column52.ControlSource = ""
+    Column52.Width =  28.40
+    Column52.ReadOnly = .T.
+    Column52.BackColor = 242,242,242
+    Column52.Name = "Column52"
+    Column53.FontBold = .F.
+    Column53.FontName = "Tahoma"
+    Column53.FontSize = 10
+    Column53.ControlSource = ""
+    Column53.Width =   9.40
+    Column53.ReadOnly = .T.
+    Column53.BackColor = 242,242,242
+    Column53.Name = "Column53"
+    Column54.FontBold = .F.
+    Column54.FontName = "Tahoma"
+    Column54.FontSize = 10
+    Column54.ControlSource = ""
+    Column54.Width =  25.20
+    Column54.ReadOnly = .T.
+    Column54.BackColor = 242,242,242
+    Column54.Name = "Column54"
+    Column55.FontBold = .F.
+    Column55.FontName = "Tahoma"
+    Column55.FontSize = 10
+    Column55.ControlSource = ""
+    Column55.Width =  22.00
+    Column55.ReadOnly = .T.
+    Column55.BackColor = 242,242,242
+    Column55.Name = "Column55"
+  METHODS (literal FoxPro source):
+    PROCEDURE DblClick
+    push key clear
+    *IF OPERATER='1'
+    *   IF THISFORM.GRD0.ReadOnly =.F.
+    *      THISFORM.GRD0.ReadOnly =.T.
+    *   ELSE
+    *      THISFORM.GRD0.ReadOnly =.T.
+    *   ENDIF
+    *   THISFORM.Refresh 
+    *ENDIF   
+    POP KEY
+    ENDPROC
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    push key clear
+    THISFORM.LBLKONTO.CAPTION=KONTO.KONTO+' '+KONTO.NAZIV
+    THISFORM.LBLGRAD.CAPTION='mesto '+mp+' '+mesta.mesto
+    THISFORM.LBLMTR.CAPTION='mesto troskova '+str(mtr,4,0)+' '+mtr.NAZIV
+    
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    *IF ARHIVA2<>' '
+    *   IF PPASNIVO<>1
+    *      THISFORM.GRD0.ReadOnly=.T.
+    *   ELSE
+    *      THISFORM.GRD0.ReadOnly=.F.      
+    *   ENDIF
+    *ENDIF   
+    
+    *THISFORM.GRD0.REFRESH
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NAL.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    SpecialEffect = 1
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Pot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Datdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Brnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Mp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Mtr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dev"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Devkurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999999999.9999"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Devdug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "9999999999.9999"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Devpot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "9999999999.9999"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Brdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Napomena1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Napomena2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Kurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Kursdug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column19
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Kurspot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column19
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column20
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dpsaldo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column20
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column21
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Cena"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column21
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column22
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Ulaz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column22
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column23
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Izlaz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column23
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column24
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Ukupno_d"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column24
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column25
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Ukupno_p"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column25
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column26
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Sifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column26
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column27
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Brrac"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column27
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column28
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Valuta"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column28
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column29
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Datpri"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column29
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column30
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Datpdv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column30
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column31
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Stanje"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column31
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column32
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Saldo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column32
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column33
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Oznaka"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column33
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column34
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Datum"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column34
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column35
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Vreme"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column35
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column36
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Skonto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column36
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column37
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Automnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column37
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column38
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Oper"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column38
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column39
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Probni"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column39
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column40
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Gkonto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column40
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column41
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Arhiva"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column41
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column42
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Arhiva2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column42
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column43
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Devizno"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column43
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column44
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Vrsta"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column44
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column45
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Imetabele"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column45
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column46
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Datrazduz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column46
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column47
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Opisu"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column47
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column48
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dinrazduz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column48
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column49
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Sifprod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column49
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column50
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column50
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column51
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Doddug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column51
+  PROPERTIES:
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column52
+  PROPERTIES:
+    Caption = "Dodpot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column52
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column53
+  PROPERTIES:
+    Caption = "Preneto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column53
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column54
+  PROPERTIES:
+    Caption = "Numred"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column54
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"
+
+=== header | Header1 | parent=NAL.grd0.Column55
+  PROPERTIES:
+    Caption = "Idbr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NAL.grd0.Column55
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    SelectedForeColor = 255,255,255
+    SelectedBackColor = 79,152,176
+    Name = "Text1"

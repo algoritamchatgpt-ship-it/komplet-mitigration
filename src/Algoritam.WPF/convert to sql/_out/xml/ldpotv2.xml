@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldpotv2">
+  <columns>
+    <column name="TEXT1" type="C" length="0" decimals="0" />
+    <column name="TEXT2" type="C" length="0" decimals="0" />
+    <column name="TEXT3" type="C" length="0" decimals="0" />
+    <column name="TEXT4" type="C" length="0" decimals="0" />
+    <column name="TEXT5" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <TEXT1></TEXT1>
+      <TEXT2></TEXT2>
+      <TEXT3></TEXT3>
+      <TEXT4></TEXT4>
+      <TEXT5></TEXT5>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

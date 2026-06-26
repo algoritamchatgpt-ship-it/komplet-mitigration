@@ -1,0 +1,385 @@
+num records 26
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 335
+    Left = 34
+    Width = 520
+    Height = 288
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPMATUL | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  27.67
+    Width = 144.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 0
+    HelpContextID = 1
+    BackColor = 183,188,249
+    Name = "NALPMATUL"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALP
+    THISFORM.Caption='EVIDENCIJA ULAZA MATERIJALA '
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPMATULTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+    PROCEDURE Unload
+    REPLACE DUG WITH UKUPNO_D
+    pop key
+    ENDPROC
+
+=== shape | Shape2 | parent=NALPMATUL
+  PROPERTIES:
+    Top =  12.73
+    Left =  31.20
+    Height =   8.07
+    Width =  69.80
+    BackColor = 211,236,241
+    Name = "Shape2"
+
+=== shape | Shape1 | parent=NALPMATUL
+  PROPERTIES:
+    Top =   0.27
+    Left =   2.40
+    Height =   8.87
+    Width = 139.40
+    BackColor = 255,255,183
+    Name = "Shape1"
+
+=== commandbutton | Command6 | parent=NALPMATUL
+  PROPERTIES:
+    Top =  20.80
+    Left =  55.20
+    Height =   4.80
+    Width =  26.40
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 4
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== textbox | txtKonto | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.konto"
+    Height =   1.53
+    Left =  14.40
+    MaxLength = 10
+    ReadOnly = .T.
+    TabIndex = 6
+    Top =   3.20
+    Width =  21.40
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Konto"
+    Left =   5.40
+    Top =   3.47
+    Width =   7.60
+    TabIndex = 5
+    Name = "lblKonto"
+
+=== textbox | txtNaziv | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.naziv"
+    Height =   1.53
+    Left =  37.40
+    MaxLength = 70
+    ReadOnly = .T.
+    TabIndex = 7
+    Top =   3.20
+    Width = 102.00
+    Name = "txtNaziv"
+
+=== textbox | txtDug | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.dug"
+    Height =   1.53
+    Left =  16.60
+    ReadOnly = .T.
+    TabIndex = 9
+    Top =   6.40
+    Width =  26.20
+    Name = "txtDug"
+
+=== label | lblDug | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DUGUJE"
+    Left =   4.20
+    Top =   6.67
+    Width =  11.80
+    TabIndex = 8
+    Name = "lblDug"
+
+=== textbox | txtPot | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.pot"
+    Height =   1.53
+    Left =  61.20
+    ReadOnly = .T.
+    TabIndex = 11
+    Top =   6.40
+    Width =  26.20
+    Name = "txtPot"
+
+=== label | lblPot | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POTRAŽUJE"
+    Left =  43.40
+    Top =   6.67
+    Width =  17.20
+    TabIndex = 10
+    Name = "lblPot"
+
+=== textbox | txtOpis | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.opis"
+    Height =   1.53
+    Left =  96.00
+    MaxLength = 30
+    ReadOnly = .T.
+    TabIndex = 13
+    Top =   6.40
+    Width =  43.80
+    Name = "txtOpis"
+
+=== label | lblOpis | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "OPIS"
+    Left =  88.40
+    Top =   6.67
+    Width =   7.00
+    TabIndex = 12
+    Name = "lblOpis"
+
+=== textbox | txtDatdok | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.datdok"
+    Height =   1.53
+    Left =  42.00
+    ReadOnly = .T.
+    TabIndex = 15
+    Top =   0.80
+    Width =  20.40
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM"
+    Left =  30.20
+    Top =   1.07
+    Width =   9.80
+    TabIndex = 14
+    Name = "lblDatdok"
+
+=== textbox | txtBrnal | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.brnal"
+    Height =   1.53
+    Left =  16.20
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 17
+    Top =   0.80
+    Width =  13.40
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NALOG"
+    Left =   5.40
+    Top =   1.00
+    Width =  10.00
+    TabIndex = 16
+    Name = "lblBrnal"
+
+=== textbox | txtUlaz | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.ulaz"
+    Height =   1.67
+    Left =  65.00
+    TabIndex = 1
+    Top =  13.47
+    Width =  30.40
+    Name = "txtUlaz"
+
+=== label | lblUlaz | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "ULAZNA KOLIČINA"
+    Height =   1.27
+    Left =  32.40
+    Top =  13.53
+    Width =  24.60
+    TabIndex = 18
+    Name = "lblUlaz"
+
+=== textbox | txtCena | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.cena"
+    Height =   1.67
+    Left =  65.00
+    TabIndex = 2
+    Top =  15.87
+    Width =  30.40
+    Name = "txtCena"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF ULAZ<>0
+       IF CENA<>0
+          REPLACE UKUPNO_D WITH ROUND(ULAZ*CENA,2)
+       ELSE
+          REPLACE UKUPNO_D WITH 0   
+       ENDIF
+    ELSE
+       REPLACE CENA WITH 0
+       REPLACE UKUPNO_D WITH 0  
+    ENDIF      
+    REPLACE DUG WITH UKUPNO_D
+    THISFORM.REFRESH
+    ENDPROC
+
+=== label | lblCena | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NABAVNA CENA"
+    Height =   1.27
+    Left =  32.40
+    Top =  15.93
+    Width =  21.60
+    TabIndex = 19
+    Name = "lblCena"
+
+=== textbox | txtUkupno_d | parent=NALPMATUL
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.ukupno_d"
+    Height =   1.67
+    Left =  65.00
+    TabIndex = 3
+    Top =  18.07
+    Width =  30.40
+    Name = "txtUkupno_d"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF ULAZ<>0
+       IF CENA=0
+          REPLACE CENA WITH ROUND(UKUPNO_D/ULAZ,2)
+       ENDIF
+    ELSE
+       REPLACE CENA WITH 0
+       REPLACE UKUPNO_D WITH 0  
+    ENDIF      
+    THISFORM.REFRESH
+    ENDPROC
+
+=== label | lblUkupno_d | parent=NALPMATUL
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NABAVNA VREDNOST"
+    Height =   1.27
+    Left =  32.40
+    Top =  18.33
+    Width =  30.00
+    TabIndex = 20
+    Name = "lblUkupno_d"

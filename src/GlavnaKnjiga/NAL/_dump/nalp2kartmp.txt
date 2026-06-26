@@ -1,0 +1,656 @@
+num records 35
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Top = 20
+    Left = 10
+    Height = 90
+    Width = 90
+    Alias = "nalp"
+    CursorSource = ..\databaze\nalp.dbf
+    Name = "Cursor1"
+
+=== form | NALP2KARTMP | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.33
+    Left =  33.40
+    Height =  40.47
+    Width = 121.60
+    DoCreate = .T.
+    ShowTips = .T.
+    Caption = "Knjiženje pazara"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALP2KARTMP"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PARAMETERS MADEVIZNO,maimetab,MAVRSTA,msifprod
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALP
+    replace imetabele WITH maimetab
+    REPLACE VRSTA WITH MAVRSTA
+    replace sifprod WITH msifprod
+    
+    thisform.lblkonto.caption=konto.naziv
+    SELECT nalp
+    SET RELATION to
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO nalp2KARTMPTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+       SELECT NALP
+       SET RELATION TO
+       SET RELATION TO BRNAL INTO NALBROJ ADDITIVE
+       SET RELATION TO KONTO INTO KONTo ADDITIVE
+       SET RELATION TO MP INTO MESTA ADDITIVE
+       SET RELATION TO MTR INTO MTR ADDITIVE
+       SET RELATION TO SIFRA INTO AN0 ADDITIVE
+    POP KEY
+    ENDPROC
+
+=== shape | Shape2 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =  12.07
+    Left =  39.20
+    Height =   1.53
+    Width =  31.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape2"
+
+=== shape | Shape8 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =   0.20
+    Left =   2.40
+    Height =   6.07
+    Width = 117.80
+    BackColor = 184,254,247
+    Name = "Shape8"
+
+=== textbox | txtkonto | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 12
+    BackStyle = 0
+    ControlSource = "NALP.KONTO"
+    Height =   1.53
+    Left =  39.00
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 12
+    Top =   0.73
+    Width =  21.00
+    BackColor = 0,255,0
+    DisabledBackColor = 233,236,216
+    Name = "txtkonto"
+
+=== label | lblBrkal2 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto"
+    Height =   1.40
+    Left =   4.80
+    Top =   0.93
+    Width =   8.20
+    TabIndex = 13
+    ForeColor = 190,0,0
+    BackColor = 0,255,0
+    Name = "lblBrkal2"
+
+=== textbox | txtBrnal | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    BackStyle = 1
+    ControlSource = "NALP.BRNAL"
+    Height =   1.53
+    Left =  80.80
+    Margin = 0
+    MaxLength = 6
+    ReadOnly = .T.
+    SpecialEffect = 1
+    TabIndex = 9
+    Top =   0.80
+    Width =  17.60
+    BackColor = 0,255,0
+    DisabledBackColor = 233,236,216
+    Name = "txtBrnal"
+
+=== label | lblBrnal2 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Broj naloga"
+    Height =   1.40
+    Left =  62.60
+    Top =   0.87
+    Width =  16.40
+    TabIndex = 14
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblBrnal2"
+
+=== label | lblFvrsta2 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Naziv konta"
+    Height =   1.40
+    Left =   4.60
+    Top =   2.60
+    Width =  21.60
+    TabIndex = 15
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblFvrsta2"
+
+=== label | lblkonto | parent=NALP2KARTMP
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  39.00
+    Top =   2.40
+    Width =  79.00
+    TabIndex = 11
+    BackColor = 233,236,216
+    DisabledBackColor = 233,236,216
+    Name = "lblkonto"
+
+=== commandbutton | Command1 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    Top =  34.40
+    Left =  48.00
+    Height =   4.80
+    Width =  23.00
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 6
+    ToolTipText = "IZLAZ IZ TABELE"
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== textbox | txtPot | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.pot"
+    Height =   1.53
+    Left =  34.40
+    TabIndex = 2
+    Top =  11.73
+    Width =  33.40
+    BackColor = 189,221,197
+    Name = "txtPot"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    THISFORM.TXTpot.BackColoR=RGB(189,221,197)
+    IF DATRAZDUZ=CTOD('')
+       REPLACE DATRAZDUZ WITH DATDOK-1
+    ENDIF
+    replace dinrazduz WITH pot
+    THISFORM.REFRESH
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTpot.BackColoR=RGB(255,255,255)
+    ENDPROC
+
+=== label | lblPot | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Uplaćeno"
+    Height =   1.27
+    Left =   8.40
+    Top =  11.73
+    Width =  21.00
+    TabIndex = 20
+    ForeColor = 190,0,0
+    Name = "lblPot"
+
+=== textbox | txtOpis | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.opis"
+    Height =   1.53
+    Left =  39.20
+    MaxLength = 30
+    ReadOnly = .T.
+    TabIndex = 22
+    Top =   4.27
+    Width =  79.20
+    Name = "txtOpis"
+
+=== label | Label1 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Opis knjiženja"
+    Height =   1.40
+    Left =   4.60
+    Top =   4.27
+    Width =  21.60
+    TabIndex = 16
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== label | Label6 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Broj objekta"
+    Height =   1.60
+    Left =   8.40
+    Top =   9.27
+    Width =  18.80
+    TabIndex = 23
+    ForeColor = 171,33,44
+    BackColor = 128,255,255
+    Name = "Label6"
+
+=== textbox | txtdok | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    ControlSource = "NALP.DOK"
+    Format = "R"
+    Height =   1.53
+    Left =  45.40
+    Margin = 0
+    MaxLength = 3
+    MousePointer = 15
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 7
+    Top =   9.47
+    Width =  12.20
+    BackColor = 189,221,197
+    Name = "txtdok"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    THISFORM.TXTdok.BackColoR=RGB(255,255,255) 
+    
+    ENDPROC
+    PROCEDURE LostFocus
+    THISFORM.TXTdok.BackColoR=RGB(189,221,197)
+    ENDPROC
+
+=== shape | Shape5 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =  14.20
+    Left =  39.20
+    Height =   1.53
+    Width =  20.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape5"
+
+=== label | lblDatdok | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Datum razduženja"
+    Height =   1.40
+    Left =   8.40
+    Top =  14.00
+    Width =  26.60
+    TabIndex = 19
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblDatdok"
+
+=== shape | Shape4 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =  16.67
+    Left =  39.20
+    Height =   1.53
+    Width =  59.60
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape4"
+
+=== textbox | txtopisu | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    Value = (BRRAC<>SPACE(20))
+    ControlSource = "nalp.opisu"
+    Height =   1.53
+    Left =  34.40
+    Margin = 0
+    MaxLength = 60
+    SpecialEffect = 0
+    TabIndex = 4
+    ToolTipText = "UNOS BROJA RAČUNA IZ FAKTURE DOBAVLJAČA"
+    Top =  16.40
+    Width =  61.20
+    BackColor = 189,221,197
+    Name = "txtopisu"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    THISFORM.TXTopisu.BackColoR=RGB(189,221,197)
+    IF OPISU=SPACE(60)
+       DO FORM NALP2TMMENI2
+    ENDIF
+    SELECT NALP
+    THISFORM.REFRESH   
+    
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTopisu.BackColoR=RGB(255,255,255)
+    ENDPROC
+
+=== label | lblBrrac2 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Opis uplate"
+    Height =   1.40
+    Left =   8.40
+    Top =  16.40
+    Width =  24.00
+    TabIndex = 17
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblBrrac2"
+
+=== textbox | txtDatrazduz | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    ControlSource = "nalp.DATRAZDUZ"
+    Height =   1.53
+    Left =  34.40
+    SpecialEffect = 0
+    TabIndex = 3
+    ToolTipText = "UNOS DATUMA RAČUNA"
+    Top =  13.93
+    Width =  21.80
+    BackColor = 189,221,197
+    Name = "txtDatrazduz"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    THISFORM.TXTDATrazduz.BackColoR=RGB(189,221,197)
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTDATrazduz.BackColoR=RGB(255,255,255)
+    ENDPROC
+
+=== shape | Shape1 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =   7.47
+    Left =  37.40
+    Height =   1.53
+    Width =  20.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape1"
+
+=== textbox | txtDatdok | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    ControlSource = "NALP.DATDOK"
+    Height =   1.53
+    Left =  34.40
+    SpecialEffect = 0
+    TabIndex = 8
+    ToolTipText = "UNOS DATUMA RAČUNA"
+    Top =   7.20
+    Width =  21.80
+    BackColor = 189,221,197
+    Name = "txtDatdok"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    THISFORM.TXTDATDOK.BackColoR=RGB(255,255,255)
+    ENDPROC
+    PROCEDURE LostFocus
+    THISFORM.TXTDATDOK.BackColoR=RGB(189,221,197)
+    ENDPROC
+
+=== label | Label3 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Datum"
+    Height =   1.40
+    Left =   8.40
+    Top =   7.20
+    Width =  25.20
+    TabIndex = 18
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "Label3"
+
+=== shape | Shape3 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =   9.53
+    Left =  35.80
+    Height =   1.53
+    Width =   9.00
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape3"
+
+=== textbox | TXTREDDOK | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    Format = "R"
+    Height =   1.53
+    InputMask = "99"
+    Left =  34.40
+    Margin = 0
+    MaxLength = 2
+    MousePointer = 15
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   9.27
+    Width =   9.20
+    BackColor = 189,221,197
+    Name = "TXTREDDOK"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    THISFORM.TXTREDdok.BackColoR=RGB(189,221,197)
+    MREDDOK='M'+ALLTRIM(STR(THISFORM.TXTREDDOK.VALUE,2,0))
+    REPLACE DOK WITH MREDDOK
+    SELECT NALPDEFK
+    LOCATE FOR ALLTRIM(DOK)=ALLTRIM(MREDDOK)
+    IF FOUND()
+       MPNAZIV=PNAZIV
+       MIMETAB=IMETABELE
+    ELSE
+       MPNAZIV='NEMA'
+       MIMETAB=''
+    ENDIF
+    THISFORM.LBLPNAZIV.CAPTION=MPNAZIV
+    SELECT NALP  
+    REPLACE IMETABELE WITH MIMETAB    
+    THISFORM.Refresh
+    
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTREDdok.BackColoR=RGB(255,255,255) 
+    
+    ENDPROC
+
+=== label | LBLPNAZIV | parent=NALP2KARTMP
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  58.00
+    Top =   9.47
+    Width =  61.60
+    TabIndex = 10
+    BackColor = 233,236,216
+    DisabledBackColor = 233,236,216
+    Name = "LBLPNAZIV"
+
+=== shape | Shape6 | parent=NALP2KARTMP
+  PROPERTIES:
+    Top =  19.47
+    Left =  39.20
+    Height =   1.53
+    Width =  31.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape6"
+
+=== textbox | txtdinrazduz | parent=NALP2KARTMP
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    ControlSource = "nalp.dinrazduz"
+    Format = "R"
+    Height =   1.53
+    InputMask = "999 999 999 999.99"
+    Left =  34.40
+    TabIndex = 5
+    Top =  19.13
+    Width =  33.40
+    BackColor = 189,221,197
+    Name = "txtdinrazduz"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    THISFORM.TXTdinrazduz.BackColoR=RGB(189,221,197)
+    IF DATRAZDUZ=CTOD('')
+       REPLACE DATRAZDUZ WITH DATDOK-1
+    ENDIF
+    THISFORM.REFRESH
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTdinrazduz.BackColoR=RGB(255,255,255)
+    ENDPROC
+
+=== label | Label4 | parent=NALP2KARTMP
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Iznos razduženja"
+    Height =   1.27
+    Left =   8.40
+    Top =  19.13
+    Width =  24.60
+    TabIndex = 21
+    ForeColor = 190,0,0
+    Name = "Label4"

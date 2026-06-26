@@ -1,0 +1,95 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdIzvjpView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1100" Height="580"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+
+    <DockPanel>
+
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <TextBlock Text="IZJAVA O ISPLAĆENIM ZARADAMA"
+                       FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                       Foreground="White" VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Padding="10,6">
+            <DockPanel>
+                <Button Content="ZATVORI" DockPanel.Dock="Right" Width="100" Height="28"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Background="#C62828" Foreground="White" BorderThickness="0" Cursor="Hand"
+                        Click="ZatvoriClick"/>
+                <TextBlock Text="{Binding Poruka}"
+                           FontFamily="Tahoma" FontSize="11"
+                           Foreground="#1B5E20" VerticalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#E8F5E9" Padding="8,6"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="ŠTAMPA" Width="84" Height="28" Margin="0,0,4,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Štampaj izjavu o isplaćenim zaradama"
+                        Click="StampaClick"/>
+                <Button Content="OSVEZI" Width="80" Height="28"
+                        Command="{Binding OsveziCommand}"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"/>
+            </StackPanel>
+        </Border>
+
+        <DataGrid x:Name="StavkeGrid"
+                  ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column"
+                  AlternatingRowBackground="#F9FBF9"
+                  RowBackground="White"
+                  FontFamily="Tahoma" FontSize="11"
+                  Margin="4">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br." Binding="{Binding Broj}" Width="45"/>
+                <DataGridTextColumn Header="Ime" Binding="{Binding Ime}" Width="100"/>
+                <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}" Width="120"/>
+                <DataGridTextColumn Header="Mat. br." Binding="{Binding MaticniBr}" Width="90"/>
+                <DataGridTextColumn Header="Mesto" Binding="{Binding Rmesto}" Width="130"/>
+                <DataGridTextColumn Header="Škol." Binding="{Binding Skosprem}" Width="90"/>
+                <DataGridTextColumn Header="MESEC" Binding="{Binding Nazmes}" Width="65"/>
+                <DataGridTextColumn Header="ISP" Binding="{Binding Isplata}" Width="40"/>
+                <DataGridTextColumn Header="ZARADA" Binding="{Binding Zarada, StringFormat=N2}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="UVEĆANA" Binding="{Binding Uvecana, StringFormat=N2}" Width="85">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="VARIJAB." Binding="{Binding Varijabil, StringFormat=N2}" Width="85">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="NETO LD" Binding="{Binding Netold, StringFormat=N2}" Width="85">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="BRUTO" Binding="{Binding Bruto, StringFormat=N2}" Width="85">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Right"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="P" Binding="{Binding Preneto}" Width="30"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

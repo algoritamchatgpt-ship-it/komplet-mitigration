@@ -1,0 +1,352 @@
+num records 15
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALGRU | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  30.73
+    Width =  65.00
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 2
+    HelpContextID = 1
+    BackColor = 183,188,249
+    Name = "NALGRU"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    PUSH KEY CLEAR
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NALGRU
+    USE
+    SELECT NAL
+    pop key
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE &KNALGRU IN 0 EXCLU ALIAS NALGRU
+    SELECT NALGRU
+    THISFORM.Caption='PREGLED GRUPE KONTA '
+    THISFORM.GRD0.RECORDSOURCE='NALGRU'
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALGRUTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALGRU
+  PROPERTIES:
+    Top =   4.00
+    Left =  48.00
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALGRU
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALGRU
+  PROPERTIES:
+    Top =   6.40
+    Left =  48.00
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALGRU
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALGRU
+  PROPERTIES:
+    Top =   8.80
+    Left =  48.00
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALGRU
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALGRU
+  PROPERTIES:
+    Top =  11.20
+    Left =  48.00
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALGRU
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALGRU
+  PROPERTIES:
+    Top =  28.00
+    Left =  45.60
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 9
+    BackColor = 255,128,128
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALGRU
+  PROPERTIES:
+    Top =  28.00
+    Left =  24.00
+    Height =   1.80
+    Width =  15.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<BRISANJE"
+    TabIndex = 6
+    BackColor = 128,255,128
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DELETE ALL FOR KONTO=SPACE(10)
+    PACK
+    THISFORM.RELEASE   
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALGRU
+  PROPERTIES:
+    Top =  28.00
+    Left =   4.80
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<DODAJ"
+    TabIndex = 2
+    BackColor = 128,255,255
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALGRU
+    APPEND BLANK
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== grid | grd0 | parent=NALGRU
+  PROPERTIES:
+    ColumnCount = 1
+    FontBold = .F.
+    FontSize = 11
+    DeleteMark = .F.
+    Height =  23.67
+    Left =   7.20
+    Panel = 1
+    RecordSource = ""
+    RecordSourceType = 1
+    RowHeight = 20
+    Top =   1.60
+    Width =  25.20
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  18.60
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALGRU.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGRU.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== commandbutton | Command5 | parent=NALGRU
+  PROPERTIES:
+    Top =  16.00
+    Left =  33.60
+    Height =   2.47
+    Width =  26.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<PREGLED"
+    BackColor = 128,255,255
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET EXACT OFF
+    SELECT FIRMA
+    TDAT0=FDAT0
+    TDAT1=FDAT1
+    SELECT DATUMI
+    
+    REPLACE DAT0 WITH TDAT0
+    REPLACE DAT1 WITH TDAT1
+       DO idel WITH (kkockax)
+    
+    SELECT NAL
+    SET ORDER TO 1
+    COPY STRUCTURE TO &KKOCKA
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA 
+    SET RELATION TO KONTO INTO KONTO
+    SELECT NALGRU
+    GO TOP
+    DO WHILE.NOT.EOF()
+       MKONTO=KONTO
+       SELECT NAL
+       SEEK MKONTO
+       IF FOUND()
+          MDPSALDO=0
+          DO WHILE.NOT.EOF()
+             IF KONTO<>MKONTO
+                EXIT
+             ENDIF
+             SCATTER NAME POLJA
+             SELECT KOCKA
+             APPEND BLANK
+             GATHER NAME POLJA
+             MDPSALDO=MDPSALDO+DUG-POT
+             REPLACE DPSALDO WITH MDPSALDO
+             SELECT NAL   
+             SKIP
+          ENDDO   
+       ENDIF
+       SELECT NALGRU
+       SKIP
+    ENDDO   
+    
+    SELECT KOCKA
+    
+    *REPORT FORM NALGRU PREVIEW        
+       mfile='NALGRU'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    
+    SELECT KOCKA
+    USE
+    SELECT NALGRU                                                                       
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC

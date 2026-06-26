@@ -1,0 +1,128 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALDATTRAZI | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   7.07
+    Width =  71.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "TRAŽENJE DATUMA"
+    WindowType = 1
+    AlwaysOnTop = .T.
+    BackColor = 149,188,148
+    Name = "NALDATTRAZI"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NAL
+    SET ORDER TO 3
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MDATDOK=DATDOK
+    THISFORM.TXTDATDOK.VALUE=MDATDOK
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO NALDATTRAZITAST
+    SET PROCEDURE TO    
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALDATTRAZI
+  PROPERTIES:
+    FontSize = 12
+    BorderStyle = 1
+    Caption = "UNESITE DATUM"
+    Height =   1.60
+    Left =   2.40
+    Top =   1.60
+    Width =  31.20
+    TabIndex = 3
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALDATTRAZI
+  PROPERTIES:
+    Top =   4.00
+    Left =  24.00
+    Height =   2.47
+    Width =  24.20
+    Caption = "\<IZLAZ"
+    TabIndex = 2
+    BackColor = 255,128,128
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release
+    
+    ENDPROC
+
+=== textbox | TXTDATDOK | parent=NALDATTRAZI
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  38.40
+    MaxLength = 8
+    SpecialEffect = 1
+    TabIndex = 1
+    Top =   1.60
+    Width =  24.20
+    Name = "TXTDATDOK"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SET EXACT OFF
+    MDATDOK=DTOS(THISFORM.TXTDATDOK.VALUE)
+    SET ORDER TO 3
+    SEEK MDATDOK
+    SET EXACT ON
+    NAL.GRD0.SETFOCUS
+    NAL.REFRESH
+    THISFORM.Release
+    POP KEY
+    ENDPROC

@@ -1,0 +1,948 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.RadniciView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding NaslovProzora}"
+        Width="1280" Height="780"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBgBrush}">
+
+    <Window.Resources>
+        <Style x:Key="SectionLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize"   Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2E7D32"/>
+            <Setter Property="Margin"     Value="0,0,0,2"/>
+        </Style>
+        <Style x:Key="ToolbarSepStyle" TargetType="Rectangle">
+            <Setter Property="Width"  Value="1"/>
+            <Setter Property="Fill"   Value="#B0BEC5"/>
+            <Setter Property="Margin" Value="8,3,8,3"/>
+        </Style>
+        <Style x:Key="FieldHintStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="Foreground" Value="#777"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="F7" Command="{Binding TraziImeCommand}"/>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+
+        <!-- ── Header ──────────────────────────────────────────────────── -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20">
+            <Grid Margin="16,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="RADNICI — Šifarnik zaposlenih"
+                               FontFamily="Tahoma" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="ldrad.dbf" FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7"/>
+                </StackPanel>
+
+                <!-- Selected worker info badge -->
+                <Border Grid.Column="2" Background="#2E7D32" CornerRadius="4"
+                        Padding="14,7" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Selektovani}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold" Foreground="White">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="Selektovani.Prezime" FallbackValue=""/>
+                                    <Binding Path="Selektovani.Ime"     FallbackValue=""/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}Evid.br. {0}   |   {1}">
+                                    <Binding Path="Selektovani.EvidBroj"    FallbackValue=""/>
+                                    <Binding Path="Selektovani.RadnoMesto"  FallbackValue=""/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ── Status bar ──────────────────────────────────────────────── -->
+        <Border DockPanel.Dock="Bottom" Background="#2E7D32" Height="28">
+            <Grid Margin="12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <!-- Edit mode pill -->
+                <Border Grid.Column="0" Background="#E65100" CornerRadius="2"
+                        Padding="6,2" Margin="0,5,10,5" VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding JeURezimuIzmene}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="IZMENA" FontFamily="Tahoma" FontSize="10" FontWeight="Bold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Grid.Column="1" Text="RADNICI" FontFamily="Tahoma" FontSize="9"
+                           Foreground="#A5D6A7" VerticalAlignment="Center" Margin="0,0,14,0"/>
+                <TextBlock Grid.Column="2" Text="{Binding StatusInfo}"
+                           FontFamily="Tahoma" FontSize="11" Foreground="White" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="3" FontFamily="Tahoma" FontSize="11"
+                           Foreground="White" VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} / {1}">
+                            <Binding Path="TrenutnaIndeks"/>
+                            <Binding Path="UkupnoRadnika"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </Border>
+
+        <!-- ── Toolbar ─────────────────────────────────────────────────── -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9"
+                Padding="10,8">
+            <Border.Resources>
+                <Style x:Key="GbStyle" TargetType="GroupBox">
+                    <Setter Property="BorderBrush" Value="#B0BEC5"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="Margin" Value="0,0,8,0"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="Foreground" Value="#37474F"/>
+                </Style>
+                <Style x:Key="TbBtn" TargetType="Button">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Height" Value="28"/>
+                    <Setter Property="Padding" Value="8,0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Margin" Value="0,0,4,0"/>
+                    <Setter Property="Background" Value="#1565C0"/>
+                </Style>
+            </Border.Resources>
+            <WrapPanel>
+
+                <!-- NAVIGACIJA -->
+                <GroupBox Header=" NAVIGACIJA " Style="{StaticResource GbStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="|◀ PRVI"    Command="{Binding PrviCommand}"      Style="{StaticResource TbBtn}" MinWidth="70"/>
+                        <Button Content="◀ PRETH."   Command="{Binding PrethodniCommand}" Style="{StaticResource TbBtn}" MinWidth="75"/>
+                        <Button Content="SLED. ▶"    Command="{Binding SledeciCommand}"   Style="{StaticResource TbBtn}" MinWidth="70"/>
+                        <Button Content="ZADNJI ▶|"  Command="{Binding PoslednjiCommand}" Style="{StaticResource TbBtn}" MinWidth="80" Margin="0"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- IZMENE -->
+                <GroupBox Header=" IZMENE " Style="{StaticResource GbStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="DODAJ +"  Command="{Binding DodajCommand}"        Style="{StaticResource TbBtn}" MinWidth="74" Background="#1565C0"/>
+                        <Button Content="IZMENI"   Command="{Binding IzmeniCommand}"       Style="{StaticResource TbBtn}" MinWidth="70" Background="#1565C0"/>
+                        <Button Content="KOPIRAJ"  Command="{Binding KopirajRedCommand}"   Style="{StaticResource TbBtn}" MinWidth="74" Background="#1565C0"
+                                ToolTip="Kopiraj izabranog radnika kao polaznu tačku za novog"/>
+                        <Button Content="SAČUVAJ"  Command="{Binding SacuvajCommand}"      Style="{StaticResource TbBtn}" MinWidth="76" Background="#2E7D32"/>
+                        <Button Content="OTKAZI"   Command="{Binding OtkaziIzmenuCommand}" Style="{StaticResource TbBtn}" MinWidth="70" Background="#546E7A"/>
+                        <Button Content="BRIŠI"    Command="{Binding BrisiCommand}"        Style="{StaticResource TbBtn}" MinWidth="66" Background="#C62828" Margin="0"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- PRETRAGA -->
+                <GroupBox Header=" PRETRAGA " Style="{StaticResource GbStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding TekstIme, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="130" Height="26" Margin="0,0,4,0"
+                                 VerticalContentAlignment="Center" Padding="4,0"
+                                 FontFamily="Tahoma" FontSize="11"
+                                 ToolTip="Pretraga po prezimenu ili imenu (F7)"/>
+                        <Button Content="F7 TRAŽI IME"   Command="{Binding TraziImeCommand}"      Style="{StaticResource TbBtn}" MinWidth="110"/>
+                        <TextBox Text="{Binding TekstEvidbroj, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="90" Height="26" Margin="0,0,4,0"
+                                 VerticalContentAlignment="Center" Padding="4,0"
+                                 FontFamily="Tahoma" FontSize="11"
+                                 ToolTip="Pretraga po evidencionom broju"/>
+                        <Button Content="TRAŽI EVID.BR." Command="{Binding TraziEvidbrojCommand}" Style="{StaticResource TbBtn}" MinWidth="120"/>
+                        <Button Content="OČISTI"         Command="{Binding OcistiPretraguCommand}" Style="{StaticResource TbBtn}" MinWidth="66" Background="#546E7A"/>
+                        <Button Content="OSVEZI F5"      Command="{Binding OsveziCommand}"         Style="{StaticResource TbBtn}" MinWidth="82" Background="#607D8B" Margin="0"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- AKCIJE -->
+                <GroupBox Header=" AKCIJE " Style="{StaticResource GbStyle}" Margin="0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="RADNI STAŽ"    Command="{Binding SrediRadniStazCommand}" Style="{StaticResource TbBtn}" MinWidth="106" Background="#E65100"
+                                ToolTip="Automatski izračunaj i snimi broj godina staža"/>
+                        <Button Content="EXPORT U EXCEL" Command="{Binding ExportUExcelCommand}"  Style="{StaticResource TbBtn}" MinWidth="126" Background="#00695C" Margin="0"
+                                ToolTip="Exportuj listu radnika u CSV"/>
+                    </StackPanel>
+                </GroupBox>
+
+            </WrapPanel>
+        </Border>
+
+        <!-- ── Main content ────────────────────────────────────────────── -->
+        <Grid>
+
+            <!-- Loading overlay -->
+            <Grid Panel.ZIndex="10" Background="#80000000"
+                  Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Border Background="White" CornerRadius="6" Padding="32,24"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <ProgressBar IsIndeterminate="True" Width="220" Height="4"
+                                     Foreground="#43A047" Background="#E8F5E9" BorderThickness="0"/>
+                        <TextBlock Text="Učitavanje podataka..."
+                                   FontFamily="Tahoma" FontSize="12" Foreground="#37474F"
+                                   HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="360"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT: DataGrid -->
+                <Border Grid.Column="0" BorderThickness="1" BorderBrush="#C8E6C9" Margin="0,0,6,0">
+                    <Grid>
+                    <DataGrid ItemsSource="{Binding FiltovaniRadnici}"
+                              SelectedItem="{Binding Selektovani}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False" CanUserDeleteRows="False"
+                              IsReadOnly="True" SelectionMode="Single"
+                              GridLinesVisibility="Horizontal"
+                              HorizontalGridLinesBrush="#EEEEEE"
+                              BorderThickness="0"
+                              Background="White"
+                              RowBackground="White"
+                              AlternatingRowBackground="#F9FBF9"
+                              FontFamily="Tahoma" FontSize="11"
+                              ColumnHeaderStyle="{StaticResource AppDataGridColumnHeaderStyle}"
+                              RowStyle="{StaticResource AppDataGridRowStyle}">
+
+                        <DataGrid.Columns>
+                            <!-- Status indicator -->
+                            <DataGridTemplateColumn Header="" Width="18" CanUserResize="False" CanUserSort="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Ellipse Width="8" Height="8"
+                                                 HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse.Style>
+                                                <Style TargetType="Ellipse">
+                                                    <Setter Property="Fill" Value="#43A047"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Neaktivan}" Value="*">
+                                                            <Setter Property="Fill" Value="#B0BEC5"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Ellipse.Style>
+                                        </Ellipse>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Br." Binding="{Binding Broj}" Width="38">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding" Value="4,4"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Evid." Binding="{Binding EvidBroj}" Width="46">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding" Value="4,4"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding"     Value="4,4"/>
+                                        <Setter Property="FontWeight"  Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Ime" Binding="{Binding Ime}" Width="80">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding" Value="4,4"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border Background="White"
+                            Visibility="{Binding IsListaPrazan, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Panel.ZIndex="1">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="📋" FontSize="28" HorizontalAlignment="Center" Opacity="0.3"/>
+                            <TextBlock Text="Nema radnika koji odgovaraju kriterijumu pretrage"
+                                       FontFamily="Tahoma" FontSize="12" Foreground="#9E9E9E"
+                                       HorizontalAlignment="Center" Margin="0,8,0,0" TextWrapping="Wrap"
+                                       MaxWidth="200" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    </Grid>
+                </Border>
+
+                <!-- RIGHT: Detail panel -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Edit mode banner -->
+                    <Border Grid.Row="0">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource EditModeBannerStyle}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding JeURezimuIzmene}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="  REZIM IZMENE — izmenite podatke, zatim kliknite Sačuvaj ili Otkazi"
+                                   FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Foreground="#E65100"/>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+
+                        <!-- No-selection placeholder -->
+                        <Border Background="White" BorderThickness="1" BorderBrush="#E8F5E9">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Selektovani}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="Izaberite radnika iz liste levo"
+                                       FontFamily="Tahoma" FontSize="14" Foreground="#C8E6C9"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <!-- TabControl -->
+                        <TabControl FontFamily="Tahoma" FontSize="11" BorderBrush="#C8E6C9">
+                            <TabControl.Style>
+                                <Style TargetType="TabControl">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Selektovani}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TabControl.Style>
+
+                            <!-- ── Tab 1: Lični podaci ─────────────────────── -->
+                            <TabItem Header="Lični podaci">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <!-- IDENTIFIKACIJA -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="IDENTIFIKACIJA" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Evid. broj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.EvidBroj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="True"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Broj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.Broj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="True"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Prezime:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.Prezime, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Ime:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.Ime, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Matični br.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.MaticniBr, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="ID broj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.IdBroj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Pol:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Selektovani.Pol, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="1" ToolTip="M = Muški   Ž = Ženski"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Pol: M = Muški   Ž = Ženski  |  Evid. broj: interni evidencioni broj radnika (jedinstveni, unosi se ručno)  |  Matični br. = JMBG (13 cifara)  |  ID broj = broj lične karte"/>
+                                        </Grid>
+
+                                        <!-- ADRESA I KONTAKT -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="ADRESA I KONTAKT" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Adresa:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.Adresa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Poštanski br.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.Posta, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Mesto:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.Mesto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Telefon:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.Telefon, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Roditelj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.Roditelj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                        </Grid>
+
+                                        <!-- OSTALO -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="OSTALO" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Napomena:" Style="{StaticResource FormLabelStyle}" VerticalAlignment="Top" Margin="0,4,6,0"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.Napomena, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="40" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Mesto poreza:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.MestoPoreza, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Posl. jed.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.PoslJedinica, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Vrsta primanja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                                <TextBox Text="{Binding Selektovani.VrstaPrimanja, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" Width="50" MaxLength="2"/>
+                                                <TextBlock Text="  B=Bol. P=Por. I=Inv. R=Penz. U=Ugovor" FontFamily="Tahoma" FontSize="9" Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Grupa radnika:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Selektovani.Grupa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Grupni identifikator za radnike sa različitom cenom rada u istom platnom spisku"/>
+                                            <TextBlock Grid.Row="6" Grid.Column="2" Text="Grupa 1:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="3" Text="{Binding Selektovani.Grupa1, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Dodatna grupa za potpuno odvojene obračune iste vrste za isti mesec"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Vrsta primanja: B=Bolovanje  P=Porodilje  I=Invalidi  R=Penzioneri  U=Ugovor  (prazno = redovna zarada)  |  Mesto poreza = šifra opštine iz PPP-PD parametara  |  Grupa/Grupa1: za razdvajanje radnika u posebne obračune"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 2: Radno mesto ──────────────────────── -->
+                            <TabItem Header="Radno mesto">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <!-- ZAPOSLENJE -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="ZAPOSLENJE" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Radno mesto:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.RadnoMesto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Stepen:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.Stepen, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Škol. sprema:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.SkolSprema, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Vrsta zaposlenja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.VrstaZap, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Vrsta radnog odnosa (npr. A=određeno, N=neodređeno, P=privremeni)"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Mesto troš.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.MestoTroskova, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Analitički konto / mesto troškova za knjiženje"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Radno mesto: obavezno za PPP-PD i porodilje  |  Stepen = stepen stručne spreme (I–VIII)  |  Škol. sprema = naziv zanimanja  |  Vrsta zaposlenja: npr. A=određeno N=neodređeno P=privremeni  |  Mesto troškova = za knjiženje troškova plata"/>
+                                        </Grid>
+
+                                        <!-- DATUMI -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="DATUMI" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Datum prijema:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.DatumPrijema, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Dat. ugovora:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.DatumUgovora, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Datum zasnivanja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.DatumZasnivanja, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Dat. zaposlenja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.DatumZaposlenja, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Datum otkaza:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.DatumOtkaza, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Datum prestanka radnog odnosa — upisati kada zaposleni ode"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Dat. prijema = datum prijema u radni odnos (za M4)  |  Dat. ugovora = datum potpisivanja ugovora  |  Dat. zasnivanja = stvarni datum početka rada  |  Dat. zaposlenja = obavezno za porodiljsko odsustvo  |  Dat. otkaza = uneti pri prestanku radnog odnosa"/>
+                                        </Grid>
+
+                                        <!-- ISPLATE -->
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="ISPLATE" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Šifra banke:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.SifraBanke, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Žiro račun:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.ZiroRacun, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Partija:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.Partija, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Broj partije tekućeg računa kod banke (za nalog za prenos plata)"/>
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Šifra banke = šifra iz šifarnika partnera (banke)  |  Žiro račun = broj tekućeg računa radnika (bez crtice)  |  Partija = broj partije kod banke za prenos plata"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 3: Koeficijenti ─────────────────────── -->
+                            <TabItem Header="Koeficijenti">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="KOEFICIJENTI RADNOG MESTA" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Koeficijent:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.Koef, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Koef. dod.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.KoefDod, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Koef. ukupno:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.KoefUkup, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Ukupni koeficijent = Koef + Koef.dod."/>
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Koeficijenti — za budžetske korisnike i obračun po koeficijentu  |  Koef. = koeficijent radnog mesta  |  Koef.dod. = dodatni koeficijent  |  Koef.ukupno = zbir (Koef + KoefDod)"/>
+                                        </Grid>
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="OBRAČUN" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Osnovica:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.Osnovica, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Osnov. bruto:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.OsnovBruto, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Staž (god.):" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.Staz, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Ben. %:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.BenProc, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="% uvećanja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.ProcUvec, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Min. %:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.MinProc, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Partija:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.Partija, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Osnovica = osnovna bruto za obračun  |  Osnov.bruto = ukupna bruto osnovica  |  Staž (god.) = broj godina radnog staža — dugme SREDI RADNI STAŽ izračunava automatski  |  Ben.% = % beneficiranog staža  |  % uvećanja = dodatak na zaradu  |  Min.% = minimalni % zarade koji se garantuje"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 4: Organizacija ─────────────────────── -->
+                            <TabItem Header="Organizacija">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="ORGANIZACIONA STRUKTURA" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Mesto plaćanja poreza:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.MestoPoreza, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Ozn. posl. jed.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.PoslJedinica, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Vrsta primanja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                                <TextBox Text="{Binding Selektovani.VrstaPrimanja, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" Width="50" MaxLength="2"/>
+                                                <TextBlock Text="  B=Bolovanje  P=Porodilje  I=Invalidi  R=Penzioneri  U=Ugovor" FontFamily="Tahoma" FontSize="10" Foreground="#777" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Grupa radnika:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.Grupa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Grupa 1:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.Grupa1, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Mesto troškova:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Selektovani.MestoTroskova, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="8" Grid.Column="0" Text="Šifra banke:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="8" Grid.Column="1" Text="{Binding Selektovani.SifraBanke, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Šifra banke iz šifarnika partnera"/>
+                                            <TextBlock Grid.Row="8" Grid.Column="2" Text="Žiro račun:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="8" Grid.Column="3" Text="{Binding Selektovani.ZiroRacun, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Broj tekućeg računa radnika"/>
+                                            <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Mesto plaćanja poreza = šifra opštine (4 cifre) iz PPP-PD parametara  |  Ozn. posl. jed. = oznaka poslovne jedinice  |  Vrsta primanja: B=Bol. P=Por. I=Inv. R=Penz. U=Ug. (prazno=redovna)  |  Grupa/Grupa1: razdvajanje u posebne obračune"/>
+                                        </Grid>
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="OBUSTAVE" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="% Solid/kom.med.sest.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.SolidProc, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="% Alimentacije:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.AlimentProc, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="% Sindikat 1:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.SindProc1, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="% Sindikat 2:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.SindProc2, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Članarina kasa:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.Kasa, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Rata za kasu:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.KasaRata, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Šifra samodoprinosa:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Selektovani.SamodoprSifra, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Šifra opštine za samodoprinos (4-cifrena šifra opštine)"/>
+                                            <TextBlock Grid.Row="6" Grid.Column="2" Text="% Samodoprinosa:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="3" Text="{Binding Selektovani.SamodoprProc, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Stopa samodoprinosa u %"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="% Solid. = solidarna pomoć / kom.med.sestra (od neto zarade)  |  % Alimentacije = sudski utvrđena alimentacija  |  % Sindikata = članarina sindikatu  |  Kasa = mesečna obustava za kasičnicu (fiksni iznos)  |  Rata = otplata kredita iz kase  |  Samodoprinos: šifra opštine + % stope"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 5: Oznake/Datumi ────────────────────── -->
+                            <TabItem Header="Oznake/Datumi">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="OZNAKE" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Prevoz (*):" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.Prevoz, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="1" ToolTip="* = plaća se prevoz"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Neaktivan (*):" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.Neaktivan, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="1" ToolTip="* = neaktivan (ne prikazuje se u listi zeleno)"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Nepuno r.v. (1):" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.NepunoRadno, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="1" ToolTip="1 = nepuno radno vreme kod jednog poslodavca"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Por. olakšice:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.Porolaks, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="% Umanjenja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.ProcUmanjenja, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="% umanjenja poreske osnovice — poreska olakšica"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Porez fond zarada:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.PorezFondZar, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Iznos poreza koji se usmerava u fond zarada"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Prevoz: * = plaća se prevoz radniku  |  Neaktivan: * = radnik ne ulazi u platni spisak (prestao radni odnos)  |  Nepuno r.v.: 1 = nepuno radno vreme kod jednog poslodavca  |  Por. olakšice = šifra poreske olakšice (katalog PU)  |  % Umanjenja = % olakšice na poresku osnovicu"/>
+                                        </Grid>
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,14,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="DATUMI I RADNI STAZ" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Poc.dat. minulog rada:" Style="{StaticResource FormLabelStyle}"/>
+                                            <DatePicker Grid.Row="0" Grid.Column="1"
+                                                        SelectedDate="{Binding Selektovani.DatMinulogRada, UpdateSourceTrigger=PropertyChanged}"
+                                                        SelectedDateFormat="Short" FontFamily="Tahoma" FontSize="11" Height="26"
+                                                        IsEnabled="{Binding JeURezimuIzmene}" BorderBrush="#C8E6C9"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Dat. nezaposlenosti:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.DatNezap, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Preth. staz — dana:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding Selektovani.BrojDana, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Meseci:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="2" Grid.Column="3" Text="{Binding Selektovani.BrojMeseci, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Godina:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.BrojGodina, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}"/>
+
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Roditelj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Selektovani.Roditelj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Ime i prezime roditelja / staratelja"/>
+                                            <TextBlock Grid.Row="6" Grid.Column="2" Text="Email adresa:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="6" Grid.Column="3" Text="{Binding Selektovani.Email, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" ToolTip="Email za slanje OZ-7 listića elektronski"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="Poc.dat. minulog rada = datum od kog se računa staz kod ovog poslodavca  |  Dat. nezaposlenosti = datum prijave Zavodu za zapošljavanje  |  Preth. staz = radni staž pre dolaska (dana / meseci / godina odvojeno)  |  Email = za elektronsko slanje listića (OZ-7)"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 6: Osiguranje ───────────────────────── -->
+                            <TabItem Header="Osiguranje">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                    <StackPanel Margin="14,12">
+
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                            <TextBlock Text="ZDRAVSTVENO OSIGURANJE" Style="{StaticResource SectionLabelStyle}"/>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/><RowDefinition Height="6"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="LBO broj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Selektovani.LboBroj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="11" ToolTip="LBO broj osiguranika (C11)"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="ZK broj:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="0" Grid.Column="3" Text="{Binding Selektovani.ZkBroj, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="11" ToolTip="Broj zdravstvene knjizice (C11)"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Osig. od:" Style="{StaticResource FormLabelStyle}"/>
+                                            <DatePicker Grid.Row="2" Grid.Column="1"
+                                                        SelectedDate="{Binding Selektovani.DatumOsigOd, UpdateSourceTrigger=PropertyChanged}"
+                                                        FontFamily="Tahoma" FontSize="11" Height="26"
+                                                        IsEnabled="{Binding JeURezimuIzmene}" ToolTip="Datum osiguranja od"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Osig. do:" Style="{StaticResource FormLabelStyle}"/>
+                                            <DatePicker Grid.Row="2" Grid.Column="3"
+                                                        SelectedDate="{Binding Selektovani.DatumOsigDo, UpdateSourceTrigger=PropertyChanged}"
+                                                        FontFamily="Tahoma" FontSize="11" Height="26"
+                                                        IsEnabled="{Binding JeURezimuIzmene}" ToolTip="Datum osiguranja do"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Osnov osiguranja:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Selektovani.OsnovOsiguranja, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="10" ToolTip="Osnov zdravstvenog osiguranja (npr. 01=zaposleni)"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="2" Text="Reg. br. social.:" Style="{StaticResource FormLabelStyle}"/>
+                                            <TextBox   Grid.Row="4" Grid.Column="3" Text="{Binding Selektovani.RegBrojSocijalno, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormInputStyle}" IsReadOnly="{Binding NijeURezimuIzmene}" MaxLength="10" ToolTip="Registracioni broj socijalnog osiguranja"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource FieldHintStyle}"
+                                                       Text="LBO = lični broj osiguranika (max 11 znakova)  |  ZK = broj zdravstvene knjižice  |  Osig. od/do = period važenja zdravstvenog osiguranja  |  Osnov osiguranja = šifra osnova (npr. 01=zaposleni, za M-A obrazac)  |  Reg.br.soc. = registracioni broj socijalnog osiguranja"/>
+                                        </Grid>
+                                        <Rectangle Height="14"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <!-- ── Tab 7: Napomene ─────────────────────────── -->
+                            <TabItem Header="Napomene">
+                                <Grid Margin="14,12" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#C8E6C9" Margin="0,0,0,8" Padding="0,0,0,3">
+                                        <TextBlock Text="NAPOMENA 2" Style="{StaticResource SectionLabelStyle}"/>
+                                    </Border>
+                                    <TextBox Grid.Row="1"
+                                             Text="{Binding Selektovani.Napomena2, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{StaticResource FormInputStyle}"
+                                             IsReadOnly="{Binding NijeURezimuIzmene}"
+                                             TextWrapping="Wrap" AcceptsReturn="True"
+                                             VerticalScrollBarVisibility="Auto"
+                                             VerticalContentAlignment="Top"
+                                             Padding="8"/>
+                                </Grid>
+                            </TabItem>
+
+                        </TabControl>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

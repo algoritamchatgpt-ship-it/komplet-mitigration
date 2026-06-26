@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldzospec">
+  <columns>
+    <column name="POVREDA" type="N" length="2" decimals="0" />
+    <column name="TRUDNOCA" type="N" length="2" decimals="0" />
+    <column name="NEGADET" type="N" length="2" decimals="0" />
+    <column name="OSTALO" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

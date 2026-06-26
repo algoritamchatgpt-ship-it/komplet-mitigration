@@ -1,0 +1,47 @@
+<Window x:Class="GlavnaKnjiga.Views.NalmtrPrenosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PRENOS GLAVNE KNJIGE ZA MESTA TROŠKOVA"
+        Height="200" Width="520"
+        WindowStartupLocation="CenterOwner"
+        Background="#ECE9D8"
+        ResizeMode="NoResize">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Početni datum -->
+        <Label Grid.Row="0" Grid.Column="0" Content="Početni datum" FontFamily="Tahoma" FontSize="11"
+               Foreground="#BE0000" Background="#80FFFF" Padding="2"/>
+        <DatePicker x:Name="TxtDat0" Grid.Row="0" Grid.Column="1"
+                    SelectedDate="{Binding Dat0, Mode=TwoWay}"
+                    FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- Zadnji datum -->
+        <Label Grid.Row="1" Grid.Column="0" Content="Zadnji datum" FontFamily="Tahoma" FontSize="11"
+               Foreground="#BE0000" Background="#80FFFF" Padding="2"/>
+        <DatePicker x:Name="TxtDat1" Grid.Row="1" Grid.Column="1"
+                    SelectedDate="{Binding Dat1, Mode=TwoWay}"
+                    FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+            <Button Content="Prenos" Width="100" Height="36"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"
+                    Command="{Binding PrenosCommand}"/>
+            <Button Content="Izlaz" Width="80" Height="36" Margin="12,0,0,0"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

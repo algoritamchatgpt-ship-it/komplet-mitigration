@@ -1,0 +1,125 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALUNIORNALTRAZI | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   7.07
+    Width =  89.00
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "TRAŽENJE RAČUNA"
+    WindowType = 1
+    WindowState = 0
+    AlwaysOnTop = .T.
+    BackColor = 236,233,216
+    Name = "NALUNIORNALTRAZI"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MBRrac=BRrac
+    THISFORM.TXTBRRAC.VALUE=MBRrac
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO NALUNIORracTRAZITAST
+    SET PROCEDURE TO    
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALUNIORNALTRAZI
+  PROPERTIES:
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Unesite broj računa"
+    Height =   1.60
+    Left =   4.80
+    Top =   1.60
+    Width =  29.20
+    TabIndex = 3
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALUNIORNALTRAZI
+  PROPERTIES:
+    AutoSize = .F.
+    Top =   4.00
+    Left =  24.00
+    Height =   2.00
+    Width =  19.20
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release
+    
+    ENDPROC
+
+=== textbox | txtbrrac | parent=NALUNIORNALTRAZI
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.67
+    Left =  35.40
+    MaxLength = 20
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.60
+    Width =  46.20
+    Name = "txtbrrac"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    Mbrrac=THISFORM.TXTbrrac.VALUE
+    LOCATE FOR BRrac=Mbrrac
+    NALUNIOR.GRD0.SETFOCUS
+    NALUNIOR.REFRESH
+    THISFORM.RELEASE
+    POP KEY
+    ENDPROC

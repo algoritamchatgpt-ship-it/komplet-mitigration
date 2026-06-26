@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldrad0">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="VRSTAID" type="C" length="0" decimals="0" />
+    <column name="PREBIVAL" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="KATALOG" type="C" length="0" decimals="0" />
+    <column name="VRSTAPRIM" type="C" length="0" decimals="0" />
+    <column name="OZNVRPRIH" type="C" length="0" decimals="0" />
+    <column name="OZNOLAKS" type="C" length="0" decimals="0" />
+    <column name="OZNBEN" type="C" length="0" decimals="0" />
+    <column name="MFP1" type="N" length="2" decimals="0" />
+    <column name="MFP2" type="N" length="2" decimals="0" />
+    <column name="MFP3PROC" type="N" length="2" decimals="0" />
+    <column name="MFP4" type="N" length="2" decimals="0" />
+    <column name="MFP5" type="N" length="2" decimals="0" />
+    <column name="MFP6" type="N" length="2" decimals="0" />
+    <column name="MFP7" type="N" length="2" decimals="0" />
+    <column name="MFP8NEPUN" type="C" length="0" decimals="0" />
+    <column name="MFP9NAJOSN" type="C" length="0" decimals="0" />
+    <column name="MFP10DVEZ" type="C" length="0" decimals="0" />
+    <column name="MFP11NEOP" type="N" length="2" decimals="0" />
+    <column name="MP" type="C" length="0" decimals="0" />
+    <column name="MESTO" type="C" length="0" decimals="0" />
+    <column name="ADRESA" type="C" length="0" decimals="0" />
+    <column name="SIFRA" type="C" length="0" decimals="0" />
+    <column name="PARTIJA" type="C" length="0" decimals="0" />
+    <column name="KATEGOR" type="C" length="0" decimals="0" />
+    <column name="SIFOSNOV" type="C" length="0" decimals="0" />
+    <column name="OSNOV" type="C" length="0" decimals="0" />
+    <column name="GRUPAVIRM" type="C" length="0" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="IZVORFIN" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

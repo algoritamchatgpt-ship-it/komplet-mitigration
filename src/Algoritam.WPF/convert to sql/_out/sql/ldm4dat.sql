@@ -1,0 +1,9 @@
+-- Source: ldm4dat
+CREATE TABLE IF NOT EXISTS "ldm4dat" (
+  "MES" NUMERIC(0),
+  "DAT" DATE,
+  "CAS" NUMERIC(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

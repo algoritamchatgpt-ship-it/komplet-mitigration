@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldsamod">
+  <columns>
+    <column name="SAMSIF" type="N" length="0" decimals="0" />
+    <column name="SAMONAZ" type="C" length="0" decimals="0" />
+    <column name="SAMOPROC" type="N" length="4" decimals="0" />
+    <column name="ZIRORAC" type="C" length="0" decimals="0" />
+    <column name="SAMODOP" type="N" length="2" decimals="0" />
+    <column name="SAM1" type="N" length="2" decimals="0" />
+    <column name="SAM2" type="N" length="2" decimals="0" />
+    <column name="SAM3" type="N" length="2" decimals="0" />
+    <column name="SAM4" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <SAMSIF />
+      <SAMONAZ></SAMONAZ>
+      <SAMOPROC>1</SAMOPROC>
+      <ZIRORAC></ZIRORAC>
+      <SAMODOP>1</SAMODOP>
+      <SAM1 />
+      <SAM2 />
+      <SAM3 />
+      <SAM4 />
+      <MESEC />
+      <ISPLATA />
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

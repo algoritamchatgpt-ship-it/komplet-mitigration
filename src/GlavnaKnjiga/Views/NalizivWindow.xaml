@@ -1,0 +1,79 @@
+<Window x:Class="GlavnaKnjiga.Views.NalizivWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GLAVNA KNJIGA - IZVEŠTAJI"
+        Height="560" Width="560"
+        WindowStartupLocation="CenterScreen"
+        Background="#95BC94"
+        KeyDown="Window_KeyDown">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#5A7A59" Padding="12,8">
+            <TextBlock Text="GLAVNA KNJIGA — IZVEŠTAJI"
+                       Foreground="White" FontFamily="Tahoma" FontSize="14" FontWeight="Bold"/>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="20,16" Width="460" HorizontalAlignment="Left">
+
+            <Button Content="BILANS USPEHA"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding BilansUspehaCommand}"/>
+
+            <Button Content="ZAKLJUČNI LIST"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding ZakljucniListCommand}"/>
+
+            <Button Content="DNEVNIK"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding DnevnikCommand}"/>
+
+            <Button Content="SVE KARTICE"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding SveKarticeCommand}"/>
+
+            <Button Content="ODREDJENE KARTICE"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding OdredjeneKarticeCommand}"/>
+
+            <Button Content="PRIPREMI PREGLED PO KURSU"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding PripremPregledPoKursuCommand}"/>
+
+            <Button Content="SVI NALOZI"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding SviNaloziCommand}"/>
+
+            <Button Content="BILANS USPEHA PO MESTIMA TROŠKOVA"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding BilansUspehaPoMtrCommand}"/>
+
+            <Button Content="SALDO PO MESTIMA TROŠKOVA"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding SaldoPoMtrCommand}"/>
+
+            <Button Content="ZAKLJUČNI LIST BRZI"
+                    Style="{StaticResource OsMeniDugme}"
+                    Foreground="#800000" Background="#D6D6D6"
+                    Command="{Binding ZakljucniListBrziCommand}"/>
+
+            <Separator Margin="0,8"/>
+
+            <Button Content="Izlaz"
+                    Width="120" HorizontalAlignment="Center"
+                    Height="42" FontFamily="Tahoma" FontSize="11"
+                    Background="#C0C0C0"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

@@ -1,0 +1,8 @@
+-- Source: ldgrupa
+CREATE TABLE IF NOT EXISTS "ldgrupa" (
+  "GRUPA" NUMERIC(0),
+  "NAZIV" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldradcl">
+  <columns>
+    <column name="CBROJ" type="N" length="0" decimals="0" />
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="CIME_PREZ" type="C" length="0" decimals="0" />
+    <column name="CMATICNI" type="C" length="0" decimals="0" />
+    <column name="CLBOBROJ" type="C" length="0" decimals="0" />
+    <column name="CADRESA" type="C" length="0" decimals="0" />
+    <column name="CSRODSTVO" type="C" length="0" decimals="0" />
+    <column name="CNAPOMENA" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNI" type="C" length="0" decimals="0" />
+    <column name="LBOBROJ" type="C" length="0" decimals="0" />
+    <column name="ADRESA" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

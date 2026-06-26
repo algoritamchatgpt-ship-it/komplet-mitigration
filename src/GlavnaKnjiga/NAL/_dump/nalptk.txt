@@ -1,0 +1,259 @@
+num records 9
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPTK | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   4.20
+    Left =  23.00
+    Height =  24.47
+    Width =  84.20
+    ScrollBars = 0
+    DoCreate = .T.
+    Caption = "IZBOR ANALITIKE"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 183,188,249
+    Name = "NALPTK"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PARAMETERS MBRNAL,MDATDOK
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    PUBLIC MTMBRNAL,MTMDATDOK
+    MTMBRNAL=MBRNAL
+    MTMDATDOK=MDATDOK
+    
+       USE AATM IN 0 ALIAS AATM
+       SELECT AATM
+       THISFORM.GRD0.RECORDSOURCE='AATM'
+       THISFORM.GRD0.COLUMN1.CONTROLSOURCE='SIFPROD'   
+       THISFORM.GRD0.COLUMN2.CONTROLSOURCE='PNAZIV'   
+       THISFORM.GRD0.COLUMN1.HEADER1.CAPTION='RBR'   
+       THISFORM.GRD0.COLUMN2.HEADER1.CAPTION=' MALOPRODAJA  '   
+       THISFORM.GRD0.COLUMN2.SETFOCUS
+       THISFORM.CAPTION='IZBOR KEPU KNJIGE '
+    
+    thisform.grd0.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPTKTAST
+    SET PROCEDURE TO
+    
+    THISFORM.REFRESH
+    
+    ENDPROC
+    PROCEDURE Unload
+    PUSH KEY CLEAR
+    USE &KNALP IN 0 ALIAS NALP
+    SELECT AATM
+    MREC=RECCOUNT()
+    GO TOP
+    DO WHILE.NOT.EOF()
+    IF PRIKAZ<>'N'
+    
+       MREDNI=ALLTRIM(SIFPROD)
+       MDOK='M'+MREDNI
+       MKONTO=KONTO
+       MKONTOU=KONTOU
+       MKONTOPAZ=KONTOPAZ
+       
+       KTM='TM'+MREDNI+'.DBF'
+       
+       IF FILE(KTM)
+          USE &KTM IN 0 ALIAS TM
+          SELECT TM
+          SET ORDER TO 3
+          SEEK MTMBRNAL
+          IF FOUND()
+             MUPLACENO=0
+             MUSLUGE=0
+             DO WHILE.NOT.EOF()
+                IF BRNAL<>MTMBRNAL
+                   EXIT
+                ENDIF
+                MUPLACENO=MUPLACENO+UPLACENO   
+                MUSLUGE=MUSLUGE+USLUGE
+                SKIP
+             ENDDO   
+          ELSE
+             MUPLACENO=0   
+             MUSLUGE=0
+          ENDIF 
+          SELECT NALP
+          GO BOTTOM
+          IF MUPLACENO<>0
+             IF DUG<>0.OR.POT<>0
+                APPEND BLANK
+             ENDIF
+             REPLACE KONTO WITH MKONTOPAZ
+             REPLACE OPIS WITH 'PAZAR PRODAVNICE '+MREDNI
+             REPLACE BRNAL WITH MTMBRNAL
+             REPLACE DATDOK WITH MTMDATDOK
+             REPLACE POT WITH MUPLACENO
+             REPLACE DOK WITH MDOK
+          ENDIF
+          IF MUSLUGE<>0
+             IF DUG<>0.OR.POT<>0
+                APPEND BLANK
+             ENDIF
+             REPLACE KONTO WITH MKONTOU
+             REPLACE OPIS WITH 'PAZAR PROD.'+MREDNI+' USLUGE'
+             REPLACE BRNAL WITH MTMBRNAL
+             REPLACE DATDOK WITH MTMDATDOK
+             REPLACE POT WITH MUSLUGE
+             REPLACE DOK WITH MDOK
+          ENDIF
+          SELECT TM
+          USE
+       ENDIF
+       SELECT AATM
+    ENDIF   
+       SKIP
+    ENDDO   
+    CLOSE ALL
+       PUBLIC TKOJI,TANAL
+       TKOJI='NALGK'
+       TANAL='NALP'
+       nalp.release
+    POP KEY
+    POP KEY
+    KEYBOARD '{ENTER}'
+    
+    
+    ENDPROC
+
+=== grid | GRD0 | parent=NALPTK
+  PROPERTIES:
+    ColumnCount = 2
+    FontSize = 11
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    GridLines = 1
+    HeaderHeight = 20
+    Height =  19.60
+    HighlightRow = .T.
+    Left =   5.00
+    Panel = 1
+    PanelLink = .T.
+    ReadOnly = .T.
+    RecordMark = .F.
+    RecordSource = ""
+    RecordSourceType = 1
+    RowHeight = 20
+    ScrollBars = 0
+    SplitBar = .T.
+    TabIndex = 1
+    Top =   0.67
+    Width =  72.60
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 169,241,202
+    HighlightForeColor = 130,139,253
+    HighlightStyle = 1
+    RightToLeft = .F.
+    Name = "GRD0"
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  14.00
+    Column1.ReadOnly = .T.
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =  57.60
+    Column2.ReadOnly = .T.
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    THISFORM.REFRESH
+    ENDPROC
+
+=== header | Header1 | parent=NALPTK.GRD0.Column1
+  PROPERTIES:
+    FontSize = 11
+    Caption = ""
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPTK.GRD0.Column1
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    TabIndex = 0
+    TabStop = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPTK.GRD0.Column2
+  PROPERTIES:
+    FontSize = 11
+    Caption = ""
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPTK.GRD0.Column2
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    PUSH KEY CLEAR
+    IF PRIKAZ<>'N'
+       IF NKEYCODE=13
+          DO nalptkulaZ
+       ENDIF   
+    ENDIF
+    IF NKEYCODE=27
+       THISFORM.RELEASE
+    ENDIF   
+    POP KEY
+    ENDPROC

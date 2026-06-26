@@ -1,0 +1,301 @@
+num records 17
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPRIL0 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  34.00
+    Width =  86.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "DODAVANJE KONTA ANALITIKE"
+    WindowType = 1
+    WindowState = 2
+    HelpContextID = 1
+    BackColor = 183,188,249
+    Name = "NALPRIL0"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NALPRIL
+    pop key
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALPRIL0
+    THISFORM.GRD0.RECORDSOURCE='NALPRIL0'
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPRIL0TAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  25.60
+    Left =   4.60
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  25.60
+    Left =  18.80
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  25.60
+    Left =  33.00
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  25.60
+    Left =  47.20
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  35.20
+    Left = 180.00
+    Height =   1.80
+    Width =  14.40
+    Caption = "\<IZLAZ"
+    TabIndex = 9
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  28.00
+    Left =   4.80
+    Height =   1.80
+    Width =  25.80
+    FontSize = 11
+    Caption = "\<BRISANJE REDA"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRIL0
+    DELETE NEXT 1
+    PACK
+    POP KEY
+    THISFORM.RELEASE   
+    KEYBOARD '{ENTER}'
+    
+    
+    ENDPROC
+
+=== grid | grd0 | parent=NALPRIL0
+  PROPERTIES:
+    ColumnCount = 2
+    FontBold = .F.
+    FontSize = 11
+    DeleteMark = .F.
+    Height =  23.67
+    Left =  16.80
+    Panel = 1
+    RecordSource = ""
+    RecordSourceType = 1
+    RowHeight = 20
+    Top =   0.40
+    Width =  30.80
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  18.60
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =   5.80
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPRIL0.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL0.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL0.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL0.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== commandbutton | Command7 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  28.00
+    Left =  31.20
+    Height =   1.80
+    Width =  26.40
+    FontSize = 11
+    Caption = "\<DODAVANJE"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    APPEND BLANK
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALPRIL0
+  PROPERTIES:
+    Top =  28.80
+    Left =  62.40
+    Height =   4.20
+    Width =  21.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC

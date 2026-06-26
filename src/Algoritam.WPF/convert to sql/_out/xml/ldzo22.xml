@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldzo22">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="RODITELJ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="DOD" type="D" length="0" decimals="0" />
+    <column name="DDO" type="D" length="0" decimals="0" />
+    <column name="CASOVI" type="N" length="2" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="NECASOVI" type="N" length="2" decimals="0" />
+    <column name="RADNOVRE" type="C" length="0" decimals="0" />
+    <column name="RADNOVRE2" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA1" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA2" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA3" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA4" type="C" length="0" decimals="0" />
+    <column name="DATUM" type="D" length="0" decimals="0" />
+    <column name="IZNOSCAS" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

@@ -1,0 +1,105 @@
+<Window x:Class="GlavnaKnjiga.Views.NaluniorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UNIOR-TABELA PRENOSA IZ STRIPA"
+        Height="520" Width="1300"
+        WindowStartupLocation="CenterScreen"
+        Background="#B7BCF9"
+        KeyDown="Window_KeyDown">
+
+    <DockPanel>
+        <!-- Header bar -->
+        <Border DockPanel.Dock="Top" Background="#C0C0C0" Padding="6,2">
+            <TextBlock Text="{Binding LblRec}" FontWeight="Bold" FontStyle="Italic"
+                       FontSize="10" Foreground="Red"/>
+        </Border>
+
+        <!-- Buttons -->
+        <WrapPanel DockPanel.Dock="Bottom" Margin="4,3" HorizontalAlignment="Left">
+            <Button Content="+"                         Width="40"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding DodajCommand}"/>
+            <Button Content="Knjiženje"                 Width="90"  Margin="3,2" Background="#C0C0C0"
+                    Command="{Binding KnjizenjeCommand}"/>
+            <Button Content="BRISANJE PROKNJIŽENIH"     Width="160" Margin="3,2" Background="#E09090"
+                    Command="{Binding BrisanjeProknjizenihCommand}"/>
+            <Button Content="Traži DATPDV"              Width="90"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding TraziDatpdvCommand}"/>
+            <Button Content="Traži Račun"               Width="90"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding TraziRacunCommand}"/>
+            <Button Content="Traži Nalog"               Width="90"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding TraziNalogCommand}"/>
+            <Button Content="Kurs"                      Width="60"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding UnosKursaCommand}"/>
+            <Button Content="Kontiranje"                Width="80"  Margin="3,2" Background="#B7BCF9"
+                    Command="{Binding OtvoriKontiranjeCommand}"/>
+            <Button Content="◄◄"                        Width="35"  Margin="3,2"
+                    Command="{Binding IdiNaVrhCommand}"/>
+            <Button Content="◄"                         Width="30"  Margin="3,2"
+                    Command="{Binding IdiGoreCommand}"/>
+            <Button Content="►"                         Width="30"  Margin="3,2"
+                    Command="{Binding IdiDoleCommand}"/>
+            <Button Content="►►"                        Width="35"  Margin="3,2"
+                    Command="{Binding IdiNaDnoCommand}"/>
+            <Button Content="Izlaz"                     Width="70"  Margin="3,2" Background="#C0C0C0"
+                    Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </WrapPanel>
+
+        <!-- 33-column grid -->
+        <DataGrid x:Name="Grd0"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelektovaniRed}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  FontFamily="Tahoma" FontSize="10"
+                  RowHeight="19"
+                  SelectionMode="Single"
+                  Margin="0"
+                  LoadingRow="Grd0_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Vpdv"      Binding="{Binding Vpdv,     UpdateSourceTrigger=PropertyChanged}" Width="45"/>
+                <DataGridTextColumn Header="Kontoa"    Binding="{Binding Kontoa,   UpdateSourceTrigger=PropertyChanged}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="Foreground" Value="Blue"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Konto"     Binding="{Binding Konto,    UpdateSourceTrigger=PropertyChanged}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="Foreground" Value="Red"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Brnal"     Binding="{Binding Brnal,    UpdateSourceTrigger=PropertyChanged}" Width="65"/>
+                <DataGridTextColumn Header="Datslanja" Binding="{Binding Datslanja, StringFormat=dd.MM.yyyy}"            Width="80"/>
+                <DataGridTextColumn Header="Datpdv"    Binding="{Binding Datpdv,   StringFormat=dd.MM.yyyy}"            Width="80"/>
+                <DataGridTextColumn Header="Datdok"    Binding="{Binding Datdok,   StringFormat=dd.MM.yyyy}"            Width="80"/>
+                <DataGridTextColumn Header="Brrac"     Binding="{Binding Brrac,    UpdateSourceTrigger=PropertyChanged}" Width="130"/>
+                <DataGridTextColumn Header="Valuta"    Binding="{Binding Valuta,   UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <DataGridTextColumn Header="Sifra"     Binding="{Binding Sifra,    UpdateSourceTrigger=PropertyChanged}" Width="60"/>
+                <DataGridTextColumn Header="Ukprod"    Binding="{Binding Ukprod,   StringFormat=N2}"                    Width="90"/>
+                <DataGridTextColumn Header="Osn18"     Binding="{Binding Osn18,    StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Pdv18"     Binding="{Binding Pdv18,    StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Osn8"      Binding="{Binding Osn8,     StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Pdv8"      Binding="{Binding Pdv8,     StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Ukupno"    Binding="{Binding Ukupno,   StringFormat=N2}"                    Width="90"/>
+                <DataGridTextColumn Header="Pdv"       Binding="{Binding Pdv,      StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Osn0"      Binding="{Binding Osn0,     StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Dok"       Binding="{Binding Dok,      UpdateSourceTrigger=PropertyChanged}" Width="45"/>
+                <DataGridTextColumn Header="Dev"       Binding="{Binding Dev,      UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                <DataGridTextColumn Header="Devkurs"   Binding="{Binding Devkurs,  StringFormat=N6}"                    Width="80"/>
+                <DataGridTextColumn Header="Devdug"    Binding="{Binding Devdug,   StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Devpot"    Binding="{Binding Devpot,   StringFormat=N2}"                    Width="80"/>
+                <DataGridTextColumn Header="Kurs"      Binding="{Binding Kurs,     StringFormat=N6}"                    Width="80"/>
+                <DataGridTextColumn Header="Arhiva"    Binding="{Binding Arhiva}"                                        Width="55"/>
+                <DataGridTextColumn Header="Naziv"     Binding="{Binding Naziv,    UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                <DataGridTextColumn Header="Pib"       Binding="{Binding Pib,      UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                <DataGridTextColumn Header="Pogon"     Binding="{Binding Pogon,    UpdateSourceTrigger=PropertyChanged}" Width="60"/>
+                <DataGridTextColumn Header="Povezanol" Binding="{Binding Povezanol,UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="Vrstaf"    Binding="{Binding Vrstaf,   UpdateSourceTrigger=PropertyChanged}" Width="55"/>
+                <DataGridTextColumn Header="Preneto"   Binding="{Binding Preneto,  UpdateSourceTrigger=PropertyChanged}" Width="55"/>
+                <DataGridTextColumn Header="Numred"    Binding="{Binding Numred}"                                        Width="65"/>
+                <DataGridTextColumn Header="Idbr"      Binding="{Binding Idbr}"                                         Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

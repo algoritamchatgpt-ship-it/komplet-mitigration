@@ -1,0 +1,1221 @@
+num records 65
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "nalpep"
+    CursorSource = ..\databaze\nalpep.dbf
+    Name = "Cursor1"
+
+=== form | NALPEP | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "PREUZIMANJE ELEKTRONSKIH NALOGA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALPEP"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEighT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    PUBLIC TBRISI
+    TBRISI=0
+    USE NALPEP IN 0 ALIAS NALP EXCLU
+    SELECT NALP
+    
+       
+       THISFORM.CAPTION=' PREUZIMANJE ELEKTRONSKIH IZVODA '+OPERATER+' '+AKORIME
+       THISFORM.GRD0.RECORDSOURCE='NALP'
+    
+       SET EXACT OFF
+    
+    select nalp
+    USE &KKONTO ALIAS KONTO IN 0 ORDER 1
+    USE MTR IN 0 ORDER 1 ALIAS MTR
+    USE &KMESTA ALIAS MESTA IN 0 ORDER 1
+    USE AN0 ALIAS AN0 IN 0 ORDER 1
+    SELECT NALP
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SET RELATION TO MP INTO MESTA ADDITIVE
+    SET RELATION TO MTR INTO MTR ADDITIVE
+    SET RELATION TO SIFRA INTO AN0 ADDITIVE
+    
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPEPTAST
+    SET PROCEDURE TO   
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    CLOSE ALL TABLES
+    POP KEY
+    ENDPROC
+    PROCEDURE GotFocus
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALPEP
+  PROPERTIES:
+    Top =  24.73
+    Left = 142.80
+    Height =   2.27
+    Width =   8.20
+    FontSize = 11
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPEP
+  PROPERTIES:
+    Top =  24.73
+    Left = 150.60
+    Height =   2.27
+    Width =   8.20
+    FontSize = 11
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALPEP
+  PROPERTIES:
+    Top =  24.73
+    Left = 158.40
+    Height =   2.27
+    Width =  10.00
+    FontSize = 11
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALPEP
+  PROPERTIES:
+    Top =  24.73
+    Left = 168.20
+    Height =   2.27
+    Width =   8.00
+    FontSize = 11
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | CMDDODAJ | parent=NALPEP
+  PROPERTIES:
+    Top =  24.73
+    Left = 187.20
+    Height =   2.27
+    Width =  10.20
+    FontSize = 11
+    Picture = ..\dodaci\plus.bmp
+    Caption = ""
+    TabIndex = 6
+    ToolTipText = "DODAVANJE NOVOG REDA"
+    BackColor = 192,192,192
+    Name = "CMDDODAJ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPEPDODAJ
+    
+    ENDPROC
+
+=== grid | grd0 | parent=NALPEP
+  PROPERTIES:
+    ColumnCount = 15
+    FontBold = .F.
+    FontSize = 10
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  21.47
+    Left =   0.00
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 19
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   3.27
+    Width = 203.40
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =  14.80
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  18.80
+    Column2.Visible = .T.
+    Column2.Format = "999"
+    Column2.InputMask = "999 999 999 999.99"
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  20.60
+    Column3.Visible = .T.
+    Column3.Format = "999"
+    Column3.InputMask = "999 999 999 999.99"
+    Column3.ForeColor = 255,0,0
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  40.40
+    Column4.Visible = .T.
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =   8.20
+    Column5.Visible = .T.
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  46.40
+    Column6.ReadOnly = .T.
+    Column6.Visible = .T.
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =  32.40
+    Column7.Visible = .T.
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =  15.20
+    Column8.Visible = .T.
+    Column8.BackColor = 245,245,245
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =  15.20
+    Column9.Visible = .T.
+    Column9.BackColor = 245,245,245
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =  11.20
+    Column10.Visible = .T.
+    Column10.BackColor = 245,245,245
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  29.60
+    Column11.Visible = .T.
+    Column11.BackColor = 245,245,245
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  22.80
+    Column12.BackColor = 245,245,245
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =   6.80
+    Column13.BackColor = 245,245,245
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =   6.40
+    Column14.BackColor = 245,245,245
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =   7.60
+    Column15.BackColor = 245,245,245
+    Column15.Name = "Column15"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY clear            
+    *------------PRIKAZ PODATAKA NA EKRANU 
+    THISFORM.LBLKONTO.CAPTION=KONTO.KONTO+' '+KONTO.NAZIV
+    THISFORM.LBLNALOG.CAPTION='nalog za knjiženje '+BRNAL+'   datum '+DTOC(DATDOK)
+    THISFORM.LBLGRAD.CAPTION='mesto '+mp+' '+mesta.mesto
+    THISFORM.LBLMTR.CAPTION='mesto troškova '+str(mtr,4,0)+' '+mtr.NAZIV
+    THISFORM.LBLAN0.CAPTION='partner '+sifra+' '+an0.NAZIV
+    
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    
+    *-------PROVERA ZBIRA NALOGA-------
+       MRREC=RECNO()
+       SET ORDER TO 2
+       MBRNAL=BRNAL
+       SEEK MBRNAL
+       MDUG=0
+       MPOT=0
+       DO WHILE.NOT.EOF()
+          IF BRNAL<>MBRNAL
+             EXIT
+          ENDIF
+          MDUG=MDUG+DUG
+          MPOT=MPOT+POT
+          SKIP
+       ENDDO
+       THISFORM.LBLDUG.CAPTION=  'DUGUJE    '
+       THISFORM.LBLPOT.CAPTION=  'POTRAŽUJE '            
+       IF MDUG-MPOT<>0
+          THISFORM.LBLSALDO.BACKCOLOR=RGB(255,0,0)
+          THISFORM.LBLSALDO.FORECOLOR=RGB(0,255,0)
+       ELSE
+          THISFORM.LBLSALDO.BACKCOLOR=RGB(0,128,0)
+          THISFORM.LBLSALDO.FORECOLOR=RGB(255,255,255)
+       ENDIF      
+       THISFORM.LBLSALDO.CAPTION='SALDO     '
+       THISFORM.LABEL3.CAPTION=TRAN(MDUG-MPOT,'999 999 999 999.99')               
+       THISFORM.LABEL1.CAPTION=TRAN(MDUG,'999 999 999 999.99')      
+       THISFORM.LABEL2.CAPTION=TRAN(MPOT,'999 999 999 999.99')            
+       SET ORDER TO
+       GOTO MRREC
+    POP key
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+       
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Dug"
+    ForeColor = 0,0,255
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999999999999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+       IF DUG<>0.AND.POT<>0
+          REPLACE POT WITH 0
+       ENDIF   
+       THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Pot"
+    ForeColor = 255,0,0
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999999999999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+       IF DUG<>0.AND.POT<>0
+          REPLACE DUG WITH 0
+       ENDIF   
+    
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Sifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 4
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF SIFRA<>SPACE(5)
+       REPLACE SIFRA WITH STR(VAL(SIFRA),5,0)
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    TabStop = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brrac"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPEP.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Valuta"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Pozivz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Pozivp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column13
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Mp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column13
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column14
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Mtr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column14
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPEP.grd0.Column15
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Dok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPEP.grd0.Column15
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== commandbutton | CMDIZLAZ | parent=NALPEP
+  PROPERTIES:
+    Top =  38.20
+    Left = 185.80
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Picture = ..\dodaci\_cancel.bmp
+    Caption = ""
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    BackColor = 192,192,192
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | CMDKON | parent=NALPEP
+  PROPERTIES:
+    Top =  30.40
+    Left =  36.00
+    Height =   1.80
+    Width =  35.20
+    FontSize = 11
+    Caption = "\<KONTNI PLAN "
+    TabIndex = 10
+    ToolTipText = "KONTNI PLAN"
+    BackColor = 192,192,192
+    Name = "CMDKON"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPKONTOPEP
+    
+      
+    
+    ENDPROC
+
+=== label | LBLAN0 | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.80
+    Top =   1.60
+    Width = 155.00
+    TabIndex = 22
+    BackColor = 255,255,0
+    Name = "LBLAN0"
+
+=== commandbutton | Command12 | parent=NALPEP
+  PROPERTIES:
+    Top =  31.20
+    Left =   2.40
+    Height =   2.27
+    Width =  11.80
+    FontSize = 11
+    Picture = ..\dodaci\fc_mru.bmp
+    Caption = ""
+    TabIndex = 7
+    ToolTipText = "BRISANJE PRAZNINA"
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPEPBRISI
+    ENDPROC
+
+=== label | LBLNALOG | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.80
+    Top =   0.00
+    Width = 119.20
+    TabIndex = 15
+    BackColor = 128,255,128
+    Name = "LBLNALOG"
+
+=== label | lblkonto | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.00
+    Top =  24.73
+    Width =  87.60
+    TabIndex = 16
+    BackColor = 255,128,64
+    Name = "lblkonto"
+
+=== label | lblgrad | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.07
+    Left =   0.00
+    Top =  26.33
+    Width =  87.60
+    TabIndex = 17
+    BackColor = 0,128,255
+    Name = "lblgrad"
+
+=== label | lblmtr | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.07
+    Left =   0.00
+    Top =  27.33
+    Width =  87.60
+    TabIndex = 18
+    BackColor = 128,128,0
+    Name = "lblmtr"
+
+=== label | LBLDUG | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  87.60
+    Top =  24.67
+    Width =  27.80
+    TabIndex = 19
+    ForeColor = 255,255,0
+    BackColor = 0,0,255
+    Name = "LBLDUG"
+
+=== label | LBLPOT | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  87.60
+    Top =  26.27
+    Width =  27.80
+    TabIndex = 20
+    ForeColor = 255,0,0
+    BackColor = 255,255,255
+    Name = "LBLPOT"
+
+=== label | LBLSALDO | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  87.60
+    Top =  27.87
+    Width =  27.80
+    TabIndex = 21
+    ForeColor = 0,255,0
+    BackColor = 0,128,0
+    Name = "LBLSALDO"
+
+=== label | LBLREC | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 119.80
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== label | LBLKEY | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    Caption = ""
+    Height =   1.67
+    Left =   2.40
+    Top =  36.80
+    Width =   4.80
+    TabIndex = 24
+    BackColor = 128,255,255
+    Name = "LBLKEY"
+
+=== commandbutton | Command20 | parent=NALPEP
+  PROPERTIES:
+    Top =  28.80
+    Left =   2.40
+    Height =   2.20
+    Width =  30.00
+    FontSize = 11
+    Caption = "BRISANJE NALOGA"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALP
+    MBRNAL=BRNAL
+    CLOSE ALL
+    USE NALPEP IN 0 ALIAS NALP EXCLU
+    SELECT NALP
+    *IF ISFLOCK()
+       DELETE ALL FOR BRNAL=MBRNAL
+       PACK
+    *ELSE   
+    *   DO PORUKAU WITH ' DATOTEKA NIJE DOSTUPNA  '
+    *ENDIF
+    THISFORM.RELEASE
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 115.20
+    Top =  24.67
+    Width =  27.80
+    TabIndex = 19
+    ForeColor = 255,255,0
+    BackColor = 0,0,255
+    Name = "Label1"
+
+=== label | Label2 | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 115.20
+    Top =  26.27
+    Width =  27.80
+    TabIndex = 20
+    ForeColor = 255,0,0
+    BackColor = 255,255,255
+    Name = "Label2"
+
+=== label | Label3 | parent=NALPEP
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 11
+    Alignment = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 115.20
+    Top =  27.87
+    Width =  27.80
+    TabIndex = 21
+    ForeColor = 0,255,0
+    BackColor = 0,128,0
+    Name = "Label3"
+
+=== commandbutton | Command5 | parent=NALPEP
+  PROPERTIES:
+    Top =  30.40
+    Left =  86.40
+    Height =   1.80
+    Width =  43.20
+    FontSize = 11
+    Caption = "PREUZIMANJE FX"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALPEP00
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALPEP
+  PROPERTIES:
+    Top =  30.40
+    Left = 136.80
+    Height =   1.80
+    Width =  36.00
+    FontSize = 11
+    Caption = "ODREDJIVANJE NALOGA"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPEPDODAJ
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALPEP
+  PROPERTIES:
+    Top =  32.33
+    Left = 136.80
+    Height =   1.80
+    Width =  36.00
+    FontSize = 11
+    Caption = "PRENOS U KNJIŽENJE"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+       SELECT NALP
+       MBRNAL=BRNAL
+       USE &KNALPA IN 0 ALIAS NALP0 EXCLU
+       SELECT NALP0
+       DELETE ALL FOR BRNAL=MBRNAL
+       PACK
+       DO idel WITH (kkockax)
+       DO idel WITH (kkockax2)
+       DO idel WITH (kkockax3)
+       
+       SELECT NALP
+       GO TOP
+       COPY TO &KKOCKA FOR SIFRA<>SPACE(5)
+       GO TOP
+       DO WHILE.NOT.EOF()
+          IF SIFRA=SPACE(5)            
+             SCATTER NAME POLJA
+             SELECT NALP0
+             APPEND BLANK
+             GATHER NAME POLJA
+             SELECT NALP
+          ENDIF
+          SKIP
+       ENDDO
+       USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+       SELECT KOCKA
+       COPY TO &KKOCKA3
+       INDEX ON KONTO TAG KONTO
+       TOTAL ON KONTO TO &KKOCKA2 FIELDS DUG,POT
+       ZAP
+       APPEND FROM &KKOCKA2
+       USE
+       SELECT NALP0
+       APPEND FROM &KKOCKA
+       USE
+       USE &KKOCKA3 IN 0 ALIAS KOCKA EXCLU
+       USE AAAN IN 0 ORDER 1
+       SELECT AAAN
+       SELECT KOCKA
+       GO TOP   
+     
+       DO WHILE.NOT.EOF()
+          MKONTO=KONTO
+          MDATDOK=DAtdok
+          mvaluta=VALUTA
+          MBRRAC=BRRAC
+          MBRNAL=BRNAL
+          MDUG=DUG
+          MPOT=POT
+          MSIFRA=SIFRA
+          SELECT AAAN
+          SEEK MKONTO
+          IF FOUND()
+             MREC=RECNO()
+             MAN='ANAL'+ALLTRIM(STR(MREC,2,0))
+             MMAN='ANAL'+ALLTRIM(STR(MREC,2,0))+'.DBF'
+             IF FILE(MMAN)
+                USE &MAN IN 0 ALIAS ANAL
+                SELECT ANAL
+                APPEND BLANK
+                REPLACE SIFRA WITH MSIFRA
+                REPLACE DATDOK WITH MDATDOK
+                REPLACE VALUTA WITH MVALUTA
+                REPLACE BRRAC WITH MBRRAC
+                REPLACE DUG WITH MDUG
+                REPLACE POT WITH MPOT
+                REPLACE BRNAL WITH MBRNAL
+                REPLACE KONTO WITH MKONTO
+                USE
+             ENDIF
+             SELECT KOCKA
+          ENDIF
+          SELECT KOCKA
+          SKIP
+       ENDDO   
+       SELECT AAAN
+       USE
+       SELECT NALP
+       GO TOP
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALPEP
+  PROPERTIES:
+    Top =  28.80
+    Left =  36.00
+    Height =   1.80
+    Width =  35.20
+    FontSize = 11
+    Caption = "PARTNERI F4"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO ANPARTNALPEP
+    
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALPEP
+  PROPERTIES:
+    Top =  32.80
+    Left =  86.40
+    Height =   1.80
+    Width =  43.20
+    FontSize = 11
+    Caption = "PREUZIMANJE RF"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALPEP00RF
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NALPEP
+  PROPERTIES:
+    Top =  35.20
+    Left =  86.40
+    Height =   1.80
+    Width =  43.20
+    FontSize = 11
+    Caption = "PREUZIMANJE XML"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALPEP00XML
+    ENDPROC
+
+=== commandbutton | Command11 | parent=NALPEP
+  PROPERTIES:
+    Top =  37.60
+    Left =  86.40
+    Height =   1.80
+    Width =  43.20
+    FontSize = 11
+    Caption = "PREUZIMANJE XML 2"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    BackColor = 192,192,192
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALPEP00XML2
+    ENDPROC

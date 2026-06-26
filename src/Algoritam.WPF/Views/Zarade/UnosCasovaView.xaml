@@ -1,0 +1,205 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.UnosCasovaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Unos časova"
+        Width="520" Height="680"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F5F5F5">
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="44">
+            <StackPanel VerticalAlignment="Center" Margin="16,0">
+                <TextBlock Text="{Binding NaslovRadnika}"
+                           FontFamily="Tahoma" FontSize="14" FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7">
+                    <Run Text="Fond: "/>
+                    <Run Text="{Binding FondCasova, Mode=OneWay}"/>
+                    <Run Text=" casova"/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" Height="50"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <DockPanel Margin="12,0">
+                <TextBlock DockPanel.Dock="Left" Text="CASOVI"
+                           FontFamily="Tahoma" FontSize="9" Foreground="#C8E6C9"
+                           VerticalAlignment="Center"/>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="PUN FOND" Command="{Binding PunFondCommand}"
+                        Width="90" Height="32"
+                        FontFamily="Tahoma" FontSize="11"
+                        Background="#1565C0" Foreground="White"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"/>
+                <Button Content="SAČUVAJ" Width="90" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                        Background="#2E7D32" Foreground="White"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,4,0"
+                        Command="{Binding SacuvajCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                <Button Content="OTKAZI" Width="80" Height="32"
+                        FontFamily="Tahoma" FontSize="11"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OtkaziCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="110"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                </Grid.RowDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBlock" x:Key="lbl">
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,0,8,0"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="26"/>
+                        <Setter Property="TextAlignment" Value="Right"/>
+                    </Style>
+                </Grid.Resources>
+
+                <!-- ČASOVI -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. redovni (CASUC):" FontWeight="Bold"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Casuc, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. noćni (CASNOC):"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Casnoc, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. produženi (CASPROD):"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Casprod, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. rad.nap. (CASRADNAP):"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Casradnap, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. nedelja (CASNED):"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Casned, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. dor (CASDOR):"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Casdor, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. služb.put (CSLPUT):"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Cslput, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. pripravnost:"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Caspriprav, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. neplaćeno:"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Casneplac, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. 1 (CAS1):"/>
+                <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Cas1, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource lbl}" Text="Čas. suspenzija:"/>
+                <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Cassus, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Desna kolona — naknade -->
+                <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. praznik (CASPRAZ):"/>
+                <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Caspraz, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. bolovanje (CASBOL):"/>
+                <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Casbol, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. bol. 2 (CASBOL2):"/>
+                <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Casbol2, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. plaćeno (CASPLAC):"/>
+                <TextBox Grid.Row="3" Grid.Column="4" Text="{Binding Casplac, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. plać. 2 (CASPLAC2):"/>
+                <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding Casplac2, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="5" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. godišnji (CASGOD):"/>
+                <TextBox Grid.Row="5" Grid.Column="4" Text="{Binding Casgod, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="6" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. V.V. (CASVV):"/>
+                <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding Casvv, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. 2 (CAS2):"/>
+                <TextBox Grid.Row="7" Grid.Column="4" Text="{Binding Cas2, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="3" Style="{StaticResource lbl}" Text="Čas. 3 (CAS3):"/>
+                <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding Cas3, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Separator -->
+                <Border Grid.Row="11" Grid.ColumnSpan="5" Height="1" Background="#BDBDBD"/>
+
+                <!-- DODACI sekcija -->
+                <TextBlock Grid.Row="12" Grid.ColumnSpan="5" Style="{StaticResource lbl}"
+                           Text="DODACI (dinarski)" FontWeight="Bold" Foreground="#E65100" Margin="0,4"/>
+
+                <TextBlock Grid.Row="13" Grid.Column="0" Style="{StaticResource lbl}" Text="Topli obrok:"/>
+                <TextBox Grid.Row="13" Grid.Column="1" Text="{Binding Topli, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="14" Grid.Column="0" Style="{StaticResource lbl}" Text="Regres:"/>
+                <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding Regres, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="15" Grid.Column="0" Style="{StaticResource lbl}" Text="Terenski:"/>
+                <TextBox Grid.Row="15" Grid.Column="1" Text="{Binding Terenski, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="16" Grid.Column="0" Style="{StaticResource lbl}" Text="Fiksna:"/>
+                <TextBox Grid.Row="16" Grid.Column="1" Text="{Binding Fiksna, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="17" Grid.Column="0" Style="{StaticResource lbl}" Text="Prevoz:"/>
+                <TextBox Grid.Row="17" Grid.Column="1" Text="{Binding Prevoz, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Stimulacije desno -->
+                <TextBlock Grid.Row="13" Grid.Column="3" Style="{StaticResource lbl}" Text="Stimulacija 1 (%):"/>
+                <TextBox Grid.Row="13" Grid.Column="4" Text="{Binding Stim1proc, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="14" Grid.Column="3" Style="{StaticResource lbl}" Text="Stimulacija 2 (%):"/>
+                <TextBox Grid.Row="14" Grid.Column="4" Text="{Binding Stim2proc, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="15" Grid.Column="3" Style="{StaticResource lbl}" Text="Stimulacija 3 (%):"/>
+                <TextBox Grid.Row="15" Grid.Column="4" Text="{Binding Stim3proc, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

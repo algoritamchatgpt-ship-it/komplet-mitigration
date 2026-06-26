@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj6p2">
+  <columns>
+    <column name="GRUPAVIRM" type="C" length="0" decimals="0" />
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="SIF1" type="C" length="0" decimals="0" />
+    <column name="MODELZ" type="C" length="0" decimals="0" />
+    <column name="POZIVZ" type="C" length="0" decimals="0" />
+    <column name="NAZRACZ" type="C" length="0" decimals="0" />
+    <column name="ZIRORACZ" type="C" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="DUG" type="N" length="2" decimals="0" />
+    <column name="POZIVO" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

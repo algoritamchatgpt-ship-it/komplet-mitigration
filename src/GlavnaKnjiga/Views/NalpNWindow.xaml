@@ -1,0 +1,244 @@
+<Window x:Class="GlavnaKnjiga.Views.NalpNWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NEDOVRŠENI NALOZI"
+        WindowState="Maximized"
+        Background="#B7BCF9"
+        KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="NBtn">
+            <Setter Property="Background"      Value="#C0C0C0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize"        Value="10"/>
+            <Setter Property="Padding"         Value="4,2"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Height"          Value="26"/>
+            <Setter Property="Margin"          Value="2,0"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="InfoBox">
+            <Setter Property="IsReadOnly"      Value="True"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize"        Value="11"/>
+            <Setter Property="Padding"         Value="2,0"/>
+            <Setter Property="Background"      Value="#FDB8B9"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- 0: Header (NALOG/DATUM + LBLREC) -->
+            <RowDefinition Height="*"/>     <!-- 1: DataGrid -->
+            <RowDefinition Height="Auto"/>  <!-- 2: Info panel (konto+naziv) -->
+            <RowDefinition Height="Auto"/>  <!-- 3: Button panel -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Row 0: Header ── -->
+        <Border Grid.Row="0" Background="#B7BCF9" Margin="2,2,2,0" Padding="2,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="2,1">
+                    <Label Content="NALOG" FontSize="11" FontWeight="Bold" Padding="4,1"
+                           VerticalContentAlignment="Center"/>
+                </Border>
+                <TextBox Grid.Column="1" Text="{Binding BrNal}" Style="{StaticResource InfoBox}"
+                         Background="#F3FAA3" Margin="2,1"/>
+
+                <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Margin="2,1">
+                    <Label Content="DATUM" FontSize="11" FontWeight="Bold" Padding="4,1"
+                           VerticalContentAlignment="Center"/>
+                </Border>
+                <TextBox Grid.Column="3" Text="{Binding DatDok, StringFormat=dd.MM.yyyy}"
+                         Style="{StaticResource InfoBox}" Background="#F3FAA3" Margin="2,1"/>
+
+                <!-- LBLREC (top right) -->
+                <TextBlock Grid.Column="5"
+                           Text="{Binding LblRec}"
+                           Foreground="Red" FontWeight="Bold" FontStyle="Italic"
+                           FontSize="10" Background="#C0C0C0"
+                           Padding="6,3" Margin="4,1,2,1"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- ── Row 1: DataGrid — 34 kolona iz nalpn.dbf ── -->
+        <DataGrid Grid.Row="1"
+                  x:Name="Grd0"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  FontFamily="Tahoma"
+                  FontSize="10"
+                  RowHeight="19"
+                  Background="#F5F5F5"
+                  GridLinesVisibility="All"
+                  HeadersVisibility="Column"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  SelectionChanged="Grd0_SelectionChanged">
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"     Color="#B1E47E"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"     Color="#B1E47E"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black"/>
+            </DataGrid.Resources>
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background"      Value="#B7BCF9"/>
+                    <Setter Property="FontFamily"      Value="Tahoma"/>
+                    <Setter Property="FontSize"        Value="10"/>
+                    <Setter Property="Padding"         Value="3,2"/>
+                    <Setter Property="BorderBrush"     Value="#9097D4"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <!-- 1 Konto -->
+                <DataGridTextColumn Header="Konto"    Binding="{Binding Konto}"  Width="100"/>
+                <!-- 2 Dug (blue) -->
+                <DataGridTextColumn Header="Dug" Width="120">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Dug" StringFormat="N2"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Blue"/>
+                            <Setter Property="TextAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <!-- 3 Pot (red) -->
+                <DataGridTextColumn Header="Pot"  Width="120">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Pot" StringFormat="N2"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="TextAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <!-- 4 Opis -->
+                <DataGridTextColumn Header="Opis"     Binding="{Binding Opis}"    Width="200"/>
+                <!-- 5 Datdok -->
+                <DataGridTextColumn Header="Datdok"   Binding="{Binding Datdok, StringFormat=dd.MM.yy}" Width="75"/>
+                <!-- 6 Brnal (readonly) -->
+                <DataGridTextColumn Header="Brnal"    Binding="{Binding Brnal}"   Width="65">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="#F3FAA3"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <!-- 7 Mp -->
+                <DataGridTextColumn Header="Mp"       Binding="{Binding Mp}"      Width="45"/>
+                <!-- 8 Mtr -->
+                <DataGridTextColumn Header="Mtr"      Binding="{Binding Mtr}"     Width="45"/>
+                <!-- 9 Dok -->
+                <DataGridTextColumn Header="Dok"      Binding="{Binding Dok}"     Width="45"/>
+                <!-- 10 Dev -->
+                <DataGridTextColumn Header="Dev"      Binding="{Binding Dev}"     Width="40"/>
+                <!-- 11 Devkurs -->
+                <DataGridTextColumn Header="Devkurs"  Binding="{Binding Devkurs, StringFormat=N4}" Width="80"/>
+                <!-- 12 Devdug -->
+                <DataGridTextColumn Header="Devdug"   Binding="{Binding Devdug, StringFormat=N2}"  Width="90"/>
+                <!-- 13 Devpot -->
+                <DataGridTextColumn Header="Devpot"   Binding="{Binding Devpot, StringFormat=N2}"  Width="90"/>
+                <!-- 14 Kurs -->
+                <DataGridTextColumn Header="Kurs"     Binding="{Binding Kurs, StringFormat=N4}"    Width="70"/>
+                <!-- 15 Kursdug -->
+                <DataGridTextColumn Header="Kursdug"  Binding="{Binding Kursdug, StringFormat=N2}" Width="85"/>
+                <!-- 16 Kurspot -->
+                <DataGridTextColumn Header="Kurspot"  Binding="{Binding Kurspot, StringFormat=N2}" Width="85"/>
+                <!-- 17 Skonto -->
+                <DataGridTextColumn Header="Skonto"   Binding="{Binding Skonto, StringFormat=N2}"  Width="70"/>
+                <!-- 18 Oper -->
+                <DataGridTextColumn Header="Oper"     Binding="{Binding Oper}"    Width="50"/>
+                <!-- 19 Dpsaldo -->
+                <DataGridTextColumn Header="Dpsaldo"  Binding="{Binding Dpsaldo, StringFormat=N2}" Width="85"/>
+                <!-- 20 Cena -->
+                <DataGridTextColumn Header="Cena"     Binding="{Binding Cena, StringFormat=N2}"    Width="80"/>
+                <!-- 21 Ulaz -->
+                <DataGridTextColumn Header="Ulaz"     Binding="{Binding Ulaz, StringFormat=N2}"    Width="80"/>
+                <!-- 22 Izlaz -->
+                <DataGridTextColumn Header="Izlaz"    Binding="{Binding Izlaz, StringFormat=N2}"   Width="80"/>
+                <!-- 23 Ukupno_D -->
+                <DataGridTextColumn Header="Ukupno_d" Binding="{Binding UkupnoD, StringFormat=N2}" Width="90"/>
+                <!-- 24 Ukupno_P -->
+                <DataGridTextColumn Header="Ukupno_p" Binding="{Binding UkupnoP, StringFormat=N2}" Width="90"/>
+                <!-- 25 Sifra -->
+                <DataGridTextColumn Header="Sifra"    Binding="{Binding Sifra}"   Width="60"/>
+                <!-- 26 Brrac -->
+                <DataGridTextColumn Header="Brrac"    Binding="{Binding Brrac}"   Width="140"/>
+                <!-- 27 Valuta -->
+                <DataGridTextColumn Header="Valuta"   Binding="{Binding Valuta}"  Width="65"/>
+                <!-- 28 Datpri -->
+                <DataGridTextColumn Header="Datpri"   Binding="{Binding Datpri, StringFormat=dd.MM.yy}" Width="75"/>
+                <!-- 29 Datpdv -->
+                <DataGridTextColumn Header="Datpdv"   Binding="{Binding Datpdv, StringFormat=dd.MM.yy}" Width="75"/>
+                <!-- 30 Datum -->
+                <DataGridTextColumn Header="Datum"    Binding="{Binding Datum, StringFormat=dd.MM.yy}"  Width="75"/>
+                <!-- 31 Vreme -->
+                <DataGridTextColumn Header="Vreme"    Binding="{Binding Vreme}"   Width="65"/>
+                <!-- 32 Probni -->
+                <DataGridTextColumn Header="Probni"   Binding="{Binding Probni}"  Width="50"/>
+                <!-- 33 Arhiva -->
+                <DataGridTextColumn Header="Arhiva"   Binding="{Binding Arhiva}"  Width="50"/>
+                <!-- 34 Arhiva2 -->
+                <DataGridTextColumn Header="Arhiva2"  Binding="{Binding Arhiva2}" Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- ── Row 2: Info panel (konto + naziv) ── -->
+        <Border Grid.Row="2" Background="#B7BCF9" Padding="2,2" Margin="2,2,2,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding KontoInfo}" Style="{StaticResource InfoBox}"/>
+                <TextBox Grid.Column="1" Text="{Binding NazIvInfo}" Style="{StaticResource InfoBox}" Margin="4,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- ── Row 3: Button panel ── -->
+        <Border Grid.Row="3" Background="#B7BCF9" Padding="4,4">
+            <WrapPanel>
+                <Button Style="{StaticResource NBtn}" Content="PRAZNI NALOG S+F7"
+                        Width="160" Command="{Binding PrazniNalogCommand}"
+                        ToolTip="BRISANJE STAVKI IZ NALOGA"/>
+                <Button Style="{StaticResource NBtn}" Content="BRISANJE NALOGA"
+                        Width="140" Command="{Binding BrisanjeNalogaCommand}"
+                        ToolTip="BRISANJE CELOG NALOGA"/>
+                <Button Style="{StaticResource NBtn}" Content="PRAZNI SVE NALOGE"
+                        Width="160" Command="{Binding PrazniSveCommand}"
+                        ToolTip="BRISANJE STAVKI IZ NALOGA"/>
+                <Button Style="{StaticResource NBtn}" Content="PRENOS U IZRADU NALOGA"
+                        Width="200" Command="{Binding PrenosUNalpCommand}"
+                        ToolTip="KNJIZENJE NALOGA U DNEVNIK"/>
+                <Button Style="{StaticResource NBtn}" Content="SORT"
+                        Width="80" Command="{Binding SortCommand}"
+                        ToolTip="PROMENA SORTIRANJA"/>
+                <Button Style="{StaticResource NBtn}" Content="Izlaz"
+                        Width="80" Command="{Binding IzlazCommand}"
+                        Margin="24,0,2,0"
+                        ToolTip="POVRATAK U PRETHODNI PROZOR"/>
+            </WrapPanel>
+        </Border>
+    </Grid>
+</Window>

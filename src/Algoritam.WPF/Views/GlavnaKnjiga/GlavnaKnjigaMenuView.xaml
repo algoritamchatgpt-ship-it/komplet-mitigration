@@ -1,0 +1,396 @@
+<UserControl x:Class="Algoritam.WPF.Views.GlavnaKnjiga.GlavnaKnjigaMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Algoritam.WPF.ViewModels">
+
+    <UserControl.Resources>
+        <Style x:Key="GkButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="3" BorderThickness="0">
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#9E9E9E"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="BojaUnos"      Color="#1A237E"/>
+        <SolidColorBrush x:Key="BojaKontni"    Color="#004D40"/>
+        <SolidColorBrush x:Key="BojaPdv"       Color="#880E4F"/>
+        <SolidColorBrush x:Key="BojaZakljucak" Color="#37474F"/>
+        <SolidColorBrush x:Key="BojaAnaliza"   Color="#1B5E20"/>
+        <SolidColorBrush x:Key="BojaXml"       Color="#E65100"/>
+        <SolidColorBrush x:Key="BojaObrasci"   Color="#4E342E"/>
+        <SolidColorBrush x:Key="BojaIzlaz"     Color="#C62828"/>
+
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+
+        <!-- ── HEADER ── -->
+        <Border DockPanel.Dock="Top" Background="#1A237E" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="GLAVNI MENI — GLAVNA KNJIGA"
+                               FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding TrenutniPeriod}"
+                               FontFamily="Tahoma" FontSize="11" Foreground="#9FA8DA"
+                               Margin="0,1,0,0"
+                               Visibility="{Binding TrenutniPeriod,
+                                   Converter={StaticResource StringToVisibilityConverter}}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#9FA8DA" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#9FA8DA"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ── FOOTER ── -->
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            ToolTip="Povratak na izbor modula (Esc)"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- ── Brzo-ulaz traka ── -->
+        <Border DockPanel.Dock="Top"
+                Background="#E8EAF6"
+                BorderThickness="0,0,0,1" BorderBrush="#C5CAE9"
+                Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#1A237E"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- ── MENI SADRŽAJ ── -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel x:Name="MenuSadrzaj" HorizontalAlignment="Left">
+
+                <!-- Unos i pregled naloga -->
+                <TextBlock Text="Unos i pregled naloga" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="UNOS&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Unos novih naloga za knjiženje (NAL.SCX)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NAL_UNOS"/>
+                    <Button Content="PREGLED&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Pregled i izmena unetih naloga"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NAL_PREGLED"/>
+                    <Button Content="DNEVNIK&#10;KNJIŽENJA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Dnevnik knjiženja (NALDNEV.SCX)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALDNEV"/>
+                    <Button Content="NALOG&#10;BLAGAJNE"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Blagajnički nalog (NALBU.SCX)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALBU"/>
+                    <Button Content="BROJEVI&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Šifarnik brojeva naloga (NALBROJ.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALBROJ"/>
+                    <Button Content="KARTICA&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaUnos}"
+                            ToolTip="Kartica naloga (NALBROJK.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALBROJK"/>
+                </WrapPanel>
+
+                <!-- Kontni plan -->
+                <TextBlock Text="Kontni plan i konti" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="KONTNI PLAN"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Pregled i izmena kontnog plana (KONPLAN.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KONPLAN"/>
+                    <Button Content="KONTI"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Pregled i izmena konta (KONTO.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KONTO"/>
+                    <Button Content="ANALITIKA&#10;KONTA 1"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 1 (KON1.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON1"/>
+                    <Button Content="ANALITIKA&#10;KONTA 2"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 2 (KON2.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON2"/>
+                    <Button Content="ANALITIKA&#10;KONTA 3"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 3 (KON3.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON3"/>
+                    <Button Content="ANALITIKA&#10;KONTA 4"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 4 (KON4.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON4"/>
+                    <Button Content="ANALITIKA&#10;KONTA 5"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 5 (KON5.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON5"/>
+                    <Button Content="ANALITIKA&#10;KONTA 6"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Analitika konta 6 (KON6.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KON6"/>
+                    <Button Content="ZAMENA&#10;KONTA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaKontni}"
+                            ToolTip="Zamena konta u nalozima (KONZAM.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KONZAM"/>
+                </WrapPanel>
+
+                <!-- PDV -->
+                <TextBlock Text="PDV — Porez na dodatu vrednost" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PDV&#10;IZLAZ"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="PDV izlazne fakture (PDVI.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDV_IZLAZ"/>
+                    <Button Content="PDV&#10;ULAZ"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="PDV ulazne fakture — knjiga ulaznih računa"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDV_ULAZ"/>
+                    <Button Content="PDV&#10;PREGLED"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="Pregled svih PDV stavki (PDVSVE.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDV_PREGLED"/>
+                    <Button Content="PDV&#10;KNJIŽENJE"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="Knjiženje PDV-a (PDVSN.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDV_KNJIZENJE"/>
+                    <Button Content="PDV&#10;PERIODI"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="PDV periodi (PDVPER.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDVPER"/>
+                    <Button Content="OBRAČUN&#10;PDV (POPDV)"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaPdv}"
+                            ToolTip="Pregled obračuna PDV — POPDV prijava (POPDV.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PDV_POPDV"/>
+                </WrapPanel>
+
+                <!-- Zaključci -->
+                <TextBlock Text="Zaključci i zatvaranje" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="ZAKLJUČAK&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaZakljucak}"
+                            ToolTip="Zaključak naloga (NALZAKLJ.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALZAKLJ"/>
+                    <Button Content="ZAKLJUČAK&#10;GK"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaZakljucak}"
+                            ToolTip="Zaključak glavne knjige — GK10"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALZAK10"/>
+                </WrapPanel>
+
+                <!-- Analize i izveštaji -->
+                <TextBlock Text="Analize i izveštaji" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="GK-10&#10;ANALIZA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaAnaliza}"
+                            ToolTip="GK-10 analitički pregled (NALGK10.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALGK10"/>
+                    <Button Content="ZAVRŠNI&#10;BILANS"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaAnaliza}"
+                            ToolTip="Završni bilans stanja i uspeha (ZNBIL.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ZNBILANS"/>
+                    <Button Content="GK&#10;IDENTIFIKATORI"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaAnaliza}"
+                            ToolTip="GK identifikatori poslovnih promena (GKID.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="GKID"/>
+                    <Button Content="PARAMETRI&#10;NALOGA"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaAnaliza}"
+                            ToolTip="Parametri naloga (NALPARAM.DBF)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALOG_PARAM"/>
+                </WrapPanel>
+
+                <!-- XML i elektronski obrasci -->
+                <TextBlock Text="XML i elektronski obrasci" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="XML&#10;BILANSI"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaXml}"
+                            ToolTip="Generisanje XML fajlova za e-bilans"
+                            Command="{Binding AkcijaCommand}" CommandParameter="XMLBILANSI"/>
+                    <Button Content="XML&#10;FAKTURE"
+                            Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaXml}"
+                            ToolTip="Generisanje XML fajlova za e-fakture"
+                            Command="{Binding AkcijaCommand}" CommandParameter="XMLFAKTURA"/>
+                </WrapPanel>
+
+                <TextBlock Text="Obrasci — statutarni i statistički izveštaji" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="BILANS&#10;USPEHA" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Obrazac bilansa uspeha"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRBU"/>
+                    <Button Content="PODACI ZA&#10;E-PDV/ERP" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRERP"/>
+                    <Button Content="POREZ NA&#10;DIVIDENDE" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRIPD"/>
+                    <Button Content="POREZ NA DIV.&#10;DODATNO" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRIPD1"/>
+                    <Button Content="KONSOLIDOVANI&#10;OBRAČUN" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Konsolidovani obračun poreza na dobit"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRKONS"/>
+                    <Button Content="OBRAZAC&#10;OK" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBROK"/>
+                    <Button Content="OBRAZAC&#10;PK" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Porez na kapitalnu dobit"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRPK"/>
+                    <Button Content="OBRAZAC&#10;PK1" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRPK1"/>
+                    <Button Content="OBRAZAC&#10;PK2" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRPK2"/>
+                    <Button Content="OBRAZAC&#10;PK3" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRPK3"/>
+                    <Button Content="STAT. IZVEŠTAJ&#10;SI" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRSI"/>
+                    <Button Content="STAT. IZVEŠTAJ&#10;SU" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRSU"/>
+                    <Button Content="STAT. IZVEŠTAJ&#10;SU1" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRSU1"/>
+                    <Button Content="STAT. IZVEŠTAJ&#10;SU3" Style="{StaticResource GkButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRSU3"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </DockPanel>
+</UserControl>

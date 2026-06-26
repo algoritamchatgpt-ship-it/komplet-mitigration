@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="lddunk">
+  <columns>
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="RBR" type="N" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="KATEGOR" type="C" length="0" decimals="0" />
+    <column name="SIFOSNOV" type="C" length="0" decimals="0" />
+    <column name="OSNOVICA" type="N" length="2" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

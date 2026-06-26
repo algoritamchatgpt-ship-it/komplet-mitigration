@@ -1,0 +1,643 @@
+num records 37
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "konupor"
+    CursorSource = ..\databaze\konupor.dbf
+    Name = "Cursor1"
+
+=== cursor | CURSOR2 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "kon1n"
+    CursorSource = ..\databaze\kon1n.dbf
+    Name = "CURSOR2"
+
+=== cursor | CURSOR3 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "kon2n"
+    CursorSource = ..\databaze\kon2n.dbf
+    Name = "CURSOR3"
+
+=== cursor | CURSOR4 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "kon3n"
+    CursorSource = ..\databaze\kon3n.dbf
+    Name = "CURSOR4"
+
+=== cursor | CURSOR5 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "konton"
+    CursorSource = ..\databaze\konton.dbf
+    Name = "CURSOR5"
+
+=== cursor | CURSOR6 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "konzam"
+    CursorSource = ..\databaze\konzam.dbf
+    Name = "CURSOR6"
+
+=== form | NALZAMENAKONTAZAM | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.47
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "ZAMENA KONTA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALZAMENAKONTAZAM"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.Height/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEIGHT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    endif
+    *--------KRAJ CIRILICE
+    use firma in 0 alias firma
+    USE KONZAM EXCLU in 0 
+    SELECT KONZAM
+    GO TOP
+    THISFORM.GRD0.RECORDSOURCE='konZAM'
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO nalzamenakontaZAMTAST
+    SET PROCEDURE TO 
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    CLOSE all tables
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  32.00
+    Left = 177.60
+    Height =   1.67
+    Width =  14.60
+    FontSize = 11
+    Caption = "\<DODAJ"
+    BackColor = 183,188,249
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    APPEND BLANK
+    thisform.grd0.SetFocus
+    THISFORM.REFRESH   
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  38.40
+    Left = 170.40
+    Height =   1.67
+    Width =  20.60
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    BackColor = 183,188,249
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  33.60
+    Left =   2.40
+    Height =   1.67
+    Width =  38.40
+    FontSize = 11
+    Caption = "BRISANJE REDA"
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT KOnZAM
+    DELETE NEXT 1
+    PACK
+    thisform.RELEASE
+    KEYBOARD '{ENTER}'
+    
+    
+    ENDPROC
+
+=== commandbutton | Command11 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  35.20
+    Left =   2.40
+    Height =   1.67
+    Width =  38.40
+    FontSize = 11
+    Caption = "UMETANJE"
+    BackColor = 192,192,192
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO IDEL WITH (KKOCKAX)
+    SELECT konZAM
+    MREC=RECNO()
+    COPY REST TO &KKOCKA
+    GOTO MREC
+    DELETE REST 
+    PACK
+    APPEND BLANK
+    APPEND FROM &KKOCKA
+    THISFORM.Release
+    KEYBOARD '{ENTER}'
+    
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  36.80
+    Left =   2.40
+    Height =   1.80
+    Width =  38.40
+    FontSize = 11
+    Caption = "BRISANJE TABELE"
+    TabIndex = 8
+    SpecialEffect = 0
+    BackColor = 255,215,215
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUBLIC da_ne
+    DO porukadane WITH 'brisanje tabela ' 
+    IF da_ne='D'
+       DELETE ALL
+       PACK
+    endif
+    thisform.Release
+    KEYBOARD '{ENTER}'
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  32.00
+    Left =  45.60
+    Height =   2.40
+    Width =  55.20
+    FontSize = 11
+    Caption = "KOPIRAJ GLAVNU KNJIGU U NOVU "
+    BackColor = 183,188,249
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+       PUBLIC DA_NE
+       DA_NE='D'
+       DO PORUKADANE WITH ' KOPIRANJE GLAVNE KNJIGE U NOVU  '
+       IF DA_NE='D'   
+          USE NALNOVi IN 0 EXCLUSIVE
+          SELECT NALNOVi
+          ZAP
+          APPEND FROM NAL
+          replace ALL preneto WITH ''
+          USE
+       ENDIF
+       SELECT konzam
+       thisform.release
+       KEYBOARD '{ENTER}'
+    POP KEY
+    
+    ENDPROC
+
+=== grid | grd0 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    ColumnCount = 8
+    FontBold = .F.
+    FontSize = 9
+    DeleteMark = .F.
+    Height =  31.40
+    Left =   2.40
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 18
+    Top =   0.00
+    Width = 196.80
+    BackColor = 242,242,242
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 9
+    Column1.ControlSource = ""
+    Column1.Width =  19.40
+    Column1.ReadOnly = .F.
+    Column1.Visible = .T.
+    Column1.BackColor = 242,242,242
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 9
+    Column2.ControlSource = ""
+    Column2.Width =   5.60
+    Column2.ReadOnly = .F.
+    Column2.Visible = .T.
+    Column2.BackColor = 242,242,242
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 9
+    Column3.ControlSource = ""
+    Column3.Width =  21.40
+    Column3.BackColor = 242,242,242
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 9
+    Column4.ControlSource = ""
+    Column4.Width =  53.00
+    Column4.BackColor = 242,242,242
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 9
+    Column5.ControlSource = ""
+    Column5.Width =  38.40
+    Column5.BackColor = 242,242,242
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 9
+    Column6.ControlSource = ""
+    Column6.Width =   9.40
+    Column6.BackColor = 242,242,242
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 9
+    Column7.ControlSource = ""
+    Column7.Width =  18.60
+    Column7.BackColor = 242,242,242
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 9
+    Column8.ControlSource = ""
+    Column8.Width =  18.40
+    Column8.BackColor = 242,242,242
+    Column8.Name = "Column8"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 9
+    Caption = "Skonto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 9
+    Caption = "Deo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column3
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column3
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column4
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column4
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column5
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Nazkto1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column5
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column6
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Preneto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column6
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column7
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Numred"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column7
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=NALZAMENAKONTAZAM.grd0.Column8
+  PROPERTIES:
+    FontSize = 9
+    Caption = "Idbr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALZAMENAKONTAZAM.grd0.Column8
+  PROPERTIES:
+    FontSize = 9
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== commandbutton | Command3 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  34.20
+    Left = 103.20
+    Height =   2.40
+    Width =  60.80
+    FontSize = 11
+    Caption = "PRIPREMI NOVA KONTA"
+    BackColor = 183,188,249
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    USE konupor IN 0
+    SELECT KONUPOR
+    GO TOP
+    *SET STEP ON 
+    DO WHILE.NOT.EOF()
+       mskonto=ALLTRIM(skonto)
+       mlenskonto=LEN(mskonto)  
+       IF mlenskonto>0
+       
+       mkonto=ALLTRIM(konto) 
+       mlenkonto=LEN(mkonto)  
+       mdeo=deo
+       mnazkto1=konto
+       SELECT konzam
+       LOCATE FOR SUBSTR(skonto,1,mlenskonto)=mskonto
+       IF FOUND()
+          GO top
+          DO while.not.eof()
+             IF SUBSTR(skonto,1,mlenskonto)=SUBSTR(mskonto,1,mlenskonto)    
+                mskonto2=ALLTRIM(skonto) 
+                mlenskonto2=LEN(mskonto2)  
+                mdodatak=SUBSTR(mskonto2,mlenkonto+1,mleNskonto2)
+                replace konto WITH SUBSTR(mkonto,1,mlenkonto)+mdodatak
+                replace deo WITH mdeo
+             ENDIF
+             SKIP
+          enddo   
+       ENDIF
+       endif
+       SELECT konupor
+       SKIP
+    ENDDO   
+    SELECT konupor
+    USE
+    SELECT konzam
+    GO top
+    
+    DO while.not.eof()
+       mskonto=skonto
+       mkonto=konto
+       IF konto=SPACE(10)
+          replace konto WITH skonto
+          replace deo WITH 'S'
+       endif
+       SKIP
+    enddo   
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  36.40
+    Left = 103.20
+    Height =   2.40
+    Width =  60.80
+    FontSize = 11
+    Caption = "PRENESI U NOVU GLAVNU KNJIGU"
+    BackColor = 183,188,249
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    USE NALNOVI IN 0 EXCLU ALIAS NAL
+    SELECT KONZAM
+    GO TOP
+    DO WHILE.NOT.EOF()
+       mKONTO=konto
+       MSKONTO=SKONTO
+       SELECT NAL
+       REPLACE ALL KONTO WITH MKONTO FOR SKONTO=MSKONTO
+       SELECT konzam
+       SKIP
+    ENDDO   
+    SELECT NAL
+    USE
+    SELECT konzam
+    GO top
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  32.00
+    Left = 103.20
+    Height =   2.40
+    Width =  60.80
+    FontSize = 11
+    Caption = "PREUZMI KONTA IZ NOVE GLAVNE KNJIGE"
+    BackColor = 183,188,249
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF RECCOUNT()<1
+       SELECT konZAM
+       APPEND FROM NAL
+       DO IDEL WITH (KKOCKAX)
+       DO IDEL WITH (KKOCKAX2)   
+       COPY TO &KKOCKA
+       USE &KKOCKA IN 0 ALIAS kocka EXCLUSIVE
+       SELECT kocka
+       INDEX on konto TAG konto
+       TOTAL ON konto TO &kkocka2
+       ZAP
+       APPEND FROM &kkocka2
+       REPLACE ALL SKONTO WITH KONTO
+       USE
+       USE nalNOVI IN 0 EXCLUSIVE ALIAS NAL
+       SELECT nal
+       GO top
+    *  IF preneto=' ' 
+          REPLACE ALL SKONTO WITH KONTO
+          GO top
+    *     replace preneto WITH '*'
+    *  endif   
+       USE
+       USE &kkonto IN 0 aliAs konto
+       SELECT KONZAM
+       ZAP
+       APPEND FROM &KKOCKA
+       GO top
+       DO while.not.eof()
+          mkonto=konto
+          SELECT konto
+          LOCATE FOR konto=mkonto
+          IF FOUND()
+             mnaziv=naziv
+          ELSE
+             mnAziv=''
+          ENDIF
+          SELECT konzam
+          replace naziv WITH mnaziv          
+          SKIP
+       enddo  
+       SELECT konto
+       use 
+       SELECT konzam
+       replace ALL konto WITH '' 
+       thisform.release
+       KEYBOARD '{ENTER}'
+    else
+       THISFORM.REFRESH   
+    endif
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALZAMENAKONTAZAM
+  PROPERTIES:
+    Top =  38.60
+    Left = 103.20
+    Height =   2.40
+    Width =  60.80
+    FontSize = 11
+    Caption = "ZAMENI STARU GLAVNU KNJIGU NOVOM"
+    BackColor = 183,188,249
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+       PUBLIC DA_NE
+       DA_NE='D'
+       DO PORUKADANE WITH ' KOPIRANJE GLAVNE KNJIGE U NOVU  '
+       IF DA_NE='D'   
+          USE NAL IN 0 EXCLUSIVE
+          SELECT NAL
+          ZAP
+          APPEND FROM NALNOVI
+          USE
+       ENDIF
+       SELECT konzam
+       thisform.release
+       KEYBOARD '{ENTER}'
+    POP KEY
+    
+    ENDPROC

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj6p3">
+  <columns>
+    <column name="USLUGE" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="PIO" type="N" length="2" decimals="0" />
+    <column name="ZDR" type="N" length="2" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="CNETO" type="N" length="2" decimals="0" />
+    <column name="UMANJENJE" type="N" length="2" decimals="0" />
+    <column name="PORUPL" type="N" length="2" decimals="0" />
+    <column name="ZUSL" type="C" length="0" decimals="0" />
+    <column name="ZPOREZ" type="C" length="0" decimals="0" />
+    <column name="ZPIO" type="C" length="0" decimals="0" />
+    <column name="ZZDR" type="C" length="0" decimals="0" />
+    <column name="MP" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

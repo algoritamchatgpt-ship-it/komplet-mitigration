@@ -1,0 +1,173 @@
+num records 10
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 0
+    Left = 0
+    Width = 0
+    Height = 0
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALKASKAD | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   1.60
+    Left =  31.00
+    Height =  19.53
+    Width = 140.00
+    DoCreate = .T.
+    Caption = "KASKADNO SLAGANJE NALOGA"
+    WindowType = 1
+    BackColor = 149,188,148
+    Name = "NALKASKAD"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALKASKADTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALKASKAD
+  PROPERTIES:
+    FontSize = 12
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "Napomena: Ovom opcijom briše se odredjeni nalog u svim analitikama"
+    Height =   1.67
+    Left =   9.40
+    Top =   1.60
+    Width = 120.00
+    TabIndex = 4
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== label | Label2 | parent=NALKASKAD
+  PROPERTIES:
+    FontSize = 12
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "Opcija može poslužiti za  brisanje obračunatih kursnih razlika  radi ponovnog obračuna"
+    Height =   1.67
+    Left =   9.40
+    Top =   4.00
+    Width = 120.00
+    TabIndex = 5
+    BackColor = 255,255,128
+    Name = "Label2"
+
+=== label | Label3 | parent=NALKASKAD
+  PROPERTIES:
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Unesite broj naloga"
+    Height =   2.00
+    Left =  14.40
+    Top =   6.67
+    Width =  29.00
+    TabIndex = 6
+    BackColor = 255,128,128
+    Name = "Label3"
+
+=== textbox | txtbrnal | parent=NALKASKAD
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    BorderStyle = 1
+    Height =   2.47
+    Left =  44.60
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   6.40
+    Width =  29.00
+    Name = "txtbrnal"
+
+=== commandbutton | Command1 | parent=NALKASKAD
+  PROPERTIES:
+    Top =  12.93
+    Left =  18.60
+    Height =   4.87
+    Width =  24.20
+    FontSize = 11
+    Picture = ..\ikone\okprihvati.png
+    Caption = "Potvrda"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MBRNAL=THISFORM.TXTBRNAL.Value
+    IF MBRNAL<>SPACE(6)
+       MRECA=0
+       SELECT AAAN
+       MRECA=RECCOUNT()
+       IF MRECA>0
+          FOR I=1 TO MRECA
+             MI=ALLTRIM(STR(I,2,0))
+             KANAL='ANAL'+MI+'.DBF'
+             IF FILE(KANAL)
+                 USE &KANAL IN 0 ALIAS ANAL EXCLU
+                 SELECT ANAL
+                 DELETE ALL FOR BRNAL=MBRNAL
+                 DELETE ALL FOR dug=0.and.pot=0.and.devdug=0.and.devpot=0
+                 PACK
+                 USE
+             ENDIF      
+         NEXT        
+       ENDIF
+    ENDIF      
+    SELECT nal
+    THISFORM.RELEASE
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALKASKAD
+  PROPERTIES:
+    Top =  12.93
+    Left =  97.80
+    Height =   4.87
+    Width =  24.20
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command2"

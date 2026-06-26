@@ -1,0 +1,85 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdNz1View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  RowHeaderWidth="0"
+                  RowHeight="20"
+                  BorderThickness="0"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="br" Binding="{Binding Br}" Width="70"/>
+                <DataGridTextColumn Header="ime_prez" Binding="{Binding ImePrez}" Width="320"/>
+                <DataGridTextColumn Header="bruto" Binding="{Binding Bruto, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="pdete" Binding="{Binding Pdete, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="oposto" Binding="{Binding Oposto, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="tposto" Binding="{Binding Tposto, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="sposto" Binding="{Binding Sposto, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="osnovp" Binding="{Binding Osnovp, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="porez" Binding="{Binding Porez, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="zaisplat" Binding="{Binding Zaisplat, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="dop" Binding="{Binding Dop, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="obaveze" Binding="{Binding Obaveze, StringFormat=N2}" Width="140"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1,1,1,0" Padding="8,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Content="OBRAZAC NZ1-1"
+                            Width="140"
+                            Height="28"
+                            Margin="0,0,8,0"
+                            Command="{Binding ObrazacNz11Command}"/>
+                    <Button Content="PREUZIMANJE"
+                            Width="130"
+                            Height="28"
+                            Margin="0,0,8,0"
+                            Command="{Binding PreuzimanjeCommand}"/>
+                    <Button Content="BRISANJE"
+                            Width="110"
+                            Height="28"
+                            Margin="0,0,8,0"
+                            Command="{Binding BrisanjeCommand}"/>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Right"
+                        Content="F5 OSVEZI"
+                        Width="90" Height="28" Margin="0,0,4,0"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Cursor="Hand" Command="{Binding OsveziCommand}"/>
+                <Button DockPanel.Dock="Right"
+                        Content="_IZLAZ"
+                        Width="120"
+                        Height="28"
+                        Background="#C62828"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Click="IzlazClick"/>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#D7DBFF" BorderBrush="#A1A9E8" BorderThickness="1" Padding="8,5">
+            <TextBlock Text="{Binding Poruka}" />
+        </Border>
+    </DockPanel>
+</Window>

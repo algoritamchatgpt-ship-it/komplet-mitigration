@@ -1,0 +1,177 @@
+<Window x:Class="Algoritam.WPF.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ODREDJIVANJE KORISNIKA I PRAVA PRISTUPA"
+        Width="520" Height="430"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="White">
+
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#1B5E20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="52"/>
+        </Grid.RowDefinitions>
+
+        <!-- ═══ HEADER ═══ -->
+        <Border Grid.Row="0" Background="#1B5E20">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="ALGORITAM"
+                           FontFamily="Tahoma" FontSize="26" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Finansijski informacioni sistem"
+                           FontFamily="Tahoma" FontSize="11"
+                           Foreground="#A5D6A7" HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ═══ FORMA ═══ -->
+        <Grid Grid.Row="1" Margin="48,28,48,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Korisnik" Style="{StaticResource LabelStyle}"/>
+            <TextBox Grid.Row="2"
+                     Style="{StaticResource InputStyle}"
+                     Text="{Binding KorisnikIme, UpdateSourceTrigger=PropertyChanged}"
+                     x:Name="TxtKorisnik"
+                     TabIndex="0"/>
+
+            <TextBlock Grid.Row="4" Text="Lozinka" Style="{StaticResource LabelStyle}"/>
+            <PasswordBox Grid.Row="6"
+                         x:Name="TxtLozinka"
+                         FontFamily="Tahoma" FontSize="13"
+                         Height="32" Padding="8,5"
+                         BorderBrush="#BDBDBD" BorderThickness="1"
+                         Background="White"
+                         TabIndex="1"
+                         PasswordChanged="TxtLozinka_PasswordChanged"/>
+
+            <TextBlock Grid.Row="7"
+                       Margin="0,10,0,0"
+                       Text="Lokalni mod: lozinka nije obavezna."
+                       FontFamily="Tahoma" FontSize="10"
+                       Foreground="#43A047"
+                       Visibility="{Binding LozinkaNijeObavezna, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+            <Border Grid.Row="8" Margin="0,10,0,0"
+                    Background="#FFEBEE" CornerRadius="3"
+                    Visibility="{Binding Poruka, Converter={StaticResource StringToVisibilityConverter}}">
+                <TextBlock Text="{Binding Poruka}"
+                           FontFamily="Tahoma" FontSize="12"
+                           Foreground="#C62828"
+                           Padding="10,8"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <!-- Separator linija -->
+        <Border Grid.Row="2" Height="1" Background="#E0E0E0" Margin="0,0,0,0"/>
+
+        <!-- ═══ FOOTER / DUGMAD ═══ -->
+        <Grid Grid.Row="3" Background="#F5F5F5" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1"
+                    Content="  ULAZ  "
+                    Width="120"
+                    Style="{StaticResource ButtonStyle}"
+                    Background="#43A047" Foreground="White" BorderBrush="#2E7D32"
+                    Command="{Binding PrijavaCommand}"
+                    IsDefault="True"/>
+
+            <Button Grid.Column="3"
+                    Content="  IZLAZ  "
+                    Width="100"
+                    Style="{StaticResource ButtonStyle}"
+                    Background="#757575" Foreground="White" BorderBrush="#616161"
+                    x:Name="BtnIzlaz"
+                    IsCancel="True"/>
+
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="5"
+                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Margin="0,0,16,6"
+                       Text="dijagnostika DBF"
+                       FontFamily="Tahoma" FontSize="10"
+                       Foreground="#BDBDBD"
+                       TextDecorations="Underline"
+                       Cursor="Hand">
+                <TextBlock.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" Command="{Binding PrikaziDijagnostikuCommand}"/>
+                </TextBlock.InputBindings>
+            </TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>

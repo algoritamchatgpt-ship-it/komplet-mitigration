@@ -1,0 +1,420 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.ZbirnaRekapitulacijaReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Zbirna rekapitulacija"
+        Width="1320"
+        Height="940"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0"
+        KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+        <Style x:Key="Hdr" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Lbl" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="4,1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Val" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="4,1"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="TopButton" TargetType="Button">
+            <Setter Property="Width" Value="95"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#F2F2F2"/>
+            <Setter Property="Foreground" Value="#000080"/>
+            <Setter Property="BorderBrush" Value="#808080"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+        </Style>
+
+        <DataTemplate x:Key="DetaljRowTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="82"/>
+                    <ColumnDefinition Width="102"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Naziv}" Style="{StaticResource Lbl}"/>
+                <TextBlock Grid.Column="1" Text="{Binding Proc}" Style="{StaticResource Val}"/>
+                <TextBlock Grid.Column="2" Text="{Binding Casovi}" Style="{StaticResource Val}"/>
+                <TextBlock Grid.Column="3" Text="{Binding Iznos}" Style="{StaticResource Val}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="IznosRowTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="126"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Naziv}" Style="{StaticResource Lbl}"/>
+                <TextBlock Grid.Column="1" Text="{Binding Iznos}" Style="{StaticResource Val}"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#D7D7D7" BorderBrush="#8A8A8A" BorderThickness="1" Padding="8">
+            <DockPanel>
+                <TextBlock Text="Fox: LDREK0 / ZBIRNA REKAPITULACIJA ZARADA" Style="{StaticResource Hdr}" FontWeight="Bold"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Style="{StaticResource TopButton}" Click="Stampaj_Click" Content="STAMPAJ (F10)"/>
+                    <Button Style="{StaticResource TopButton}" Click="Zatvori_Click" Content="ZATVORI"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Margin="0,8,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Border x:Name="PrintRoot" Width="1180" Background="#D7D7D7" BorderBrush="Black" BorderThickness="1" Padding="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="2,0,2,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="210"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding FirmaNaziv}" FontFamily="Tahoma" FontSize="40" Foreground="#0000C8"/>
+                            <TextBlock Style="{StaticResource Hdr}"><Run Text="TEK. RACUN "/><Run Text="{Binding TekuciRacun, Mode=OneWay}"/></TextBlock>
+                            <TextBlock Style="{StaticResource Hdr}"><Run Text="TELEFON "/><Run Text="{Binding Telefon, Mode=OneWay}"/></TextBlock>
+                            <TextBlock Style="{StaticResource Hdr}"><Run Text="FAX "/><Run Text="{Binding Fax, Mode=OneWay}"/></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock Text="oz:ZBIRNO" FontFamily="Tahoma" FontSize="34" HorizontalAlignment="Right"/>
+                            <TextBlock Style="{StaticResource Hdr}" Margin="0,24,0,0"><Run Text="datum isplate   "/><Run Text="{Binding DatumIsplateTekst, Mode=OneWay}"/></TextBlock>
+                            <TextBlock Style="{StaticResource Hdr}"><Run Text="red.br.isplate   "/><Run Text="{Binding RedniBrIsplateTekst, Mode=OneWay}"/></TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Margin="2,0,2,6">
+                        <Rectangle Height="1" Fill="Black"/>
+                        <TextBlock Text="ZBIRNA REKAPITULACIJA ZARADA"
+                                   FontFamily="Tahoma" FontSize="38" FontWeight="Bold"
+                                   HorizontalAlignment="Center" Margin="0,2"/>
+                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="14" Padding="10,4" Margin="90,0,90,4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="190"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="170"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="ISPLATA ZA MESEC" FontFamily="Tahoma" FontSize="24"/>
+                                <TextBlock Grid.Column="1" Text="{Binding MesecBrojTekst}" FontFamily="Tahoma" FontSize="24" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding MesecNaziv}" FontFamily="Tahoma" FontSize="30" FontWeight="Bold" Foreground="#008B00" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding GodinaTekst}" FontFamily="Tahoma" FontSize="18" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text=".god." FontFamily="Tahoma" FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="320"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Style="{StaticResource Hdr}"><Run Text="CENA RADA   "/><Run Text="{Binding CenaRadaTekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Style="{StaticResource Hdr}"><Run Text="VRSTA ISPLATE   "/><Run Text="{Binding VrstaIsplateTekst, Mode=OneWay}"/></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Style="{StaticResource Hdr}"><Run Text="CASOVI U MESECU   "/><Run Text="{Binding CasoviMesecTekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Style="{StaticResource Hdr}"><Run Text="CASOVI PRAZNIKA   "/><Run Text="{Binding CasoviPraznikTekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Style="{StaticResource Hdr}"><Run Text="ZAKONSKI BROJ SATI   "/><Run Text="{Binding ZakonskiSatiTekst, Mode=OneWay}"/></TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Grid.Row="2" Margin="2,0,2,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="474"/>
+                            <ColumnDefinition Width="344"/>
+                            <ColumnDefinition Width="332"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="#D04040" BorderThickness="1" Margin="0,0,4,0">
+                            <DockPanel>
+                                <Border DockPanel.Dock="Top" Background="#FFF7CC" BorderBrush="#D04040" BorderThickness="0,0,0,1" Padding="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="48"/>
+                                            <ColumnDefinition Width="82"/>
+                                            <ColumnDefinition Width="102"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="VRSTA PRIMANJA" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="%" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="CASOVI" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="IZNOS" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel>
+                                    <TextBlock Text="1.REDOVNA PRIMANJA" FontFamily="Tahoma" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2"/>
+                                    <ItemsControl ItemsSource="{Binding RedovnaRows}" ItemTemplate="{StaticResource DetaljRowTemplate}"/>
+                                    <Border BorderBrush="#D04040" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="82"/>
+                                                <ColumnDefinition Width="102"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="1.Ukupna primanja" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding UkupnoRedovnaCas}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding UkupnoRedovnaIznos}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <TextBlock Text="2.NAKNADE ZARADA" FontFamily="Tahoma" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2"/>
+                                    <ItemsControl ItemsSource="{Binding NaknadeRows}" ItemTemplate="{StaticResource DetaljRowTemplate}"/>
+                                    <Border BorderBrush="#D04040" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="82"/>
+                                                <ColumnDefinition Width="102"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="2.Ukupne naknade" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding UkupnoNaknadeCas}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding UkupnoNaknadeIznos}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <TextBlock Text="3.DODATNA ZARADA" FontFamily="Tahoma" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2"/>
+                                    <ItemsControl ItemsSource="{Binding DodatnaRows}" ItemTemplate="{StaticResource DetaljRowTemplate}"/>
+                                    <Border BorderBrush="#D04040" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="82"/>
+                                                <ColumnDefinition Width="102"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="3.Ukupni podaci" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding UkupnoDodatnaCas}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding UkupnoDodatnaIznos}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <TextBlock Text="4.OSTALI DODACI" FontFamily="Tahoma" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2"/>
+                                    <ItemsControl ItemsSource="{Binding OstaliDodaciRows}" ItemTemplate="{StaticResource DetaljRowTemplate}"/>
+                                    <Border BorderBrush="#D04040" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="82"/>
+                                                <ColumnDefinition Width="102"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="4.Ukupni ostali dodaci" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="0.00" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding UkupnoOstaliDodaciIznos}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border BorderBrush="#D04040" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="82"/>
+                                                <ColumnDefinition Width="102"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="UKUPNO 1+2+3+4" Style="{StaticResource Lbl}" FontWeight="Bold" FontSize="13"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Ukupno1234Cas}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Ukupno1234Iznos}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+
+                        <StackPanel Grid.Column="1" Margin="0,0,4,0">
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <StackPanel>
+                                    <Grid Background="#FFF7CC">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="126"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="VRSTA PRIMANJA" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="IZNOS" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                    <TextBlock Text="5.STIMULACIJA" FontFamily="Tahoma" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <ItemsControl ItemsSource="{Binding StimulacijaRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                    <Border BorderBrush="Black" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="126"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="5.Ukupna stimulacija" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding UkupnaStimulacija}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <StackPanel>
+                                    <TextBlock Text="6.OSTALA PRIMANJA" FontFamily="Tahoma" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <ItemsControl ItemsSource="{Binding OstalaPrimanjaRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                    <Border BorderBrush="Black" BorderThickness="0,1,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="126"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="6.Ukup. ostala prim." Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding UkupnaOstalaPrimanja}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <StackPanel>
+                                    <TextBlock Text="BRUTOZARADA" FontFamily="Tahoma" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <ItemsControl ItemsSource="{Binding BrutoRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <StackPanel>
+                                    <TextBlock Text="DOPRINOSI POSLODAVCA" FontFamily="Tahoma" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <ItemsControl ItemsSource="{Binding DoprinosPoslodavcaRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding NetoRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Border BorderBrush="#D04040" BorderThickness="1">
+                                <StackPanel>
+                                    <Grid Background="#FFF7CC">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="126"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="NAZIV OBUSTAVE" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="IZNOS" Style="{StaticResource Lbl}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                    <ItemsControl ItemsSource="{Binding ObustaveRows}" ItemTemplate="{StaticResource IznosRowTemplate}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1" Margin="0,6,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="126"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="UKUPNE OBUSTAVE" Style="{StaticResource Lbl}" FontWeight="Bold"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UkupneObustave}" Style="{StaticResource Val}" FontWeight="Bold"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="ZA ISPLATU" Style="{StaticResource Lbl}" FontWeight="Bold" Foreground="#C40000"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ZaIsplatu}" Style="{StaticResource Val}" FontWeight="Bold" Foreground="#C40000"/>
+                                </Grid>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="126"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="doprinos za beneficirani staz" Style="{StaticResource Lbl}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DoprinosBenefStaz}" Style="{StaticResource Val}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="iznos" Style="{StaticResource Lbl}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DoprinosBenefStaz}" Style="{StaticResource Val}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Row="3" BorderBrush="Black" BorderThickness="1" Padding="4,2">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource Hdr}"><Run Text="prebruto 1   "/><Run Text="{Binding Prebruto1Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource Hdr}"><Run Text="prebruto 2   "/><Run Text="{Binding Prebruto2Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="2" Style="{StaticResource Hdr}"><Run Text="prebruto 3   "/><Run Text="{Binding Prebruto3Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Style="{StaticResource Hdr}"><Run Text="porez 3   "/><Run Text="{Binding Prepor3Tekst, Mode=OneWay}"/></TextBlock>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource Hdr}"><Run Text="porez 1   "/><Run Text="{Binding Prepor1Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource Hdr}"><Run Text="porez 2   "/><Run Text="{Binding Prepor2Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="2" Style="{StaticResource Hdr}"><Run Text="osnovp 1   "/><Run Text="{Binding Osnovp1Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Style="{StaticResource Hdr}"><Run Text="osnovp 2   "/><Run Text="{Binding Osnovp2Tekst, Mode=OneWay}"/></TextBlock>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource Hdr}"><Run Text="osnovp 3   "/><Run Text="{Binding Osnovp3Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource Hdr}"><Run Text="osnovp 4   "/><Run Text="{Binding Osnovp4Tekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="2" Style="{StaticResource Hdr}" Foreground="#008000" FontWeight="Bold"><Run Text="pio umanjenje radnika   "/><Run Text="{Binding PioUmanjenjeRadnikTekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Style="{StaticResource Hdr}" Foreground="#008000" FontWeight="Bold"><Run Text="pio umanjenje firma   "/><Run Text="{Binding PioUmanjenjeFirmaTekst, Mode=OneWay}"/></TextBlock>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource Hdr}" Foreground="#006400" FontWeight="Bold"><Run Text="pio razlika za upl. radnika   "/><Run Text="{Binding PioRazlikaRadnikTekst, Mode=OneWay}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource Hdr}" Foreground="#006400" FontWeight="Bold"><Run Text="pio razlika za upl. firma   "/><Run Text="{Binding PioRazlikaFirmaTekst, Mode=OneWay}"/></TextBlock>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Window>

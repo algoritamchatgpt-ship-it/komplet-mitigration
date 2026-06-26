@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldalati">
+  <columns>
+    <column name="SVRBOD" type="N" length="6" decimals="0" />
+    <column name="SABOL" type="C" length="0" decimals="0" />
+    <column name="SAKOR" type="C" length="0" decimals="0" />
+    <column name="SAPREBAC" type="N" length="6" decimals="0" />
+    <column name="SAOBUSTAVE" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <SVRBOD />
+      <SABOL></SABOL>
+      <SAKOR></SAKOR>
+      <SAPREBAC />
+      <SAOBUSTAVE></SAOBUSTAVE>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

@@ -1,0 +1,41 @@
+PUSH KEY CLEAR
+TBRISI=1
+SELECT NALP
+IF EOF()
+   GO BOTTOM
+ENDIF   
+MBRNAL=BRNAL
+SET ORDER TO 2
+   PUBLIC DA_NE
+   DA_NE='D'
+   DO PORUKADANE WITH ' PRENOS U IZRADU NALOGA '+MBRNAL
+   IF DA_NE='D'   
+      GO TOP
+      USE &KNALPA IN 0 ALIAS NALPI EXCLU
+      SELECT NALP
+      SEEK MBRNAL
+      DO WHILE.NOT.EOF()
+         IF BRNAL<>MBRNAL
+            EXIT
+         ENDIF
+         IF DUG<>0.OR.POT<>0
+            SCAttER name POLJA
+            SELECT NALPI
+            APPEND BLANK
+            GATHER NAME POLJA   
+            SELECT NALP
+         ENDIF
+         SKIP
+      ENDDO
+      SELECT NALPI
+      USE      
+      SELECT NALP
+      USE
+      USE NALPN IN 0 ALIAS NALP EXCLU
+      SELECT NALP      
+      DELETE ALL FOR BRNAL=MBRNAL
+      PACK
+      NALPN.RELEASE
+      KEYBOARD '{ENTER}'
+   ENDIF   
+POP KEY

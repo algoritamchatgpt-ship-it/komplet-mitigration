@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldod1n">
+  <columns>
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="OPIS" type="C" length="0" decimals="0" />
+    <column name="PORODILJE" type="N" length="2" decimals="0" />
+    <column name="BOLOVANJE" type="N" length="2" decimals="0" />
+    <column name="INVALIDI" type="N" length="2" decimals="0" />
+    <column name="RLINI" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>I</PORODILJE>
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>1.</PORODILJE>
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>2.</PORODILJE>
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>1.</BOLOVANJE>
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>1.</BOLOVANJE>
+      <INVALIDI>1.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>1.</BOLOVANJE>
+      <INVALIDI>2.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>1.</BOLOVANJE>
+      <INVALIDI>3.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>2.</BOLOVANJE>
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE />
+      <BOLOVANJE />
+      <INVALIDI />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>2.</BOLOVANJE>
+      <INVALIDI>1.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>2.</BOLOVANJE>
+      <INVALIDI>2.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <PORODILJE>3.</PORODILJE>
+      <BOLOVANJE>2.</BOLOVANJE>
+      <INVALIDI>3.</INVALIDI>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

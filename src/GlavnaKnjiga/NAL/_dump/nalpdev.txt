@@ -1,0 +1,612 @@
+num records 31
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 321
+    Left = 283
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPDEV | parent=(root)
+  PROPERTIES:
+    Top = -1
+    Left = 194
+    Height = 574
+    Width = 389
+    DoCreate = .T.
+    Caption = "knjiženje dezivnih promena"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 233,236,216
+    Name = "NALPDEV"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    push key clear
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+      DO NALPDEVTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== textbox | txtKonto | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.konto"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 8
+    Top = 10
+    Width = 129
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto"
+    Height = 19
+    Left = 30
+    Top = 10
+    Width = 38
+    TabIndex = 7
+    ForeColor = 171,33,44
+    Name = "lblKonto"
+
+=== textbox | txtDug | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.dug"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 10
+    Top = 38
+    Width = 185
+    ForeColor = 0,0,255
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtDug"
+
+=== label | lblDug | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Duguje"
+    Height = 19
+    Left = 30
+    Top = 38
+    Width = 46
+    TabIndex = 9
+    ForeColor = 171,33,44
+    Name = "lblDug"
+
+=== textbox | txtPot | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.pot"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 12
+    Top = 66
+    Width = 185
+    ForeColor = 0,0,255
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtPot"
+
+=== label | lblPot | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Potražuje"
+    Height = 19
+    Left = 30
+    Top = 66
+    Width = 62
+    TabIndex = 11
+    ForeColor = 171,33,44
+    Name = "lblPot"
+
+=== textbox | txtOpis | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.opis"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 14
+    Top = 94
+    Width = 232
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtOpis"
+
+=== label | lblOpis | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Opis"
+    Height = 19
+    Left = 30
+    Top = 94
+    Width = 31
+    TabIndex = 13
+    ForeColor = 171,33,44
+    Name = "lblOpis"
+
+=== textbox | txtDatdok | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.datdok"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 16
+    Top = 122
+    Width = 86
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "datum promene"
+    Height = 19
+    Left = 30
+    Top = 122
+    Width = 103
+    TabIndex = 15
+    ForeColor = 171,33,44
+    Name = "lblDatdok"
+
+=== textbox | txtBrnal | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.brnal"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 18
+    Top = 150
+    Width = 68
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtBrnal"
+
+=== textbox | txtMp | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.mp"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 20
+    Top = 207
+    Width = 51
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtMp"
+
+=== label | lblMp | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "mesto plaćanja"
+    Height = 19
+    Left = 30
+    Top = 209
+    Width = 99
+    TabIndex = 19
+    ForeColor = 171,33,44
+    Name = "lblMp"
+
+=== textbox | txtMtr | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.mtr"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 22
+    Top = 235
+    Width = 57
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtMtr"
+
+=== label | lblMtr | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto troškova"
+    Height = 19
+    Left = 30
+    Top = 237
+    Width = 98
+    TabIndex = 21
+    ForeColor = 171,33,44
+    Name = "lblMtr"
+
+=== textbox | txtDok | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.dok"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 24
+    Top = 263
+    Width = 52
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtDok"
+
+=== label | lblDok | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "objekat"
+    Height = 19
+    Left = 30
+    Top = 263
+    Width = 46
+    TabIndex = 23
+    ForeColor = 171,33,44
+    Name = "lblDok"
+
+=== textbox | txtDev | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.dev"
+    Height = 23
+    Left = 148
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 1
+    Top = 325
+    Width = 57
+    ForeColor = 255,0,0
+    Name = "txtDev"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP
+    MDATDOK=DATDOK 
+    IF THISFORM.TXTDev.Value<>SPACE(3)
+          m2dev=THISFORM.TXTDev.Value 
+          MTDEV=MDATA00+'\'+'DEV.DBF'
+          USE &MTDEV ALIAS DEV IN 0
+          SELECT DEV 
+          SET ORDER TO 1
+          MDEVDAT=m2DEV+DTOS(MDATDOK)
+          SEEK MDEVDAT
+          IF FOUND()
+             MDEV=M2DEV
+             MDEVKURS=KURS
+         ELSE
+             MDEV=''
+             MDEVKURS=0
+          ENDIF   
+          USE
+         THISFORM.TXTDevkurs.Value=MDEVKURS
+    ELSE
+       MTDEV=MDATA00+'\'+'DEV.DBF'
+       USE &MTDEV ALIAS DEV IN 0
+       SELECT DEV 
+       SET ORDER TO 2
+       SEEK DTOS(MDATDOK)
+       SET ORDER TO 1
+       DO NALPSIFDEV
+       MMDATDOK=DATDOK
+       MMDEV=DEV
+       IF MDATDOK=MMDATDOK
+          MDEV=MMDEV
+          MDEVKURS=KURS
+       ELSE
+          MDEV=''
+          MDEVKURS=0
+       ENDIF
+       USE
+       THISFORM.TXTDevkurs.Value=MDEVKURS
+       THISFORM.TXTDev.Value=MDEV
+    ENDIF
+    SELECT NALP
+    IF MDEVKURS<>0
+       REPLACE DEV WITH MDEV
+       REPLACE DEVKURS WITH MDEVKURS
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== label | lblDev | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "šifra devize"
+    Height = 19
+    Left = 30
+    Top = 325
+    Width = 74
+    TabIndex = 25
+    ForeColor = 171,33,44
+    Name = "lblDev"
+
+=== textbox | txtDevkurs | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devkurs"
+    Height = 23
+    Left = 148
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 6
+    Top = 353
+    Width = 117
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtDevkurs"
+
+=== label | lblDevkurs | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizni kurs"
+    Height = 19
+    Left = 30
+    Top = 353
+    Width = 77
+    TabIndex = 26
+    ForeColor = 171,33,44
+    Name = "lblDevkurs"
+
+=== textbox | txtDevdug | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devdug"
+    Height = 23
+    Left = 148
+    SpecialEffect = 0
+    TabIndex = 2
+    Top = 381
+    Width = 183
+    ForeColor = 255,0,0
+    Name = "txtDevdug"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP
+    IF DEVDUG<>0
+       REPLACE DUG WITH DEVDUG*DEVKURS
+       REPLACE DEVPOT WITH 0
+       REPLACE POT WITH 0
+    ENDIF   
+    
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | lblDevdug | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizno duguje"
+    Height = 19
+    Left = 30
+    Top = 381
+    Width = 97
+    TabIndex = 27
+    ForeColor = 171,33,44
+    Name = "lblDevdug"
+
+=== textbox | txtDevpot | parent=NALPDEV
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devpot"
+    Height = 23
+    Left = 148
+    SpecialEffect = 0
+    TabIndex = 3
+    Top = 409
+    Width = 183
+    ForeColor = 255,0,0
+    Name = "txtDevpot"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP
+    IF DEVPOT<>0
+       REPLACE POT WITH DEVPOT*DEVKURS
+       REPLACE DEVDUG WITH 0
+       REPLACE DUG WITH 0
+    ENDIF      
+    
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | lblDevpot | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizno potražuje"
+    Height = 19
+    Left = 30
+    Top = 409
+    Width = 114
+    TabIndex = 28
+    ForeColor = 171,33,44
+    Name = "lblDevpot"
+
+=== label | lblNalog | parent=NALPDEV
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "broj naloga"
+    Height = 19
+    Left = 30
+    Top = 151
+    Width = 71
+    TabIndex = 29
+    ForeColor = 171,33,44
+    Name = "lblNalog"
+
+=== commandbutton | Command2 | parent=NALPDEV
+  PROPERTIES:
+    Top = 504
+    Left = 144
+    Height = 46
+    Width = 132
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\aizlaz1.bmp
+    Caption = "IZLAZ"
+    TabIndex = 4
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC

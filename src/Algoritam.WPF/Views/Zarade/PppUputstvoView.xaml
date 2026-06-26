@@ -1,0 +1,605 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.PppUputstvoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Uputstvo za prenos zarada u registar — PPP-PD"
+        Width="800" Height="720"
+        MinWidth="640" MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F5F7FA">
+
+    <Window.Resources>
+        <!-- Stil za naslov grupe šifara -->
+        <Style x:Key="GrupaNaslov" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <!-- Stil za red šifre -->
+        <Style x:Key="SifraRed" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="#222222"/>
+            <Setter Property="Margin" Value="0,1"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1A3A6B" Padding="20,14">
+            <StackPanel>
+                <TextBlock Text="UPUTSTVO ZA PRENOS ZARADA U REGISTAR"
+                           FontFamily="Tahoma" FontSize="14" FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock Text="PPP-PD — korak po korak i katalog šifara prihoda"
+                           FontFamily="Tahoma" FontSize="11"
+                           Foreground="#90B4E0" Margin="0,3,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Footer -->
+        <Border DockPanel.Dock="Bottom" Background="#EEEEEE"
+                BorderBrush="#D0D8E4" BorderThickness="0,1,0,0" Padding="16,10">
+            <Button Content="Zatvori" Width="90" Height="32"
+                    HorizontalAlignment="Right"
+                    FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                    Foreground="White" Background="#1A3A6B" BorderThickness="0"
+                    Cursor="Hand" Click="ZatvoriClick">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <!-- Sadržaj -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,16">
+            <StackPanel>
+
+                <!-- ══════════════════════════════════════════════════ -->
+                <!--  DEO 1: UPUTSTVO ZA PRENOS (korak po korak)       -->
+                <!-- ══════════════════════════════════════════════════ -->
+
+                <!-- Uvod -->
+                <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="12"
+                           Foreground="#333333" Margin="0,0,0,14">
+                    Nakon završenog obračuna zarada <Bold>BRUTO ILI NETO</Bold>, u okviru
+                    <Bold>PLATNOG SPISKA</Bold>, kliknite na dugme <Bold>PRENOSI</Bold>,
+                    pa na dugme <Bold>PRENOS ZA REGISTAR</Bold> i potvrdite klikom na
+                    <Bold>ŽELIM PRENOS</Bold> i <Bold>IZLAZ</Bold>. Time ste pripremili
+                    obračun za prenos u registar.
+                </TextBlock>
+
+                <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="12"
+                           Foreground="#333333" Margin="0,0,0,16">
+                    Sada pređite u <Bold>GLAVNI MENI</Bold> i kliknite na dugme
+                    <Bold>OBRAZAC PPP</Bold>.
+                </TextBlock>
+
+                <!-- Korak 1 — PARAMETRI -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="1.  PARAMETRI PRENOSA"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333">
+                            U ovoj formi <Bold>OBAVEZNO</Bold> popunite sledeća polja:
+                        </TextBlock>
+                        <ItemsControl Margin="10,6,0,0" FontFamily="Tahoma" FontSize="11" Foreground="#333333">
+                            <ItemsControl.Items>
+                                <TextBlock Text="• Jedinstveni broj korisnika" Margin="0,1"/>
+                                <TextBlock Text="• Isplata u mesecu — mesec u kome realizujete isplatu zarade" Margin="0,1" TextWrapping="Wrap"/>
+                                <TextBlock Text="• Godina — godina u kojoj realizujete isplatu zarade" Margin="0,1" TextWrapping="Wrap"/>
+                                <TextBlock Text="• Datum slanja" Margin="0,1"/>
+                                <TextBlock Text="• Funkcionalna klasifikacija" Margin="0,1"/>
+                                <TextBlock Text="• Izvor finansiranja" Margin="0,1"/>
+                                <TextBlock Text="• Isplata za mesec — mesec za koji je urađen obračun" Margin="0,1" TextWrapping="Wrap"/>
+                                <TextBlock Text="• Isplata za godinu — godina za koju je urađen obračun" Margin="0,1" TextWrapping="Wrap"/>
+                                <TextBlock Text="• Šifra organizacione jedinice" Margin="0,1"/>
+                            </ItemsControl.Items>
+                        </ItemsControl>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#666666" Margin="0,8,0,0">
+                            Polja Program, Projekat možete ostaviti nepopunjena.
+                            Koeficijent preračuna sa NETA na BRUTO — u prvom unosu ostavite nulu;
+                            program će ga automatski popuniti.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Korak 2 — ŠEMA ZARADA -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="2.  ŠEMA ZARADA"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333">
+                            Prvi put kliknite na <Bold>DODAJ SVE</Bold> i pređite na sledeću formu.
+                            Ova tabela sadrži deo propisanih šifara osnova primanja. Ukoliko vam
+                            nedostaje šifra osnova, dodajte je ručno.
+                            Jednom unete šifre prihoda program pamti — nema potrebe za ponovnim unosom.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Korak 3 — PREUZMI ZARADE -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="3.  ZARADE — ŠEMA PRENOSA PLATA"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333" Margin="0,0,0,6">
+                            Uvek kliknite prvo na <Bold>BRIŠI SVE</Bold>, zatim na
+                            <Bold>PARAMETRE PRENOSA</Bold>.
+                            Ukoliko je tabela prazna, kliknite na <Bold>DODAJ SVE</Bold>
+                            pa unesite MESEC, Izvorfin i Redispl.
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333">
+                            Za <Bold>BRUTO</Bold> obračun kliknite:
+                            <Bold>PREUZMI ZARADE BRUTO OBRAČUN</Bold> →
+                            <Bold>SUMIRANJE ISTIH ŠIFRI OSNOVA KOD ISTOG MATIČNOG BROJA</Bold>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333" Margin="0,4,0,0">
+                            Za <Bold>NETO</Bold> obračun kliknite:
+                            <Bold>PREUZMI ZARADE NETO NA BRUTO</Bold> →
+                            <Bold>SUMIRANJE ISTIH ŠIFRI OSNOVA KOD ISTOG MATIČNOG BROJA</Bold>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Korak 4 — XML -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="4.  ŠEMA XML — NAPRAVI XML"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#333333">
+                            Uvek kliknite prvo na <Bold>BRIŠI SVE</Bold> pa na <Bold>DODAJ SVE</Bold>,
+                            a zatim na <Bold>NAPRAVI XML</Bold> — čime ste formirali XML koji treba
+                            da učitate u <Bold>CROSSO aplikaciju</Bold> Centralnog registra.
+                            Fajl se nalazi u: Glavni meni → Uvoz datoteka → dugme XML.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- PPP-PO napomena -->
+                <Border Background="#FFF8E1" CornerRadius="4" Padding="14,10"
+                        BorderBrush="#FFD54F" BorderThickness="1" Margin="0,4,0,24">
+                    <StackPanel>
+                        <TextBlock Text="PPP-PO POTVRDA"
+                                   FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                                   Foreground="#7B4F00" Margin="0,0,0,4"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11"
+                                   Foreground="#5D3A00">
+                            PPP-PO štampate iz: <Bold>Zarade → Glavni meni → Zarade → Arhiva zarada</Bold> —
+                            proverite da li ste arhivirali sve zarade i izađite iz arhive.
+                            Zatim kliknite na <Bold>OBRAZAC PPP</Bold>, ispod prazne tabele kliknite na
+                            <Bold>PREUZMI ZARADE → POPUNI OPŠTE PODATKE → PPP-PO</Bold>.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- ══════════════════════════════════════════════════ -->
+                <!--  DEO 2: ŠIFRE PRIHODA — KATALOG ZA PPP-PD        -->
+                <!-- ══════════════════════════════════════════════════ -->
+
+                <!-- Razdvajač -->
+                <Border Background="#1A3A6B" CornerRadius="4" Padding="16,10" Margin="0,0,0,14">
+                    <StackPanel>
+                        <TextBlock Text="ŠIFRE PRIHODA — KATALOG ZA PPP-PD"
+                                   FontFamily="Tahoma" FontSize="13" FontWeight="Bold"
+                                   Foreground="White"/>
+                        <TextBlock FontFamily="Tahoma" FontSize="10" Foreground="#90B4E0" Margin="0,3,0,0"
+                                   TextWrapping="Wrap">
+                            Podaci za popunjavanje polja šifara prihoda — od 2014. godine sa dopunama zaključno sa 30.11.2020.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Struktura šifre prihoda -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="STRUKTURA ŠIFRE PRIHODA"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11" Foreground="#333333" Margin="0,0,0,6">
+                            <Bold>ŠIFRA PRIHODA = KATALOG + VRSTAPRIM + OZNVRPRIH + OZNOLAKS + OZNBEN</Bold>
+                        </TextBlock>
+                        <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,6">
+                            <StackPanel>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 1:  zarada zaposlenog           →  1 01 101 00 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 2:  lična zarada preduzetnika   →  1 03 106 00 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 3:  bolovanje do 30 dana        →  1 01 202 00 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 4:  bolovanje preko 30 dana     →  1 01 204 00 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 5:  porodiljsko bolovanje       →  1 01 206 00 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 6:  olakšica mlađi od 30 god.  →  1 01 101 01 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 7:  subvencija Z1 (stara)       →  1 01 101 06 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 8:  subvencija Z1 (2020)        →  1 01 101 26 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 9:  subvencija Z1 (2021)        →  1 01 101 27 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 10: subvencija Z1 (2022)        →  1 01 101 28 0"/>
+                                <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#222" Margin="0,1" TextWrapping="Wrap"
+                                           Text="Primer 11: troškovi prevoza/dnevnice/smeštaja/solidarna pomoć/jubilarna nagrada (preko neoporezivog)  →  1 01 110 00 0"/>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11" Foreground="#555" Margin="0,4,0,0">
+                            <Bold>Napomena:</Bold> Ako zaposleni ima bolovanje do 30 dana, možete odlučiti da otvorite novu šifru
+                            radnika sa šifrom prihoda 202, ili da taj prihod unesete kroz redovan rad (šifra 101).
+                            Poreska uprava dozvoljava oba načina — morate biti dosledni u narednom periodu.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- VRSTAID i PREBIVAL -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="KATALOG (VRSTAID) i PREBIVAL"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11" Foreground="#333" Margin="0,0,0,6">
+                            <Bold>VRSTAID</Bold> — oznaka vrste dokumenta koji PU koristi za identifikaciju primaoca prihoda:
+                        </TextBlock>
+                        <Border Background="White" CornerRadius="3" Padding="10,6" Margin="0,0,0,8">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  1  =  JMBG"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  2  =  Izbeglička legitimacija"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  3  =  Pasoš"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  4  =  Posebna oznaka za slučajeve odobrene od PU"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  9  =  Ostalo"/>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock TextWrapping="Wrap" FontFamily="Tahoma" FontSize="11" Foreground="#333">
+                            <Bold>PREBIVAL</Bold> — šifra opštine prebivališta, odnosno boravišta primaoca prihoda.
+                            Ako je u VRSTAID upisano 1, a u matični broj upisan JMBG, ne upisuje se PREBIVAL
+                            — osim kod gradova koji imaju gradske opštine. Ukoliko ste u evidenciji zaposlenih
+                            uneli slovnu oznaku opštine (kartica F7), samo kliknite na dugme <Bold>Podesi za 2014</Bold>.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- VRSTAPRIM -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="VRSTAPRIM — Vrsta primaoca"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <Border Background="White" CornerRadius="3" Padding="10,6">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  01  Zaposleni"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  02  Osnivač zaposlen u društvu"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  03  Samostalna delatnost"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  04  Poljoprivreda"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  05  Lice koje nije osigurano po drugom osnovu"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  06  Nerezident"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  07  Invalidno lice"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  08  Vojni osiguranik"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  09  Lice penzioner po osnovu zaposlenosti"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  10  Lice penzioner po osnovu samostalne delatnosti"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  11  Lice kome se isplaćuju prihodi van radnog odnosa na koje se ne obračunavaju doprinosi za soc. osiguranje" TextWrapping="Wrap"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  12  Vojni penzioner"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  13  Poljoprivredni penzioner"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- OZNOLAKS -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="OZNOLAKS — Oznaka olakšice"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <Border Background="White" CornerRadius="3" Padding="10,6">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  00  Bez poreske olakšice"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  01  Por. olaks. pripravnika mlađeg od 30 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  02  Por. olaks. lice mlađe od 30 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  03  Por. olaks. zaposleni invalidi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  04  Por. olaks. starije od 45 a mlađe od 50 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  05  Por. olaks. starije od 50 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  06  Subvencija mlađi od 30 i stariji od 45 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  07  Subvencija stariji od 30 i mlađi od 45 godina — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  08  Pravo na povraćaj 65% plaćenog poreza i plaćenih doprinosa, po čl. 21v Zakona i čl. 45 Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  09  Pravo na povraćaj 70% plaćenog poreza i plaćenih doprinosa, po čl. 21v Zakona i čl. 45 Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  10  Pravo na povraćaj 75% plaćenog poreza i plaćenih doprinosa, po čl. 21v Zakona i čl. 45. Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  11  Pravo na povraćaj 75% plaćenog poreza i plaćenih doprinosa, po čl. 21d Zakona i čl. 45v Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  18  Pravo na povraćaj 65% plaćenog poreza na zaradu i plaćenih doprinosa, za novozaposleno lice po čl. 21v i čl. 45. Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  19  Pravo na povraćaj 70% plaćenog poreza na zaradu i plaćenih doprinosa, za novozaposleno lice po čl. 21v i čl. 45. Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  20  Pravo na povraćaj 75% plaćenog poreza na zaradu i plaćenih doprinosa, za novozaposleno lice po čl. 21v i čl. 45. Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  21  Pravo na povraćaj 75% plaćenog poreza na zaradu i plaćenih doprinosa, za novozaposleno lice po čl. 21d i čl. 45v Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  22  Pravo na poresko oslobođenje u skladu sa čl. 21dj Zakona i čl. 45g Zakona o doprinosima, za isplate zaključno sa 16. decembrom 2019. godine"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  23  Pravo na oslobođenje u skladu sa čl. 21dj i čl. 45g Zakona o doprinosima, u primeni od 1. januara 2019. — nije više u upotrebi"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  24  Pravo na umanjenje za 70% osnovice poreza na zaradu i doprinosa, po čl. 15v Zakona i čl. 15a Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="  25  Zarada osnivača novoosnovanog privrednog društva koje obavlja inovacionu delatnost, olakšica po čl. 21e Zakona i čl. 45d Zakona o doprinosima"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  26  70% poreza i 100% doprinosa za PIO za period 01.01.–31.12.2020. godine"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  27  65% poreza i 95% doprinosa za PIO za period 01.01.–31.12.2021. godine"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  28  60% poreza i 85% doprinosa za PIO za period 01.01.–31.12.2022. godine"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- OZNBEN -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="OZNBEN — Oznaka beneficije"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <Border Background="White" CornerRadius="3" Padding="10,6">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  0  Bez beneficiranog staža"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  1  Beneficirani staž 12/14"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  2  Beneficirani staž 12/15"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  3  Beneficirani staž 12/16"/>
+                                <TextBlock Style="{StaticResource SifraRed}" Text="  4  Beneficirani staž 12/18"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- MFP polja -->
+                <Border Background="#E8EFF8" CornerRadius="4" Padding="14,10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="MFP POLJA (MFP.1 – MFP.12)"
+                                   FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                                   Foreground="#1A3A6B" Margin="0,0,0,8"/>
+                        <Border Background="White" CornerRadius="3" Padding="10,6">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.1   Neoporezivi iznos zarade prethodno iskorišćen"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.2   Ukupan prethodni iznos osnovice za doprinose"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.3   % angažovanja primaoca prihoda kod isplatioca u odnosu na puno radno vreme"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.4   Prethodna ukupna zarada"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.5   Iznos stvarnih troškova kod prihoda van radnog odnosa; iznos uplate kod igara na sreću; iznos uplate premije osiguranja"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.6   Ukupno plaćeni doprinosi u dobrovoljni penzijski fond ili plaćene premije dobrovoljnog zdravstvenog osiguranja"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.7   Primenjena stopa poreza kod nerezidenta ako je zaključen ugovor o izbegavanju dvostrukog oporezivanja"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.8   Oznaka 1 ako je primalac prihoda zaposlen sa nepunim radnim vremenom samo kod jednog poslodavca"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.9   Oznaka 1 ako se umanjuje osnovica doprinosa tako da ukupan zbir izjednači sa najvišom osnovicom"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.10  Oznaka 1 ako se u istom periodu za jednog primaoca prijavljuju i zarada i naknada zarade pod bilo kojom vrstom prihoda"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.11  Ukupan neoporezivi iznos iskorišćen u prethodnim prijavama po svim šiframa vrste prihoda za istog primaoca"/>
+                                <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,3"
+                                           Text="MFP.12  Kod zarade/naknade zarade: ukupan iznos osnovice na koju su obračunati doprinosi u prethodnim prijavama za zaradu i naknadu zarade pod svim šiframa vrste prihoda za istog primaoca i isti obračunski period. Kod prve isplate zarade u prijavi u kojoj se iskazuju prihodi pod više šifri — upisuje se ukupan iznos osnovice za ostale šifre u istoj prijavi."/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- ══════════════════════════════════════════════════ -->
+                <!--  KATALOG OZNVRPRIH — Oznaka vrste prihoda          -->
+                <!-- ══════════════════════════════════════════════════ -->
+
+                <Border Background="#1A3A6B" CornerRadius="4" Padding="14,8" Margin="0,6,0,10">
+                    <TextBlock Text="OZNVRPRIH — KATALOG OZNAKA VRSTE PRIHODA"
+                               FontFamily="Tahoma" FontSize="12" FontWeight="Bold" Foreground="White"/>
+                </Border>
+
+                <!-- ZARADE -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="ZARADE  (101 – 115)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="101  Zarada"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="102  Zarada zaposlenog upućenog na rad u inostranstvo"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="103  Zarada lica zaposlenog kod stranih ili međunarodnih organizacija i ustanova, ili fizičkih lica na teritoriji RS"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="104  Zarada osoba sa invaliditetom u preduzeću za radno osposobljavanje i zapošljavanje osoba sa invaliditetom"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="105  Zarada invalida rada koji rade 4 sata dnevno"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="106  Lična zarada preduzetnika"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="107  Lična zarada preduzetnika – poljoprivrednika"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="108  Razlika zarade lica postavljenih na javnu funkciju za vreme obavljanja te funkcije"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="109  Uplata doprinosa bez isplate zarade"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="110  Primanja iz čl. 18. Zakona preko neoporezivog iznosa (prevoz, dnevnice, smeštaj, solidarna pomoć, jubilarna nagrada...)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="111  Poklon deci zaposlenih do 15 god. povodom Nove godine i Božića — preko neoporezivog iznosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="112  Uplata dodatnog doprinosa dospelog zaključno sa 28.02.2014. godine"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="113  Zarada osnivača novoosnovanog privrednog društva koji je zasnovao radni odnos u tom društvu, sa pravom na oslobođenje po čl. 21dj i čl. 45g Zakona o doprinosima, u primeni od 1. januara 2019."/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="114  Lična zarada novoosnovanog preduzetnika iz čl. 32. stav 2. Zakona, u primeni od 1. januara 2019."/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="115  Lična zarada novoosnovanog preduzetnika poljoprivrednika iz čl. 32. stav 3. Zakona, u primeni od 1. januara 2019."/>
+                    </StackPanel>
+                </Border>
+
+                <!-- UGOVORENA NAKNADA -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="UGOVORENA NAKNADA ZA PRIVREMENE I POVREMENE POSLOVE  (150 – 199)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="150  Ugovorena naknada i dr. primanja ostvarena obavljanjem privremenih i povremenih poslova na osnovu ugovora zaključenog neposredno sa poslodavcem, osim sa licem do 26 godina na školovanju"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="151  Ugovorena naknada i dr. primanja ostvarena obavljanjem privremenih i povremenih poslova na osnovu ugovora zaključenog preko omladinske zadruge, osim sa licem do 26 godina na školovanju"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="152  Ugovorena naknada po osnovu privremenih i povremenih poslova preko omladinske/studentske zadruge sa licem starijim od 26 a najduže do 30 godina, za koga je zadruga utvrdila da ostvaruje prihode ispod cenzusa za osiguranje"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="199  Prihodi koji imaju karakter zarade ili naknade zarade na koje se obaveze obračunavaju PO POSEBNIM PRAVILIMA"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- NAKNADE ZARADA -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="NAKNADE ZARADA  (201 – 214)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="201  Naknada zarade zbog privremene sprečenosti za rad zbog povrede na radu ili profesionalne bolesti"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="202  Naknada zarade zbog privremene sprečenosti za rad do 30 dana"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="203  Naknada zarade za vreme plaćenog odsustva za vreme prekida rada"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="204  Naknada zarade za bolovanje preko 30 dana"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="205  Naknada zarade za bolovanje preko 30 dana za slučaj privremene sprečenosti zbog davanja tkiva i organa i zbog nege bolesnog deteta do 3 godine"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="206  Naknada zarade za vreme porodiljskog odsustva, odsustva sa rada radi nege deteta i odsustva radi posebne nege deteta"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="207  Naknada zarade invalida rada na teret Fonda PIO"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="208  Plaćanje doprinosa za vreme neplaćenog odsustva dok dete ne napuni tri godine života"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="209  Naknada zarade po prestanku radnog odnosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="210  Naknada zarade invalidu III kategorije na teret Fonda PIO"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="211  Naknada zarade za vreme porodiljskog odsustva i odsustva radi posebne nege deteta isplaćena u skladu sa Zakonom o finansijskoj podršci porodici sa decom (Sl. glasnik RS br. 113/17 i 50/18)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,6,0,2" Foreground="#1A3A6B"
+                                   Text="Sa olakšicom po čl. 21dj Zakona i čl. 45g Zakona o doprinosima (od 1. januara 2019.):"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="212  Naknada zarade osnivača novoosnovanog privrednog društva/novoosnovanog preduzetnika zbog privremene sprečenosti za rad usled profesionalne bolesti ili povrede na radu (tereti poslodavca od prvog dana)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="213  Naknada zarade osnivača/novoosnovanog preduzetnika koja za prvih 30 dana sprečenosti tereti sredstva poslodavca — zbog bolesti ili povrede van rada, trudnoće, izolacije, nege člana porodice, pratioca bolesnog lica"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="214  Naknada zarade osnivača/novoosnovanog preduzetnika za vreme plaćenog odsustva zbog prekida rada bez krivice zaposlenog (čl. 116. Zakona o radu)"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- PRIHODI VAN RADNOG ODNOSA -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="PRIHODI VAN RADNOG ODNOSA  (301 – 323)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="301  Prihod autora od ugovorene naknade za stvaranje autorskog dela — normirati troškovi 50% bruto, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="302  Prihod autora — normit. troškovi 50% bruto, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="303  Prihod autora — normit. troškovi 43% bruto, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="304  Prihod autora — normit. troškovi 43% bruto, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="305  Prihod autora — normit. troškovi 34% bruto, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="306  Prihod autora — normit. troškovi 34% bruto, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="307  Prihod autora — normit. troškovi 50% + naknada ovlašćenim licima za prodaju/naplatu, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="308  Prihod autora — normit. troškovi 50% + naknada ovlašćenim licima, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="309  Prihod autora — normit. troškovi 43% + naknada ovlašćenim licima, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="310  Prihod autora — normit. troškovi 43% + naknada ovlašćenim licima, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="311  Prihod autora — normit. troškovi 34% + naknada ovlašćenim licima, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="312  Prihod autora — normit. troškovi 34% + naknada ovlašćenim licima, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="313  Prihod autora uz priznavanje stvarnih troškova (uključujući naknadu ovlašćenim licima) — primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="314  Prihod autora uz priznavanje stvarnih troškova — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="315  Prihod autora (status samostalnog umetnika, Fond PIO uznao prestanak plaćanja doprinosa, mlađi od 15 god.) — normit. troškovi 50%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="316  Prihod autora (status sam. umetnika, prestanak doprinosa) — normit. troškovi 43%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="317  Prihod autora (status sam. umetnika, prestanak doprinosa) — normit. troškovi 34%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="318  Prihod autora (status sam. umetnika, prestanak doprinosa) — normit. troškovi 50% + naknada ovlašćenim licima"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="319  Prihod autora (status sam. umetnika, prestanak doprinosa) — normit. troškovi 43% + naknada ovlašćenim licima"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="320  Prihod autora (status sam. umetnika, prestanak doprinosa) — normit. troškovi 34% + naknada ovlašćenim licima"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="321  Prihod autora (status sam. umetnika, prestanak doprinosa) — stvarni troškovi + naknada ovlašćenim licima"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="322  Prihodi vlasnika prava industrijske svojine uz priznavanje stvarnih troškova"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="323  Prihodi naslednika imovinskog autorskog i srodnog prava i prava industrijske svojine, kao i svakog drugog fizičkog lica koje nije autor/nosilac/naslednik tih prava, uz naknadu za zaštitu tog prava"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- PRIHODI OD KAPITALA -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="PRIHODI OD KAPITALA I PRIHODI OD NEPOKRETNOSTI  (401 – 410)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="401  Kamate po osnovu zajma, štednih i drugih depozita"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="402  Dividende i učešće u dobiti"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="403  Dividende i učešće u dobiti kod kupovine društvenog kapitala, primalac ima pravo na umanjenje prihoda za iznos godišnje rate prodajne cene (do visine isplaćene dividende)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="404  Prinos od investicione jedinice"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="405  Prihod od izdavanja sopstvenih nepokretnosti"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="406  Prihod od iznajmljivanja stanova/soba/postelja putnicima (plaćena boravišna taksa) — normit. troškovi 50%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="407  Prihod od izdavanja nepokretnosti + iznajmljivanje putnicima (plaćena boravišna taksa) — stvarni troškovi"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="408  Primanja zaposlenih i članova uprave zaključno sa 5.10.2012. godine"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="409  Uzimanja iz imovine i korišćenje usluga privrednog društva od strane vlasnika, zaključno sa 29.5.2013. godine"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="410  Uzimanje iz imovine i korišćenje usluga privrednog društva od strane vlasnika za privatne potrebe — od 1. januara 2016. (od 1. januara 2018. uključuje i ličnu potrošnju)"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- POREZ NA OSTALE PRIHODE -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="POREZ NA OSTALE PRIHODE  (501 – 508)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="501  Prihodi od davanja u zakup pokretnih stvari — normit. troškovi 20%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="502  Prihodi od davanja u zakup pokretnih stvari — stvarni troškovi"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="503  Dobici od igara na sreću"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="504  Prihodi od osiguranja lica"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="505  Prihodi profesionalnih sportista/amatera/stručnjaka u sportu (naknada za ugovor, lik sportiste, nagrade, honorari trenera/sudija/delegata...) — normit. troškovi 50%, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="506  Prihodi sportista/stručnjaka u sportu — normit. troškovi 50%, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="507  Novčane pomoći vrhunskim sportistima, stipendije, nacionalna priznanja i nagrade za poseban doprinos sportu — normit. troškovi 50%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="508  Prihodi sportista/stručnjaka kojima je Fond PIO uznao pravo na prestanak plaćanja doprinosa — normit. troškovi 50%"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- DRUGI PRIHODI -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="DRUGI PRIHODI  (601 – 639)" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="601  Prihodi po osnovu: ugovora o delu, ugovora o trgovinskom zastupanju, primanja članova organa uprave, naknada poslanicima/odbornicima, odbrana/civilna zaštita, stečajni upravnici, sudski veštaci/sudije/tumači, uzgajanje/prodaja pečuraka i pčelinjeg roja, nagrade/pomoći i dr. davanja — primalac je osiguran po drugom osnovu, normit. troškovi 20%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="602  Isti prihodi kao 601 — primalac NIJE osiguran po drugom osnovu, normit. troškovi 20%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="603  Isti prihodi kao 601 — primaocu je Fond PIO utvrdio pravo na prestanak plaćanja doprinosa, normit. troškovi 20%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="604  Prihodi po osnovu ugovora o privremenim/povremenim poslovima zaključenih preko omladinske/studentske zadruge sa licem do 26 god. na školovanju"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="605  Prihodi po osnovu dopunskog rada"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="606  Prihodi po osnovu dopunskog rada — primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="607  Prihodi od prikupljanja i prodaje sekundarnih sirovina kod isplate u gotovini — normit. troškovi 20%"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="608  Prihodi od prikupljanja i prodaje šumskih plodova i lekovitog bilja — normit. troškovi 20%, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="609  Prihodi od prikupljanja i prodaje šumskih plodova i lekovitog bilja — normit. troškovi 20%, primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="610  Prihodi od sekundarnih sirovina + šumski plodovi/lekovito bilje — normit. troškovi 20%, primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="611  Nagrade, novčane pomoći i druga davanja, kao i otpis potraživanja fizičkim licima koja nisu zaposlena kod isplatioca i koja se ne daju za rad primaoca prihoda"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="612  1) Primanja iz čl. 9. Zakona iznad neoporezivog iznosa: pomoć u slučaju smrti, stipendije/krediti iznad neoporezivog, hranarina sportistima amaterima, otpremnine iznad zakonom utvrđenog, novčane naknade u procesu racionalizacije/privatizacije do 50 god. — iznad utvrđenog iznosa. 2) Uzimanja iz imovine privrednog društva od vlasnika za privatne potrebe"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="613  Naknada troškova i dr. rashoda licima koja nisu zaposlena — čl. 85. st. 1. tač. 12. st. 5. Zakona, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="614  Isti prihodi kao 613 — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="615  Isti prihodi kao 613 — primaocu je Fond PIO utvrdio pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="616  Primanja zaposlenog po osnovu učešća u dobiti ostvarenoj u poslovnoj godini (saglasno Zakonu o radu)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="617  Prihodi koje ostvari fizičko lice izdavanjem nepokretnosti u podzakup"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="618  Svi drugi prihodi koji nisu oporezovani po drugom osnovu niti izuzeti/oslobođeni plaćanja poreza — primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="619  Svi drugi prihodi koji nisu oporezovani po drugom osnovu niti izuzeti/oslobođeni — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="620  Doprinosi za PIO za invalidnost/telesno oštećenje i doprinosi za zdravstvo po osnovu povrede na radu/prof. bolesti za: lica koje uputi organizacija za zapošljavanje na obrazovanje, učenike/studente na praksi, volontere, lica na stručnom osposobljavanju — bez ugovorene naknade"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="621  Prihodi po osnovu volonterskog rada, ostvareni do 15.07.2011. godine"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="622  Ugovorena naknada lica na stručnom osposobljavanju i usavršavanju (Zakon o radu)"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="623  Doprinos za PIO na naknadu za rad hranitelja — osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="624  Doprinos za PIO i doprinos za zdravstvo na naknadu hranitelja — nije osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="625  Prihod od prodaje poljopr./šumskih proizvoda/plodova/lekovitog bilja, pečuraka, pčelinjeg roja i puževa — isplaćen u periodu 2014–2019. (vidi precizne datumske granice u zakonu) — normit. troškovi 90%, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="626  Isti prihodi kao 625 — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="627  Naknada za vreme nezaposlenosti i druge naknade u okviru programa aktivne politike zapošljavanja — isplaćuje Nacionalna služba za zapošljavanje"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="628  Isti prihodi kao 625 — primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="629  Svi drugi prihodi koji nisu oporezovani/izuzeti — normit. troškovi 20%, primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Margin="0,6,0,2" Foreground="#1A3A6B"
+                                   Text="Nagrade, novčane pomoći i druga davanja fizičkim licima koja nisu zaposlena kod isplatioca:"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="630  Nagrade i sl. davanja fizičkim licima koja nisu zaposlena kod isplatioca (iz rada/doprinosa delatnosti isplatioca) — preko neoporezivog iznosa, bez normit. troškova, primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="631  Isti prihodi kao 630 — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="632  Isti prihodi kao 630 — primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="633  Nagrade i sl. davanja fizičkim licima koja nisu zaposlena — za koje nije propisana obaveza plaćanja doprinosa po zakonu koji reguliše soc. osiguranje"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="634  Primanja iz čl. 9. Zakona iznad neoporezivog iznosa isplaćena od 1. januara 2018.: pomoć u slučaju smrti, stipendije/krediti, hranarina sportistima amaterima, otpremnine kod penzionisanja, otpremnine za višak/racionalizaciju/privatizaciju, novčane pomoći za lečenje, novčane pomoći licima koja nisu zaposlena a koja ne predstavljaju protivuslugu — bez normit. troškova"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="635  Naknada za rad članova izbornih komisija/biračkih odbora/glasačkih odbora i rada na popisu stanovništva — od 1. januara 2018., primalac je osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="636  Isti prihodi kao 635 — primalac NIJE osiguran po drugom osnovu"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="637  Isti prihodi kao 635 — primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="638  Naknada isplaćena preduzetniku/preduzetniku paušalcu koji obavlja aktivnosti za istog nalogodavca ili povezano lice — bez normit. troškova"/>
+                        <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap" Text="639  Isti prihodi kao 638 — primaocu je Fond PIO uznao pravo na prestanak plaćanja doprinosa"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 999 -->
+                <Border Background="#2E5FA3" CornerRadius="3" Padding="12,6" Margin="0,0,0,4">
+                    <TextBlock Text="POSEBNI PRIHODI" Style="{StaticResource GrupaNaslov}"/>
+                </Border>
+                <Border Background="White" CornerRadius="3" Padding="10,8" Margin="0,0,0,24">
+                    <TextBlock Style="{StaticResource SifraRed}" TextWrapping="Wrap"
+                               Text="999  Prihodi van radnog odnosa na koje se obaveze obračunavaju po posebnim pravilima"/>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </DockPanel>
+</Window>

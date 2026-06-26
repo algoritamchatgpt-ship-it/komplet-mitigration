@@ -1,0 +1,294 @@
+num records 13
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALBROJK2 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  18.53
+    Width =  77.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "KARTICA NALOGA 2"
+    ControlBox = .F.
+    Closable = .T.
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALBROJK2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALBROJ
+    SET RELATION TO
+    THISFORM.TXTVRNAL.Value=VRNAL
+    THISFORM.TXTBRNAL.Value=BRNAL
+    THISFORM.TXTDATUM.Value=DATUM
+    THISFORM.TXTOPIS.Value=OPIS
+    SET PROCEDURE TO TASTERI2
+       DO NALBROJK2TAST
+    SET PROCEDURE TO
+    THISFORM.REFRESH   
+    
+    
+    ENDPROC
+
+=== textbox | txtBrnal | parent=NALBROJK2
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 1
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.00
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.80
+    Width =  15.00
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtBrnal"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    MREC=RECNO()
+    MBRNAL=THISFORM.TXTBRNAL.VALUE
+    SET ORDER TO 1
+    IF MBRNAL=SPACE(6).OR.MBRNAL='     0'
+       THISFORM.TXTBRNAL.SETFOCUS
+       THISFORM.REFRESH
+    ELSE
+       SEEK MBRNAL
+       IF .NOT.FOUND()
+          *-------AKO NALOG NE POSTOJI
+          GOTO MREC
+          THISFORM.TXTBRNAL.VALUE=MBRNAL
+          THISFORM.REFRESH   
+       ELSE
+          *------AKO NALOG POSTOJI--------
+          IF RECNO()<>MREC
+                PUBLIC PPORUKA
+                PPORUKA=' NALOG '+MBRNAL+' VEĆ POSTOJI - OTVORITE NOVI '
+                DO FORM PORUKA
+                MBRNAL=SPACE(6)
+                RELEASE THISFORM   
+          ELSE
+          *----AKO JE NALOG VEC OTVOREN
+             GOTO MREC
+             THISFORM.TXTBRNAL.VALUE=MBRNAL
+             THISFORM.REFRESH   
+          ENDIF
+       ENDIF   
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== textbox | txtDatum | parent=NALBROJK2
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    ControlSource = ""
+    Format = ""
+    Height =   1.53
+    InputMask = ""
+    Left =  27.00
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   6.00
+    Width =  18.60
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtDatum"
+
+=== label | lblDatum | parent=NALBROJK2
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Datum naloga"
+    Height =   1.27
+    Left =   7.60
+    Top =   6.07
+    Width =  18.20
+    TabIndex = 6
+    ForeColor = 196,0,0
+    BackColor = 128,255,128
+    Name = "lblDatum"
+
+=== textbox | txtVrnal | parent=NALBROJK2
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 1
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.00
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.73
+    Width =  11.60
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtVrnal"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    MVRNAL=str(val(alltrim(THISFORM.TXTVRNAL.VALUE)),3,0)
+    
+    if MVRNAL='  0'
+       MVRNAL='   '
+       DO FORM NALVRSTA
+       MVRNAL=VRNAL
+       SELECT NALBROJ
+    ENDIF   
+    
+    THISFORM.TXTVRNAL.VALUE=MVRNAL
+    THISFORM.REFRESH   
+    POP KEY   
+    ENDPROC
+
+=== label | lblVrnal | parent=NALBROJK2
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Vrsta naloga"
+    Height =   1.27
+    Left =   7.60
+    Top =   1.80
+    Width =  16.00
+    TabIndex = 7
+    ForeColor = 196,0,0
+    BackColor = 128,255,128
+    Name = "lblVrnal"
+
+=== textbox | txtOpis | parent=NALBROJK2
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.00
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   8.13
+    Width =  47.80
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtOpis"
+
+=== label | lblOpis | parent=NALBROJK2
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Opis knjiženja"
+    Height =   1.27
+    Left =   7.60
+    Top =   8.27
+    Width =  18.20
+    TabIndex = 9
+    ForeColor = 196,0,0
+    BackColor = 128,255,128
+    Name = "lblOpis"
+
+=== commandbutton | Command1 | parent=NALBROJK2
+  PROPERTIES:
+    Top =  12.93
+    Left =  23.40
+    Height =   4.87
+    Width =  24.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<IZLAZ"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALBROJ
+    REPLACE VRNAL WITH THISFORM.TXTVRNAL.ValuE
+    REPLACE BRNAL WITH THISFORM.TXTBRNAL.Value
+    REPLACE DATUM WITH THISFORM.TXTDATUM.Value
+    REPLACE OPIS WITH THISFORM.TXTOPIS.Value
+    THISFORM.Release 
+    POP KEY
+    POP KEY
+    
+    ENDPROC
+
+=== label | Label2 | parent=NALBROJK2
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Broj naloga"
+    Height =   1.27
+    Left =   7.60
+    Top =   3.93
+    Width =  14.60
+    TabIndex = 8
+    ForeColor = 196,0,0
+    BackColor = 128,255,128
+    Name = "Label2"

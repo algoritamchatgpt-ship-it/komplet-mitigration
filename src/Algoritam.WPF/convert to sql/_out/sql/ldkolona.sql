@@ -1,0 +1,12 @@
+-- Source: ldkolona
+CREATE TABLE IF NOT EXISTS "ldkolona" (
+  "BROJ" NUMERIC(0),
+  "IME_PREZ" VARCHAR(0),
+  "IZNOS" NUMERIC(3),
+  "TEKST" VARCHAR(0),
+  "DATUM" DATE,
+  "POLJE" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

@@ -1,0 +1,49 @@
+<Window x:Class="GlavnaKnjiga.Views.NalraznoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GLAVNA KNJIGA — RAZNO"
+        Height="720" Width="520"
+        WindowStartupLocation="CenterOwner"
+        Background="#95BC94"
+        ResizeMode="NoResize">
+
+    <DockPanel Margin="18">
+        <Button DockPanel.Dock="Bottom" Content="Izlaz" Height="44" Margin="70,14,70,0"
+                FontFamily="Tahoma" FontSize="12" Foreground="#B00000"
+                Command="{Binding IzlazCommand}"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Button Content="ZAMENA KONTA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding ZamenaKontaCommand}"/>
+                <Button Content="UTVRĐIVANJE REZULTATA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding UtvrdjivanjeRezultataCommand}"/>
+                <Button Content="ZATVARANJE KLASA 5 I 6" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding ZatvaranjeKlasaCommand}"/>
+                <Button Content="ZATVARANJE AKTIVE I PASIVE" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding ZatvaranjeAktiveIPasiveCommand}"/>
+                <Button Content="KOPIRANJE NALOGA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding KopiranjeNalogaCommand}"/>
+                <Button Content="SLAGANJE NALOGA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding SlaganjeNalogaCommand}"/>
+                <Button Content="PARAMETRI" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding ParametriCommand}"/>
+                <Button Content="UNOS DOKUMENTA ZA KONTO" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding UnosDokumentaZaKontoCommand}"/>
+                <Button Content="KASKADNO SLAGANJE" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding KaskadnoSlaganjeCommand}"/>
+                <Button Content="KOREKCIJA PDV DATUMA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding KorekcijaPdvDatumaCommand}"/>
+                <Button Content="KOREKCIJA DATUMA KNJIŽENJA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding KorekcijaDatumaKnjizenjaCommand}"/>
+                <Button Content="DOPUNI KONTO" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding DopuniKontoCommand}"/>
+                <Button Content="PROVERA MATERIJALA" Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding ProveraMaterijalaCommand}"/>
+                <Button Content="PLAN LIKVIDNOSTI — PRILIVI I ODLIVI"
+                        Style="{StaticResource OsMeniDugme}"
+                        Command="{Binding PlanLikvidnostiCommand}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

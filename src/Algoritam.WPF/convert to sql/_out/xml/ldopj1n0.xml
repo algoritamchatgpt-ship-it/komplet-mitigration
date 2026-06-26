@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj1n0">
+  <columns>
+    <column name="SIFOPIS" type="C" length="0" decimals="0" />
+    <column name="OPIS1" type="C" length="0" decimals="0" />
+    <column name="OPIS2" type="C" length="0" decimals="0" />
+    <column name="RADNIKA" type="N" length="0" decimals="0" />
+    <column name="NEOPOREZ" type="N" length="2" decimals="0" />
+    <column name="PRAVO" type="N" length="2" decimals="0" />
+    <column name="SVENEOPOR" type="N" length="2" decimals="0" />
+    <column name="ISPLACENO" type="N" length="2" decimals="0" />
+    <column name="ZAISPLATU" type="N" length="2" decimals="0" />
+    <column name="SVEGA" type="N" length="2" decimals="0" />
+    <column name="NETOOPOR" type="N" length="2" decimals="0" />
+    <column name="BRUTOOPOR" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="DATISPL" type="D" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>1</NEOPOREZ>
+      <PRAVO>na</PRAVO>
+      <SVENEOPOR>kn</SVENEOPOR>
+      <ISPLACENO>ad</ISPLACENO>
+      <ZAISPLATU>a</ZAISPLATU>
+      <SVEGA>tr</SVEGA>
+      <NETOOPOR>oš</NETOOPOR>
+      <BRUTOOPOR>ko</BRUTOOPOR>
+      <POREZ>va</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>2</NEOPOREZ>
+      <PRAVO>dn</PRAVO>
+      <SVENEOPOR>ev</SVENEOPOR>
+      <ISPLACENO>ni</ISPLACENO>
+      <ZAISPLATU>ca</ZAISPLATU>
+      <SVEGA>z</SVEGA>
+      <NETOOPOR>a</NETOOPOR>
+      <BRUTOOPOR>sl</BRUTOOPOR>
+      <POREZ>už</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>3</NEOPOREZ>
+      <PRAVO>na</PRAVO>
+      <SVENEOPOR>kn</SVENEOPOR>
+      <ISPLACENO>ad</ISPLACENO>
+      <ZAISPLATU>a</ZAISPLATU>
+      <SVEGA>tr</SVEGA>
+      <NETOOPOR>oš</NETOOPOR>
+      <BRUTOOPOR>ko</BRUTOOPOR>
+      <POREZ>va</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>4</NEOPOREZ>
+      <PRAVO>na</PRAVO>
+      <SVENEOPOR>kn</SVENEOPOR>
+      <ISPLACENO>ad</ISPLACENO>
+      <ZAISPLATU>a</ZAISPLATU>
+      <SVEGA>pr</SVEGA>
+      <NETOOPOR>ev</NETOOPOR>
+      <BRUTOOPOR>oz</BRUTOOPOR>
+      <POREZ>a</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>5</NEOPOREZ>
+      <PRAVO>so</PRAVO>
+      <SVENEOPOR>li</SVENEOPOR>
+      <ISPLACENO>da</ISPLACENO>
+      <ZAISPLATU>rn</ZAISPLATU>
+      <SVEGA>a</SVEGA>
+      <NETOOPOR>po</NETOOPOR>
+      <BRUTOOPOR>mo</BRUTOOPOR>
+      <POREZ>ć</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>6</NEOPOREZ>
+      <PRAVO>po</PRAVO>
+      <SVENEOPOR>kl</SVENEOPOR>
+      <ISPLACENO>on</ISPLACENO>
+      <ZAISPLATU>d</ZAISPLATU>
+      <SVEGA>ec</SVEGA>
+      <NETOOPOR>i</NETOOPOR>
+      <BRUTOOPOR>za</BRUTOOPOR>
+      <POREZ>po</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>7</NEOPOREZ>
+      <PRAVO>ju</PRAVO>
+      <SVENEOPOR>bi</SVENEOPOR>
+      <ISPLACENO>la</ISPLACENO>
+      <ZAISPLATU>rn</ZAISPLATU>
+      <SVEGA>a</SVEGA>
+      <NETOOPOR>na</NETOOPOR>
+      <BRUTOOPOR>gr</BRUTOOPOR>
+      <POREZ>ad</POREZ>
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SIFOPIS></SIFOPIS>
+      <OPIS1></OPIS1>
+      <OPIS2></OPIS2>
+      <RADNIKA />
+      <NEOPOREZ>8</NEOPOREZ>
+      <PRAVO>os</PRAVO>
+      <SVENEOPOR>ta</SVENEOPOR>
+      <ISPLACENO>lo</ISPLACENO>
+      <ZAISPLATU />
+      <SVEGA />
+      <NETOOPOR />
+      <BRUTOOPOR />
+      <POREZ />
+      <DATDOK />
+      <DATISPL />
+      <NAZMES></NAZMES>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

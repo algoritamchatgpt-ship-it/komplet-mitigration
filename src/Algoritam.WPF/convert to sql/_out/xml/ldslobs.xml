@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldslobs">
+  <columns>
+    <column name="CASVR" type="N" length="2" decimals="0" />
+    <column name="CASUC" type="N" length="2" decimals="0" />
+    <column name="CASNOC" type="N" length="2" decimals="0" />
+    <column name="CASPROD" type="N" length="2" decimals="0" />
+    <column name="CASPRAZ" type="N" length="2" decimals="0" />
+    <column name="CASNED" type="N" length="2" decimals="0" />
+    <column name="CASBOL" type="N" length="2" decimals="0" />
+    <column name="CASBOL2" type="N" length="2" decimals="0" />
+    <column name="CASPLAC" type="N" length="2" decimals="0" />
+    <column name="CASPLAC2" type="N" length="2" decimals="0" />
+    <column name="CASGOD" type="N" length="2" decimals="0" />
+    <column name="CASVV" type="N" length="2" decimals="0" />
+    <column name="CASDOR" type="N" length="2" decimals="0" />
+    <column name="CASRADNAP" type="N" length="2" decimals="0" />
+    <column name="CAS1" type="N" length="2" decimals="0" />
+    <column name="CAS2" type="N" length="2" decimals="0" />
+    <column name="CAS3" type="N" length="2" decimals="0" />
+    <column name="CASUK" type="N" length="2" decimals="0" />
+    <column name="DINVR" type="N" length="2" decimals="0" />
+    <column name="DINUC" type="N" length="2" decimals="0" />
+    <column name="DINMIN" type="N" length="2" decimals="0" />
+    <column name="DINNOC" type="N" length="2" decimals="0" />
+    <column name="DINPROD" type="N" length="2" decimals="0" />
+    <column name="DINPRAZ" type="N" length="2" decimals="0" />
+    <column name="DINNED" type="N" length="2" decimals="0" />
+    <column name="DINBOL" type="N" length="2" decimals="0" />
+    <column name="DINBOL2" type="N" length="2" decimals="0" />
+    <column name="DINPLAC" type="N" length="2" decimals="0" />
+    <column name="DINPLAC2" type="N" length="2" decimals="0" />
+    <column name="DINGOD" type="N" length="2" decimals="0" />
+    <column name="DINVV" type="N" length="2" decimals="0" />
+    <column name="DINDOR" type="N" length="2" decimals="0" />
+    <column name="DINRADNAP" type="N" length="2" decimals="0" />
+    <column name="DIN1" type="N" length="2" decimals="0" />
+    <column name="DIN2" type="N" length="2" decimals="0" />
+    <column name="DIN3" type="N" length="2" decimals="0" />
+    <column name="FIKSNA" type="N" length="2" decimals="0" />
+    <column name="STIM1" type="N" length="2" decimals="0" />
+    <column name="STIM2" type="N" length="2" decimals="0" />
+    <column name="STIM3" type="N" length="2" decimals="0" />
+    <column name="TOPLI" type="N" length="2" decimals="0" />
+    <column name="REGRES" type="N" length="2" decimals="0" />
+    <column name="TERENSKI" type="N" length="2" decimals="0" />
+    <column name="LDODACI" type="N" length="2" decimals="0" />
+    <column name="NAKNADE" type="N" length="2" decimals="0" />
+    <column name="DINUK" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DOPSOCR" type="N" length="2" decimals="0" />
+    <column name="DOPPR" type="N" length="2" decimals="0" />
+    <column name="DOPZR" type="N" length="2" decimals="0" />
+    <column name="DOPNR" type="N" length="2" decimals="0" />
+    <column name="DOPPF" type="N" length="2" decimals="0" />
+    <column name="DOPZF" type="N" length="2" decimals="0" />
+    <column name="DOPNF" type="N" length="2" decimals="0" />
+    <column name="DOPSOCF" type="N" length="2" decimals="0" />
+    <column name="BENDIN" type="N" length="2" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="KREDITI" type="N" length="2" decimals="0" />
+    <column name="AKONTAC" type="N" length="2" decimals="0" />
+    <column name="PREVOZ" type="N" length="2" decimals="0" />
+    <column name="ALIMENT" type="N" length="2" decimals="0" />
+    <column name="KASA" type="N" length="2" decimals="0" />
+    <column name="KASARATA" type="N" length="2" decimals="0" />
+    <column name="SAMODOPR" type="N" length="2" decimals="0" />
+    <column name="SINDIKAT1" type="N" length="2" decimals="0" />
+    <column name="SINDIKAT2" type="N" length="2" decimals="0" />
+    <column name="SOLIDARN" type="N" length="2" decimals="0" />
+    <column name="OBUST1" type="N" length="2" decimals="0" />
+    <column name="OBUST2" type="N" length="2" decimals="0" />
+    <column name="OBUST3" type="N" length="2" decimals="0" />
+    <column name="UKOBUST" type="N" length="2" decimals="0" />
+    <column name="ZAISPLATU" type="N" length="2" decimals="0" />
+    <column name="PROPISANA" type="N" length="2" decimals="0" />
+    <column name="OSNOVICA" type="N" length="2" decimals="0" />
+    <column name="DOTACIJA" type="N" length="2" decimals="0" />
+    <column name="CASSUS" type="N" length="2" decimals="0" />
+    <column name="DINSUS" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <CASVR />
+      <CASUC />
+      <CASNOC />
+      <CASPROD />
+      <CASPRAZ />
+      <CASNED />
+      <CASBOL />
+      <CASBOL2 />
+      <CASPLAC />
+      <CASPLAC2 />
+      <CASGOD />
+      <CASVV />
+      <CASDOR />
+      <CASRADNAP />
+      <CAS1 />
+      <CAS2 />
+      <CAS3 />
+      <CASUK />
+      <DINVR />
+      <DINUC />
+      <DINMIN />
+      <DINNOC />
+      <DINPROD />
+      <DINPRAZ />
+      <DINNED />
+      <DINBOL />
+      <DINBOL2 />
+      <DINPLAC />
+      <DINPLAC2 />
+      <DINGOD />
+      <DINVV />
+      <DINDOR />
+      <DINRADNAP />
+      <DIN1 />
+      <DIN2 />
+      <DIN3 />
+      <FIKSNA />
+      <STIM1 />
+      <STIM2 />
+      <STIM3 />
+      <TOPLI />
+      <REGRES />
+      <TERENSKI />
+      <LDODACI />
+      <NAKNADE />
+      <DINUK />
+      <BRUTO />
+      <POREZ />
+      <DOPSOCR />
+      <DOPPR />
+      <DOPZR />
+      <DOPNR />
+      <DOPPF />
+      <DOPZF />
+      <DOPNF />
+      <DOPSOCF />
+      <BENDIN />
+      <NETO />
+      <KREDITI />
+      <AKONTAC />
+      <PREVOZ />
+      <ALIMENT />
+      <KASA />
+      <KASARATA />
+      <SAMODOPR />
+      <SINDIKAT1 />
+      <SINDIKAT2 />
+      <SOLIDARN />
+      <OBUST1 />
+      <OBUST2 />
+      <OBUST3 />
+      <UKOBUST />
+      <ZAISPLATU />
+      <PROPISANA />
+      <OSNOVICA />
+      <DOTACIJA />
+      <CASSUS />
+      <DINSUS />
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

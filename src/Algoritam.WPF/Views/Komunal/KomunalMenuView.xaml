@@ -1,0 +1,186 @@
+<UserControl x:Class="Algoritam.WPF.Views.Komunal.KomunalMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="UsButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <SolidColorBrush x:Key="BojaGlavna"   Color="#37474F"/>
+        <SolidColorBrush x:Key="BojaObracun"  Color="#455A64"/>
+        <SolidColorBrush x:Key="BojaIzvestaj" Color="#546E7A"/>
+        <SolidColorBrush x:Key="BojaIzlaz"    Color="#C62828"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+        <Border DockPanel.Dock="Top" Background="#37474F" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="GLAVNI MENI — KOMUNALNE USLUGE"
+                           FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#B0BEC5" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#B0BEC5"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#ECEFF1"
+                BorderThickness="0,0,0,1" BorderBrush="#CFD8DC" Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#37474F"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel HorizontalAlignment="Left">
+
+                <TextBlock Text="Korisnici i obračun" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="KORISNICI&#10;USLUGA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_KORISNICI"/>
+                    <Button Content="OBRAČUN&#10;KOMUNALIJA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_OBRACUN"/>
+                    <Button Content="EVIDENCIJA&#10;UPLATA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_UPLATE"/>
+                </WrapPanel>
+
+                <TextBlock Text="Analize" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="DUGOVANJA&#10;KORISNIKA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaIzvestaj}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_DUGOVANJE"/>
+                    <Button Content="PREGLED&#10;USLUGA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaIzvestaj}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_PREGLED"/>
+                    <Button Content="TARIFNIK&#10;USLUGA" Style="{StaticResource UsButtonStyle}"
+                            Background="{StaticResource BojaIzvestaj}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_TARIFA"/>
+                </WrapPanel>
+
+                <TextBlock Text="Parametri" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PARAMETRI&#10;KOMUNAL" Style="{StaticResource UsButtonStyle}"
+                            Background="#455A64"
+                            Command="{Binding AkcijaCommand}" CommandParameter="US_PARAM"/>
+                </WrapPanel>
+
+                <TextBlock Text="Pravni postupci naplate (VPS)" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="SUDSKI&#10;POSTUPCI" Style="{StaticResource UsButtonStyle}"
+                            Background="#6A1B9A"
+                            ToolTip="Sudski postupci naplate dugovanja"
+                            Command="{Binding AkcijaCommand}" CommandParameter="VPS_SUD"/>
+                    <Button Content="SPORAZUMI O&#10;OTPLATI" Style="{StaticResource UsButtonStyle}"
+                            Background="#6A1B9A"
+                            ToolTip="Sporazumi o otplati duga na rate"
+                            Command="{Binding AkcijaCommand}" CommandParameter="VPS_SPORAZUM"/>
+                    <Button Content="SPIS&#10;DUŽNIKA" Style="{StaticResource UsButtonStyle}"
+                            Background="#6A1B9A"
+                            Command="{Binding AkcijaCommand}" CommandParameter="VPS_SPIS"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

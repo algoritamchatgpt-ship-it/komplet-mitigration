@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldkred">
+  <columns>
+    <column name="KREDIT" type="N" length="0" decimals="0" />
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRA" type="C" length="0" decimals="0" />
+    <column name="PARTIJA" type="C" length="0" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="KOLIKO" type="N" length="0" decimals="0" />
+    <column name="PRVARATA" type="N" length="2" decimals="0" />
+    <column name="OSTALERATE" type="N" length="2" decimals="0" />
+    <column name="ZADOBITAK" type="C" length="0" decimals="0" />
+    <column name="AKTIVRATA" type="N" length="2" decimals="0" />
+    <column name="AKONTRATA" type="N" length="2" decimals="0" />
+    <column name="OSTATAK" type="N" length="2" decimals="0" />
+    <column name="ODBIJENO" type="N" length="2" decimals="0" />
+    <column name="EVIDBROJ" type="C" length="0" decimals="0" />
+    <column name="MODELO" type="C" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="ARHIVA2" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <KREDIT />
+      <BROJ />
+      <SIFRA></SIFRA>
+      <PARTIJA></PARTIJA>
+      <IZNOS />
+      <KOLIKO />
+      <PRVARATA />
+      <OSTALERATE>0</OSTALERATE>
+      <ZADOBITAK></ZADOBITAK>
+      <AKTIVRATA />
+      <AKONTRATA>1</AKONTRATA>
+      <OSTATAK>19</OSTATAK>
+      <ODBIJENO>04</ODBIJENO>
+      <EVIDBROJ></EVIDBROJ>
+      <MODELO></MODELO>
+      <DATDOK />
+      <GRUPA />
+      <ARHIVA></ARHIVA>
+      <ARHIVA2></ARHIVA2>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

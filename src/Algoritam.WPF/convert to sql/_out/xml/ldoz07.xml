@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldoz07">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="LBOBROJ" type="C" length="0" decimals="0" />
+    <column name="ZKBROJ" type="C" length="0" decimals="0" />
+    <column name="MES1" type="N" length="0" decimals="0" />
+    <column name="MESEC1" type="C" length="0" decimals="0" />
+    <column name="CASUC1" type="N" length="0" decimals="0" />
+    <column name="STAZ1" type="N" length="0" decimals="0" />
+    <column name="PROCMIN1" type="N" length="2" decimals="0" />
+    <column name="DINUC1" type="N" length="2" decimals="0" />
+    <column name="DINMIN1" type="N" length="2" decimals="0" />
+    <column name="DINUK1" type="N" length="2" decimals="0" />
+    <column name="MES2" type="N" length="0" decimals="0" />
+    <column name="MESEC2" type="C" length="0" decimals="0" />
+    <column name="CASUC2" type="N" length="0" decimals="0" />
+    <column name="STAZ2" type="N" length="0" decimals="0" />
+    <column name="PROCMIN2" type="N" length="2" decimals="0" />
+    <column name="DINUC2" type="N" length="2" decimals="0" />
+    <column name="DINMIN2" type="N" length="2" decimals="0" />
+    <column name="DINUK2" type="N" length="2" decimals="0" />
+    <column name="MES3" type="N" length="0" decimals="0" />
+    <column name="MESEC3" type="C" length="0" decimals="0" />
+    <column name="CASUC3" type="N" length="0" decimals="0" />
+    <column name="STAZ3" type="N" length="0" decimals="0" />
+    <column name="PROCMIN3" type="N" length="2" decimals="0" />
+    <column name="DINUC3" type="N" length="2" decimals="0" />
+    <column name="DINMIN3" type="N" length="2" decimals="0" />
+    <column name="DINUK3" type="N" length="2" decimals="0" />
+    <column name="CASUK" type="N" length="0" decimals="0" />
+    <column name="DINUK" type="N" length="2" decimals="0" />
+    <column name="PROSCAS" type="N" length="0" decimals="0" />
+    <column name="PROSDIN" type="N" length="2" decimals="0" />
+    <column name="STAZ" type="N" length="2" decimals="0" />
+    <column name="DINCAS" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

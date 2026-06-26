@@ -1,0 +1,188 @@
+num records 10
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "NAL"
+    CursorSource = ..\databaze\nalp.dbf
+    Name = "Cursor1"
+
+=== form | NALSLAG3 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   9.40
+    Left =   5.00
+    Height =  15.00
+    Width = 136.80
+    DoCreate = .T.
+    ShowTips = .T.
+    BorderStyle = 3
+    Caption = "ZAMENA NALOGA IZ DRUGE TABELE"
+    WindowType = 1
+    WindowState = 0
+    HelpContextID = 1
+    BackColor = 233,236,216
+    Name = "NALSLAG3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY clear
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    thisform.txtTABELA.Value='nal01'
+    SET PROCEDURE TO TASTERI2
+      DO NALslag3TAST
+    SET PROCEDURE TO
+    THISFORM.REFRESH
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALSLAG3
+  PROPERTIES:
+    Top =   8.80
+    Left =  93.60
+    Height =   4.60
+    Width =  17.00
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "izlaz"
+    TabIndex = 3
+    ToolTipText = "POVRATAK NAZAD"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | Label1 | parent=NALSLAG3
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 0
+    Caption = "UNESITE IME TABELE"
+    Height =   1.20
+    Left =  21.80
+    Top =   4.27
+    Width =  33.80
+    TabIndex = 4
+    ForeColor = 171,33,44
+    Name = "Label1"
+
+=== textbox | TXTTABELA | parent=NALSLAG3
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.67
+    Left =  57.60
+    MaxLength = 8
+    TabIndex = 1
+    Top =   4.00
+    Width =  45.80
+    Name = "TXTTABELA"
+
+=== commandbutton | Command1 | parent=NALSLAG3
+  PROPERTIES:
+    Top =   8.80
+    Left =  14.40
+    Height =   4.60
+    Width =  17.00
+    FontSize = 11
+    Picture = ..\ikone\afascikla.png
+    Caption = "Zamena"
+    TabIndex = 2
+    ToolTipText = "POVRATAK NAZAD"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO idel WITH (kkockax2)
+    mtabela=ALLTRIM(thisform.txttabela.Value)
+    USE &mtabela IN 0 ALIAS tabela
+    SELECT kocka
+    GO top
+    DO while.not.eof()
+       mbrnal=brnal
+       THISFORM.LBL1.CAPTION=MBRNAL+' '+TRANSFORM(RECNO(),'99999')
+       SELECT nal
+       SET ORDER TO 2
+       SEEK mbrnal
+       IF FOUND()
+          DO while.not.eof()
+             IF brnal<>mbrnal
+                EXIT
+             endif   
+             replace dug WITH 0
+             replace pot WITH 0
+             replace devdug WITH 0
+             replace devpot WITH 0
+             SKIP
+          enddo   
+       ENDIF
+       SELECT tabela
+       COPY TO &kkocka2 FOR brnal=mbrnal
+       USE &kkocka2 IN 0 ALIAS kocka2 EXCLUSIVE
+       SELECT kocka2
+       IF RECCOUNT()>0
+          USE
+          SELECT nal
+          APPEND FROM &kkocka2
+       ELSE
+          SELECT kocka2
+          use
+       endif
+       SELECT kocka
+       SKIP
+    enddo   
+    
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBL1 | parent=NALSLAG3
+  PROPERTIES:
+    FontSize = 11
+    Caption = ""
+    Height =   1.67
+    Left =  24.00
+    Top =   6.40
+    Width =  74.60
+    Name = "LBL1"

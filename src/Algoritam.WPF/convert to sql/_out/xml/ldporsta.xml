@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldporsta">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="GOD" type="N" length="0" decimals="0" />
+    <column name="MESECI" type="N" length="0" decimals="0" />
+    <column name="DANA" type="N" length="0" decimals="0" />
+    <column name="PROCVR" type="N" length="0" decimals="0" />
+    <column name="ODDAT" type="D" length="0" decimals="0" />
+    <column name="DODAT" type="D" length="0" decimals="0" />
+    <column name="ODDATNEGA" type="D" length="0" decimals="0" />
+    <column name="DODATNEGA" type="D" length="0" decimals="0" />
+    <column name="DATPOS" type="D" length="0" decimals="0" />
+    <column name="DATZAHTEV" type="D" length="0" decimals="0" />
+    <column name="DATDOZNA" type="D" length="0" decimals="0" />
+    <column name="ZCNAZIV" type="C" length="0" decimals="0" />
+    <column name="ZCMESTO" type="C" length="0" decimals="0" />
+    <column name="IZVODMK" type="C" length="0" decimals="0" />
+    <column name="IZVODMES" type="C" length="0" decimals="0" />
+    <column name="DETEIME" type="C" length="0" decimals="0" />
+    <column name="DETERODJ" type="D" length="0" decimals="0" />
+    <column name="DETERED" type="C" length="0" decimals="0" />
+    <column name="NAZSUDA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

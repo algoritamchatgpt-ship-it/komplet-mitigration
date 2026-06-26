@@ -1,0 +1,351 @@
+num records 21
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALANPAR | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  23.80
+    Width = 104.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PARAMETRI KNJIŽENJA ANALITIKE"
+    WindowType = 1
+    WindowState = 0
+    AlwaysOnTop = .T.
+    BackColor = 236,233,216
+    Name = "NALANPAR"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    PUSH KEY CLEAR
+    SELECT ANPAR
+    PKPLANS=KPLANS
+    PKONDOPU=KONDOPU
+    PKTKR=KTKR
+    USE
+    SELECT NALP
+    POP KEY
+    POP KEY
+    
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY clear
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE &KANPAR IN 0 ALIAS ANPAR
+    SELECT ANPAR
+    PUBLIC MTKNACIN
+    MTKNACIN=KNACIN
+    SET PROCEDURE TO TASTERI2
+       DO NALANPARTAST
+    SET PROCEDURE TO   
+    THISFORM.REFRESH
+    ENDPROC
+
+=== label | Label1 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "KNJIŽENJE IZVODA=D RAČUNA=N"
+    Height =   1.67
+    Left =   1.40
+    Top =   0.80
+    Width =  59.80
+    TabIndex = 17
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALANPAR
+  PROPERTIES:
+    Top =  20.80
+    Left =  40.80
+    Height =   2.47
+    Width =  26.60
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 9
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release
+    *IF MTKNACIN<>'D'
+    *   NALP.RELEASE
+    *ELSE
+    *   NALP2.RELEASE
+    *ENDIF
+    
+    
+    ENDPROC
+
+=== textbox | txtKnjan | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.knjan"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   0.80
+    Width =   6.20
+    Name = "txtKnjan"
+
+=== label | Label2 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "UOBIČAJENA VRSTA NALOGA"
+    Height =   1.67
+    Left =   1.40
+    Top =   2.73
+    Width =  59.80
+    TabIndex = 10
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label2"
+
+=== textbox | Text1 | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.VRNAL"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   2.73
+    Width =  12.00
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT ANPAR
+    REPLACE VRNAL WITH STR(VAL(VRNAL),3,0)
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | Label3 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "PRVI KONTO KOD IZVODA"
+    Height =   1.67
+    Left =   1.40
+    Top =   4.67
+    Width =  59.80
+    TabIndex = 11
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label3"
+
+=== textbox | TXTKONTO | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.KONTO"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   4.67
+    Width =  24.00
+    Name = "TXTKONTO"
+
+=== label | Label4 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "SILAZAK U KONTNI PLAN "
+    Height =   1.67
+    Left =   1.40
+    Top =   6.60
+    Width =  59.80
+    TabIndex = 12
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label4"
+
+=== textbox | TXTKPLANS | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.kplans"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   6.60
+    Width =   7.20
+    Name = "TXTKPLANS"
+
+=== label | Label5 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "DOPUNI KONTO DO 10 CIFARA"
+    Height =   1.67
+    Left =   1.40
+    Top =   8.47
+    Width =  59.80
+    TabIndex = 13
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label5"
+
+=== textbox | TXTKONDOPU | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.kondopu"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 5
+    Top =   8.47
+    Width =   7.20
+    Name = "TXTKONDOPU"
+
+=== label | Label6 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "KNJIŽI RAZDUŽENJE KOD T.K. D=DA N=NE"
+    Height =   1.67
+    Left =   1.40
+    Top =  10.33
+    Width =  59.80
+    TabIndex = 14
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label6"
+
+=== textbox | TXTKTKR | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.KTKR"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 6
+    Top =  10.33
+    Width =   6.20
+    Name = "TXTKTKR"
+
+=== label | Label7 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "AUTOMATSKI ZATVARAJ ANALITIKU D=DA N=NE"
+    Height =   1.67
+    Left =   1.40
+    Top =  12.20
+    Width =  59.80
+    TabIndex = 15
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label7"
+
+=== textbox | TXTANAUTOZ | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.KANAUTOZ"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 7
+    Top =  12.20
+    Width =   6.20
+    Name = "TXTANAUTOZ"
+
+=== label | Label8 | parent=NALANPAR
+  PROPERTIES:
+    FontSize = 10
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "Promeni način knjiženja  D/N"
+    Height =   1.67
+    Left =   1.40
+    Top =  14.13
+    Width =  59.80
+    TabIndex = 16
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label8"
+
+=== textbox | Text2 | parent=NALANPAR
+  PROPERTIES:
+    Comment = ""
+    FontSize = 10
+    BorderStyle = 1
+    ControlSource = "anpar.knacin"
+    Height =   1.53
+    Left =  63.00
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 8
+    Top =  14.13
+    Width =   6.20
+    Name = "Text2"

@@ -1,0 +1,130 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 321
+    Left = 283
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPDODPRIH | parent=(root)
+  PROPERTIES:
+    Top = 188
+    Left = 302
+    Height = 233
+    Width = 453
+    DoCreate = .T.
+    Caption = "KNJIZENJE DODATNIH PRIHODA I RASHODA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 233,236,216
+    Name = "NALPDODPRIH"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    push key clear
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+      DO NALPDODPRIHTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== textbox | TXTPRIH | parent=NALPDODPRIH
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    Format = "R"
+    Height = 23
+    InputMask = "999999999999999.99"
+    Left = 160
+    SpecialEffect = 0
+    TabIndex = 1
+    Top = 37
+    Width = 212
+    ForeColor = 0,0,0
+    Name = "TXTPRIH"
+
+=== label | lblDevpot | parent=NALPDODPRIH
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "DODATNI IZNOS"
+    Height = 19
+    Left = 42
+    Top = 37
+    Width = 111
+    TabIndex = 3
+    ForeColor = 171,33,44
+    Name = "lblDevpot"
+
+=== commandbutton | Command2 | parent=NALPDODPRIH
+  PROPERTIES:
+    Top = 132
+    Left = 132
+    Height = 46
+    Width = 132
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\aizlaz1.bmp
+    Caption = "Potvrda"
+    TabIndex = 2
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    MIZNOS=THISFORM.TXTPRIH.VALUE
+    IF APRIH='D'
+       SELECT NALP
+       REPLACE DODDUG WITH MIZNOS
+       REPLACE DODPOT WITH 0
+    ELSE
+       SELECT NALP
+       REPLACE DODPOT WITH MIZNOS
+       REPLACE DODDUG WITH 0
+    ENDIF   
+    RELEASE THISFORM
+    ENDPROC

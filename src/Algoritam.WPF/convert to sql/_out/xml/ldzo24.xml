@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldzo24">
+  <columns>
+    <column name="MESEC2" type="C" length="0" decimals="0" />
+    <column name="MESEC3" type="C" length="0" decimals="0" />
+    <column name="UKIZN12" type="N" length="2" decimals="0" />
+    <column name="UKIZN13" type="N" length="2" decimals="0" />
+    <column name="UKCAS22" type="N" length="2" decimals="0" />
+    <column name="UKCAS23" type="N" length="2" decimals="0" />
+    <column name="PROS32" type="N" length="2" decimals="0" />
+    <column name="PROS33" type="N" length="2" decimals="0" />
+    <column name="PORAST" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

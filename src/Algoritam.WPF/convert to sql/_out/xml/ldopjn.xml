@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopjn">
+  <columns>
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="OPIS" type="C" length="0" decimals="0" />
+    <column name="ZAPOSL" type="N" length="0" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="RLINI" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>I.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>1.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>2.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>2.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>2.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>2.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>3.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>4.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>5.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>6.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>6.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>6.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>6.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>7.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>8.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>II</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>9.</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>10</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>II</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>11</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>12</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>12</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>12</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS />
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>13</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>14</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>IV</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <ZAPOSL />
+      <IZNOS>15</IZNOS>
+      <RLINI></RLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

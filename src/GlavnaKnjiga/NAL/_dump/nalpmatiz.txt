@@ -1,0 +1,547 @@
+num records 32
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 335
+    Left = 34
+    Width = 520
+    Height = 288
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPMATIZ | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  27.67
+    Width = 144.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 0
+    HelpContextID = 1
+    BackColor = 149,188,148
+    Name = "NALPMATIZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    REPLACE POT WITH UKUPNO_P
+    pop key
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALP
+    MKONTO=KONTO
+    IF TGKREDNI='1'
+       KNAL='NAL'
+       USE NAL IN 0 ALIAS NAL ORDER 1
+    ELSE
+       KNAL='NAL'+ALLTRIM(TGKREDNI)
+       USE &KNAL IN 0 ALIAS NAL ORDER 1
+    ENDIF
+       MKOL=0
+       MKOLI=0
+       MDUG=0
+       MPOT=0
+       MSTANJE=0
+       MSALDO=0
+    SELECT NAL
+    SEEK MKONTO
+    IF FOUND()
+       MKOL=0
+       MKOLI=0
+       MDUG=0
+       MPOT=0
+       DO WHILE.NOT.EOF()
+          IF KONTO<>MKONTO
+             EXIT
+          ENDIF
+          IF DUG<>0
+             MDUG=MDUG+DUG
+             MKOL=MKOL+ULAZ
+          ELSE
+             MPOT=MPOT+POT
+             MKOLI=MKOLI+IZLAZ  
+          ENDIF     
+          SKIP
+       ENDDO 
+       MSTANJE=MKOL-MKOLI
+       MSALDO=MDUG-MPOT     
+       IF MSTANJE<>0
+          MCENA=ROUND(MSALDO/MSTANJE,3)
+       ELSE
+          MCENA=0   
+       ENDIF
+    ENDIF
+    SELECT NAL
+    USE
+    SELECT NALP
+    THISFORM.TXTSTANJE.VALUE=MSTANJE
+    THISFORM.TXTSALDO.VALUE=MSALDO
+    THISFORM.TXTIZLAZ.SetFocus
+    THISFORM.Caption='EVIDENCIJA IZLAZA MATERIJALA '
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPMATIZTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== shape | Shape3 | parent=NALPMATIZ
+  PROPERTIES:
+    Top =   8.40
+    Left =   2.40
+    Height =   2.47
+    Width = 139.40
+    Name = "Shape3"
+
+=== shape | Shape2 | parent=NALPMATIZ
+  PROPERTIES:
+    Top =  14.40
+    Left =  31.20
+    Height =   8.07
+    Width =  69.80
+    BackColor = 211,236,241
+    Name = "Shape2"
+
+=== shape | Shape1 | parent=NALPMATIZ
+  PROPERTIES:
+    Top =   0.27
+    Left =   2.40
+    Height =   8.27
+    Width = 139.40
+    BackColor = 255,255,183
+    Name = "Shape1"
+
+=== commandbutton | Command6 | parent=NALPMATIZ
+  PROPERTIES:
+    Top =  22.67
+    Left = 110.40
+    Height =   4.53
+    Width =  23.20
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\aizlaz1.bmp
+    Caption = "\<Izlaz"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== textbox | txtKonto | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.konto"
+    Height =   1.53
+    Left =  14.40
+    MaxLength = 10
+    ReadOnly = .T.
+    TabIndex = 9
+    Top =   3.20
+    Width =  21.40
+    DisabledBackColor = 231,205,190
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Konto"
+    Left =   5.40
+    Top =   3.47
+    Width =   7.60
+    TabIndex = 8
+    Name = "lblKonto"
+
+=== textbox | txtNaziv | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.naziv"
+    Height =   1.53
+    Left =  37.40
+    MaxLength = 70
+    ReadOnly = .T.
+    TabIndex = 10
+    Top =   3.20
+    Width = 102.00
+    DisabledBackColor = 231,205,190
+    Name = "txtNaziv"
+
+=== textbox | txtDug | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.dug"
+    Height =   1.53
+    Left =  16.60
+    ReadOnly = .T.
+    TabIndex = 12
+    Top =   6.40
+    Width =  26.20
+    DisabledBackColor = 231,205,190
+    Name = "txtDug"
+
+=== label | lblDug | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DUGUJE"
+    Left =   4.20
+    Top =   6.67
+    Width =  11.80
+    TabIndex = 11
+    Name = "lblDug"
+
+=== textbox | txtPot | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.pot"
+    Height =   1.53
+    Left =  61.20
+    ReadOnly = .T.
+    TabIndex = 14
+    Top =   6.40
+    Width =  26.20
+    DisabledBackColor = 231,205,190
+    Name = "txtPot"
+
+=== label | lblPot | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POTRAŽUJE"
+    Left =  43.40
+    Top =   6.67
+    Width =  17.20
+    TabIndex = 13
+    Name = "lblPot"
+
+=== textbox | txtOpis | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.opis"
+    Height =   1.53
+    Left =  96.00
+    MaxLength = 30
+    ReadOnly = .T.
+    TabIndex = 16
+    Top =   6.40
+    Width =  43.80
+    DisabledBackColor = 231,205,190
+    Name = "txtOpis"
+
+=== label | lblOpis | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "OPIS"
+    Left =  88.40
+    Top =   6.67
+    Width =   7.00
+    TabIndex = 15
+    Name = "lblOpis"
+
+=== textbox | txtDatdok | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.datdok"
+    Height =   1.53
+    Left =  42.00
+    ReadOnly = .T.
+    TabIndex = 18
+    Top =   0.80
+    Width =  20.40
+    DisabledBackColor = 231,205,190
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM"
+    Left =  30.20
+    Top =   1.07
+    Width =   9.80
+    TabIndex = 17
+    Name = "lblDatdok"
+
+=== textbox | txtBrnal | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.brnal"
+    Height =   1.53
+    Left =  16.20
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 20
+    Top =   0.80
+    Width =  13.40
+    DisabledBackColor = 231,205,190
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NALOG"
+    Left =   5.40
+    Top =   1.00
+    Width =  10.00
+    TabIndex = 19
+    Name = "lblBrnal"
+
+=== textbox | txtIZLAZ | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.IZlaz"
+    Height =   1.67
+    Left =  65.00
+    TabIndex = 1
+    Top =  15.13
+    Width =  30.40
+    Name = "txtIZLAZ"
+
+=== label | lblUlaz | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "IZLAZNA KOLIČINA"
+    Height =   1.27
+    Left =  32.40
+    Top =  15.20
+    Width =  24.80
+    TabIndex = 22
+    Name = "lblUlaz"
+
+=== textbox | txtCena | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.cena"
+    Height =   1.67
+    Left =  65.00
+    ReadOnly = .T.
+    TabIndex = 6
+    Top =  17.53
+    Width =  30.40
+    DisabledBackColor = 231,205,190
+    Name = "txtCena"
+
+=== label | lblCena | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "IZLAZNA CENA"
+    Height =   1.27
+    Left =  32.40
+    Top =  17.60
+    Width =  19.60
+    TabIndex = 24
+    Name = "lblCena"
+
+=== textbox | txtUkupno_P | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.ukupno_P"
+    Height =   1.67
+    Left =  65.00
+    ReadOnly = .T.
+    TabIndex = 7
+    Top =  19.73
+    Width =  30.40
+    DisabledBackColor = 231,205,190
+    Name = "txtUkupno_P"
+
+=== label | lblUkupno_d | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "IZLAZNA VREDNOST"
+    Height =   1.27
+    Left =  32.40
+    Top =  20.00
+    Width =  28.00
+    TabIndex = 25
+    Name = "lblUkupno_d"
+
+=== commandbutton | Command1 | parent=NALPMATIZ
+  PROPERTIES:
+    Top =  22.67
+    Left =  31.20
+    Height =   4.53
+    Width =  23.20
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\racunaljka.png
+    Caption = "\<Obračun "
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    MKONTO=KONTO
+    MMKOL=IZLAZ
+    IF TGKREDNI='1'
+       KNAL='NAL'
+       USE NAL IN 0 ALIAS NAL ORDER 1
+    ELSE
+       KNAL='NAL'+ALLTRIM(TGKREDNI)
+       USE &KNAL IN 0 ALIAS NAL ORDER 1
+    ENDIF
+    SELECT NAL
+    SEEK MKONTO
+    IF FOUND()
+       MKOL=0
+       MKOLI=0
+       MDUG=0
+       MPOT=0
+       DO WHILE.NOT.EOF()
+          IF KONTO<>MKONTO
+             EXIT
+          ENDIF
+          IF DUG<>0
+             MDUG=MDUG+DUG
+             MKOL=MKOL+ULAZ
+          ELSE
+             MPOT=MPOT+POT
+             MKOLI=MKOLI+IZLAZ  
+          ENDIF     
+          SKIP
+       ENDDO 
+       MSTANJE=MKOL-MKOLI
+       MSALDO=MDUG-MPOT     
+       IF MSTANJE<>0
+          MCENA=ROUND(MSALDO/MSTANJE,3)
+       ELSE
+          MCENA=0   
+       ENDIF
+       SELECT NALP
+       REPLACE CENA WITH MCENA
+       REPLACE UKUPNO_P WITH ROUND(IZLAZ*CENA,2)  
+    ENDIF
+    SELECT NAL
+    USE
+    SELECT NALP
+    REPLACE POT WITH UKUPNO_P
+    THISFORM.REFRESH
+    THISFORM.COMMAND6.SETFOCUS
+    ENDPROC
+
+=== textbox | TXTSTANJE | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  35.20
+    ReadOnly = .T.
+    TabIndex = 4
+    Top =   8.80
+    Width =  30.40
+    Name = "TXTSTANJE"
+
+=== label | Label1 | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "KOLIČINA NA STANJU"
+    Height =   1.27
+    Left =   4.60
+    Top =   9.00
+    Width =  29.00
+    TabIndex = 21
+    Name = "Label1"
+
+=== textbox | TXTSALDO | parent=NALPMATIZ
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left = 102.00
+    ReadOnly = .T.
+    TabIndex = 5
+    Top =   8.80
+    Width =  30.40
+    Name = "TXTSALDO"
+
+=== label | Label2 | parent=NALPMATIZ
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "VREDNOST NA STANJU"
+    Height =   1.27
+    Left =  68.20
+    Top =   9.00
+    Width =  32.40
+    TabIndex = 23
+    Name = "Label2"

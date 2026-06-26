@@ -1,0 +1,118 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.UputstvaIzborWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Uputstva za rad"
+        Width="760"
+        Height="520"
+        MinWidth="640"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#F5F7FA">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#1565C0" Padding="18,12">
+            <StackPanel>
+                <TextBlock Text="UPUTSTVA ZA RAD"
+                           FontFamily="Tahoma"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock Text="Izaberite uputstvo koje vam je trenutno potrebno"
+                           FontFamily="Tahoma"
+                           FontSize="11"
+                           Foreground="#D7E8FF"
+                           Margin="0,3,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom"
+                Background="#EEEEEE"
+                BorderBrush="#D0D8E4"
+                BorderThickness="0,1,0,0"
+                Padding="14,10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Otvori"
+                        Width="100"
+                        Height="34"
+                        IsDefault="True"
+                        Margin="0,0,8,0"
+                        FontFamily="Tahoma"
+                        FontSize="11"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Background="#1565C0"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="OtvoriClick"/>
+                <Button Content="Zatvori"
+                        Width="100"
+                        Height="34"
+                        IsCancel="True"
+                        FontFamily="Tahoma"
+                        FontSize="11"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Background="#607D8B"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="ZatvoriClick"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Dvaput kliknite na stavku ili izaberite i kliknite Otvori."
+                       FontFamily="Tahoma"
+                       FontSize="11"
+                       Foreground="#37474F"
+                       Margin="0,0,0,8"/>
+
+            <ListBox x:Name="UputstvaListBox"
+                     Grid.Row="1"
+                     BorderBrush="#C5D3E0"
+                     BorderThickness="1"
+                     Background="White"
+                     MouseDoubleClick="UputstvaListBoxMouseDoubleClick">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#E0E6ED" BorderThickness="0,0,0,1" Padding="8,8">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Naziv}"
+                                           FontFamily="Tahoma"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A3A6B"/>
+                                <TextBlock Text="{Binding Opis}"
+                                           FontFamily="Tahoma"
+                                           FontSize="11"
+                                           TextWrapping="Wrap"
+                                           Foreground="#37474F"
+                                           Margin="0,3,0,0"/>
+                                <TextBlock Text="{Binding Putanja}"
+                                           FontFamily="Consolas"
+                                           FontSize="10"
+                                           TextWrapping="Wrap"
+                                           Foreground="#607D8B"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Grid.Row="2"
+                       Margin="0,8,0,0"
+                       Text="Ako ne vidite zeljeno uputstvo, proverite folder Uputstva."
+                       FontFamily="Tahoma"
+                       FontSize="10.5"
+                       Foreground="#546E7A"/>
+        </Grid>
+    </DockPanel>
+</Window>

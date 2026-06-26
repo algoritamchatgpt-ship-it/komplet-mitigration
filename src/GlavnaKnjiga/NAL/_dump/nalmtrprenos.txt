@@ -1,0 +1,249 @@
+num records 9
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALMTRPRENOS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  12.53
+    Width =  81.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PRENOS GLAVNE KNJIGE ZA MESTA TROŠKOVA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALMTRPRENOS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO NALMTRPRENOSTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALMTRPRENOS
+  PROPERTIES:
+    Top =   7.20
+    Left =  26.40
+    Height =   4.00
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\aprenospara.png
+    Caption = "\<Prenos"
+    TabIndex = 11
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    DO IDEL WITH (KKOCKAX)
+    DO IDEL WITH (KKOCKAX2)
+    DO IDEL WITH (KKOCKAX3)
+    SELECT NALMTR 
+    SET ORDER TO 2
+    USE &KKONTO IN 0 ORDER 1 ALIAS KONTO
+    USE NAL IN 0 
+    SELECT NAL
+    COPY TO &KKOCKA FOR (SUBSTR(KONTO,1,1)='5'.OR.SUBSTR(KONTO,1,1)='6').AND.(DATDOK>=MDAT0.OR.DATDOK<=MDAT1)
+    USE
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON BRNAL TAG BRNAL
+    INDEX ON KONTO+BRNAL TAG KONNAL
+    SET ORDER TO 1
+    TOTAL ON BRNAL FIELDS DUG,POT TO &KKOCKA3
+    SET ORDER TO 2
+    TOTAL ON KONTO+BRNAL FIELDS DUG,POT TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    SET ORDER TO 1
+    GO TOP
+    USE &KKOCKA3 IN 0 EXCLUSIVE ALIAS KOCKA3
+    SELECT KOCKA3
+    GO TOP
+    DO WHILE.NOT.EOF()
+       MBRNAL=BRNAL
+       SELECT NALMTR
+       SEEK MBRNAL 
+       IF.NOT.FOUND() 
+          SELECT KOCKA
+          SEEK MBRNAL
+          IF FOUND()
+             DO WHILE.NOT.EOF()
+                IF BRNAL<>MBRNAL
+                   EXIT
+                ENDIF     
+                MKONTO=KONTO
+                MDUG=DUG
+                MPOT=POT
+                MOPIS=OPIS
+                MDATDOK=DATDOK
+                SELECT KONTO
+                SEEK MKONTO
+                IF FOUND()
+                   MNAZIV=NAZIV
+                ELSE
+                   MNAZIV=' '   
+                ENDIF  
+                SELECT NALMTR
+                APPEND BLANK
+                REPLACE KONTO WITH MKONTO
+                REPLACE DATDOK WITH MDATDOK
+                REPLACE BRNAL WITH MBRNAL
+                REPLACE DUG WITH MDUG
+                REPLACE POT WITH MPOT
+                REPLACE OPIS WITH MOPIS
+                REPLACE NAZIV WITH MNAZIV
+                SELECT KOCKA
+                SKIP
+             ENDDO   
+          ENDIF
+       ENDIF
+       SELECT KOCKA3
+       SKIP
+    ENDDO   
+    
+    SELECT KOCKA
+    USE
+    SELECT KOCKA3
+    USE
+    SELECT KONTO
+    USE
+    SELECT NALMTR
+    SORT ON DATDOK,KONTO TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP
+    DO WHILE.NOT.EOF()
+       REPLACE SALDO WITH DUG-POT 
+       DO NALMTRRAC
+       SKIP
+    ENDDO   
+    
+    THISFORM.RELEASE
+    NALMTR.RELEASE
+    KEYBOARD '{ENTER}'
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTDAT0 | parent=NALMTRPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.20
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   0.80
+    Width =  26.40
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALMTRPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Početni datum"
+    Height =   1.67
+    Left =  21.00
+    Top =   0.87
+    Width =  20.00
+    TabIndex = 18
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALMTRPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.40
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   3.07
+    Width =  26.20
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALMTRPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Zadnji datum"
+    Height =   1.67
+    Left =  21.00
+    Top =   3.20
+    Width =  20.00
+    TabIndex = 19
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label6"

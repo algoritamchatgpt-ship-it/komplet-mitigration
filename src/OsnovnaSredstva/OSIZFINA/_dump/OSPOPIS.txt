@@ -1,0 +1,296 @@
+num records 19
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 386
+    Left = 78
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | OSPOPIS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  21.87
+    Width = 102.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "POPISNA LISTA OSNOVNIH SREDSTAVA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 233,236,216
+    Name = "OSPOPIS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT OSPOPIS 
+    USE
+    SELECT OS0
+    SET FILTER TO 
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    *SET PROCEDURE TO TASTERIO2
+    *   DO OSPODACITAST
+    *SET PROCEDURE TO
+    USE OSPOPIS IN 0
+    SELECT OSPOPIS
+    IF RECCOUNT()<1
+       APPEND BLANK
+    ENDIF
+    GO TOP
+    SET PROCEDURE TO TASTERIO2
+       DO OSPOPISTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=OSPOPIS
+  PROPERTIES:
+    Top =  12.80
+    Left =   4.80
+    Height =   2.07
+    Width =  21.80
+    FontSize = 11
+    Caption = "\<SA KOLIČINOM"
+    TabIndex = 7
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO OSPOPIS WITH 1
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=OSPOPIS
+  PROPERTIES:
+    Top =  12.80
+    Left =  60.00
+    Height =   2.07
+    Width =  21.80
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 8
+    BackColor = 255,128,128
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== textbox | txtMesto | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.mesto"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.13
+    Width =   8.80
+    Name = "txtMesto"
+
+=== label | lblMesto | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "MESTO"
+    Left =   1.40
+    Top =   1.47
+    Width =  10.40
+    TabIndex = 9
+    ForeColor = 171,33,44
+    Name = "lblMesto"
+
+=== textbox | txtMtr | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.mtr"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   2.93
+    Width =   9.80
+    Name = "txtMtr"
+
+=== label | lblMtr | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "MESTO TROŠKOVA"
+    Height =   1.27
+    Left =   1.40
+    Top =   3.33
+    Width =  27.40
+    TabIndex = 10
+    ForeColor = 171,33,44
+    Name = "lblMtr"
+
+=== textbox | txtKonto | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.konto"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   4.73
+    Width =  13.60
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "KONTO"
+    Left =   1.40
+    Top =   5.20
+    Width =  10.60
+    TabIndex = 11
+    ForeColor = 171,33,44
+    Name = "lblKonto"
+
+=== textbox | txtAg | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.ag"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   6.53
+    Width =   6.20
+    Name = "txtAg"
+
+=== label | lblAg | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "AMORTIZACIONA GRUPA"
+    Height =   1.27
+    Left =   1.40
+    Top =   7.07
+    Width =  34.00
+    TabIndex = 12
+    ForeColor = 171,33,44
+    Name = "lblAg"
+
+=== textbox | txtAgpod | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.agpod"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 5
+    Top =   8.33
+    Width =   7.60
+    Name = "txtAgpod"
+
+=== label | lblAgpod | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "PODGRUPA"
+    Left =   1.40
+    Top =   8.93
+    Width =  16.60
+    TabIndex = 13
+    ForeColor = 171,33,44
+    Name = "lblAgpod"
+
+=== textbox | txtGrupa | parent=OSPOPIS
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "ospopis.grupa"
+    Height =   1.53
+    Left =  38.80
+    SpecialEffect = 0
+    TabIndex = 6
+    Top =  10.13
+    Width =   8.80
+    Name = "txtGrupa"
+
+=== label | lblGrupa | parent=OSPOPIS
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "GRUPA"
+    Left =   1.40
+    Top =  10.80
+    Width =  10.00
+    TabIndex = 14
+    ForeColor = 171,33,44
+    Name = "lblGrupa"
+
+=== commandbutton | Command3 | parent=OSPOPIS
+  PROPERTIES:
+    Top =  12.80
+    Left =  31.20
+    Height =   2.07
+    Width =  21.80
+    FontSize = 11
+    Caption = "\<BEZ KOLIČINE"
+    TabIndex = 7
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO OSPOPIS WITH 2
+    
+    ENDPROC

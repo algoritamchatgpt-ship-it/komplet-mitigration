@@ -1,0 +1,109 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPodaciZaradeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1260" Height="760"
+        MinWidth="900" MinHeight="500"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        FontFamily="Tahoma" FontSize="11">
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Naslov -->
+        <Border Grid.Row="0" Background="#1B5E20" Padding="12,8" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Naslov, FallbackValue='PODACI O ZARADAMA'}"
+                       FontWeight="Bold" FontSize="13" Foreground="White" FontFamily="Tahoma"/>
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="1" Margin="0,0,0,8"
+                  ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#E0E0E0" RowHeaderWidth="0"
+                  Background="White" AlternatingRowBackground="#F9FBF9"
+                  BorderBrush="#C8E6C9" BorderThickness="1">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="4,4"/>
+                    <Setter Property="BorderBrush" Value="#0D3F12"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Kod"     Binding="{Binding Kod}"              Width="78"/>
+                <DataGridTextColumn Header="Opis"    Binding="{Binding Opis}"             Width="240"/>
+                <DataGridTextColumn Header="S1a"     Binding="{Binding S1a,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv1a"    Binding="{Binding Sv1a, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S1b"     Binding="{Binding S1b,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv1b"    Binding="{Binding Sv1b, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S1c"     Binding="{Binding S1c,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv1c"    Binding="{Binding Sv1c, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S1u"     Binding="{Binding S1u,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv1u"    Binding="{Binding Sv1u, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S2a"     Binding="{Binding S2a,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv2a"    Binding="{Binding Sv2a, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S2b"     Binding="{Binding S2b,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv2b"    Binding="{Binding Sv2b, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S2c"     Binding="{Binding S2c,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv2c"    Binding="{Binding Sv2c, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S2u"     Binding="{Binding S2u,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv2u"    Binding="{Binding Sv2u, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S3a"     Binding="{Binding S3a,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv3a"    Binding="{Binding Sv3a, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S3b"     Binding="{Binding S3b,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv3b"    Binding="{Binding Sv3b, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S3c"     Binding="{Binding S3c,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv3c"    Binding="{Binding Sv3c, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S3u"     Binding="{Binding S3u,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv3u"    Binding="{Binding Sv3u, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S4a"     Binding="{Binding S4a,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv4a"    Binding="{Binding Sv4a, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S4b"     Binding="{Binding S4b,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv4b"    Binding="{Binding Sv4b, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S4c"     Binding="{Binding S4c,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv4c"    Binding="{Binding Sv4c, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="S4u"     Binding="{Binding S4u,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Sv4u"    Binding="{Binding Sv4u, StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Su"      Binding="{Binding Su,   StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Svu"     Binding="{Binding Svu,  StringFormat=N2}" Width="78"/>
+                <DataGridTextColumn Header="Mesec"   Binding="{Binding Mesec}"   Width="60"/>
+                <DataGridTextColumn Header="Isplata" Binding="{Binding Isplata}" Width="60"/>
+                <DataGridTextColumn Header="Vrsta"   Binding="{Binding Vrsta}"   Width="60"/>
+                <DataGridTextColumn Header="Preneto" Binding="{Binding Preneto}" Width="70"/>
+                <DataGridTextColumn Header="Numred"  Binding="{Binding Numred}"  Width="72"/>
+                <DataGridTextColumn Header="Idbr"    Binding="{Binding Idbr}"    Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Dugmad -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,6">
+            <Button Height="28" Width="140" Margin="0,0,8,0"
+                    Content="IZVEŠTAJ" Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding IzvestajCommand}"/>
+            <Button Height="28" Width="140" Margin="0,0,8,0"
+                    Content="IZVEŠTAJ 2" Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding Izvestaj2Command}"/>
+            <Button Height="28" Width="90"
+                    Content="IZLAZ" Style="{StaticResource NeutralButtonStyle}"
+                    Click="ZatvoriClick"/>
+        </StackPanel>
+
+        <!-- Status bar -->
+        <DockPanel Grid.Row="3" Margin="0,2,0,0">
+            <TextBlock DockPanel.Dock="Left" Text="PODACI O ZARADAMA" FontSize="9" Foreground="#1B5E20"
+                       VerticalAlignment="Center" Margin="0,0,8,0"/>
+        </DockPanel>
+    </Grid>
+</Window>

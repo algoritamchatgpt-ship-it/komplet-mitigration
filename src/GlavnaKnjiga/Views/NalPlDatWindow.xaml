@@ -1,0 +1,51 @@
+<Window x:Class="GlavnaKnjiga.Views.NalPlDatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DATUMI"
+        Height="160" Width="380"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F2F2F2"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="DATUMI"
+                   FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"
+                   Background="#F1D1AD" Padding="8,4"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Početni datum" Foreground="#BE0000"
+                       TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Column="1" FontSize="11" SelectedDate="{Binding Dat0}"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Zadnji datum" Foreground="#BE0000"
+                       TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Column="1" FontSize="11" SelectedDate="{Binding Dat1}"/>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="IZLAZ" Width="100" Margin="8,0" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

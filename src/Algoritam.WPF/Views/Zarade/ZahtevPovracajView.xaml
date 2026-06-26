@@ -1,0 +1,157 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.ZahtevPovracajView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Zahtev za povraćaj" Width="1020" Height="640"
+        WindowStartupLocation="CenterScreen" Background="#F0F0F0">
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="46">
+            <DockPanel Margin="12,0">
+                <TextBlock Text="{Binding Naslov}" Foreground="White" FontSize="14" FontWeight="Bold"
+                           FontFamily="Tahoma" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center"
+                           Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="11"
+                           Text="{Binding Period, StringFormat='Period: {0}'}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9" Padding="6,5"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <Button Content="GENERIŠI DOKUMENT" Width="150" Height="26" Margin="2,0"
+                        Background="#2E7D32" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        Command="{Binding GenerisiDokumentCommand}"/>
+                <Separator Width="10" Background="Transparent"/>
+                <Button Content="ZATVORI" Width="80" Height="26" Margin="2,0"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZatvoriCommand}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Podaci firme -->
+        <Border DockPanel.Dock="Top" Background="#FFF8E1" Padding="10,6"
+                BorderThickness="0,0,0,1" BorderBrush="#FFE082">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Firma:" FontFamily="Tahoma" FontSize="11"
+                           FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding FirmaNaziv}" FontFamily="Tahoma" FontSize="11"
+                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock Grid.Column="2" Text="PIB:" FontFamily="Tahoma" FontSize="11"
+                           FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBlock Grid.Column="3" Text="{Binding FirmaPib}" FontFamily="Tahoma" FontSize="11"
+                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock Grid.Column="4" Text="Osnov:" FontFamily="Tahoma" FontSize="11"
+                           FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox  Grid.Column="5" Text="{Binding Osnov, UpdateSourceTrigger=LostFocus}"
+                          FontFamily="Tahoma" FontSize="11" VerticalContentAlignment="Center"
+                          Height="22" Padding="3,0" Margin="0,0,12,0"/>
+                <TextBlock Grid.Column="6" Text="JMBG:" FontFamily="Tahoma" FontSize="11"
+                           FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox  Grid.Column="7" Text="{Binding JmbgPodnosioca, UpdateSourceTrigger=LostFocus}"
+                          FontFamily="Tahoma" FontSize="11" VerticalContentAlignment="Center"
+                          Height="22" Padding="3,0"/>
+            </Grid>
+        </Border>
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" Padding="10,5"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBlock Text="POREZ: " FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UkupnoPorez, StringFormat='N2'}" FontFamily="Tahoma" FontSize="11"
+                               Foreground="#C62828" FontWeight="Bold" VerticalAlignment="Center" Margin="2,0,16,0"/>
+                    <TextBlock Text="DOPRINOSI: " FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UkupnoDop, StringFormat='N2'}" FontFamily="Tahoma" FontSize="11"
+                               Foreground="#C62828" FontWeight="Bold" VerticalAlignment="Center" Margin="2,0,16,0"/>
+                    <TextBlock Text="UKUPNO: " FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UkupnoSvega, StringFormat='N2'}" FontFamily="Tahoma" FontSize="12"
+                               Foreground="#1B5E20" FontWeight="Bold" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                </StackPanel>
+                <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Grid -->
+        <DataGrid ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                  Background="White" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  SelectionMode="Single" AlternatingRowBackground="#F9FBF9"
+                  FontFamily="Tahoma" FontSize="11">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br."   Binding="{Binding Broj}"          Width="50"/>
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding ImePrez}" Width="200"/>
+                <DataGridTextColumn Header="JMBG"  Binding="{Binding Jmbg}"          Width="130"/>
+                <DataGridTextColumn Header="Šifra prih." Binding="{Binding SifraPrih}" Width="90"/>
+                <DataGridTextColumn Header="OznOlaks" Binding="{Binding OznOlaks}"   Width="90"/>
+                <DataGridTextColumn Header="Umanjenje" Binding="{Binding Umanjenje}"  Width="90"/>
+                <DataGridTextColumn Header="Bruto osnov." Binding="{Binding BrutoOsnovica, StringFormat='N2'}" Width="110">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Porez um." Binding="{Binding PorezUmanj, StringFormat='N2'}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                            <Setter Property="Foreground" Value="#C62828"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Dop. um." Binding="{Binding DopUmanj, StringFormat='N2'}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                            <Setter Property="Foreground" Value="#C62828"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Ukupno povraćaj" Binding="{Binding UkupnoPovracaj, StringFormat='N2'}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Foreground" Value="#1B5E20"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

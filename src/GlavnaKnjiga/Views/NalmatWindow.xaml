@@ -1,0 +1,81 @@
+<Window x:Class="GlavnaKnjiga.Views.NalmatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EVIDENCIJA MATERIJALA"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="#95BC94">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#F3FAA3" Padding="8">
+            <Grid>
+                <TextBlock Text="{Binding LblKonto}" FontFamily="Tahoma"
+                           FontSize="12" FontWeight="Bold"/>
+                <TextBlock Text="{Binding LblRec}" HorizontalAlignment="Right"
+                           FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                           Foreground="#C00000"/>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E9ECD8" Padding="8">
+            <Grid>
+                <TextBlock Text="{Binding Status}" VerticalAlignment="Center"
+                           FontFamily="Tahoma" FontSize="12" FontWeight="Bold"/>
+                <Button Content="Izlaz" Width="100" Height="36"
+                        HorizontalAlignment="Right" Foreground="#B00000"
+                        Command="{Binding IzlazCommand}"/>
+            </Grid>
+        </Border>
+
+        <WrapPanel DockPanel.Dock="Bottom" Margin="6" HorizontalAlignment="Center">
+            <Button Content="PRIJEM KONTA MATERIJALA" Width="205" Height="36" Margin="3"
+                    Command="{Binding PrijemKontaMaterijalaCommand}"/>
+            <Button Content="SREĐIVANJE PROSEČNIH CENA" Width="220" Height="36" Margin="3"
+                    Command="{Binding SrediProsecneCeneCommand}"/>
+            <Button Content="KARTICA MATERIJALA" Width="175" Height="36" Margin="3"
+                    Command="{Binding KarticaMaterijalaCommand}"/>
+            <Button Content="SALDO MATERIJALA" Width="165" Height="36" Margin="3"
+                    Command="{Binding SaldoMaterijalaCommand}"/>
+            <Button Content="LAGER LISTA" Width="135" Height="36" Margin="3"
+                    Command="{Binding LagerListaCommand}"/>
+            <Button Content="ODSTUPANJA" Width="135" Height="36" Margin="3"
+                    Command="{Binding PrikaziOdstupanjaCommand}"/>
+            <Button Content="SVI REDOVI" Width="120" Height="36" Margin="3"
+                    Command="{Binding PrikaziSveCommand}"/>
+            <Button Content="NAPRAVI NALOG ODSTUPANJA" Width="215" Height="36" Margin="3"
+                    Command="{Binding NapraviNalogOdstupanjaCommand}"/>
+            <Button Content="BRISANJE TABELE" Width="150" Height="36" Margin="3"
+                    Foreground="#B00000" Command="{Binding BrisanjeCommand}"/>
+        </WrapPanel>
+
+        <DataGrid x:Name="GrdMain"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  FontFamily="Tahoma" FontSize="11"
+                  Background="#ECE9D8"
+                  SelectionMode="Single"
+                  CellEditEnding="GrdMain_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}" Width="105"/>
+                <DataGridTextColumn Header="Naziv konta" Binding="{Binding NazivKonta}" IsReadOnly="True" Width="220"/>
+                <DataGridTextColumn Header="Cena" Binding="{Binding Cena, StringFormat=N3}" Width="105"/>
+                <DataGridTextColumn Header="Ulaz" Binding="{Binding Ulaz, StringFormat=N3}" Width="110"/>
+                <DataGridTextColumn Header="Izlaz" Binding="{Binding Izlaz, StringFormat=N3}" Width="110"/>
+                <DataGridTextColumn Header="Ukupno D" Binding="{Binding UkupnoD, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Ukupno P" Binding="{Binding UkupnoP, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Duguje" Binding="{Binding Dug, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Potražuje" Binding="{Binding Pot, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Stanje" Binding="{Binding Stanje, StringFormat=N3}" Width="115"/>
+                <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding Datdok, StringFormat=dd.MM.yyyy}" Width="105"/>
+                <DataGridTextColumn Header="Nalog" Binding="{Binding Brnal}" Width="80"/>
+                <DataGridTextColumn Header="Opis" Binding="{Binding Opis}" Width="220"/>
+                <DataGridTextColumn Header="Preneto" Binding="{Binding Preneto}" Width="75"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Idbr, StringFormat=N0}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,11 @@
+-- Source: ldspis
+CREATE TABLE IF NOT EXISTS "ldspis" (
+  "BROJ" NUMERIC(0),
+  "IME_PREZ" VARCHAR(0),
+  "PARTIJA" VARCHAR(0),
+  "IZNOS" NUMERIC(2),
+  "SIFRA" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

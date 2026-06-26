@@ -1,0 +1,180 @@
+<Window x:Class="GlavnaKnjiga.Views.NalmtrWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EVIDENCIJA MESTA TROŠKOVA"
+        Height="680" Width="1280"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#B7BCF9"
+        KeyDown="Window_KeyDown">
+
+    <DockPanel>
+        <!-- Top info strip: DATUM / NALOG / OPIS / rec counter -->
+        <Grid DockPanel.Dock="Top" Background="#ECE9D8" Height="26">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="DATUM:" FontFamily="Tahoma" FontSize="11" Padding="4,2"/>
+            <TextBlock Grid.Column="1" Text="{Binding SelectedRow.Datdok, StringFormat=dd.MM.yyyy}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <Label Grid.Column="2" Content="NALOG:" FontFamily="Tahoma" FontSize="11" Padding="4,2"/>
+            <TextBlock Grid.Column="3" Text="{Binding SelectedRow.Brnal}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <Label Grid.Column="4" Content="OPIS:" FontFamily="Tahoma" FontSize="11" Padding="4,2"/>
+            <TextBlock Grid.Column="5" Text="{Binding SelectedRow.Opis}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <TextBlock x:Name="LblRec" Grid.Column="7" FontFamily="Tahoma" FontSize="10"
+                       FontWeight="Bold" FontStyle="Italic" Foreground="Red" Background="#C0C0C0"
+                       VerticalAlignment="Center" Margin="0,0,4,0" Padding="4,0"/>
+        </Grid>
+
+        <!-- Totals strip: SALDO / UKUPNO / RAZLIKA -->
+        <Grid DockPanel.Dock="Top" Background="#B7BCF9" Height="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Saldo:" FontFamily="Tahoma" FontSize="11" Padding="4,1"/>
+            <TextBlock Grid.Column="1" Text="{Binding SelectedRow.Saldo, StringFormat=N2}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"
+                       Background="White" Foreground="DarkRed" Margin="2"/>
+            <Label Grid.Column="2" Content="Ukupno:" FontFamily="Tahoma" FontSize="11" Padding="4,1"/>
+            <TextBlock Grid.Column="3" Text="{Binding SelectedRow.Ukupno, StringFormat=N2}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"
+                       Background="White" Margin="2"/>
+            <Label Grid.Column="4" Content="Razlika:" FontFamily="Tahoma" FontSize="11" Padding="4,1"/>
+            <TextBlock Grid.Column="5" Text="{Binding SelectedRow.Razlika, StringFormat=N2}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"
+                       Background="White" Foreground="DarkGreen" Margin="2"/>
+        </Grid>
+
+        <!-- Bottom info: KONTO + NAZIV -->
+        <Grid DockPanel.Dock="Bottom" Background="#F5F5F5" Height="26">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Konto:" FontFamily="Tahoma" FontSize="11" Padding="4,2"/>
+            <TextBlock Grid.Column="1" Text="{Binding SelectedRow.Konto}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"/>
+            <Label Grid.Column="2" Content="Naziv:" FontFamily="Tahoma" FontSize="11" Padding="4,2"/>
+            <TextBlock Grid.Column="3" Text="{Binding SelectedRow.Naziv}"
+                       FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- Button row -->
+        <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="4,3">
+            <Button Content="PRVI"    Width="55" Margin="2" Background="#C0C0C0" FontFamily="Tahoma" FontSize="9" Command="{Binding IdiNaVrhCommand}"/>
+            <Button Content="GORE"    Width="55" Margin="2" Background="#C0C0C0" FontFamily="Tahoma" FontSize="9" Command="{Binding IdiGoreCommand}"/>
+            <Button Content="DOLE"    Width="55" Margin="2" Background="#C0C0C0" FontFamily="Tahoma" FontSize="9" Command="{Binding IdiDoleCommand}"/>
+            <Button Content="ZADNJI"  Width="55" Margin="2" Background="#C0C0C0" FontFamily="Tahoma" FontSize="9" Command="{Binding IdiNaDnoCommand}"/>
+            <Separator Width="8"/>
+            <Button Content="PRENOS KNJIŽENJA"     Width="140" Margin="2" Background="#F3FAA3" FontFamily="Tahoma" FontSize="10" Command="{Binding PrenosKnjizenjaCommand}"/>
+            <Button Content="BRISANJE TABELE"      Width="120" Margin="2" Background="#F3FAA3" FontFamily="Tahoma" FontSize="10" Command="{Binding BrisanjeTabeleCommand}"/>
+            <Button Content="KONTA MESTA TROŠKOVA" Width="160" Margin="2" Background="#F3FAA3" FontFamily="Tahoma" FontSize="10" Command="{Binding KontaMtrCommand}"/>
+            <Button Content="PREGLED ZA PERIOD"    Width="130" Margin="2" Background="#F3FAA3" FontFamily="Tahoma" FontSize="10" Command="{Binding PregledZaPeriodCommand}"/>
+            <Button Content="BRISANJE NALOGA"      Width="120" Margin="2" Background="#F3FAA3" FontFamily="Tahoma" FontSize="10" Command="{Binding BrisanjeNalogaCommand}"/>
+            <Separator Width="8"/>
+            <Button Content="TRAŽENJE KONTA F5"    Width="130" Margin="2" Background="#FFFF9D" FontFamily="Tahoma" FontSize="10" Command="{Binding TraziKontoF5Command}"/>
+            <Button Content="TRAŽENJE NALOGA F9"   Width="130" Margin="2" Background="#80FF80" FontFamily="Tahoma" FontSize="10" Command="{Binding TraziNalogF9Command}"/>
+            <Button Content="TRAŽENJE DATUMA F8"   Width="130" Margin="2" Background="#FFFF9D" FontFamily="Tahoma" FontSize="10" Command="{Binding TraziDatumF8Command}"/>
+            <Separator Width="8"/>
+            <Button Content="Izlaz" Width="70" Margin="2" Background="#C0C0C0" FontFamily="Tahoma" FontSize="11" Foreground="Red" Command="{Binding IzlazCommand}"/>
+        </WrapPanel>
+
+        <!-- Main DataGrid -->
+        <DataGrid x:Name="GrdMain"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  FontFamily="Tahoma" FontSize="10"
+                  Background="#F5F5F5"
+                  GridLinesVisibility="All"
+                  HorizontalGridLinesBrush="#B7BCF9"
+                  VerticalGridLinesBrush="#B7BCF9"
+                  SelectionMode="Single"
+                  Margin="2"
+                  CellEditEnding="GrdMain_CellEditEnding"
+                  SelectionChanged="GrdMain_SelectionChanged">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="Background" Value="#B7BCF9"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Arhiva}" Value=" ">
+                            <Setter Property="Background" Value="White"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Background" Value="#B8F8E3"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <!-- Fixed read-only columns -->
+                <DataGridTextColumn Header="Konto"  Binding="{Binding Konto}"  Width="90"  IsReadOnly="True"/>
+                <DataGridTextColumn Header="Datdok" Binding="{Binding Datdok, StringFormat=dd.MM.yyyy}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Brnal"  Binding="{Binding Brnal}"  Width="60"  IsReadOnly="True" Foreground="Red"/>
+                <DataGridTextColumn Header="Dug"    Binding="{Binding Dug,   StringFormat=N2}" Width="90" IsReadOnly="True" Foreground="Blue"/>
+                <DataGridTextColumn Header="Pot"    Binding="{Binding Pot,   StringFormat=N2}" Width="90" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Saldo"  Binding="{Binding Saldo, StringFormat=N2}" Width="90" IsReadOnly="True" Foreground="Red"/>
+                <!-- Iznos01-30: editable, headers set in code-behind -->
+                <DataGridTextColumn x:Name="ColIznos01" Header="Iznos01" Binding="{Binding Iznos01, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos02" Header="Iznos02" Binding="{Binding Iznos02, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos03" Header="Iznos03" Binding="{Binding Iznos03, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos04" Header="Iznos04" Binding="{Binding Iznos04, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos05" Header="Iznos05" Binding="{Binding Iznos05, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos06" Header="Iznos06" Binding="{Binding Iznos06, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos07" Header="Iznos07" Binding="{Binding Iznos07, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos08" Header="Iznos08" Binding="{Binding Iznos08, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos09" Header="Iznos09" Binding="{Binding Iznos09, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos10" Header="Iznos10" Binding="{Binding Iznos10, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos11" Header="Iznos11" Binding="{Binding Iznos11, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos12" Header="Iznos12" Binding="{Binding Iznos12, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos13" Header="Iznos13" Binding="{Binding Iznos13, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos14" Header="Iznos14" Binding="{Binding Iznos14, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos15" Header="Iznos15" Binding="{Binding Iznos15, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos16" Header="Iznos16" Binding="{Binding Iznos16, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos17" Header="Iznos17" Binding="{Binding Iznos17, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos18" Header="Iznos18" Binding="{Binding Iznos18, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos19" Header="Iznos19" Binding="{Binding Iznos19, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos20" Header="Iznos20" Binding="{Binding Iznos20, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos21" Header="Iznos21" Binding="{Binding Iznos21, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos22" Header="Iznos22" Binding="{Binding Iznos22, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos23" Header="Iznos23" Binding="{Binding Iznos23, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos24" Header="Iznos24" Binding="{Binding Iznos24, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos25" Header="Iznos25" Binding="{Binding Iznos25, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos26" Header="Iznos26" Binding="{Binding Iznos26, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos27" Header="Iznos27" Binding="{Binding Iznos27, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos28" Header="Iznos28" Binding="{Binding Iznos28, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos29" Header="Iznos29" Binding="{Binding Iznos29, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn x:Name="ColIznos30" Header="Iznos30" Binding="{Binding Iznos30, StringFormat=N2}" Width="90"/>
+                <!-- Trailing columns -->
+                <DataGridTextColumn Header="Naziv"   Binding="{Binding Naziv}"  Width="200"/>
+                <DataGridTextColumn Header="Opis"    Binding="{Binding Opis}"   Width="120"/>
+                <DataGridTextColumn Header="Ukupno"  Binding="{Binding Ukupno, StringFormat=N2}" Width="90" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Razlika" Binding="{Binding Razlika, StringFormat=N2}" Width="90" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Arhiva"  Binding="{Binding Arhiva}" Width="50" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

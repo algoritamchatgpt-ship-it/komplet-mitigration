@@ -1,0 +1,52 @@
+<Window x:Class="GlavnaKnjiga.Views.NaluniorPrijemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PRIJEM RAČUNA IZ STRIPA"
+        Height="200" Width="440"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#ECE9D8"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="PRIJEM RAČUNA IZ STRIPA"
+                   FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"
+                   Background="#F1D1AD" Padding="8,4"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="POČETNI DATUM"
+                       Foreground="#BE0000" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="0" Grid.Column="1"
+                        SelectedDate="{Binding Dat0}" FontSize="11"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="ZADNJI DATUM"
+                       Foreground="#BE0000" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="2" Grid.Column="1"
+                        SelectedDate="{Binding Dat1}" FontSize="11"/>
+        </Grid>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="PRIJEM"  Width="100" Margin="8,0" Background="#C0C0C0"
+                    Command="{Binding PrijemCommand}"/>
+            <Button Content="IZLAZ"   Width="80"  Margin="8,0" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

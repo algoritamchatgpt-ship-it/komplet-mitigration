@@ -1,0 +1,214 @@
+<UserControl x:Class="Algoritam.WPF.Views.Veleprodaja.VeleprodajaMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="TvButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <SolidColorBrush x:Key="BojaFakture"    Color="#BF360C"/>
+        <SolidColorBrush x:Key="BojaRoba"       Color="#D84315"/>
+        <SolidColorBrush x:Key="BojaKalkulacija" Color="#E64A19"/>
+        <SolidColorBrush x:Key="BojaSifarnici"  Color="#FF6F00"/>
+        <SolidColorBrush x:Key="BojaPutnici"    Color="#6D4C41"/>
+        <SolidColorBrush x:Key="BojaIzlaz"      Color="#C62828"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+        <Border DockPanel.Dock="Top" Background="#BF360C" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="GLAVNI MENI — VELEPRODAJA"
+                           FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFAB91" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFAB91"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#FBE9E7"
+                BorderThickness="0,0,0,1" BorderBrush="#FFCCBC" Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#BF360C"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel HorizontalAlignment="Left">
+
+                <TextBlock Text="Fakture i prometni dokumenti" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="UNOS&#10;FAKTURE" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaFakture}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="FAK_UNOS"/>
+                    <Button Content="PREGLED&#10;FAKTURA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaFakture}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="FAK_PREGLED"/>
+                    <Button Content="STAVKE&#10;FAKTURA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaFakture}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="FAK_STAVKE"/>
+                </WrapPanel>
+
+                <TextBlock Text="Robno poslovanje" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="STANJE&#10;ROBE" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ROB_STANJE"/>
+                    <Button Content="KARTICA&#10;ROBE" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ROB_KARTICA"/>
+                    <Button Content="ŠIFARNIK&#10;ROBE" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ROBA"/>
+                </WrapPanel>
+
+                <TextBlock Text="Kalkulacije" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="NOVA&#10;KALKULACIJA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaKalkulacija}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KAL_NOVA"/>
+                    <Button Content="PREGLED&#10;KALKULACIJA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaKalkulacija}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KAL_PREGLED"/>
+                </WrapPanel>
+
+                <TextBlock Text="Šifarnici i parametri" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="ŠIFARNIK&#10;PARTNERA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaSifarnici}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PARTNERI"/>
+                    <Button Content="PARAMETRI&#10;VELEPRODAG" Style="{StaticResource TvButtonStyle}"
+                            Background="#455A64"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TV_PARAM"/>
+                </WrapPanel>
+
+                <TextBlock Text="Putnici i komercijalisti (bonus, realizacija)" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PUTNICI" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Šifarnik putnika — komercijalista i njihovih bonus uslova"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUTNICI"/>
+                    <Button Content="BONUS PO&#10;GRUPAMA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Bonus realizacija po grupama putnika"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUT_BONGR"/>
+                    <Button Content="KUMULATIVNI&#10;BONUS" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Kumulativni bonus po putniku"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUT_BONUS"/>
+                    <Button Content="AKONTACIJE&#10;PUTNIKA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Akontacije i akcije putnika"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUT_AKONT"/>
+                    <Button Content="REALIZACIJA&#10;FAKTURA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Realizacija faktura po putniku"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUT_FAKT"/>
+                    <Button Content="PREGLED&#10;SVIH PUTNIKA" Style="{StaticResource TvButtonStyle}"
+                            Background="{StaticResource BojaPutnici}"
+                            ToolTip="Zbirni pregled svih putnika"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUT_SVE"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

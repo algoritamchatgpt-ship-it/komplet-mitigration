@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldizjdop">
+  <columns>
+    <column name="TEKST1" type="C" length="0" decimals="0" />
+    <column name="TEKST2" type="C" length="0" decimals="0" />
+    <column name="TEKST3" type="C" length="0" decimals="0" />
+    <column name="TEKST4" type="C" length="0" decimals="0" />
+    <column name="TEKST5" type="C" length="0" decimals="0" />
+    <column name="TEKST6" type="C" length="0" decimals="0" />
+    <column name="TEKST7" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

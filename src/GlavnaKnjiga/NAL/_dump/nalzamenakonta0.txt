@@ -1,0 +1,236 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALZAMENAKONTA0 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   1.33
+    Left =  60.00
+    Height =  34.87
+    Width =  92.80
+    DoCreate = .T.
+    ShowTips = .T.
+    AutoCenter = .F.
+    Caption = "ZAMENA KONTA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 248,250,184
+    Name = "NALZAMENAKONTA0"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    CLOSE ALL tables
+    SET DEFAULT TO &MDATA02
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    endif
+    *--------KRAJ CIRILICE
+    *SET DEFAULT TO &MDATA02K
+    *USE BKPERIOD IN 0
+    *SELECT BKPERIOD
+    *PUBLIC mmesec,mkvartal,mpregod,mtekgod
+    *MMESEC=ALLTRIM(MESEC)
+    *MKVARTAL=ALLTRIM(KVARTAL)
+    *mpregod=pregod
+    *mtekgod=tekgod
+    *USE
+    
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALZAMENAKONTA0TAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =  30.40
+    Left =  28.80
+    Height =   3.20
+    Width =  37.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz1.bmp
+    Caption = "\<IZLAZ"
+    TabIndex = 7
+    ToolTipText = "povratak u prethodni prozor"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =  14.40
+    Left =   4.80
+    Height =   2.33
+    Width =  82.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "UPOREDNI PREGLED "
+    TabIndex = 4
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 37,75,75
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMkonupor
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =   4.80
+    Left =   4.80
+    Height =   2.33
+    Width =  82.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "KLASE"
+    TabIndex = 1
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 37,75,75
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMENAKONTA01
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =   8.13
+    Left =   4.60
+    Height =   2.33
+    Width =  82.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "GRUPE"
+    TabIndex = 2
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 37,75,75
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMENAKONTA02
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =  11.60
+    Left =   4.60
+    Height =   2.33
+    Width =  82.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "SINTETIKA"
+    TabIndex = 3
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 37,75,75
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMENAKONTA03
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =  20.80
+    Left =   4.80
+    Height =   2.33
+    Width =  82.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ANALITIKA 10"
+    TabIndex = 6
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 37,75,75
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMENAKONTA10
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALZAMENAKONTA0
+  PROPERTIES:
+    Top =  17.60
+    Left =   4.80
+    Height =   2.33
+    Width =  82.80
+    FontBold = .T.
+    FontSize = 11
+    Caption = "PREKNJIŽAVANJE KONTA"
+    TabIndex = 5
+    ToolTipText = "sifarnik klasa konta"
+    SpecialEffect = 0
+    ForeColor = 168,0,0
+    BackColor = 255,255,255
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMENAKONTAZAM
+    
+    
+    
+    ENDPROC

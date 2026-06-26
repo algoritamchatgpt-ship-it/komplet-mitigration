@@ -1,0 +1,62 @@
+<Window x:Class="GlavnaKnjiga.Views.NalslagWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SLAGANJE NALOGA GLAVNE KNJIGE"
+        Height="650" Width="900"
+        WindowStartupLocation="CenterOwner"
+        Background="#B7BCF9">
+
+    <DockPanel Margin="10">
+        <Border DockPanel.Dock="Top" Background="#E9ECD8" Padding="10" Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Početni datum" Margin="0,0,8,0"
+                           VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12"/>
+                <DatePicker Grid.Column="1" SelectedDate="{Binding PocetniDatum}" Height="30"/>
+
+                <TextBlock Grid.Column="2" Text="Zadnji datum" Margin="16,0,8,0"
+                           VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12"/>
+                <DatePicker Grid.Column="3" SelectedDate="{Binding ZadnjiDatum}" Height="30"/>
+
+                <CheckBox Grid.Column="4" Content="Prikaži sve naloge"
+                          IsChecked="{Binding PrikaziSve}" Margin="18,0,0,0"
+                          VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12"/>
+
+                <Button Grid.Column="6" Content="Pregled" Width="110" Height="34"
+                        IsDefault="True" Command="{Binding PregledCommand}"/>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E9ECD8" Padding="8" Margin="0,8,0,0">
+            <Grid>
+                <TextBlock Text="{Binding Status}" VerticalAlignment="Center"
+                           FontFamily="Tahoma" FontSize="12" FontWeight="Bold"/>
+                <Button Content="Izlaz" Width="100" Height="34" HorizontalAlignment="Right"
+                        Foreground="#B00000" Command="{Binding IzlazCommand}"/>
+            </Grid>
+        </Border>
+
+        <DataGrid ItemsSource="{Binding Redovi}" SelectedItem="{Binding IzabraniRed}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  FontFamily="Tahoma" FontSize="12" Background="#F5F5F5"
+                  SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj naloga" Binding="{Binding Brnal}" Width="180"/>
+                <DataGridTextColumn Header="Duguje" Binding="{Binding Dug, StringFormat=N2}" Width="180"/>
+                <DataGridTextColumn Header="Potražuje" Binding="{Binding Pot, StringFormat=N2}" Width="180"/>
+                <DataGridTextColumn Header="Razlika" Binding="{Binding Razlika, StringFormat=N2}" Width="180"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

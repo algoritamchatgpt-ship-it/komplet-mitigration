@@ -1,0 +1,154 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdSveZaradeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1340" Height="860"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#E0F2F1"
+        FontFamily="Tahoma" FontSize="11">
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Naslov -->
+        <Border Grid.Row="0" Background="#00695C" Padding="10,7" CornerRadius="3" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Naslov, FallbackValue='TABELA SVIH ZARADA'}"
+                       FontWeight="Bold" FontSize="13" Foreground="White"/>
+        </Border>
+
+        <!-- Filter -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#4DB6AC" BorderThickness="1"
+                CornerRadius="3" Padding="10,7" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Mesec" VerticalAlignment="Center" Foreground="#00695C" FontWeight="SemiBold" Margin="0,0,6,0"/>
+                <TextBox Width="52" Height="24" Margin="0,0,14,0" Padding="4,2" Text="{Binding Mesec}" BorderBrush="#4DB6AC"/>
+                <TextBlock Text="Isplata" VerticalAlignment="Center" Foreground="#00695C" FontWeight="SemiBold" Margin="0,0,6,0"/>
+                <TextBox Width="52" Height="24" Margin="0,0,14,0" Padding="4,2" Text="{Binding Isplata}" BorderBrush="#4DB6AC"/>
+                <TextBlock Text="Godina" VerticalAlignment="Center" Foreground="#00695C" FontWeight="SemiBold" Margin="0,0,6,0"/>
+                <TextBox Width="60" Height="24" Margin="0,0,14,0" Padding="4,2" Text="{Binding Godina}" BorderBrush="#4DB6AC"/>
+                <TextBlock Text="Vrsta" VerticalAlignment="Center" Foreground="#00695C" FontWeight="SemiBold" Margin="0,0,6,0"/>
+                <TextBox Width="52" Height="24" Margin="0,0,14,0" Padding="4,2" Text="{Binding Vrsta}" BorderBrush="#4DB6AC"/>
+                <Button Content="UČITAJ" Width="90" Height="28" Margin="0,0,6,0"
+                        Background="#00695C" Foreground="White" BorderThickness="0"
+                        FontWeight="Bold" Cursor="Hand" Command="{Binding UcitajCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                                <TextBlock Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#004D40"/></Trigger>
+                                <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="#9E9E9E"/></Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="OSVEŽI" Width="90" Height="28"
+                        Style="{StaticResource NavBtnStyle}" Command="{Binding OsveziCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="2" Margin="0,0,0,8"
+                  ItemsSource="{Binding Stavke}" SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="True" IsReadOnly="True"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#B2DFDB" RowHeaderWidth="0"
+                  Background="White" AlternatingRowBackground="#E0F2F1"
+                  BorderBrush="#4DB6AC" BorderThickness="1">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#00695C"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="5,4"/>
+                    <Setter Property="BorderBrush" Value="#004D40"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+
+        <!-- Dugmad red 1: Navigacija + Operacije + IZLAZ -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,6">
+            <Border BorderBrush="#4DB6AC" BorderThickness="1" CornerRadius="3" Margin="0,0,8,0" Padding="6,4">
+                <StackPanel>
+                    <TextBlock Text="NAVIGACIJA" FontSize="9" FontWeight="SemiBold" Foreground="#00695C" Margin="0,0,0,3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="78" Height="28" Margin="0,0,4,0" Content="PRVI"   Command="{Binding PrviCommand}"   Style="{StaticResource NavBtnStyle}"/>
+                        <Button Width="78" Height="28" Margin="0,0,4,0" Content="GORE"   Command="{Binding GoreCommand}"   Style="{StaticResource NavBtnStyle}"/>
+                        <Button Width="78" Height="28" Margin="0,0,4,0" Content="DOLE"   Command="{Binding DoleCommand}"   Style="{StaticResource NavBtnStyle}"/>
+                        <Button Width="78" Height="28"                  Content="ZADNJI"  Command="{Binding ZadnjiCommand}" Style="{StaticResource NavBtnStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="#4DB6AC" BorderThickness="1" CornerRadius="3" Margin="0,0,8,0" Padding="6,4">
+                <StackPanel>
+                    <TextBlock Text="OPERACIJE" FontSize="9" FontWeight="SemiBold" Foreground="#00695C" Margin="0,0,0,3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="186" Height="28" Margin="0,0,4,0" Content="SORTIRAJ PO MESECIMA" Command="{Binding SortirajPoMesecimaCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+                        <Button Width="130" Height="28" Margin="0,0,4,0" Content="OBRIŠI RED"          Command="{Binding ObrisiStavkuCommand}"        Style="{StaticResource DangerButtonStyle}"/>
+                        <Button Width="148" Height="28" Margin="0,0,4,0" Content="BRISANJE MESECA"     Command="{Binding ObrisiMesecCommand}"         Style="{StaticResource DangerButtonStyle}"/>
+                        <Button Width="118" Height="28"                  Content="OČISTI FILTER"       Command="{Binding OcistiFilterCommand}"        Style="{StaticResource WarnButtonStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Button Width="90" Height="28" VerticalAlignment="Bottom" Content="IZLAZ"
+                    Click="ZatvoriClick" Style="{StaticResource NeutralButtonStyle}"/>
+        </StackPanel>
+
+        <!-- Dugmad red 2: Jedan radnik + Saldo -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,6">
+            <Border BorderBrush="#4DB6AC" BorderThickness="1" CornerRadius="3" Margin="0,0,8,0" Padding="6,4">
+                <StackPanel>
+                    <TextBlock Text="JEDAN RADNIK" FontSize="9" FontWeight="SemiBold" Foreground="#00695C" Margin="0,0,0,3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="156" Height="28" Margin="0,0,4,0" Content="JEDAN RADNIK SVE"      Command="{Binding FoxAkcijaCommand}" CommandParameter="JEDAN RADNIK SVE"/>
+                        <Button Width="176" Height="28" Margin="0,0,4,0" Content="JEDAN RADNIK SKRAĆENI" Command="{Binding FoxAkcijaCommand}" CommandParameter="JEDAN RADNIK SKRACENI"/>
+                        <Button Width="156" Height="28"                  Content="PREGLED PODATAKA"      Command="{Binding FoxAkcijaCommand}" CommandParameter="PREGLED PODATAKA"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="#4DB6AC" BorderThickness="1" CornerRadius="3" Padding="6,4">
+                <StackPanel>
+                    <TextBlock Text="SALDO" FontSize="9" FontWeight="SemiBold" Foreground="#00695C" Margin="0,0,0,3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="130" Height="28" Margin="0,0,4,0" Content="SALDO RADNIKA"           Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO RADNIKA"/>
+                        <Button Width="130" Height="28" Margin="0,0,4,0" Content="SALDO SKRAĆENI"          Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO SKRACENI"/>
+                        <Button Width="186" Height="28" Margin="0,0,4,0" Content="SALDO SKRAĆENI ZA MESEC" Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO SKRACENI ZA MESEC"/>
+                        <Button Width="112" Height="28" Margin="0,0,4,0" Content="SALDO SVE"               Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO SVE"/>
+                        <Button Width="166" Height="28"                  Content="SALDO SVE ZA MESEC"       Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO SVE ZA MESEC"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Dugmad red 3: Saldo zbirno -->
+        <Border Grid.Row="5" BorderBrush="#4DB6AC" BorderThickness="1" CornerRadius="3"
+                Padding="6,4" Margin="0,0,0,6" HorizontalAlignment="Left">
+            <StackPanel>
+                <TextBlock Text="SALDO ZBIRNO" FontSize="9" FontWeight="SemiBold" Foreground="#00695C" Margin="0,0,0,3"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="160" Height="28" Margin="0,0,4,0" Content="SALDO PO MESECIMA"  Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO PO MESECIMA"/>
+                    <Button Width="160" Height="28" Margin="0,0,4,0" Content="SALDO PO DATUMIMA"  Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO PO DATUMIMA"/>
+                    <Button Width="170" Height="28"                  Content="SALDO PO GRADOVIMA" Command="{Binding FoxAkcijaCommand}" CommandParameter="SALDO PO GRADOVIMA"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Status bar -->
+        <DockPanel Grid.Row="6" Margin="0,2,0,0">
+            <TextBlock DockPanel.Dock="Left" Text="SVE ZARADE" FontSize="9" Foreground="#4DB6AC" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBlock Text="{Binding Poruka}" Foreground="#004D40" VerticalAlignment="Center"/>
+        </DockPanel>
+    </Grid>
+</Window>

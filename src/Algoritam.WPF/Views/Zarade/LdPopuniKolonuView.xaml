@@ -1,0 +1,88 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPopuniKolonuView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Popunjavanje kolone (F8)"
+        Width="420"
+        Height="280"
+        MinWidth="420"
+        MinHeight="280"
+        MaxWidth="420"
+        MaxHeight="280"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Padding="10,8"
+                Background="#E8F5E9"
+                BorderBrush="#C8E6C9"
+                BorderThickness="1">
+            <TextBlock Text="{Binding Poruka}"
+                       FontWeight="Bold"
+                       Foreground="#7A0000"
+                       TextWrapping="Wrap"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                Margin="0,10,0,10"
+                Padding="14"
+                Background="White"
+                BorderBrush="#C8E6C9"
+                BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="KOLONA:" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                          ItemsSource="{x:Static vm:LdPopuniKolonuViewModel.DostupneKolone}"
+                          SelectedItem="{Binding IzabranaKolona}"
+                          Height="26"
+                          xmlns:vm="clr-namespace:Algoritam.WPF.ViewModels"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Content="VREDNOST ZA SVE:" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         Text="{Binding Vrednost, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}"
+                         Height="26" HorizontalContentAlignment="Right" Padding="4,2"/>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="_ZELIM UNOS"
+                    Width="130"
+                    Height="28"
+                    Margin="0,0,16,0"
+                    Background="#2E7D32"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    Command="{Binding UnesiCommand}"/>
+            <Button Content="_IZLAZ"
+                    Width="120"
+                    Height="28"
+                    Background="#C62828"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

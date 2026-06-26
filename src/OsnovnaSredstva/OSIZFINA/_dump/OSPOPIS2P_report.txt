@@ -1,0 +1,86 @@
+  0 objtype=1   name=                     expr=ORIENTATION=1 PAPERSIZE=9 COLOR=2                          vpos=   1.000 hpos=   0.000 w=113633.00 h=    0.000
+  1 objtype=9   name=                     expr=                                                             vpos=         hpos=         w=    0.000 h=18021.000
+  2 objtype=9   name=                     expr=                                                             vpos=         hpos=         w=    0.000 h= 2084.000
+  3 objtype=9   name=                     expr=                                                             vpos=         hpos=         w=    0.000 h= 2084.000
+  4 objtype=9   name=                     expr=                                                             vpos=         hpos=         w=    0.000 h= 2188.000
+  5 objtype=9   name=                     expr=                                                             vpos=         hpos=         w=    0.000 h= 4271.000
+  6 objtype=8   name=                     expr=firma.fime                                                   vpos= 416.667 hpos=1250.000 w=51875.000 h= 2708.333
+  7 objtype=8   name=                     expr=ALLTRIM(firma.fmes)+' '+ALLTRIM(firma.ful)+'  ' +alltrim(FIR vpos=3020.833 hpos=1250.000 w=74583.333 h= 1979.167
+  8 objtype=6   name=                     expr=                                                             vpos=17708.333 hpos= 208.333 w=111250.00 h=  104.167
+  9 objtype=8   name=                     expr='reg. broj  '+firma.fregsud                                  vpos=8750.000 hpos=1250.000 w=28125.000 h= 1875.000
+ 10 objtype=8   name=                     expr='poreski broj -pib '+firma.fpor                              vpos=6979.167 hpos=1250.000 w=28125.000 h= 1875.000
+ 11 objtype=8   name=                     expr='matični broj '+firma.fmat                                   vpos=5208.333 hpos=1250.000 w=28125.000 h= 1875.000
+ 12 objtype=5   name=                     expr="PORESKA AMORTIZACIJA OSNOVNIH SREDSTAVA  ZA"                vpos=11875.000 hpos=11354.167 w=52500.000 h= 2395.833
+ 13 objtype=5   name=                     expr="šifra"                                                      vpos=20104.167 hpos= 208.333 w= 2500.000 h= 1666.667
+ 14 objtype=8   name=                     expr=os0.osifra                                                   vpos=24375.000 hpos= 208.333 w= 2916.667 h= 1666.667
+ 15 objtype=5   name=                     expr="naziv osnovnog sredstva"                                    vpos=20104.167 hpos=3750.000 w=14479.167 h= 1666.667
+ 16 objtype=8   name=                     expr=os0.naz                                                      vpos=24375.000 hpos=3229.167 w=25937.500 h= 1666.667
+ 17 objtype=5   name=                     expr="datnab"                                                     vpos=20104.167 hpos=30104.167 w= 4062.500 h= 1666.667
+ 18 objtype=8   name=                     expr=os0.datnab                                                   vpos=24375.000 hpos=29270.833 w= 7291.667 h= 1666.667
+ 19 objtype=5   name=                     expr="mp"                                                         vpos=20104.167 hpos=37291.667 w= 1875.000 h= 1666.667
+ 20 objtype=8   name=                     expr=os0.mesto                                                    vpos=24375.000 hpos=36770.833 w= 2916.667 h= 1666.667
+ 21 objtype=5   name=                     expr="mtr"                                                        vpos=20104.167 hpos=40312.500 w= 1979.167 h= 1666.667
+ 22 objtype=8   name=                     expr=os0.mtr                                                      vpos=24375.000 hpos=39791.667 w= 3645.833 h= 1666.667
+ 23 objtype=5   name=                     expr="ag"                                                         vpos=20104.167 hpos=43229.167 w= 1458.333 h= 1666.667
+ 24 objtype=8   name=                     expr=os0.ag                                                       vpos=24375.000 hpos=43541.667 w=  729.167 h= 1666.667
+ 25 objtype=7   name=                     expr=                                                             vpos=20104.167 hpos=   0.000 w=112083.33 h= 2083.333
+ 26 objtype=8   name=                     expr=_pageno                                                      vpos=28958.333 hpos=104166.67 w= 7291.667 h= 1666.667
+ 27 objtype=5   name=                     expr="strana"                                                     vpos=28958.333 hpos=99687.500 w= 3229.167 h= 1458.333
+ 28 objtype=6   name=                     expr=                                                             vpos=28541.667 hpos= 104.167 w=111770.83 h=  104.167
+ 29 objtype=5   name=                     expr="GODINU"                                                     vpos=11875.000 hpos=74062.500 w= 7812.500 h= 2395.833
+ 30 objtype=8   name=                     expr=YEAR(TDAT1)                                                  vpos=11770.833 hpos=66145.833 w= 7291.667 h= 2500.000
+ 31 objtype=5   name=                     expr="%"                                                          vpos=20104.167 hpos=48333.333 w= 1250.000 h= 1666.667
+ 32 objtype=8   name=                     expr=os.stopaot2                                                  vpos=24375.000 hpos=46145.833 w= 3750.000 h= 1666.667
+ 33 objtype=5   name=                     expr="nab0"                                                       vpos=20104.167 hpos=55000.000 w= 2916.667 h= 1666.667
+ 34 objtype=8   name=                     expr=os.nab02                                                     vpos=24375.000 hpos=50000.000 w= 8750.000 h= 1666.667
+ 35 objtype=5   name=                     expr="isp0"                                                       vpos=20104.167 hpos=65104.167 w= 2500.000 h= 1666.667
+ 36 objtype=8   name=                     expr=os.isp02                                                     vpos=24375.000 hpos=58854.167 w= 8750.000 h= 1666.667
+ 37 objtype=5   name=                     expr="sad0"                                                       vpos=20104.167 hpos=73333.333 w= 2916.667 h= 1666.667
+ 38 objtype=8   name=                     expr=os.sad02                                                     vpos=24375.000 hpos=67708.333 w= 8750.000 h= 1666.667
+ 39 objtype=5   name=                     expr="mes"                                                        vpos=20104.167 hpos=44791.667 w= 2604.167 h= 1666.667
+ 40 objtype=8   name=                     expr=os.brmes                                                     vpos=24375.000 hpos=44479.167 w= 1458.333 h= 1666.667
+ 41 objtype=5   name=                     expr="Amort2"                                                     vpos=20104.167 hpos=80000.000 w= 4375.000 h= 1666.667
+ 42 objtype=8   name=                     expr=os.amort2                                                    vpos=24375.000 hpos=76666.667 w= 8750.000 h= 1666.667
+ 43 objtype=5   name=                     expr="nab2"                                                       vpos=20104.167 hpos=91250.000 w= 2916.667 h= 1666.667
+ 44 objtype=8   name=                     expr=os.nab2                                                      vpos=24375.000 hpos=85625.000 w= 8750.000 h= 1666.667
+ 45 objtype=5   name=                     expr="isp2"                                                       vpos=20104.167 hpos=100416.67 w= 2500.000 h= 1666.667
+ 46 objtype=8   name=                     expr=os.isp2                                                      vpos=24375.000 hpos=94479.167 w= 8750.000 h= 1666.667
+ 47 objtype=5   name=                     expr="sad2"                                                       vpos=20104.167 hpos=108437.50 w= 2916.667 h= 1666.667
+ 48 objtype=8   name=                     expr=os.sad2                                                      vpos=24375.000 hpos=103333.33 w= 8333.333 h= 1666.667
+ 49 objtype=7   name=                     expr=                                                             vpos=24166.667 hpos= 104.167 w=111979.17 h= 2187.500
+ 50 objtype=5   name=                     expr="OD"                                                         vpos=15000.000 hpos=37291.667 w= 2500.000 h= 1979.167
+ 51 objtype=8   name=                     expr=ospodaci.edat0                                               vpos=14895.833 hpos=40104.167 w= 9375.000 h= 2083.333
+ 52 objtype=5   name=                     expr="DO"                                                         vpos=15000.000 hpos=49687.500 w= 2500.000 h= 1979.167
+ 53 objtype=8   name=                     expr=ospodaci.edat1                                               vpos=14895.833 hpos=52395.833 w= 9375.000 h= 2083.333
+ 54 objtype=5   name=                     expr="MESECI"                                                     vpos=6041.667 hpos=94270.833 w= 5729.167 h= 1770.833
+ 55 objtype=8   name=                     expr=ospodaci.emes                                                vpos=5937.500 hpos=101250.00 w= 3854.167 h= 1979.167
+ 56 objtype=5   name=                     expr="DATUM"                                                      vpos=3541.667 hpos=94270.833 w= 5208.333 h= 1770.833
+ 57 objtype=8   name=                     expr=ospodaci.datdok                                              vpos=3437.500 hpos=101250.00 w= 9583.333 h= 1979.167
+ 58 objtype=7   name=                     expr=                                                             vpos=2500.000 hpos=91250.000 w=20104.167 h= 7604.167
+ 59 objtype=8   name=                     expr=os.nab02                                                     vpos=34375.000 hpos=50000.000 w= 8750.000 h= 1666.667
+ 60 objtype=8   name=                     expr=os.isp02                                                     vpos=34375.000 hpos=58854.167 w= 8750.000 h= 1666.667
+ 61 objtype=8   name=                     expr=os.sad02                                                     vpos=34375.000 hpos=67708.333 w= 8750.000 h= 1666.667
+ 62 objtype=8   name=                     expr=os.amort2                                                    vpos=34375.000 hpos=76666.667 w= 8750.000 h= 1666.667
+ 63 objtype=8   name=                     expr=os.nab2                                                      vpos=34375.000 hpos=85625.000 w= 8750.000 h= 1666.667
+ 64 objtype=8   name=                     expr=os.isp2                                                      vpos=34375.000 hpos=94479.167 w= 8750.000 h= 1666.667
+ 65 objtype=8   name=                     expr=os.sad2                                                      vpos=34375.000 hpos=103333.33 w= 8333.333 h= 1666.667
+ 66 objtype=7   name=                     expr=                                                             vpos=33854.167 hpos=   0.000 w=111979.17 h= 2604.167
+ 67 objtype=5   name=                     expr="SVEGA"                                                      vpos=34583.333 hpos=43333.333 w= 3854.167 h= 1458.333
+ 68 objtype=5   name=                     expr="Amort.priznata"                                             vpos=20208.333 hpos=77291.667 w= 8125.000 h= 1562.500
+ 69 objtype=8   name=                     expr=os.pam+os.ram                                                vpos=24375.000 hpos=76562.500 w= 8750.000 h= 1666.667
+ 70 objtype=8   name=                     expr=os.pam+os.ram                                                vpos=34375.000 hpos=76562.500 w= 8750.000 h= 1666.667
+ 71 objtype=23  name=                     expr=                                                             vpos=  15.000 hpos=   5.000 w=   32.000 h=   12.000
+ 72 objtype=23  name=                     expr=                                                             vpos=  25.000 hpos=  10.000 w=   55.000 h=   19.000
+ 73 objtype=23  name=                     expr=                                                             vpos=  17.000 hpos=   7.000 w=   40.000 h=   14.000
+ 74 objtype=23  name=                     expr=                                                             vpos=  16.000 hpos=   6.000 w=   35.000 h=   13.000
+ 75 objtype=23  name=                     expr=                                                             vpos=  23.000 hpos=   9.000 w=   50.000 h=   18.000
+ 76 objtype=23  name=                     expr=                                                             vpos=  16.000 hpos=   6.000 w=   35.000 h=   13.000
+ 77 objtype=23  name=                     expr=                                                             vpos=  14.000 hpos=   5.000 w=   29.000 h=   11.000
+ 78 objtype=23  name=                     expr=                                                             vpos=  19.000 hpos=   7.000 w=   43.000 h=   15.000
+ 79 objtype=23  name=                     expr=                                                             vpos=  15.000 hpos=   5.000 w=   32.000 h=   12.000
+ 80 objtype=25  name=dataenvironment      expr=Top = 59 Left = 744 Width = 204 Height = 511 AutoOpenTab vpos=         hpos=         w=          h=         
+ 81 objtype=26  name=cursor               expr=Top = 20 Left = 10 Height = 149 Width = 91 Alias = "os0" vpos=         hpos=         w=          h=         
+ 82 objtype=26  name=cursor               expr=Top = 220 Left = 7 Height = 90 Width = 91 Alias = "osag" vpos=         hpos=         w=          h=         
+ 83 objtype=26  name=cursor               expr=Top = 352 Left = 6 Height = 90 Width = 91 Alias = "osagp vpos=         hpos=         w=          h=         
+ 84 objtype=26  name=cursor               expr=Top = 499 Left = 10 Height = 168 Width = 91 Alias = "os" vpos=         hpos=         w=          h=         
+ 85 objtype=26  name=cursor               expr=Top = 724 Left = 10 Height = 90 Width = 91 Alias = "ospo vpos=         hpos=         w=          h=         

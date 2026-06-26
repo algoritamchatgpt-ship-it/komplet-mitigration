@@ -1,0 +1,12 @@
+-- Source: ldradvre
+CREATE TABLE IF NOT EXISTS "ldradvre" (
+  "BROJ" NUMERIC(0),
+  "IME_PREZ" VARCHAR(0),
+  "DATUM" DATE,
+  "POCSAT" NUMERIC(0),
+  "ZADSAT" NUMERIC(0),
+  "SATI" NUMERIC(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

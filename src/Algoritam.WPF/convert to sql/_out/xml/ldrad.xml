@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldrad">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="VRSTAID" type="C" length="0" decimals="0" />
+    <column name="PREBIVAL" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="KATALOG" type="C" length="0" decimals="0" />
+    <column name="VRSTAPRIM" type="C" length="0" decimals="0" />
+    <column name="OZNVRPRIH" type="C" length="0" decimals="0" />
+    <column name="OZNOLAKS" type="C" length="0" decimals="0" />
+    <column name="OZNBEN" type="C" length="0" decimals="0" />
+    <column name="STARTBOD" type="N" length="6" decimals="0" />
+    <column name="STAZ" type="N" length="0" decimals="0" />
+    <column name="VRSTA" type="C" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="GRUPA1" type="N" length="0" decimals="0" />
+    <column name="STEPEN" type="C" length="0" decimals="0" />
+    <column name="BENPROC" type="N" length="4" decimals="0" />
+    <column name="MFP3PROC" type="N" length="2" decimals="0" />
+    <column name="MFP6" type="N" length="2" decimals="0" />
+    <column name="MFP7" type="N" length="2" decimals="0" />
+    <column name="MFP8NEPUN" type="C" length="0" decimals="0" />
+    <column name="MFP9NAJOSN" type="C" length="0" decimals="0" />
+    <column name="MFP10DVEZ" type="C" length="0" decimals="0" />
+    <column name="SIFRA" type="C" length="0" decimals="0" />
+    <column name="PARTIJA" type="C" length="0" decimals="0" />
+    <column name="SAMSIF" type="N" length="0" decimals="0" />
+    <column name="SAMOPROC" type="N" length="4" decimals="0" />
+    <column name="PREVOZ" type="C" length="0" decimals="0" />
+    <column name="BRISANJE" type="C" length="0" decimals="0" />
+    <column name="PJ" type="C" length="0" decimals="0" />
+    <column name="PROCUMANJ" type="N" length="4" decimals="0" />
+    <column name="UMANJENJE" type="C" length="0" decimals="0" />
+    <column name="PORUMANJ" type="N" length="4" decimals="0" />
+    <column name="DOPUMANJ" type="N" length="4" decimals="0" />
+    <column name="PIOUMANJR" type="N" length="4" decimals="0" />
+    <column name="PIOUMANJF" type="N" length="4" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="MP" type="C" length="0" decimals="0" />
+    <column name="POSTA" type="C" length="0" decimals="0" />
+    <column name="MESTO" type="C" length="0" decimals="0" />
+    <column name="ADRESA" type="C" length="0" decimals="0" />
+    <column name="TELEFON" type="C" length="0" decimals="0" />
+    <column name="EVIDBROJ" type="C" length="0" decimals="0" />
+    <column name="FONDZ" type="N" length="2" decimals="0" />
+    <column name="KASA" type="N" length="2" decimals="0" />
+    <column name="KASARATA" type="N" length="2" decimals="0" />
+    <column name="SIND1PROC" type="N" length="4" decimals="0" />
+    <column name="SIND2PROC" type="N" length="4" decimals="0" />
+    <column name="SOLPROC" type="N" length="4" decimals="0" />
+    <column name="DNEVNICA" type="N" length="4" decimals="0" />
+    <column name="ALIMPROC" type="N" length="4" decimals="0" />
+    <column name="DATMIN" type="D" length="0" decimals="0" />
+    <column name="DAN" type="C" length="0" decimals="0" />
+    <column name="MESEC" type="C" length="0" decimals="0" />
+    <column name="GODINA" type="C" length="0" decimals="0" />
+    <column name="MTR" type="N" length="0" decimals="0" />
+    <column name="M4MES" type="C" length="0" decimals="0" />
+    <column name="M4DAN" type="C" length="0" decimals="0" />
+    <column name="TOPLI" type="C" length="0" decimals="0" />
+    <column name="ROPNR" type="C" length="0" decimals="0" />
+    <column name="DATNEZAP" type="D" length="0" decimals="0" />
+    <column name="DATUGOVOR" type="D" length="0" decimals="0" />
+    <column name="DATPRI" type="D" length="0" decimals="0" />
+    <column name="DATZASNIV" type="D" length="0" decimals="0" />
+    <column name="UGOVDAT0" type="D" length="0" decimals="0" />
+    <column name="UGOVDAT1" type="D" length="0" decimals="0" />
+    <column name="PRODDAT0" type="D" length="0" decimals="0" />
+    <column name="PRODDAT1" type="D" length="0" decimals="0" />
+    <column name="PRIPRAV" type="C" length="0" decimals="0" />
+    <column name="ZADACI" type="C" length="0" decimals="0" />
+    <column name="OCENA" type="C" length="0" decimals="0" />
+    <column name="POROLAKS" type="C" length="0" decimals="0" />
+    <column name="RODITELJ" type="C" length="0" decimals="0" />
+    <column name="KOLKOR" type="N" length="2" decimals="0" />
+    <column name="DINSAT1" type="N" length="2" decimals="0" />
+    <column name="DINSAT2" type="N" length="2" decimals="0" />
+    <column name="DINSAT3" type="N" length="2" decimals="0" />
+    <column name="DINSATSVE" type="N" length="2" decimals="0" />
+    <column name="CASSAT1" type="N" length="2" decimals="0" />
+    <column name="CASSAT2" type="N" length="2" decimals="0" />
+    <column name="CASSAT3" type="N" length="2" decimals="0" />
+    <column name="CASSATSVE" type="N" length="2" decimals="0" />
+    <column name="LBOBROJ" type="C" length="0" decimals="0" />
+    <column name="ZKBROJ" type="C" length="0" decimals="0" />
+    <column name="STIMIN" type="N" length="2" decimals="0" />
+    <column name="STIMGOD" type="N" length="2" decimals="0" />
+    <column name="STIM1" type="N" length="2" decimals="0" />
+    <column name="STIM2" type="N" length="2" decimals="0" />
+    <column name="STIM3" type="N" length="2" decimals="0" />
+    <column name="DESTIM1" type="N" length="2" decimals="0" />
+    <column name="DESTIM2" type="N" length="2" decimals="0" />
+    <column name="DESTIM3" type="N" length="2" decimals="0" />
+    <column name="RMESTO" type="C" length="0" decimals="0" />
+    <column name="DATOSIG0" type="D" length="0" decimals="0" />
+    <column name="DATOSIG1" type="D" length="0" decimals="0" />
+    <column name="SKOSPREMA" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA" type="C" length="0" decimals="0" />
+    <column name="OSNOVOSIG" type="C" length="0" decimals="0" />
+    <column name="M4GRAD" type="C" length="0" decimals="0" />
+    <column name="REGSOC" type="C" length="0" decimals="0" />
+    <column name="PRIPUG" type="C" length="0" decimals="0" />
+    <column name="PRIPDAT" type="D" length="0" decimals="0" />
+    <column name="RADNOMES" type="C" length="0" decimals="0" />
+    <column name="OBUCBRNR" type="C" length="0" decimals="0" />
+    <column name="OBUCPP" type="C" length="0" decimals="0" />
+    <column name="SANITARNI" type="D" length="0" decimals="0" />
+    <column name="BOLOVANJE" type="C" length="0" decimals="0" />
+    <column name="GODUK" type="N" length="0" decimals="0" />
+    <column name="GODISKOR" type="N" length="0" decimals="0" />
+    <column name="GODNEISKOR" type="N" length="0" decimals="0" />
+    <column name="IDBROJ" type="C" length="0" decimals="0" />
+    <column name="IDPROFC" type="C" length="0" decimals="0" />
+    <column name="IDSEKTOR" type="C" length="0" decimals="0" />
+    <column name="IDPODSEK" type="C" length="0" decimals="0" />
+    <column name="IDLOKAC" type="C" length="0" decimals="0" />
+    <column name="IDLOKACP" type="C" length="0" decimals="0" />
+    <column name="DOK" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA2" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA3" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA4" type="C" length="0" decimals="0" />
+    <column name="POL" type="C" length="0" decimals="0" />
+    <column name="DRZAVA" type="C" length="0" decimals="0" />
+    <column name="OPSTINA" type="C" length="0" decimals="0" />
+    <column name="OPSTINAR" type="C" length="0" decimals="0" />
+    <column name="SPREMA" type="C" length="0" decimals="0" />
+    <column name="VRSTAZAP" type="C" length="0" decimals="0" />
+    <column name="TIPSLUZB" type="C" length="0" decimals="0" />
+    <column name="PLATNAGR" type="C" length="0" decimals="0" />
+    <column name="GODNAPRED" type="C" length="0" decimals="0" />
+    <column name="GRNAMEST" type="C" length="0" decimals="0" />
+    <column name="SIFRAZANIM" type="C" length="0" decimals="0" />
+    <column name="PROCANGAZ" type="C" length="0" decimals="0" />
+    <column name="STAZJUBIL" type="N" length="2" decimals="0" />
+    <column name="BENSTAZ" type="N" length="2" decimals="0" />
+    <column name="MINPROC" type="N" length="2" decimals="0" />
+    <column name="KOEF" type="N" length="3" decimals="0" />
+    <column name="KOEFDOD" type="N" length="3" decimals="0" />
+    <column name="KOEFUKUP" type="N" length="3" decimals="0" />
+    <column name="OSNOVICA" type="N" length="3" decimals="0" />
+    <column name="OSNOVBRUTO" type="N" length="3" decimals="0" />
+    <column name="PROCUVEC" type="N" length="3" decimals="0" />
+    <column name="KOSOVO" type="N" length="3" decimals="0" />
+    <column name="DATZAPOS" type="D" length="0" decimals="0" />
+    <column name="DATOTKAZ" type="D" length="0" decimals="0" />
+    <column name="SIFRAORG" type="C" length="0" decimals="0" />
+    <column name="IZVORFIN" type="C" length="0" decimals="0" />
+    <column name="GRUPAVIRM" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <BROJ />
+      <IME_PREZ></IME_PREZ>
+      <VRSTAID></VRSTAID>
+      <PREBIVAL></PREBIVAL>
+      <MATICNIBR></MATICNIBR>
+      <KATALOG></KATALOG>
+      <VRSTAPRIM></VRSTAPRIM>
+      <OZNVRPRIH></OZNVRPRIH>
+      <OZNOLAKS></OZNOLAKS>
+      <OZNBEN></OZNBEN>
+      <STARTBOD>1Fi</STARTBOD>
+      <STAZ />
+      <VRSTA></VRSTA>
+      <GRUPA />
+      <GRUPA1 />
+      <STEPEN></STEPEN>
+      <BENPROC>lip</BENPROC>
+      <MFP3PROC>Br</MFP3PROC>
+      <MFP6>ni</MFP6>
+      <MFP7>c</MFP7>
+      <MFP8NEPUN></MFP8NEPUN>
+      <MFP9NAJOSN></MFP9NAJOSN>
+      <MFP10DVEZ></MFP10DVEZ>
+      <SIFRA></SIFRA>
+      <PARTIJA></PARTIJA>
+      <SAMSIF />
+      <SAMOPROC />
+      <PREVOZ></PREVOZ>
+      <BRISANJE></BRISANJE>
+      <PJ></PJ>
+      <PROCUMANJ />
+      <UMANJENJE></UMANJENJE>
+      <PORUMANJ />
+      <DOPUMANJ />
+      <PIOUMANJR />
+      <PIOUMANJF>24</PIOUMANJF>
+      <PREZIME></PREZIME>
+      <IME></IME>
+      <MP></MP>
+      <POSTA></POSTA>
+      <MESTO></MESTO>
+      <ADRESA></ADRESA>
+      <TELEFON></TELEFON>
+      <EVIDBROJ></EVIDBROJ>
+      <FONDZ>14</FONDZ>
+      <KASA>19</KASA>
+      <KASARATA>24</KASARATA>
+      <SIND1PROC />
+      <SIND2PROC />
+      <SOLPROC />
+      <DNEVNICA />
+      <ALIMPROC />
+      <DATMIN />
+      <DAN></DAN>
+      <MESEC></MESEC>
+      <GODINA></GODINA>
+      <MTR />
+      <M4MES></M4MES>
+      <M4DAN></M4DAN>
+      <TOPLI></TOPLI>
+      <ROPNR></ROPNR>
+      <DATNEZAP />
+      <DATUGOVOR />
+      <DATPRI />
+      <DATZASNIV />
+      <UGOVDAT0 />
+      <UGOVDAT1 />
+      <PRODDAT0 />
+      <PRODDAT1 />
+      <PRIPRAV></PRIPRAV>
+      <ZADACI></ZADACI>
+      <OCENA></OCENA>
+      <POROLAKS></POROLAKS>
+      <RODITELJ></RODITELJ>
+      <KOLKOR />
+      <DINSAT1 />
+      <DINSAT2 />
+      <DINSAT3 />
+      <DINSATSVE />
+      <CASSAT1 />
+      <CASSAT2 />
+      <CASSAT3 />
+      <CASSATSVE />
+      <LBOBROJ></LBOBROJ>
+      <ZKBROJ></ZKBROJ>
+      <STIMIN />
+      <STIMGOD />
+      <STIM1 />
+      <STIM2 />
+      <STIM3 />
+      <DESTIM1 />
+      <DESTIM2 />
+      <DESTIM3 />
+      <RMESTO></RMESTO>
+      <DATOSIG0 />
+      <DATOSIG1 />
+      <SKOSPREMA></SKOSPREMA>
+      <NAPOMENA></NAPOMENA>
+      <OSNOVOSIG></OSNOVOSIG>
+      <M4GRAD></M4GRAD>
+      <REGSOC></REGSOC>
+      <PRIPUG></PRIPUG>
+      <PRIPDAT />
+      <RADNOMES></RADNOMES>
+      <OBUCBRNR></OBUCBRNR>
+      <OBUCPP></OBUCPP>
+      <SANITARNI />
+      <BOLOVANJE></BOLOVANJE>
+      <GODUK />
+      <GODISKOR />
+      <GODNEISKOR />
+      <IDBROJ></IDBROJ>
+      <IDPROFC></IDPROFC>
+      <IDSEKTOR></IDSEKTOR>
+      <IDPODSEK></IDPODSEK>
+      <IDLOKAC></IDLOKAC>
+      <IDLOKACP></IDLOKACP>
+      <DOK></DOK>
+      <NAPOMENA2></NAPOMENA2>
+      <NAPOMENA3></NAPOMENA3>
+      <NAPOMENA4></NAPOMENA4>
+      <POL></POL>
+      <DRZAVA></DRZAVA>
+      <OPSTINA></OPSTINA>
+      <OPSTINAR></OPSTINAR>
+      <SPREMA></SPREMA>
+      <VRSTAZAP></VRSTAZAP>
+      <TIPSLUZB></TIPSLUZB>
+      <PLATNAGR></PLATNAGR>
+      <GODNAPRED></GODNAPRED>
+      <GRNAMEST></GRNAMEST>
+      <SIFRAZANIM></SIFRAZANIM>
+      <PROCANGAZ></PROCANGAZ>
+      <STAZJUBIL />
+      <BENSTAZ />
+      <MINPROC />
+      <KOEF />
+      <KOEFDOD />
+      <KOEFUKUP />
+      <OSNOVICA />
+      <OSNOVBRUTO />
+      <PROCUVEC />
+      <KOSOVO />
+      <DATZAPOS />
+      <DATOTKAZ />
+      <SIFRAORG></SIFRAORG>
+      <IZVORFIN></IZVORFIN>
+      <GRUPAVIRM></GRUPAVIRM>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

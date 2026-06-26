@@ -1,0 +1,598 @@
+num records 32
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALZAK1b | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  41.60
+    Width =  84.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "ZAKLJUČNI LIST"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 233,236,216
+    Name = "NALZAK1b"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    CLOSE ALL TABLES
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE &KDAT IN 0 ALIAS DATUMI
+    SELECT DATUMI
+    MDAT0=DAT0
+    MDAT1=DAT1
+    
+    THISFORM.TXTKONP.VALUE=''
+    THISFORM.TXTDAT0.VALUE=MDAT0
+    THISFORM.TXTDAT1.VALUE=MDAT1
+    THISFORM.TXTMTR.VALUE=0
+    THISFORM.TXTCIFRE.Value='N'
+    THISFORM.TXTnedovrseni.Value='N'
+    THISFORM.TXTautomatski.Value='N'
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALZAK1bTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAK1b
+  PROPERTIES:
+    Top =  34.40
+    Left =  24.00
+    Height =   4.80
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\apregled.png
+    Caption = "\<Pregled"
+    TabIndex = 14
+    Visible = .T.
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET EXACT ON
+    MKONP=THISFORM.TXTKONP.VALUE
+    MLENP=LEN(ALLTRIM(MKONP))
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    MNAL1=THISFORM.TXTBRNAL1.Value
+    MNAL2=THISFORM.TXTBRNAL2.Value
+    MNAL3=THISFORM.TXTBRNAL3.Value
+    MNAL4=THISFORM.TXTBRNAL4.Value
+    
+    SELECT DATUMI
+    REPLACE DAT0 WITH MDAT0
+    REPLACE DAT1 WITH MDAT1
+    
+    IF TGKREDNI='1'
+       KNAL='NAL'
+    ELSE
+       KNAL='NAL'+TGKREDNI
+    ENDIF
+    
+    MDOK=THISFORM.TXTDOK.VALUE
+    MMP=THISFORM.TXTMP.VALUE
+    MMTR=THISFORM.TXTMTR.VALUE
+    MCIFRE=THISFORM.TXTCIFRE.VALUE
+    Mnedovrseni=THISFORM.TXTNEDOVRSENI.VALUE
+    MAUTOMATSKI=THISFORM.TXTAUTOMATSKI.VALUE
+    MMKONP=ALLTRIM(MKONP)
+    MLENKONP=LEN(MMKONP)
+    
+    DO nalzak1b WITH mkonp,mlenp,mdat0,mdat1,mnal1,mnal2,mnal3,mnal4,mdok,mmp,mmtr,mcifre,mnedovrseni,mautomatski,mmkonp,mlenkonp,knal
+    
+    thisform.release
+    
+    ENDPROC
+
+=== textbox | TXTKONP | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.80
+    Width =  27.20
+    Name = "TXTKONP"
+
+=== label | Label1 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto"
+    Height =   1.67
+    Left =   2.20
+    Top =   1.87
+    Width =  34.40
+    TabIndex = 15
+    ForeColor = 149,0,0
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== textbox | TXTDOK | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   8.60
+    Width =   7.20
+    Name = "TXTDOK"
+
+=== label | Label2 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Objekat"
+    Height =   1.67
+    Left =   2.20
+    Top =   8.67
+    Width =  34.40
+    TabIndex = 16
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label2"
+
+=== textbox | TXTMP | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 2
+    SpecialEffect = 0
+    TabIndex = 5
+    Top =  10.80
+    Width =   6.00
+    Name = "TXTMP"
+
+=== label | Label3 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto-grad"
+    Height =   1.67
+    Left =   2.20
+    Top =  10.87
+    Width =  34.40
+    TabIndex = 17
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label3"
+
+=== textbox | TXTMTR | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = 0
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 6
+    Top =  13.00
+    Width =  14.40
+    Name = "TXTMTR"
+
+=== label | Label4 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto troškova"
+    Height =   1.67
+    Left =   2.20
+    Top =  13.07
+    Width =  34.40
+    TabIndex = 18
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label4"
+
+=== textbox | TXTDAT0 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   4.07
+    Width =  26.40
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Početni datum"
+    Height =   1.67
+    Left =   2.20
+    Top =   4.07
+    Width =  34.40
+    TabIndex = 22
+    ForeColor = 149,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   6.33
+    Width =  26.20
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Zadnji datum"
+    Height =   1.67
+    Left =   2.20
+    Top =   6.47
+    Width =  34.40
+    TabIndex = 23
+    ForeColor = 149,0,0
+    BackColor = 128,255,255
+    Name = "Label6"
+
+=== textbox | TXTCIFRE | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = D
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 7
+    Top =  15.20
+    Width =   4.80
+    Name = "TXTCIFRE"
+
+=== label | Label7 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "U hiljadama D/N"
+    Height =   1.67
+    Left =   2.20
+    Top =  15.27
+    Width =  34.40
+    TabIndex = 21
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label7"
+
+=== label | LBL1 | parent=NALZAK1b
+  PROPERTIES:
+    BackStyle = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.60
+    Left =   2.40
+    Top =  32.00
+    Width =  74.60
+    TabIndex = 24
+    Name = "LBL1"
+
+=== textbox | txtnedovrseni | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = D
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 8
+    Top =  17.33
+    Width =   4.80
+    Name = "txtnedovrseni"
+
+=== label | Label8 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Uključi nedovršene naloge D/N"
+    Height =   1.67
+    Left =   2.20
+    Top =  17.40
+    Width =  34.40
+    TabIndex = 19
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label8"
+
+=== textbox | txtautomatski | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = D
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 9
+    Top =  19.53
+    Width =   4.80
+    Name = "txtautomatski"
+
+=== label | Label9 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Uključi automatske naloge D/N"
+    Height =   1.67
+    Left =   2.20
+    Top =  19.60
+    Width =  34.40
+    TabIndex = 20
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label9"
+
+=== textbox | TXTBRNAL1 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 10
+    Top =  21.53
+    Width =  18.60
+    Name = "TXTBRNAL1"
+
+=== label | Label17 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Nalog koji se izuzima 1"
+    Height =   1.67
+    Left =   2.20
+    Top =  21.60
+    Width =  31.00
+    TabIndex = 28
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label17"
+
+=== textbox | TXTBRNAL2 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 11
+    Top =  23.67
+    Width =  18.60
+    Name = "TXTBRNAL2"
+
+=== label | Label18 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Nalog koji se izuzima 2"
+    Height =   1.67
+    Left =   2.20
+    Top =  23.73
+    Width =  31.00
+    TabIndex = 27
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label18"
+
+=== textbox | TXTBRNAL3 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 12
+    Top =  25.73
+    Width =  18.60
+    Name = "TXTBRNAL3"
+
+=== label | Label10 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Nalog koji se izuzima 3"
+    Height =   1.67
+    Left =   2.20
+    Top =  25.80
+    Width =  31.00
+    TabIndex = 26
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label10"
+
+=== textbox | TXTBRNAL4 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 0
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  36.80
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 13
+    Top =  27.80
+    Width =  18.60
+    Name = "TXTBRNAL4"
+
+=== label | Label11 | parent=NALZAK1b
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Nalog koji se izuzima 4"
+    Height =   1.67
+    Left =   2.20
+    Top =  27.87
+    Width =  31.00
+    TabIndex = 25
+    ForeColor = 149,0,0
+    BackColor = 255,255,128
+    Name = "Label11"

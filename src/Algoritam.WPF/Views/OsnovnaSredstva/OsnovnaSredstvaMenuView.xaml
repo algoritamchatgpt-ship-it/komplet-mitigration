@@ -1,0 +1,234 @@
+<UserControl x:Class="Algoritam.WPF.Views.OsnovnaSredstva.OsnovnaSredstvaMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="OsButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <SolidColorBrush x:Key="BojaGlavna"     Color="#4527A0"/>
+        <SolidColorBrush x:Key="BojaAmortizacija" Color="#512DA8"/>
+        <SolidColorBrush x:Key="BojaIzvestaj"   Color="#673AB7"/>
+        <SolidColorBrush x:Key="BojaIzlaz"      Color="#C62828"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+        <Border DockPanel.Dock="Top" Background="#4527A0" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="GLAVNI MENI — OSNOVNA SREDSTVA"
+                           FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#CE93D8" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#CE93D8"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#EDE7F6"
+                BorderThickness="0,0,0,1" BorderBrush="#D1C4E9" Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#4527A0"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel HorizontalAlignment="Left">
+
+                <TextBlock Text="Prepisani modul" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="KOMPLETAN&#10;OS MODUL" Style="{StaticResource OsButtonStyle}"
+                            Background="#1F5F9D"
+                            ToolTip="Otvara kompletan modul iz foldera OSNOVNA-SREDSTVA"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_KOMPLETAN"/>
+                    <Button Content="DASHBOARD&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#1565C0"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_DASHBOARD"/>
+                    <Button Content="KARTICE&#10;PREPIS" Style="{StaticResource OsButtonStyle}"
+                            Background="#1565C0"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_KARTICE_PREPIS"/>
+                    <Button Content="EVIDENCIJA&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#1565C0"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_EVIDENCIJA_PREPIS"/>
+                    <Button Content="AMORTIZACIJA&#10;OA" Style="{StaticResource OsButtonStyle}"
+                            Background="#512DA8"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_OBRAZAC_OA"/>
+                    <Button Content="SIFARNICI&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#512DA8"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_SIFARNICI"/>
+                    <Button Content="ARHIVA&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#455A64"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_ARHIVA"/>
+                    <Button Content="PRENOS U&#10;NOVU GOD." Style="{StaticResource OsButtonStyle}"
+                            Background="#2E7D32"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PRENOS_GODINE"/>
+                    <Button Content="PARTNERI" Style="{StaticResource OsButtonStyle}"
+                            Background="#00695C"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PARTNERI"/>
+                    <Button Content="MESTA" Style="{StaticResource OsButtonStyle}"
+                            Background="#00695C"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_MESTA"/>
+                    <Button Content="IZVOZ&#10;TABELA" Style="{StaticResource OsButtonStyle}"
+                            Background="#EF6C00"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_IZVOZ"/>
+                    <Button Content="PODACI O&#10;FIRMI" Style="{StaticResource OsButtonStyle}"
+                            Background="#5D4037"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PODACI_FIRME"/>
+                    <Button Content="GRUPE&#10;AMORT." Style="{StaticResource OsButtonStyle}"
+                            Background="#512DA8"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_GRUPE_PREPIS"/>
+                    <Button Content="PODACI OS&#10;PERIOD" Style="{StaticResource OsButtonStyle}"
+                            Background="#5D4037"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PODACI_PERIOD"/>
+                    <Button Content="PREGLEDI&#10;IZVESTAJI" Style="{StaticResource OsButtonStyle}"
+                            Background="#673AB7"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PREGLEDI_PREPIS"/>
+                </WrapPanel>
+
+                <TextBlock Text="Pregled i kartice" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PREGLED&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PREGLED"/>
+                    <Button Content="KARTICA&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_KARTICA"/>
+                    <Button Content="INVENTAR&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_INVENTAR"/>
+                </WrapPanel>
+
+                <TextBlock Text="Amortizacija" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="OBRAČUN&#10;AMORTIZACIJE" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaAmortizacija}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_AMORTIZACIJA"/>
+                    <Button Content="GRUPE&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="{StaticResource BojaAmortizacija}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_GRUPE"/>
+                </WrapPanel>
+
+                <TextBlock Text="Dodavanje i izmena" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="UNOS&#10;NOVOG OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#1565C0"
+                            ToolTip="Unos novog osnovnog sredstva u os.dbf"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_UNOS"/>
+                    <Button Content="OTPIS&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#BF360C"
+                            ToolTip="Otpis (likvidacija) osnovnog sredstva"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_OTPIS"/>
+                    <Button Content="PRENOS&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#2E7D32"
+                            ToolTip="Prenos OS u drugu grupu amortizacije"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PRENOS"/>
+                </WrapPanel>
+
+                <TextBlock Text="Parametri" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PARAMETRI&#10;OS" Style="{StaticResource OsButtonStyle}"
+                            Background="#455A64"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OS_PARAM"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

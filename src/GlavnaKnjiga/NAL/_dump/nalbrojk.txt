@@ -1,0 +1,652 @@
+num records 13
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALBROJK | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  18.60
+    Width =  77.00
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "ODREDJIVANJE NALOGA "
+    ControlBox = .F.
+    Closable = .T.
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALBROJK"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NALBROJ
+    POP KEY
+    
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALBROJ
+    SET RELATION TO
+    THISFORM.TXTVRNAL.VALUE=VRNAL
+    THISFORM.TXTDATUM.VALUE=DATUM
+    PUBLIC AMKOD
+    AMKOD=0
+    DO CASE NALB
+    
+    CASE NALB='TVK'
+       SELECT NALVRSTA
+       LOCATE FOR ALLTRIM(DOK)=TOBJEKAT+ALLTRIM(TTVREDNI).AND.OBL='K'   
+       IF FOUND()
+          THISFORM.TXTVRNAL.VALUE=VRNAL   
+          MVRNAL=VRNAL
+          MOPIS=NAZIV
+          SELECT NALBROJ
+          REPLACE VRNAL WITH MVRNAL
+          REPLACE OPIS WITH MOPIS
+       ENDIF
+       SELECT NALBROJ
+    
+    CASE NALB='TVR'
+       SELECT NALVRSTA
+       LOCATE FOR ALLTRIM(DOK)=TOBJEKAT+ALLTRIM(TTVREDNI).AND.OBL='R'   
+       IF FOUND()
+          THISFORM.TXTVRNAL.VALUE=VRNAL   
+          MVRNAL=VRNAL
+          MOPIS=NAZIV
+          SELECT NALBROJ
+          REPLACE VRNAL WITH MVRNAL
+          REPLACE OPIS WITH MOPIS
+       ENDIF
+       SELECT NALBROJ
+    
+    CASE NALB='TVN'
+       SELECT NALVRSTA
+       LOCATE FOR ALLTRIM(DOK)=TOBJEKAT+ALLTRIM(TTVREDNI).AND.OBL='N'   
+       IF FOUND()
+          THISFORM.TXTVRNAL.VALUE=VRNAL   
+          MVRNAL=VRNAL
+          MOPIS=NAZIV
+          SELECT NALBROJ
+          REPLACE VRNAL WITH MVRNAL
+          REPLACE OPIS WITH MOPIS
+       ENDIF
+       SELECT NALBROJ
+    
+    
+    CASE NALB='BL'
+       SELECT NALVRSTA
+       LOCATE FOR ALLTRIM(DOK)=TOBJEKAT+ALLTRIM(TBLREDNI).AND.OBL='B'   
+       IF FOUND()
+          THISFORM.TXTVRNAL.VALUE=VRNAL   
+          MVRNAL=VRNAL
+          MOPIS=NAZIV
+          SELECT NALBROJ
+          REPLACE VRNAL WITH MVRNAL
+          REPLACE OPIS WITH MOPIS
+       ENDIF
+       SELECT NALBROJ
+    
+    CASE NALB='NAL'
+       
+      * IF VRNAL=SPACE(3)
+      *    REPLACE VRNAL WITH '  1'
+      *    SELECT NALBROJ
+      * ENDIF
+      USE &KANPAR IN 0 ALIAS ANPAR
+      SELECT ANPAR
+      MVRNAL=VRNAL
+      USE
+      SELECT NALBROJ
+      IF MVRNAL<>SPACE(3)
+         REPLACE VRNAL WITH MVRNAL
+      ENDIF
+      THISFORM.TXTVRNAL.VALUE=VRNAL
+    ENDCASE
+    
+    
+    IF BRNAL=SPACE(6)
+       THISFORM.TXTBRNAL.VALUE=STR(RECNO(),6,0)
+       THISFORM.TXTDATUM.VALUE=DATE()
+    ELSE
+       THISFORM.TXTBRNAL.VALUE=BRNAL
+       THISFORM.TXTDATUM.VALUE=DATUM
+       THISFORM.TXTOPIS.VALUE=OPIS
+    ENDIF
+    SELECT NALBROJ
+    SET RELATION TO VRNAL INTO NALVRSTA ADDITIVE
+    THISFORM.REFRESH   
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALBROJKTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== textbox | txtBrnal | parent=NALBROJK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 1
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.80
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   5.33
+    Width =  15.00
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtBrnal"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    PUSH KEY CLEAR
+    ENDPROC
+    PROCEDURE LostFocus
+    MREC=RECNO()
+    MBRNAL=THISFORM.TXTBRNAL.VALUE
+    SET ORDER TO 1
+    IF MBRNAL=SPACE(6).OR.MBRNAL='     0'
+       THISFORM.TXTBRNAL.SETFOCUS
+       POP KEY
+       THISFORM.REFRESH
+    ELSE
+       SEEK MBRNAL
+       IF .NOT.FOUND()
+          *-------AKO NALOG NE POSTOJI
+          GOTO MREC
+          THISFORM.TXTBRNAL.VALUE=MBRNAL
+          POP KEY
+          THISFORM.REFRESH   
+       ELSE
+          *------AKO NALOG POSTOJI--------
+          IF RECNO()<>MREC
+             POP KEY
+             RELEASE THISFORM   
+          ELSE
+          *----AKO JE NALOG VEC OTVOREN
+             GOTO MREC
+             THISFORM.TXTBRNAL.VALUE=MBRNAL
+             POP KEY
+             THISFORM.REFRESH   
+          ENDIF
+       ENDIF   
+    ENDIF
+    ENDPROC
+
+=== textbox | txtDatum | parent=NALBROJK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    ControlSource = ""
+    Format = ""
+    Height =   1.53
+    InputMask = ""
+    Left =  27.80
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   7.53
+    Width =  18.60
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtDatum"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    MDATUM=THISFORM.TXTDATUM.VALUE
+    IF MDATUM<TDAT0.OR.MDATUM>TDAT1
+       DO PORUKAU WITH 'DATUM - VAN OPSEGA'+DTOC(TDAT0)+'-'+DTOC(TDAT1)
+       AMKOD=1
+       THISFORM.REFRESH
+    ELSE
+       AMKOD=0
+       THISFORM.REFRESH
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== label | lblDatum | parent=NALBROJK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Datum naloga"
+    Height =   1.27
+    Left =   2.00
+    Top =   7.73
+    Width =  18.20
+    TabIndex = 6
+    ForeColor = 196,0,0
+    BackColor = 255,255,255
+    Name = "lblDatum"
+
+=== textbox | txtVrnal | parent=NALBROJK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 1
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.80
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   3.27
+    Width =  11.60
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtVrnal"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    *SET STEP ON 
+    MVRNAL=str(val(alltrim(THISFORM.TXTVRNAL.VALUE)),3,0)
+    
+    if MVRNAL='  0'
+       MVRNAL='   '
+    ENDIF   
+    
+    THISFORM.TXTVRNAL.VALUE=MVRNAL
+    SELECT NALBROJ
+    SET RELATION TO
+    if eof()
+       go bottom
+    endif
+    MREC=RECNO()   
+    
+    SELECT NALVRSTA
+    
+    DO CASE NALB
+    
+    CASE NALB='TVK'
+       DO WHILE .T.
+             LOCATE FOR (ALLTRIM(DOK)=(TOBJEKAT+ALLTRIM(TTVREDNI))).AND.OBL='K'         
+          IF FOUND()
+             THISFORM.TXTVRNAL.VALUE=VRNAL   
+             MVRNAL=THISFORM.TXTVRNAL.VALUE
+             MOPIS=NAZIV
+     
+             EXIT   
+          ELSE
+             DO FORM NALVRSTA
+             LOOP
+          ENDIF    
+       ENDDO
+    
+    CASE NALB='TVR'
+       DO WHILE .T.
+             LOCATE FOR (ALLTRIM(DOK)=(TOBJEKAT+ALLTRIM(TTVREDNI))).AND.OBL='R'         
+          IF FOUND()
+             THISFORM.TXTVRNAL.VALUE=VRNAL   
+             MVRNAL=THISFORM.TXTVRNAL.VALUE
+             MOPIS=NAZIV
+             EXIT   
+          ELSE
+          DO FORM NALVRSTA
+             LOOP
+          ENDIF    
+       ENDDO
+    CASE NALB='TVN'
+       DO WHILE .T.
+             LOCATE FOR (ALLTRIM(DOK)=(TOBJEKAT+ALLTRIM(TTVREDNI))).AND.OBL='N'         
+          IF FOUND()
+             THISFORM.TXTVRNAL.VALUE=VRNAL   
+             MVRNAL=THISFORM.TXTVRNAL.VALUE
+             MOPIS=NAZIV
+             EXIT   
+          ELSE
+          DO FORM NALVRSTA
+    
+             LOOP
+          ENDIF    
+       ENDDO
+    
+    
+    CASE NALB='BL'
+       DO WHILE .T.
+             LOCATE FOR (ALLTRIM(DOK)=(TOBJEKAT+ALLTRIM(TBLREDNI))).AND.OBL='B'
+          IF FOUND()
+             THISFORM.TXTVRNAL.VALUE=VRNAL   
+             MVRNAL=THISFORM.TXTVRNAL.VALUE
+             MOPIS=NAZIV
+             EXIT   
+          ELSE
+          DO FORM NALVRSTA
+    
+            LOOP
+          ENDIF    
+       ENDDO
+    
+    CASE NALB='NAL'
+      DO WHILE.T.
+         MVRNAL=str(val(alltrim(THISFORM.TXTVRNAL.VALUE)),3,0)
+         SET ORDER TO 1
+              
+         SEEK MVRNAL
+         
+         IF FOUND()
+             THISFORM.TXTVRNAL.VALUE=VRNAL   
+             MVRNAL=THISFORM.TXTVRNAL.VALUE
+             EXIT   
+          ELSE
+             DO FORM NALVRSTA
+             THISFORM.TXTVRNAL.VALUE=VRNAL
+             LOOP
+          ENDIF    
+       ENDDO
+       MVRNAL=THISFORM.TXTVRNAL.VALUE
+       
+       
+       
+    otherwise
+       select nalbroj
+       if mvrnal=space(3)
+          select nalvrsta
+          do form nalvrsta
+          select nalvrsta
+          mvrnal=vrnal
+       else
+          select nalvrsta
+          seek mvrnal
+          if.not.found()
+             do form nalvrsta
+             select nalvrsta
+             mvrnal=vrnal
+          endif         
+       endif 
+       mopis=naziv
+    
+    endcase
+       
+    *-------DODATA KONTROLA OZNAKE SIFRE NALOGA=BRNAL------
+      
+       MVRNAL=THISFORM.TXTVRNAL.VALUE
+       *-------TRAZIMO VRSTU NALOGA--------
+       SELECT NALVRSTA
+       SET ORDER TO 1
+       SEEK MVRNAL
+       IF FOUND()
+          MPOCSIF=POCSIF
+          MZNAKOVI=ZNAKOVI
+          MMOPIS=ALLTRIM(NAZIV)
+       ELSE
+          MPOCSIF='00'
+          MZNAKOVI=2
+          MMOPIS=' '
+       ENDIF      
+       *------NASLI SMO POCETNE SIFRE------------
+       *------IDEMO U NALOGE---------------------
+       SELECT NALBROJ
+       *------TRAZIMO ZADNJE POJAVLJIVANJE VRSTE NALOGA----
+       SELECT NALBROJ   
+       SET ORDER TO 2
+       SEEK MVRNAL
+       *--------AKO SMO NASLI ZADNJE POJAVLJIVANJE VRSTE NALOGA---
+       IF FOUND()
+          MVREC=0
+          MZADNAL=BRNAL
+          DO WHILE.NOT.EOF()
+             IF VRNAL<>MVRNAL
+                EXIT
+             ENDIF
+             IF RECNO()<>MREC
+                MVREC=RECNO()
+                MZADNAL=BRNAL   
+             ENDIF
+             SKIP
+          ENDDO   
+          IF MVREC<>0
+             GOTO MVREC
+             IF DOW(DATUM)=1.OR.DOW(DATUM)=2.or.DOW(DATUM)=3.or.DOW(DATUM)=4.or.DOW(DATUM)=5.or.DOW(DATUM)=0
+                MDATUM=DATUM+1
+             ELSE
+                IF DOW(DATUM)=6
+                   MDATUM=DATUM+3
+                endif   
+                IF DOW(DATUM)=7
+                   MDATUM=DATUM+2
+                endif   
+             ENDIF
+             MLEN1=LEN(ALLTRIM(MPOCSIF))
+             MLEN2=6-MLEN1
+             MZADBROJ=VAL(ALLTRIM(SUBSTR(MZADNAL,MLEN1+1,MLEN2)))
+             MNBROJ=ALLTRIM(STR(MZADBROJ,6,0))
+             MNVAL=ALLTRIM(STR(VAL(MNBROJ)+1,6,0))
+             MLENSVAL=LEN(MNVAL)
+             ML3=REPLI('0',6-MLEN1-MLENSVAL)
+             MNBRNAL=ALLTRIM(MPOCSIF)+ML3+MNVAL
+          ELSE
+             MDATUM=DATE()
+             MLEN1=LEN(ALLTRIM(MPOCSIF))
+             MLEN2=6-MLEN1
+             MNVAL='1'
+             MLENSVAL=LEN(MNVAL)
+             ML3=REPLI('0',6-MLEN1-MLENSVAL)
+             MNBRNAL=ALLTRIM(MPOCSIF)+ML3+MNVAL
+          ENDIF         
+          
+          *----VRACAMO SE NA LOKACIJU-------
+                
+          GOTO MREC
+          *-------UPISUJEMO PODATKE---------
+          REPLACE BRNAL WITH MNBRNAL
+          REPLACE DATUM WITH MDATUM+1
+          REPLACE OPIS WITH MMOPIS+' '+MNVAL
+          REPLACE VRNAL WITH MVRNAL
+    *      REPLACE OPIS WITH MOPIS
+          MOPIS=OPIS
+          THISFORM.TXTBRNAL.VALUE=MNBRNAL
+                
+       ELSE
+          *--------AKO NISMO PRONASLI NALOG------
+        
+          MDATUM=DATE()
+          MLEN1=LEN(ALLTRIM(MPOCSIF))
+          MLEN2=6-MLEN1
+          MSBROJ='0'
+          MSVAL=ALLTRIM(STR(VAL(MSBROJ)+1,6,0))
+          MLENSVAL=LEN(MSVAL)
+          ML3=REPLI('0',6-MLEN1-MLENSVAL)
+          MNBRNAL=ALLTRIM(MPOCSIF)+ML3+MSVAL
+          GOTO MREC
+          REPLACE BRNAL WITH MNBRNAL
+          REPLACE DATUM WITH MDATUM+1
+          REPLACE OPIS WITH MMOPIS+' '+MSVAL
+          THISFORM.TXTBRNAL.VALUE=MNBRNAL
+          MOPIS=OPIS
+     *     REPLACE OPIS WITH MOPIS
+       ENDIF   
+       SET ORDER TO
+    
+    
+    *----------VRACAMO SE U NALOGE-----------
+    
+    SELECT NALBROJ
+    
+    SET RELATION TO VRNAL INTO NALVRSTA ADDITIVE
+    
+    THISFORM.TXTOPIS.VALUE=MOPIS
+    THISFORM.TXTVRNAL.VALUE=MVRNAL
+    THISFORM.TXTDatum.Value=MDATUM 
+    *set step off 
+    POP KEY
+    THISFORM.REFRESH   
+    
+    ENDPROC
+
+=== label | lblVrnal | parent=NALBROJK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Vrsta naloga"
+    Height =   1.27
+    Left =   2.00
+    Top =   3.47
+    Width =  16.00
+    TabIndex = 7
+    ForeColor = 196,0,0
+    BackColor = 255,255,255
+    Name = "lblVrnal"
+
+=== textbox | txtOpis | parent=NALBROJK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = ""
+    Height =   1.53
+    Left =  27.80
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   9.67
+    Width =  47.80
+    ForeColor = 128,64,0
+    BackColor = 255,255,255
+    Name = "txtOpis"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    PUSH KEY CLEAR
+    IF AMKOD=1
+       THISFORM.TXTDATUM.SETFOCUS
+       THISFORM.REFRESH
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== label | lblOpis | parent=NALBROJK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Opis knjiženja"
+    Height =   1.27
+    Left =   2.00
+    Top =   9.93
+    Width =  18.20
+    TabIndex = 9
+    ForeColor = 196,0,0
+    BackColor = 255,255,255
+    Name = "lblOpis"
+
+=== commandbutton | Command1 | parent=NALBROJK
+  PROPERTIES:
+    Top =  12.80
+    Left =  27.60
+    Height =   4.80
+    Width =  21.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Odredi"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALBROJ
+    IF EOF()
+       GO BOTTOM
+    ENDIF
+    MREC=RECNO()
+    MBRNAL=THISFORM.TXTBRNAL.VALUE
+    SET ORDER TO 1
+    SEEK MBRNAL
+    
+    IF FOUND()
+       REPLACE BRNAL WITH MBRNAL
+       mVRNAL=THISFORM.TXTVRNAL.VALUE
+       REPLACE VRNAL WITH THISFORM.TXTVRNAL.VALUE
+       REPLACE DATUM WITH THISFORM.TXTDATUM.VALUE
+       REPLACE OPIS  WITH THISFORM.TXTOPIS.VALUE
+    
+    ELSE
+       SELECT NALBROJ
+       GOTO MREC
+       REPLACE BRNAL WITH MBRNAL
+       mVRNAL=THISFORM.TXTVRNAL.VALUE
+       REPLACE VRNAL WITH THISFORM.TXTVRNAL.VALUE
+       REPLACE DATUM WITH THISFORM.TXTDATUM.VALUE
+       REPLACE OPIS  WITH THISFORM.TXTOPIS.VALUE
+    ENDIF   
+    
+    
+    RELEASE THISFORM   
+    POP KEY
+    ENDPROC
+
+=== label | Label2 | parent=NALBROJK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Broj naloga"
+    Height =   1.27
+    Left =   2.40
+    Top =   5.47
+    Width =  14.60
+    TabIndex = 8
+    ForeColor = 196,0,0
+    BackColor = 255,255,255
+    Name = "Label2"

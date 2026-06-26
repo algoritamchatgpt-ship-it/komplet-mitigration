@@ -1,0 +1,533 @@
+num records 8
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPEP00XML3 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   3.20
+    Left =  31.00
+    Height =  16.67
+    Width = 150.00
+    DoCreate = .T.
+    Caption = "PUTANJA ZA PREUZIMANJE Fakture dobavljaca"
+    Closable = .F.
+    WindowType = 1
+    WindowState = 0
+    BackColor = 230,230,230
+    Name = "NALPEP00XML3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    *SELECT NALPEP00
+    *USE
+    *SELECT NALP
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    *IF ACIRILICA=1
+    *   MSEL=SELECT()
+    *   mkscx=mbazni+'\'+'kscx.dbf'
+    *   SET EXACT ON
+    *   MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+    *   USE &mkscx IN 0 ORDER 1 ALIAS kscx
+    *   SELECT kscx
+    *   SEEK mname
+    *   IF FOUND()
+    *      DO while.not.eof()
+    *         IF LOWER(ALLTRIM(imetab))<>mname
+    *            EXIT
+    *         endif   
+    *         IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+    *            mstring=ALLTRIM(imekontr)+'.'+npodatak
+    *         ELSE
+    *            mstring=npodatak         
+    *         endif   
+    *         THISFORM.&MSTRING
+    *         SKIP
+    *      enddo   
+    *   endif
+    *   USE
+    *   SELECT(msel)
+    *   SET EXACT off
+    *ENDIF
+    *---------kraj cirilice
+    
+    *USE C:\Kocka\F2\kalgxml IN 0 EXCLUSIVE
+    
+    USE KALXML IN 0 EXCLUSIVE
+    SELECT KALXML
+    ZAP
+    PACK
+    USE kalgxml IN 0 EXCLUSIVE
+    SELECT kalgxml
+    ZAP
+    pack 
+    IF RECCOUNT()<1
+       APPEND BLANK
+       			Select KAL
+    			Set Order To 1
+    			Go Bottom
+    			MBRKAL=BRKAL
+    			MNLEN=Len(Alltrim(Str(Val(Alltrim(MBRKAL))+1,6,0)))
+    			MNBRKAL=Repli('0',6-MNLEN)+Alltrim(Str(Val(Alltrim(MBRKAL))+1,6,0))
+    			Set Order To 1
+    			Locate For BRKAL=MNBRKAL
+    			SELECT kalgxml
+    			replace brkal WITH mnbrkal
+    ENDIF
+    *THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPEP00XMLTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== textbox | txtPutanja | parent=NALPEP00XML3
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    Height =   2.73
+    Left =  30.80
+    MaxLength = 70
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   4.27
+    Width =  82.00
+    Name = "txtPutanja"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF EMPTY(thisform.txtputanja.Value)
+    	thisform.command1.Enabled=.f.
+    ELSE
+    	thisform.command1.Enabled=.t.
+    endif
+    ENDPROC
+    PROCEDURE Click
+    	gcTable1=Getfile('xml', '      Naziv Izabranog: ','', 0, 'Izaberite XML Fajl')
+    	duzina=Len(Alltrim(gcTable1))
+    	gcTable1IME=Space(50)
+    	i=1
+    	Do While i < duzina
+    		If Substr(gcTable1,duzina-i,1) = '\'
+    			gcTable1IME = Substr(gcTable1,duzina-i+1,i)
+    			Exit
+    		Endif
+    		i=i+1
+    	ENDDO
+    thisform.txtputanja.Value=ALLTRIM(gctable1)
+    IF !EMPTY(thisform.txtputanja.Value)
+    	thisform.command1.SetFocus()
+    ELSE
+    	thisform.command2.SetFocus()
+    endif
+    thisform.refresh
+    
+    ENDPROC
+
+=== label | lblPutanja | parent=NALPEP00XML3
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .T.
+    FontSize = 14
+    FontUnderline = .F.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Klik na polje putanje da bi ste odabrali XML fajl."
+    Height =   1.67
+    Left =  29.00
+    Top =   2.47
+    Width =  87.00
+    TabIndex = 4
+    ForeColor = 125,0,0
+    Name = "lblPutanja"
+
+=== commandbutton | Command1 | parent=NALPEP00XML3
+  PROPERTIES:
+    Top =   8.93
+    Left =  43.00
+    Height =   5.53
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\kutijanadole.png
+    Caption = "\<Preuzmi"
+    Enabled = .T.
+    TabIndex = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    Push Key Clear
+    MFILE=Alltrim(Thisform.TXTPutanja.Value)
+    
+    If File(MFILE)
+    
+    	mstring = Filetostr(MFILE)
+    	mstring1 = Filetostr(MFILE)
+    
+    ******* odavde bi trebalo ispitivati broj ponavljanja odredjenog polja *************
+    *	Broj fakture od Dobavljaca  3 kalg.dbf
+    	brojponav=Occurs("<cbc:ID>",mstring)
+    	For i= 1 To 1 && brojponav
+    		m1naziv=At('<cbc:ID>',mstring,i)
+    		m1mesto=At('</cbc:ID>',mstring,i)-(m1naziv+8)
+    		m2naziv=Substr(mstring,m1naziv+8,m1mesto)
+    		m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))
+    		Replace kalgxml.brrac With Alltrim(m2naziv)
+    		Replace kalgxml.fvrsta With " 1 "
+    
+    	Next
+    
+    	*	Datum prijema na SEF 5 kalg.dbf
+    		brojponav=Occurs("<cbc:IssueDate>",mstring)
+    		For i= 1 To 1 && brojponav
+    			m1naziv=At('<cbc:IssueDate>',mstring,i)
+    			m1mesto=At('</cbc:IssueDate>',mstring,i)-(m1naziv+15)
+    			m2naziv=Substr(mstring,m1naziv+15,m1mesto)
+    			m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))
+    			wdatum=Substr((m2naziv),9,2)+'/'+Substr((m2naziv),6,2)+'/'+Substr((m2naziv),1,4)
+    
+    			Replace kalgxml.datpri With Ctod(wdatum)
+    
+    	Next
+    *	Datum valute iz xml 7 kalg.dbf
+    	brojponav=Occurs("<cbc:DueDate>",mstring)
+    	For i= 1 To 1 && brojponav
+    		m1naziv=At('<cbc:DueDate>',mstring,i)
+    		m1mesto=At('</cbc:DueDate>',mstring,i)-(m1naziv+13)
+    		m2naziv=Substr(mstring,m1naziv+13,m1mesto)
+    		m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))
+    		wdatum=Substr((m2naziv),9,2)+'/'+Substr((m2naziv),6,2)+'/'+Substr((m2naziv),1,4)
+    		Replace kalgxml.valuta With Ctod(wdatum)
+    
+    	Next
+    *	Broj dokumenta  2 kalg.dbf
+    	brojponav=Occurs("<cac:OrderReference>",mstring)
+    	For i= 1 To 1 && brojponav
+    		m1naziv=At('<cac:OrderReference>',mstring,i)
+    		m1mesto=At('</cac:OrderReference>',mstring,i)-(m1naziv+28)
+    		m2naziv=Substr(mstring,m1naziv+30,m1mesto)
+    ******** izbaciti iz m2naziv sve do znaka < i izmeriti duzinu onoga sto je ostalo
+    		x = 1
+    		k = Len(m2naziv)
+    		wdeo = Space(6)         && dodato zbog pucanja programa 15,08,2024 aca
+    		Do While x <= k
+    			If Substr(m2naziv,x,1) = '<'
+    				wdeo = Substr(m2naziv,1,x-1)
+    				Exit
+    
+    				k = k - 1
+    			Endif
+    			x = x + 1
+    		Enddo
+    
+    		Replace kalgxml.brnal With wdeo
+    		Release x,k,wdeo
+    	Next
+    *	Pib prodavca  1 kalg.dbf
+    	brojponav=Occurs('<cbc:EndpointID schemeID="9948">',mstring)
+    	For i= 1 To 1 && brojponav
+    *m1naziv=At('<cbc:EndpointID schemeID="9948">',mstring,i)
+    		m1naziv=At("<cbc:EndpointID schemeID=",mstring,i)
+    		m1mesto=At('</cbc:EndpointID>',mstring,i)-(m1naziv+32)
+    		m2naziv=Substr(mstring,m1naziv+32,m1mesto)
+    		m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))   &&-11)
+    *suspend
+    		Select an0
+    		Locate For Alltrim(m2naziv)==Alltrim(an0.pib)
+    
+    		If Found()
+    			Select kalgxml
+    			Replace kalgxml.sifra With (an0.sifra)
+    			Wait Window " Pronadjen prodavac sa trazenim PIB-om, sifra i naziv su : <ENTER> "+m2naziv+" "+an0.sifra+" "+an0.naziv
+    		Else
+    			Select kalgxml
+    			Replace kalgxml.sifra With "99999"
+    			Wait Window " NIJE Pronadjen prodavac u Vasim PARTNERIMA <ENTER> "+m2naziv
+    		Endif
+    
+    	Next
+    *	Datum za PDV i Datum racuna 4 i 6 kalg.dbf
+    	brojponav=Occurs("<cbc:ActualDeliveryDate>",mstring)
+    	For i= 1 To 1 && brojponav
+    		m1naziv=At('<cbc:ActualDeliveryDate>',mstring,i)
+    		m1mesto=At('</cbc:ActualDeliveryDate>',mstring,i)-(m1naziv+24)
+    		m2naziv=Substr(mstring,m1naziv+24,m1mesto)
+    		m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))
+    		wdatum=Substr((m2naziv),9,2)+'/'+Substr((m2naziv),6,2)+'/'+Substr((m2naziv),1,4)
+    		Replace kalgxml.datPDV With Ctod(wdatum)
+    		Replace kalgxml.datdok With Ctod(wdatum)
+    
+    	Next
+    *	Naziv prodavca
+    	brojponav=Occurs("<cbc:RegistrationName>",mstring)
+    	For i= 1 To 1 && brojponav
+    		m1naziv=At('<cbc:RegistrationName>',mstring,i)
+    		m1mesto=At('</cbc:RegistrationName>',mstring,i)-(m1naziv+22)
+    		m2naziv=Substr(mstring,m1naziv+22,m1mesto)
+    		m2naziv=Substr(m2naziv,1,Len(Alltrim(m2naziv)))  &&-1)
+    
+    	Next
+    
+    	Select kalgxml
+    
+    ********** Ovde ubaciti redove xml fakture i upisati u kalxml.dbf
+    
+    	If !File("kalxmlr.dbf")
+    		Create Table kalxmlr (wstring c (254))
+    	Else
+    		Use kalxmlr In 0 Excl
+    		Select kalxmlr
+    		Zap
+    		Pack
+    
+    	Endif
+    *********** ovde treba ubaciti brisanje PDF-a ako ga ima u xml-u
+    
+    *SUSPEND
+    
+    	brojponav=Occurs('<env:DocumentPdf mimeCode="application/pdf">',mstring)
+    *?brojponav
+    	For i= 1 To  brojponav
+    *<env:DocumentPdf mimeCode="application/pdf">
+    		OD = At('<env:DocumentPdf mimeCode="application/pdf">',mstring,1)
+    *</env:DocumentPdf>
+    		Do = At('</env:DocumentPdf>',mstring,1)
+    		mstring=Stuff(mstring,OD+44,Do-(OD+44),'')
+    	Next
+    
+    	brojponav=Occurs('<cac:AdditionalDocumentReference>',mstring)
+    *?brojponav
+    	For i= 1 To  brojponav
+    		OD = At('<cac:AdditionalDocumentReference>',mstring,1)
+    		Doo = At('<cac:AccountingSupplierParty>',mstring,1)
+    		mstring=Stuff(mstring,OD,(Doo-900), '')
+    *mstring=Stuff(mstring,od,(doo/2), '')
+    	Endfor
+    	mfile1='&mdata02'+'\xml\'+'aca'+'.xml'
+    	Strtofile(mstring, mfile1)
+    	mstring = Filetostr(mfile1)
+    
+    *brojponav=Occurs('<cac:Attachment>',mstring)
+    *?brojponav
+    *For i= 1 To  brojponav
+    *	OD = At('<cac:Attachment>',mstring,1)
+    *	Doo = At('</cac:Attachment>',mstring,1)
+    *	mstring=Stuff(mstring,od,doo+17, '')
+    *Next
+    *mfile1='&mdata02'+'\xml\'+'aca'+'.xml'
+    *Strtofile(mstring, mfile1)
+    *mstring = Filetostr(MFILE1)
+    
+    
+    *suspend
+    
+    *brojponav=Occurs('<cac:AccountingSupplierParty>',mstring)
+    *?brojponav
+    *For i= 1 To  1 &&brojponav
+    *	*OD = At('<cac:AdditionalDocumentReference>',mstring,1)
+    *	Doo = At('<cac:AccountingSupplierParty>',mstring,1)
+    *	mstring=Stuff(mstring,od,doo,'')
+    *Next
+    
+    
+    
+    
+    	brojponav=Occurs('<cac:Attachment>',mstring)
+    *?brojponav
+    	For i= 1 To  brojponav
+    		OD = At('<cac:Attachment>',mstring,1)
+    		Do = At('</cac:Attachment>',mstring,1)
+    		mstring=Stuff(mstring,OD+16,Do-(OD+16), '')
+    *mstring=Stuff(mstring,od,do+16, '')
+    	Next
+    
+    
+    
+    	mfile1='&mdata02'+'\xml\'+'aca'+'.xml'
+    	Strtofile(mstring, mfile1)
+    
+    *********** kraj brisanja PDF-a ********************************
+    	Select kalxmlr
+    	Append From &mfile1 Type Sdf
+    *******	poravnanje levo ****************
+    	Replace All wstring With Alltrim(wstring)
+    	Go Top
+    
+    	Select KALXML
+    	Select kalxmlr
+    	Locate For Substr(wstring,1,17)="<cac:InvoiceLine>"
+    
+    	Do While !Eof()			&& od prvog artikla se vrti do kraja fajla
+    		Select kalxmlr
+    ****** KOLICINA *******************************
+    		If Substr(wstring,1,21)="<cbc:InvoicedQuantity"
+    			OD = At('>',wstring,1)
+    			Do = At('</',wstring,1)
+    			Select KALXML
+    			Append Blank
+    			Replace BRKAL With kalgxml.BRKAL
+    			Replace KOL With Val(Substr(kalxmlr.wstring,OD+1,(Do-OD-1)))
+    			Select kalxmlr
+    		Endif
+    ****** CENA *********************
+    		If Substr(wstring,1,16)="<cbc:PriceAmount"
+    			OD = At('>',wstring,1)
+    			Do = At('</',wstring,1)
+    
+    			Select KALXML
+    
+    			Replace CENA With Val(Substr(kalxmlr.wstring,OD+1,(Do-OD-1)))
+    			Select kalxmlr
+    		Endif
+    ****** IZNOS RABATA ******************************
+    		If Substr(wstring,1,23)="<cbc:Amount currencyID="
+    
+    			OD = At('>',wstring,1)
+    			Do = At('</',wstring,1)
+    
+    			Select KALXML
+    
+    			Replace rabat With Val(Substr(kalxmlr.wstring,OD+1,(Do-OD-1)))
+    			Select kalxmlr
+    		Endif
+    ****** BAR KOD ROBE ******************************
+    		If Substr(wstring,1,32)="<cac:StandardItemIdentification>"
+    			Skip &&&  treba nam sledeci red barkod
+    * Ispitati da li u redu ima <cbc:ID schemeID="0160">8600946905005</cbc:ID>
+    * ili je bez "160" pa po tome traziti barkod 11.10.2024 aca
+    			wstring1 = Space(80)
+    			Store wstring To wstring1 
+    			i = 1
+    			k = 80 &&Len(wracunp)
+    			Do While i <= k
+    				If Substr(wstring1 ,i,1) # '>'
+    					wstring1 = Stuff(wstring1,i,1,"")
+    					k = k - 1
+    				ELSE
+    					EXIT
+    				Endif
+    				*i = i + 1
+    			ENDDO
+    		
+    			If Substr(wstring1,1,1) = ">"
+    				OD = At('>',wstring1,1)
+    				Do = At('</cbc:ID>',wstring1,1)
+    				If Substr(wstring1,OD+1,Do-1)> Space(1)
+    					Select rob
+    					Locate For ALLTRIM(barkod) = ALLTRIM(Substr(wstring1,OD+1,Do-2))
+    *suspend
+    					Select KALXML
+    					Replace rsif With rob.rsif
+    				Endif
+    			ENDIF
+    			replace kalxmlr.wstring WITH wstring1
+    			Select KALXML
+    			Select KALXMLR
+    		Endif
+    ****** Naziv ROBE ******************************
+    		If Substr(wstring,1,10)="<cac:Item>"
+    			Skip
+    			If Substr(wstring,1,17)="<cbc:Description>" 
+    				Skip
+    			Endif
+    			OD = At('<cbc:Name>',wstring,1)
+    			Do = At('</cbc:Name>',wstring,1)
+    
+    			Select KALXML
+    
+    			Replace naz With Substr(kalxmlr.wstring,OD+10,(Do)-(OD+10))
+    			Select kalxmlr
+    		Endif
+    
+    		Skip
+    	Enddo
+    
+    *********** kraj ubacivanja u kalxml.dbf
+    
+    Endif
+    
+    Delete File('&mfile1')     &&+'.xml')
+    
+    Select KALXML
+    Go Top
+    treba=.F.
+    Do While !Eof()
+    	If Empty(rsif)
+    		treba=.T.
+    	Endif
+    	Skip
+    Enddo
+    If treba
+    	Do Form popunirsif
+    	Thisform.command1.Visible=.F.
+    Else
+    	Thisform.command2.Click()
+    Endif
+    
+    *WAIT WINDOW " Zavrseno "
+    
+    ********************************
+    Pop Key
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPEP00XML3
+  PROPERTIES:
+    Top =   8.80
+    Left =  75.20
+    Height =   5.60
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    *SELECT kalgxml
+    *USE IN kalgxml
+    *SELECT KALXML
+    *USE IN KALXML
+    
+    SELECT kalg
+    APPEND FROM kalgxml
+    SELECT KALGXML
+    USE
+    SELECT KALXML
+    REPLACE ALL IZNOS WITH ROUND(CENA*KOL,2)
+    GO TOP
+    SELECT kal 
+    APPEND FROM KALXML
+    SELECT KALXML
+    GO top
+    
+    DO WHILE !EOF()
+    	SELECT rob
+    	LOCATE FOR KALXML.RSIF=ROB.RSIF
+    	*? ROB.RSIF
+    	*? ROB.KOL
+    	REPLACE ROB.KOL WITH ROB.KOL+KALXML.KOL
+    	*? ROB.KOL
+    	SELE kalxml
+    	skip
+    enddo
+    
+    USE
+    If used("kalxmlr")
+    	SELECT KALXMLR
+    	USE 
+    ENDIF
+    SELECT KAL
+    THISFORM.RELEASE
+    ENDPROC

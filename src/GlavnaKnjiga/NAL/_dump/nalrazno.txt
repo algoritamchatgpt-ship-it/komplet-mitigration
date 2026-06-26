@@ -1,0 +1,367 @@
+num records 18
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALRAZNO | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  39.93
+    Width =  74.80
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "GLAVNA KNJIGA - RAZNO"
+    WindowType = 1
+    BackColor = 149,188,148
+    Name = "NALRAZNO"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALRAZNOTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALRAZNO
+  PROPERTIES:
+    Top =   0.80
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZAMENA KONTA"
+    TabIndex = 1
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMKON
+    
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALRAZNO
+  PROPERTIES:
+    Top =   5.07
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZATVARANJE KLASA 5 I 6"
+    TabIndex = 3
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAT
+    
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALRAZNO
+  PROPERTIES:
+    Top =   9.33
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "KOPIRANJE NALOGA"
+    TabIndex = 5
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALKOPI
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  35.20
+    Left =  24.00
+    Height =   4.47
+    Width =  27.60
+    FontBold = .F.
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 13
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  13.60
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "PARAMETRI"
+    TabIndex = 7
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALPARAM
+    
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  11.47
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "SLAGANJE NALOGA"
+    TabIndex = 6
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALSLAG
+    
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  15.73
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "UNOS DOKUMENTA ZA KONTO"
+    TabIndex = 8
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZAMKON2
+    
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALRAZNO
+  PROPERTIES:
+    Top =   2.93
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "UTVRDJIVANJE REZULTATA "
+    TabIndex = 2
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALREZUL6
+    
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  17.87
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "KASKADNO SLAGANJE"
+    TabIndex = 9
+    ToolTipText = "BRISANJE NALOGA U SVIM ANALITIKAMA"
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALKASKAD
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  20.00
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "KOREKCIJA PDV DATUMA "
+    TabIndex = 10
+    ToolTipText = "BRISANJE NALOGA U SVIM ANALITIKAMA"
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT NAL
+    GO TOP
+    DO WHILE.NOT.EOF()
+       IF DATPRI=CTOD('')
+          REPLACE DATPRI WITH DATDOK
+       ENDIF
+       IF DATPDV=CTOD('')
+          REPLACE DATPDV WITH DATPRI
+       ENDIF
+       SKIP
+    ENDDO   
+    GO TOP
+    ENDPROC
+
+=== commandbutton | Command11 | parent=NALRAZNO
+  PROPERTIES:
+    Top =   7.20
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZATVARANJE AKTIVE I PASIVE"
+    TabIndex = 4
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALZATA
+    
+    ENDPROC
+
+=== commandbutton | Command21 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  24.27
+    Left =  14.40
+    Height =   2.13
+    Width =  49.60
+    FontSize = 11
+    Caption = "DOPUNI KONTO"
+    TabIndex = 12
+    ToolTipText = "BRISANJE VRSTE NALOGA"
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command21"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALDOPUNIKONTO
+    THISFORM.RELEASE
+    
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  22.13
+    Left =  14.40
+    Height =   2.07
+    Width =  49.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "KOREKCIJA DATUMA KNJIŽENJA"
+    TabIndex = 11
+    ToolTipText = "BRISANJE NALOGA U SVIM ANALITIKAMA"
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT NAL
+    GO TOP
+    DO WHILE.NOT.EOF()
+       IF DATUM=CTOD('')
+          REPLACE DATUM WITH NALBROJ.DATKNJI
+       ENDIF
+       SKIP
+    ENDDO   
+    GO TOP
+    MMDATUM=TDAT0
+    DO WHILE.NOT.EOF()
+       IF DATUM<>CTOD('')
+          MMDATUM=DATUM
+       ENDIF   
+       IF DATUM=CTOD('')
+          REPLACE DATUM WITH MMDATUM
+       ENDIF
+       SKIP
+    ENDDO   
+    GO TOP
+    
+    ENDPROC
+
+=== commandbutton | Command14 | parent=NALRAZNO
+  PROPERTIES:
+    Top =  26.53
+    Left =  14.40
+    Height =   2.13
+    Width =  49.60
+    FontSize = 11
+    Caption = "PROVERA MATERIJALA"
+    TabIndex = 12
+    ToolTipText = "BRISANJE VRSTE NALOGA"
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command14"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALMAT
+    thisform.release   
+    NAL.RELEASE
+    
+    
+    
+    ENDPROC

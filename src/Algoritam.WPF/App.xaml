@@ -1,0 +1,21 @@
+<Application x:Class="Algoritam.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Algoritam.WPF"
+             xmlns:conv="clr-namespace:Algoritam.WPF.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/AppTheme.xaml"/>
+                <ResourceDictionary Source="Resources/OsnovnaSredstvaStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <conv:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+            <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <conv:ObjectEqualityConverter x:Key="ObjectEqualityConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

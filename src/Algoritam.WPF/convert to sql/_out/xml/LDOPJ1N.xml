@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="LDOPJ1N">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="REDBR" type="N" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="SIFOPIS" type="C" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="RADNIKA" type="N" length="0" decimals="0" />
+    <column name="KOL" type="N" length="2" decimals="0" />
+    <column name="NEOPOREZ" type="N" length="2" decimals="0" />
+    <column name="IMAPRAVO" type="N" length="2" decimals="0" />
+    <column name="SVENEOPOR" type="N" length="2" decimals="0" />
+    <column name="SVEPRAVO" type="N" length="2" decimals="0" />
+    <column name="ISPLACENO" type="N" length="2" decimals="0" />
+    <column name="ZAISPLATU" type="N" length="2" decimals="0" />
+    <column name="SVEGA" type="N" length="2" decimals="0" />
+    <column name="NETOOPOR" type="N" length="2" decimals="0" />
+    <column name="BRUTOOPOR" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="OPIS1" type="C" length="0" decimals="0" />
+    <column name="OPIS2" type="C" length="0" decimals="0" />
+    <column name="DATISPL" type="D" length="0" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="UKOB" type="N" length="2" decimals="0" />
+    <column name="NUMBROJ" type="N" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

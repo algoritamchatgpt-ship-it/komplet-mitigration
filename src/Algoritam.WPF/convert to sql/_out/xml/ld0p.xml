@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ld0p">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="GODINA" type="C" length="0" decimals="0" />
+    <column name="VRSTA" type="C" length="0" decimals="0" />
+    <column name="BROBRAC" type="N" length="0" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="CASUK" type="N" length="2" decimals="0" />
+    <column name="CASBOL" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DOPSOCR" type="N" length="2" decimals="0" />
+    <column name="DOPPR" type="N" length="2" decimals="0" />
+    <column name="DOPZR" type="N" length="2" decimals="0" />
+    <column name="DOPNR" type="N" length="2" decimals="0" />
+    <column name="DOPSOCF" type="N" length="2" decimals="0" />
+    <column name="DOPPF" type="N" length="2" decimals="0" />
+    <column name="DOPZF" type="N" length="2" decimals="0" />
+    <column name="DOPNF" type="N" length="2" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="UKOBUST" type="N" length="2" decimals="0" />
+    <column name="ZAISPLATU" type="N" length="2" decimals="0" />
+    <column name="CENARADA" type="N" length="6" decimals="0" />
+    <column name="DAT1" type="D" length="0" decimals="0" />
+    <column name="DAT2" type="D" length="0" decimals="0" />
+    <column name="DAT3" type="D" length="0" decimals="0" />
+    <column name="DAT4" type="D" length="0" decimals="0" />
+    <column name="PPOPJ1" type="C" length="0" decimals="0" />
+    <column name="PPOPJ2" type="C" length="0" decimals="0" />
+    <column name="PPOPJ3" type="C" length="0" decimals="0" />
+    <column name="PPOPJ4" type="C" length="0" decimals="0" />
+    <column name="PPOD01" type="C" length="0" decimals="0" />
+    <column name="PPOD02" type="C" length="0" decimals="0" />
+    <column name="PPOD03" type="C" length="0" decimals="0" />
+    <column name="PPOD04" type="C" length="0" decimals="0" />
+    <column name="PPOD01V" type="C" length="0" decimals="0" />
+    <column name="PPOD02V" type="C" length="0" decimals="0" />
+    <column name="PPOD03V" type="C" length="0" decimals="0" />
+    <column name="PPOD04V" type="C" length="0" decimals="0" />
+    <column name="PPOD11" type="C" length="0" decimals="0" />
+    <column name="PPOD12" type="C" length="0" decimals="0" />
+    <column name="PPOD13" type="C" length="0" decimals="0" />
+    <column name="PPOD14" type="C" length="0" decimals="0" />
+    <column name="OPIS1" type="C" length="0" decimals="0" />
+    <column name="OPIS2" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

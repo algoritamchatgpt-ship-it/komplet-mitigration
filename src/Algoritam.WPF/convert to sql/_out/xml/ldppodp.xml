@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldppodp">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="ZARADA" type="N" length="2" decimals="0" />
+    <column name="OSNOVICA" type="N" length="2" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="NAJNIZA" type="N" length="2" decimals="0" />
+    <column name="NAJVISA" type="N" length="2" decimals="0" />
+    <column name="PROCPIO" type="N" length="2" decimals="0" />
+    <column name="PROCZDR" type="N" length="2" decimals="0" />
+    <column name="PROCNEZ" type="N" length="2" decimals="0" />
+    <column name="DOPSOC" type="N" length="2" decimals="0" />
+    <column name="DOPPIO" type="N" length="2" decimals="0" />
+    <column name="DOPZDR" type="N" length="2" decimals="0" />
+    <column name="DOPNEZ" type="N" length="2" decimals="0" />
+    <column name="PROCBEN" type="N" length="2" decimals="0" />
+    <column name="DOPBEN" type="N" length="2" decimals="0" />
+    <column name="UKUPDOP" type="N" length="2" decimals="0" />
+    <column name="PROCPOR" type="N" length="2" decimals="0" />
+    <column name="PORUMANJ" type="N" length="2" decimals="0" />
+    <column name="PORDOH" type="N" length="2" decimals="0" />
+    <column name="NETOLD" type="N" length="2" decimals="0" />
+    <column name="PZARADA" type="N" length="2" decimals="0" />
+    <column name="POSNOVICA" type="N" length="2" decimals="0" />
+    <column name="PNETO" type="N" length="2" decimals="0" />
+    <column name="PNAJNIZA" type="N" length="2" decimals="0" />
+    <column name="PNAJVISA" type="N" length="2" decimals="0" />
+    <column name="PDOPSOC" type="N" length="2" decimals="0" />
+    <column name="PDOPPIO" type="N" length="2" decimals="0" />
+    <column name="PDOPZDR" type="N" length="2" decimals="0" />
+    <column name="PDOPNEZ" type="N" length="2" decimals="0" />
+    <column name="PDOPBEN" type="N" length="2" decimals="0" />
+    <column name="PUKUPDOP" type="N" length="2" decimals="0" />
+    <column name="PPROCPOR" type="N" length="2" decimals="0" />
+    <column name="PPORUMANJ" type="N" length="2" decimals="0" />
+    <column name="PPORDOH" type="N" length="2" decimals="0" />
+    <column name="PNETOLD" type="N" length="2" decimals="0" />
+    <column name="IZARADA" type="N" length="2" decimals="0" />
+    <column name="IOSNOVICA" type="N" length="2" decimals="0" />
+    <column name="INETO" type="N" length="2" decimals="0" />
+    <column name="INAJNIZA" type="N" length="2" decimals="0" />
+    <column name="INAJVISA" type="N" length="2" decimals="0" />
+    <column name="IDOPSOC" type="N" length="2" decimals="0" />
+    <column name="IDOPPIO" type="N" length="2" decimals="0" />
+    <column name="IDOPZDR" type="N" length="2" decimals="0" />
+    <column name="IDOPNEZ" type="N" length="2" decimals="0" />
+    <column name="IDOPBEN" type="N" length="2" decimals="0" />
+    <column name="IUKUPDOP" type="N" length="2" decimals="0" />
+    <column name="IPROCPOR" type="N" length="2" decimals="0" />
+    <column name="IPORUMANJ" type="N" length="2" decimals="0" />
+    <column name="IPORDOH" type="N" length="2" decimals="0" />
+    <column name="INETOLD" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="REDISPL" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

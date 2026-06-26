@@ -1,0 +1,181 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALP2TMMENI2 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   9.80
+    Left =  20.80
+    Height =  12.07
+    Width =  76.00
+    DoCreate = .T.
+    Caption = "KEPU KNJIGA - OPIS"
+    WindowType = 1
+    BackColor = 183,188,249
+    Name = "NALP2TMMENI2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE &KTMMENI IN 0 ALIAS TMMENI
+       SELECT TMMENI
+       IF RECCOUNT()<1
+          APPEND BLANK
+          REPLACE OPIS WITH 'DNEVNI PROMET'
+          APPEND BLANK
+          REPLACE OPIS WITH 'UPLACENO GOTOVINA'
+          APPEND BLANK
+          REPLACE OPIS WITH 'UPLACENO CEKOVI  '
+          APPEND BLANK
+          REPLACE OPIS WITH 'UPLACENO KARTICA '
+          APPEND BLANK
+          REPLACE OPIS WITH 'UPLACENO VIRMAN  '
+          APPEND BLANK
+          REPLACE OPIS WITH 'UPLACENO OSTALO  '
+          APPEND BLANK
+          REPLACE OPIS WITH 'IZLAZ'
+       ENDIF
+    SELECT TMMENI
+    GO TOP
+    SKIP
+    THISFORM.GRD0.RecordSource='TMMENI'
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO nalp2TMMENI2TAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT TMMENI
+    USE
+    SELECT nalp
+    POP KEY
+    ENDPROC
+
+=== grid | GRD0 | parent=NALP2TMMENI2
+  PROPERTIES:
+    ColumnCount = 1
+    FontSize = 11
+    DeleteMark = .F.
+    GridLines = 1
+    HeaderHeight = 0
+    Height =   8.20
+    Left =   4.80
+    Panel = 1
+    PanelLink = .F.
+    RecordMark = .F.
+    RecordSource = "tmmeni"
+    RecordSourceType = 1
+    RowHeight = 20
+    ScrollBars = 0
+    SplitBar = .F.
+    Top =   0.87
+    View = 2
+    Width =  64.00
+    BackColor = 245,245,245
+    GridLineColor = 192,192,192
+    RightToLeft = .T.
+    Name = "GRD0"
+    Column1.FontSize = 11
+    Column1.Width =  62.80
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+
+=== header | Header1 | parent=NALP2TMMENI2.GRD0.Column1
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Header1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALP2TMMENI2.GRD0.Column1
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    PUSH KEY CLEAR
+    ZADTAST=NKEYCODE
+    DO CASE ZADTAST
+    case zadtast=13
+       SELECT TMMENI
+       MOPIS=OPIS
+       DO CASE MOPIS
+       CASE MOPIS='UPLACENO GOTOVINA            '
+          SELECT nalp
+          REPLACE OPISU WITH 'UPLACENO GOTOVINA '+SUBSTR(DTOC(DATDOK),1,5)
+          THISFORM.RELEASE
+       CASE MOPIS='UPLACENO CEKOVI              '
+          SELECT NALP
+          REPLACE OPISU WITH 'UPLACENO CEKOVI  '+SUBSTR(DTOC(DATDOK),1,5)
+          THISFORM.RELEASE
+       CASE MOPIS='UPLACENO KARTICA             '
+          SELECT NALP
+          REPLACE OPISU WITH 'UPLACENO KARTICA '+SUBSTR(DTOC(DATDOK),1,5)
+          THISFORM.RELEASE
+       CASE MOPIS='UPLACENO VIRMAN              '
+          SELECT NALP
+          REPLACE OPISU WITH 'UPLACENO VIRMAN '+SUBSTR(DTOC(DATDOK),1,5)
+          THISFORM.RELEASE
+       CASE MOPIS='UPLACENO OSTALO              '
+          SELECT NALP
+          REPLACE OPISU WITH 'UPLACENO OSTALO '+SUBSTR(DTOC(DATDOK),1,5)
+          THISFORM.RELEASE
+       OTHERWISE
+          SELECT NALP
+          REPLACE OPIS WITH ''
+          TMNAL.GRD0.COLUMN5.TEXT1.SETFOCUS
+          THISFORM.RELEASE
+       ENDCASE
+    ENDCASE
+    *   NALP2KARTMP.REFRESH
+    POP KEY
+    
+    
+    
+    
+          
+    
+    ENDPROC

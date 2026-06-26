@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldzsp">
+  <columns>
+    <column name="REDNI" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="PORUMANJ" type="N" length="4" decimals="0" />
+    <column name="DATZAPOS" type="D" length="0" decimals="0" />
+    <column name="BRUTO" type="N" length="0" decimals="0" />
+    <column name="PORDOH" type="N" length="2" decimals="0" />
+    <column name="POREZU" type="N" length="2" decimals="0" />
+    <column name="POREZUPL" type="N" length="2" decimals="0" />
+    <column name="POREZSUB" type="N" length="2" decimals="0" />
+    <column name="DATOTKAZ" type="D" length="0" decimals="0" />
+    <column name="PORDUG" type="N" length="0" decimals="0" />
+    <column name="BROJZAP0" type="N" length="0" decimals="0" />
+    <column name="BROJZAP1" type="N" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

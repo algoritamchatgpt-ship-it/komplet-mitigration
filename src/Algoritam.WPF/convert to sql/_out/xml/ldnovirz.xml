@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldnovirz">
+  <columns>
+    <column name="REDBR" type="N" length="0" decimals="0" />
+    <column name="DEKLARAC" type="C" length="0" decimals="0" />
+    <column name="BOPBROJ" type="C" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="PIB" type="C" length="0" decimals="0" />
+    <column name="JMBGPODNOS" type="C" length="0" decimals="0" />
+    <column name="MATICNI" type="C" length="0" decimals="0" />
+    <column name="NAZIV" type="C" length="0" decimals="0" />
+    <column name="SEDISTE" type="C" length="0" decimals="0" />
+    <column name="TELEFON" type="C" length="0" decimals="0" />
+    <column name="ULICAIBR" type="C" length="0" decimals="0" />
+    <column name="EMAIL" type="C" length="0" decimals="0" />
+    <column name="POCLICA" type="N" length="0" decimals="0" />
+    <column name="DANLICA" type="N" length="0" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="ZIRORAC" type="C" length="0" decimals="0" />
+    <column name="BANKA" type="C" length="0" decimals="0" />
+    <column name="DATPOD" type="D" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+    <column name="DATZANADAN" type="D" length="0" decimals="0" />
+    <column name="DATNOVOZOD" type="D" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

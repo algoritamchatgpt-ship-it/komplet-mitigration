@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldinzs">
+  <columns>
+    <column name="REDNI" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="BRUTO" type="N" length="0" decimals="0" />
+    <column name="DOPPF" type="N" length="0" decimals="0" />
+    <column name="DOPZF" type="N" length="0" decimals="0" />
+    <column name="DOPNF" type="N" length="0" decimals="0" />
+    <column name="DOPSOCF" type="N" length="0" decimals="0" />
+    <column name="DOPPFU" type="N" length="0" decimals="0" />
+    <column name="DOPZFU" type="N" length="0" decimals="0" />
+    <column name="DOPNFU" type="N" length="0" decimals="0" />
+    <column name="DOPPFR" type="N" length="0" decimals="0" />
+    <column name="DOPZFR" type="N" length="0" decimals="0" />
+    <column name="DOPNFR" type="N" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

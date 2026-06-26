@@ -1,0 +1,54 @@
+<Window x:Class="GlavnaKnjiga.Views.Nalpril1Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PREUZIMANJE PRILIVA I ODLIVA"
+        Height="220" Width="430"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#ECE9D8"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="PREUZIMANJE PRILIVA I ODLIVA"
+                   FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"
+                   Background="#F1D1AD" Padding="8,4"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Početni datum"
+                       Foreground="#BE0000" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="0" Grid.Column="1" FontSize="11" SelectedDate="{Binding Dat0}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Zadnji datum"
+                       Foreground="#BE0000" TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="2" Grid.Column="1" FontSize="11" SelectedDate="{Binding Dat1}"/>
+        </Grid>
+
+        <TextBlock Grid.Row="4" Text="{Binding Poruka}" TextWrapping="Wrap"
+                   Foreground="#333366" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="\&lt;PREUZMI" Width="110" Margin="8,0" Background="#C0C0C0"
+                    Command="{Binding PreuzmiCommand}"/>
+            <Button Content="\&lt;IZLAZ"   Width="80"  Margin="8,0" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

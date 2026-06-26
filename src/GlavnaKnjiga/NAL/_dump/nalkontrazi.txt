@@ -1,0 +1,130 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALKONTRAZI | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   9.53
+    Width =  71.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "TRAŽENJE KONTA"
+    WindowType = 1
+    AlwaysOnTop = .T.
+    BackColor = 236,233,216
+    Name = "NALKONTRAZI"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MKONTO=KONTO
+    *THISFORM.TXTKONTO.VALUE=MKONTO
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO NALKONTRAZITAST
+    SET PROCEDURE TO    
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NAL
+    SET ORDER TO 3
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALKONTRAZI
+  PROPERTIES:
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "UNESITE KONTO"
+    Height =   1.60
+    Left =   2.40
+    Top =   1.60
+    Width =  31.20
+    TabIndex = 3
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALKONTRAZI
+  PROPERTIES:
+    Top =   4.00
+    Left =  24.00
+    Height =   4.80
+    Width =  24.20
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release
+    
+    ENDPROC
+
+=== textbox | TXTKONTO | parent=NALKONTRAZI
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.67
+    Left =  38.40
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.60
+    Width =  28.80
+    Name = "TXTKONTO"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SET EXACT OFF
+    MKONTO=ALLTRIM(THISFORM.TXTKONTO.VALUE)
+    IF MKONTO<>SPACE(10)
+       SET ORDER TO 1
+       SEEK MKONTO
+    ENDIF
+    SET EXACT ON
+    NAL.GRD0.SETFOCUS
+    NAL.REFRESH
+    THISFORM.Release
+    POP KEY
+    ENDPROC

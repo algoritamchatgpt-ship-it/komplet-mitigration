@@ -1,0 +1,8 @@
+-- Source: ldosnov
+CREATE TABLE IF NOT EXISTS "ldosnov" (
+  "SIFOSNOV" VARCHAR(0),
+  "OSNOV" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

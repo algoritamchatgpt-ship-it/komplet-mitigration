@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldporpot">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MES" type="N" length="0" decimals="0" />
+    <column name="MESEC" type="C" length="0" decimals="0" />
+    <column name="RADDIN" type="N" length="2" decimals="0" />
+    <column name="RADKOEF" type="N" length="4" decimals="0" />
+    <column name="FIRDIN" type="N" length="2" decimals="0" />
+    <column name="FIRKOEF" type="N" length="4" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="LBOBROJ" type="C" length="0" decimals="0" />
+    <column name="ZKBROJ" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

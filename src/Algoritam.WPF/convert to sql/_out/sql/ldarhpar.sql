@@ -1,0 +1,10 @@
+-- Source: ldarhpar
+CREATE TABLE IF NOT EXISTS "ldarhpar" (
+  "MESEC" NUMERIC(0),
+  "VRSTA" VARCHAR(0),
+  "PUTANJA" VARCHAR(0),
+  "GODINA" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

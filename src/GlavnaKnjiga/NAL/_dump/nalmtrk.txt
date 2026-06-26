@@ -1,0 +1,328 @@
+num records 16
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 129
+    Left = 36
+    Width = 520
+    Height = 451
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALMTRK | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  40.47
+    Width = 136.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "KONTA MESTA TROŠKOVA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALMTRK"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALMTRK
+    THISFORM.GRD0.RECORDSOURCE='NALMTRK'
+    THISFORM.GRD0.SETFOCUS
+    SET PROCEDURE TO TASTERI2
+       DO NALMTRKTAST
+    SET PROCEDURE TO   
+    
+    *THISFORM.REFRESH
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NALMTR
+    POP KEY
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALMTRK
+  PROPERTIES:
+    Top =   4.00
+    Left = 100.20
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    SpecialEffect = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALMTRK
+  PROPERTIES:
+    Top =   4.00
+    Left = 108.00
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    SpecialEffect = 2
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    *THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALMTRK
+  PROPERTIES:
+    Top =   4.00
+    Left = 115.80
+    Height =   1.80
+    Width =  10.00
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    SpecialEffect = 2
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALMTRK
+  PROPERTIES:
+    Top =   4.00
+    Left = 125.60
+    Height =   1.80
+    Width =   8.00
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    SpecialEffect = 2
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | CMDIZLAZ | parent=NALMTRK
+  PROPERTIES:
+    Top =  36.80
+    Left = 108.00
+    Height =   2.33
+    Width =  15.80
+    Picture = ..\dodaci\_cancel.bmp
+    Caption = ""
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 2
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBLREC | parent=NALMTRK
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  98.60
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== grid | grd0 | parent=NALMTRK
+  PROPERTIES:
+    ColumnCount = 2
+    FontBold = .F.
+    FontSize = 11
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  39.93
+    Left =   2.40
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 20
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   0.20
+    Width =  92.80
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 170,255,170
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 255,193,164
+    SelectedItemForeColor = 64,0,0
+    HighlightStyle = 1
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  15.60
+    Column1.ReadOnly = .T.
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =  70.60
+    Column2.ReadOnly = .T.
+    Column2.Visible = .T.
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY clear     
+    SELECT NALMTR
+    *------------PRIKAZ PODATAKA NA EKRANU 
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    DO NALMTRRAC
+    THISFORM.REFRESH
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTRK.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Kontotr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTRK.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALMTRK.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Naziv"
+    ForeColor = 0,0,255
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALMTRK.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 1
+    InputMask = "999999999999.99"
+    Margin = 0
+    ReadOnly = .T.
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    SelectedForeColor = 64,0,0
+    SelectedBackColor = 255,193,164
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALMTRK
+  PROPERTIES:
+    Top =   6.40
+    Left = 100.80
+    Height =   1.87
+    Width =  30.40
+    FontSize = 10
+    Caption = "BRISANJE TABELE"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO  NALMTRKBRISITAB
+    
+    ENDPROC

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldizvjp">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="RMESTO" type="C" length="0" decimals="0" />
+    <column name="SKOSPREMA" type="C" length="0" decimals="0" />
+    <column name="ZARADA" type="N" length="2" decimals="0" />
+    <column name="UVECANA" type="N" length="2" decimals="0" />
+    <column name="VARIJABIL" type="N" length="2" decimals="0" />
+    <column name="NETOLD" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

@@ -1,0 +1,20 @@
+=== form | OS0K | parent=(root) CAPTION=KARTICA OSNOVNOG SREDSTVA
+--- BTN: \<IZLAZ
+    THISFORM.RELEASE
+    ENDPROC
+--- BTN: \<GORE
+    PUSH KEY CLEAR
+    IF.NOT.BOF()
+    SKIP -1
+    ENDIF
+    THISFORM.Refresh
+    POP KEY
+    ENDPROC
+--- BTN: \<DOLE
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+    SKIP
+    ENDIF
+    THISFORM.Refresh
+    POP KEY
+    ENDPROC

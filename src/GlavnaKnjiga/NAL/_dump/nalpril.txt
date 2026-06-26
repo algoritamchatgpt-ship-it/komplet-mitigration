@@ -1,0 +1,753 @@
+num records 49
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "izgot"
+    CursorSource = ..\databaze\izgot.dbf
+    Name = "Cursor1"
+
+=== cursor | CURSOR2 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "nalpril"
+    CursorSource = ..\databaze\nalpril.dbf
+    Name = "CURSOR2"
+
+=== form | NALPRIL | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  49.47
+    Width = 203.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PLAN LIKVIDNOSTI - OČEKIVANI PRILIVI I ODLIVI"
+    WindowType = 1
+    WindowState = 2
+    HelpContextID = 1
+    BackColor = 183,188,249
+    Name = "NALPRIL"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEIGHT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    USE NALPRIL IN 0 EXCLU
+    USE &KKONTO ALIAS KONTO IN 0 ORDER 1
+    USE &KKON1 ALIAS KON1 IN 0 ORDER 1
+    USE &KKON2 ALIAS KON2 IN 0 ORDER 1
+    USE &KKON3 ALIAS KON3 IN 0 ORDER 1
+    USE &KDAT IN 0 ALIAS DATUMI
+    USE NALPRIL0 IN 0 EXCLU
+    USE FIRMA IN 0
+    SELECT NALPRIL
+    SET RELATION TO K1 INTO KON1 ADDITIVE
+    SET RELATION TO K2 INTO KON2 ADDITIVE
+    SET RELATION TO K3 INTO KON3 ADDITIVE
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    
+    THISFORM.GRD0.RECORDSOURCE='NALPRIL'
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPRILTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+    PROCEDURE Unload
+    CLOSE ALL TABLES
+    pop key
+    ENDPROC
+    PROCEDURE GotFocus
+    PUSH KEY CLEAR
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =   4.60
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =  18.80
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =  33.00
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =  47.20
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALPRIL
+  PROPERTIES:
+    Top =  35.93
+    Left = 175.20
+    Height =   4.80
+    Width =  19.20
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALPRIL
+  PROPERTIES:
+    Top =  35.60
+    Left =   4.80
+    Height =   1.80
+    Width =  27.40
+    FontSize = 11
+    Caption = "\<BRISANJE TABELE"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRIL
+    DELETE ALL FOR PAUTO='*'
+    PACK
+    POP KEY
+    THISFORM.RELEASE   
+    KEYBOARD '{ENTER}'
+    
+    
+    ENDPROC
+
+=== label | lblkonto | parent=NALPRIL
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 10
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   3.60
+    Top =  30.40
+    Width = 104.20
+    TabIndex = 11
+    BackColor = 253,236,204
+    Name = "lblkonto"
+
+=== grid | grd0 | parent=NALPRIL
+  PROPERTIES:
+    ColumnCount = 15
+    FontBold = .F.
+    FontSize = 11
+    DeleteMark = .F.
+    Height =  30.47
+    Left =   0.00
+    Panel = 1
+    RecordSource = ""
+    RecordSourceType = 1
+    RowHeight = 20
+    Top =   0.00
+    Width = 203.40
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  15.60
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =  10.20
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 11
+    Column3.ControlSource = ""
+    Column3.Width =  20.20
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 11
+    Column4.ControlSource = ""
+    Column4.Width =  19.40
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 11
+    Column5.ControlSource = ""
+    Column5.Width =  20.20
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 11
+    Column6.ControlSource = ""
+    Column6.Width =  21.20
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 11
+    Column7.ControlSource = ""
+    Column7.Width =  38.40
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 11
+    Column8.ControlSource = ""
+    Column8.Width =  43.20
+    Column8.BackColor = 245,245,245
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 11
+    Column9.ControlSource = ""
+    Column9.Width =   8.40
+    Column9.BackColor = 245,245,245
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 11
+    Column10.ControlSource = ""
+    Column10.Width =  59.60
+    Column10.BackColor = 245,245,245
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 11
+    Column11.ControlSource = ""
+    Column11.Width =  13.80
+    Column11.BackColor = 245,245,245
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 11
+    Column12.ControlSource = ""
+    Column12.Width =  14.00
+    Column12.BackColor = 245,245,245
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 11
+    Column13.ControlSource = ""
+    Column13.Width =   5.20
+    Column13.BackColor = 245,245,245
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 11
+    Column14.ControlSource = ""
+    Column14.Width =   7.00
+    Column14.BackColor = 245,245,245
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 11
+    Column15.ControlSource = ""
+    Column15.Width =   7.00
+    Column15.BackColor = 245,245,245
+    Column15.Name = "Column15"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY CLEAR
+    THISFORM.LBLKONTO.CAPTION=KONTO.KONTO
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NALPRIL.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Sifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column3
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column3
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column4
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Pot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column4
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column5
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dugpre"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column5
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column6
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Potpre"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column6
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column7
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column7
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column8
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Brrac"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column8
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column9
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Pauto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column9
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column10
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column10
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column11
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dat0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column11
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column12
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dat1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column12
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column13
+  PROPERTIES:
+    FontSize = 11
+    Caption = "K1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column13
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column14
+  PROPERTIES:
+    FontSize = 11
+    Caption = "K2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column14
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRIL.grd0.Column15
+  PROPERTIES:
+    FontSize = 11
+    Caption = "K3"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRIL.grd0.Column15
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== commandbutton | Command5 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =  62.40
+    Height =   1.80
+    Width =  28.80
+    FontSize = 11
+    Caption = "\<ANALITIČKA KONTA"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO FORM NALPRIL0
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left =  98.40
+    Height =   1.80
+    Width =  26.40
+    FontSize = 11
+    Caption = "\<DODAVANJE"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    APPEND BLANK
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALPRIL
+  PROPERTIES:
+    Top =  32.40
+    Left = 132.00
+    Height =   1.80
+    Width =  32.00
+    FontSize = 11
+    Caption = "\<PREUZMI IZ ANALITIKE"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO FORM NALPRIL1
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALPRIL
+  PROPERTIES:
+    Top =  36.40
+    Left =  72.00
+    Height =   1.80
+    Width =  32.40
+    FontSize = 11
+    Caption = "\<TEKUĆA LIKVIDNOST"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO IDEL WITH KKOCKAX
+    DO IDEL WITH KKOCKAX2
+    SELECT NALPRIL
+    COPY TO &KKOCKA FOR DUG<>0.OR.POT<>0
+    DO IIND WITH KKOCKA,'KONTO'
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLUSIVE
+    SELECT KOCKA
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2 FIELDS DUG,POT
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP   
+    *REPORT FORM NALPRIL1 PREVIEW
+       mfile='NALPRIL1'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    SELECT KOCKA
+    USE
+    SELECT NALPRIL
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NALPRIL
+  PROPERTIES:
+    Top =  38.13
+    Left =  72.00
+    Height =   1.80
+    Width =  32.40
+    FontSize = 11
+    Caption = "\<UKUPNA LIKVIDNOST"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO IDEL WITH KKOCKAX
+    DO IDEL WITH KKOCKAX2
+    DO IDEL WITH KKOCKAX3
+    DO IDEL WITH KKOCKAX4
+    
+    SELECT NALPRIL
+    COPY STRUCTURE TO &KKOCKA
+    COPY TO &KKOCKA3 FOR DUGPRE<>0.OR.POTPRE<>0
+    DO IIND WITH KKOCKA3,'KONTO'
+    USE &KKOCKA3 IN 0 ALIAS KOCKA3 EXCLUSIVE
+    SELECT KOCKA3
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2 FIELDS DUGPRE,POTPRE
+    ZAP
+    APPEND FROM &KKOCKA2
+    REPLACE ALL GRUPA WITH '1'
+    USE
+    
+    SELECT NALPRIL
+    COPY TO &KKOCKA4 FOR DUG<>0.OR.POT<>0
+    DO IIND WITH KKOCKA4,'KONTO'
+    
+    USE &KKOCKA4 IN 0 ALIAS KOCKA4 EXCLUSIVE
+    SELECT KOCKA4
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2 FIELDS DUG,POT
+    ZAP
+    APPEND FROM &KKOCKA2
+    REPLACE ALL GRUPA WITH '2'
+    USE
+    DO IIND WITH KKOCKA,'GRUPA'
+    
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    SET ORDER TO 1
+    APPEND FROM &KKOCKA3
+    APPEND FROM &KKOCKA4
+    GO TOP 
+    *REPORT FORM NALPRIL2 PREVIEW
+       mfile='NALPRIL2'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    SELECT KOCKA
+    USE
+    SELECT NALPRIL
+    POP KEY
+    
+    ENDPROC

@@ -1,0 +1,7 @@
+-- Source: ldsp01
+CREATE TABLE IF NOT EXISTS "ldsp01" (
+  "PPOLJE" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

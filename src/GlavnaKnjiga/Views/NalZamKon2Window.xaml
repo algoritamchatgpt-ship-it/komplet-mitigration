@@ -1,0 +1,55 @@
+<Window x:Class="GlavnaKnjiga.Views.NalZamKon2Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UNOS DOKUMENTA ZA ODREDJENI KONTO"
+        Height="180" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#95BC94"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="UNOS DOKUMENTA ZA ODREDJENI KONTO"
+                   FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"
+                   Background="#F1D1AD" Padding="8,4"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="KONTO" Foreground="#BE0000" TextDecorations="Underline"
+                       FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" FontSize="11"
+                     Text="{Binding Konto, UpdateSourceTrigger=LostFocus}"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="DOKUMENT" Foreground="#BE0000" TextDecorations="Underline"
+                       FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" FontSize="11"
+                     Text="{Binding Dok, UpdateSourceTrigger=LostFocus}"/>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="UNOS"  Width="100" Margin="8,0" Background="#C0C0C0"
+                    Command="{Binding UnosCommand}"/>
+            <Button Content="IZLAZ" Width="80"  Margin="8,0" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

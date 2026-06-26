@@ -1,0 +1,1366 @@
+num records 91
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPN | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "NEDOVRŠENI NALOZI"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALPN"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEighT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    PUBLIC TBRISI,PKPLANS,PKONDOPU,PKTKR,PKANAUTOZ
+    USE NALPN IN 0 ALIAS NALP
+    USE &KKONTO ALIAS KONTO IN 0 ORDER 1
+    SELECT NALP
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SELECT NALP
+    *--------------------ODREDJIVANJE BOJA--------------------
+    *THISFORM.BackColor=RGB(MBOJA3POZ1,MBOJA3POZ2,MBOJA3POZ3)
+    *THISFORM.FOREColor=RGB(MBOJA3SLO1,MBOJA3SLO2,MBOJA3SLO3)
+    *-------------------KRAJ ODREDJIVANJA BOJA----------------
+    select nalp
+    THISFORM.GRD0.RecordSource='NALP'
+    THISFORM.GRD0.SETFOCUS
+    SET PROCEDURE TO TASTERI2
+       DO NALPNTAST
+    SET PROCEDURE TO   
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    PUSH KEY CLEAR
+    CLOSE ALL TABLES
+    POP KEY
+    POP KEY
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.GRD0.SETFOCUS
+    
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+
+=== shape | Shape1 | parent=NALPN
+  PROPERTIES:
+    Top =   0.00
+    Left =   0.80
+    Height =   1.67
+    Width = 162.20
+    Name = "Shape1"
+
+=== commandbutton | Command23 | parent=NALPN
+  PROPERTIES:
+    Top =  37.27
+    Left =   2.40
+    Height =   2.00
+    Width =  36.20
+    FontSize = 10
+    Caption = "PRAZNI NALOG S+F7"
+    ToolTipText = "BRISANJE STAVKI IZ NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Alignment = 6
+    Name = "Command23"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPNPRAZNI
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALPN
+  PROPERTIES:
+    Top =  32.33
+    Left =   0.60
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPN
+  PROPERTIES:
+    Top =  32.33
+    Left =   8.40
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    *THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALPN
+  PROPERTIES:
+    Top =  32.33
+    Left =  16.20
+    Height =   1.80
+    Width =  10.00
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALPN
+  PROPERTIES:
+    Top =  32.33
+    Left =  26.00
+    Height =   1.80
+    Width =   8.00
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | CMDIZLAZ | parent=NALPN
+  PROPERTIES:
+    Top =  35.20
+    Left = 180.00
+    Height =   4.87
+    Width =  19.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "Izlaz"
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBLREC | parent=NALPN
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 162.80
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== commandbutton | Command20 | parent=NALPN
+  PROPERTIES:
+    Top =  34.93
+    Left =   2.40
+    Height =   2.00
+    Width =  36.20
+    FontSize = 10
+    Caption = "BRISANJE NALOGA"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALP
+    MBRNAL=BRNAL
+    CLOSE ALL
+    USE NALPN IN 0 ALIAS NALP EXCLU
+    SELECT NALP
+    DELETE ALL FOR BRNAL=MBRNAL
+    DELETE ALL FOR DUG=0.AND.POT=0
+    PACK
+    POP KEY
+    THISFORM.RELEASE
+    
+    ENDPROC
+
+=== commandbutton | Command31 | parent=NALPN
+  PROPERTIES:
+    Top =  39.07
+    Left =   2.40
+    Height =   2.00
+    Width =  36.20
+    FontSize = 10
+    Caption = "PRAZNI SVE NALOGE"
+    ToolTipText = "BRISANJE STAVKI IZ NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Alignment = 6
+    Name = "Command31"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPNPRAZNISVE
+    
+    ENDPROC
+
+=== textbox | txtKonto2 | parent=NALPN
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.konto"
+    Height =   1.53
+    Left =   0.80
+    MaxLength = 10
+    ReadOnly = .T.
+    TabIndex = 32
+    Top =  30.87
+    Width =  15.00
+    DisabledBackColor = 253,188,185
+    Name = "txtKonto2"
+
+=== textbox | txtNaziv | parent=NALPN
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.naziv"
+    Height =   1.53
+    Left =  15.60
+    MaxLength = 70
+    ReadOnly = .T.
+    TabIndex = 34
+    Top =  30.87
+    Width = 183.60
+    DisabledBackColor = 253,188,185
+    Name = "txtNaziv"
+
+=== textbox | txtBrnal | parent=NALPN
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "nalp.brnal"
+    Height =   1.53
+    Left =  16.80
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 45
+    Top =   0.07
+    Width =  13.80
+    DisabledBackColor = 243,250,163
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NALPN
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "NALOG"
+    Height =   1.27
+    Left =   4.40
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 44
+    Name = "lblBrnal"
+
+=== textbox | txtDatdok | parent=NALPN
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "nalp.datdok"
+    Height =   1.53
+    Left =  44.20
+    ReadOnly = .T.
+    TabIndex = 47
+    Top =   0.07
+    Width =  17.80
+    DisabledBackColor = 243,250,163
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALPN
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "DATUM"
+    Height =   1.27
+    Left =  31.80
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 46
+    Name = "lblDatdok"
+
+=== grid | grd0 | parent=NALPN
+  PROPERTIES:
+    ColumnCount = 34
+    FontBold = .F.
+    FontSize = 10
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  29.33
+    Left =   0.80
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 19
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   1.60
+    Width = 203.40
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 177,228,126
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 177,228,126
+    SelectedItemForeColor = 0,0,0
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =  21.00
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  28.20
+    Column2.Visible = .T.
+    Column2.Format = "999"
+    Column2.InputMask = "999 999 999 999.99"
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  24.00
+    Column3.Visible = .T.
+    Column3.Format = "999"
+    Column3.InputMask = "999 999 999 999.99"
+    Column3.ForeColor = 255,0,0
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  37.80
+    Column4.Visible = .T.
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =  16.40
+    Column5.Visible = .T.
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  15.00
+    Column6.ReadOnly = .T.
+    Column6.Visible = .T.
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =   8.20
+    Column7.Visible = .T.
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =   8.20
+    Column8.Visible = .T.
+    Column8.BackColor = 245,245,245
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =   7.80
+    Column9.Visible = .T.
+    Column9.BackColor = 245,245,245
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =   7.00
+    Column10.Visible = .T.
+    Column10.BackColor = 245,245,245
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  18.00
+    Column11.Visible = .T.
+    Column11.BackColor = 245,245,245
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  22.00
+    Column12.Visible = .T.
+    Column12.BackColor = 245,245,245
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =  23.20
+    Column13.Visible = .T.
+    Column13.BackColor = 245,245,245
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =  20.80
+    Column14.Visible = .T.
+    Column14.BackColor = 245,245,245
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =  22.20
+    Column15.Visible = .T.
+    Column15.BackColor = 245,245,245
+    Column15.Name = "Column15"
+    Column16.FontBold = .F.
+    Column16.FontSize = 10
+    Column16.ControlSource = ""
+    Column16.Width =  22.80
+    Column16.Visible = .T.
+    Column16.BackColor = 245,245,245
+    Column16.Name = "Column16"
+    Column17.FontBold = .F.
+    Column17.FontSize = 10
+    Column17.ControlSource = ""
+    Column17.Width =  13.40
+    Column17.Visible = .T.
+    Column17.BackColor = 245,245,245
+    Column17.Name = "Column17"
+    Column18.FontBold = .F.
+    Column18.FontSize = 10
+    Column18.ControlSource = ""
+    Column18.Width =   7.40
+    Column18.Visible = .T.
+    Column18.BackColor = 245,245,245
+    Column18.Name = "Column18"
+    Column19.FontBold = .F.
+    Column19.FontSize = 10
+    Column19.ControlSource = ""
+    Column19.Width =  16.20
+    Column19.Visible = .T.
+    Column19.BackColor = 245,245,245
+    Column19.Name = "Column19"
+    Column20.FontBold = .F.
+    Column20.FontSize = 10
+    Column20.ControlSource = ""
+    Column20.Width =  16.20
+    Column20.Visible = .T.
+    Column20.BackColor = 245,245,245
+    Column20.Name = "Column20"
+    Column21.FontBold = .F.
+    Column21.FontSize = 10
+    Column21.ControlSource = ""
+    Column21.Width =  19.60
+    Column21.Visible = .T.
+    Column21.BackColor = 245,245,245
+    Column21.Name = "Column21"
+    Column22.FontBold = .F.
+    Column22.FontSize = 10
+    Column22.ControlSource = ""
+    Column22.Width =  18.00
+    Column22.Visible = .T.
+    Column22.BackColor = 245,245,245
+    Column22.Name = "Column22"
+    Column23.FontBold = .F.
+    Column23.FontSize = 10
+    Column23.ControlSource = ""
+    Column23.Width =  17.40
+    Column23.Visible = .T.
+    Column23.BackColor = 245,245,245
+    Column23.Name = "Column23"
+    Column24.FontBold = .F.
+    Column24.FontSize = 10
+    Column24.ControlSource = ""
+    Column24.Width =  21.00
+    Column24.Visible = .T.
+    Column24.BackColor = 245,245,245
+    Column24.Name = "Column24"
+    Column25.FontBold = .F.
+    Column25.FontSize = 10
+    Column25.ControlSource = ""
+    Column25.Width =  11.60
+    Column25.Visible = .T.
+    Column25.BackColor = 245,245,245
+    Column25.Name = "Column25"
+    Column26.FontBold = .F.
+    Column26.FontSize = 10
+    Column26.ControlSource = ""
+    Column26.Width =  31.20
+    Column26.Visible = .T.
+    Column26.BackColor = 245,245,245
+    Column26.Name = "Column26"
+    Column27.FontBold = .F.
+    Column27.FontSize = 10
+    Column27.ControlSource = ""
+    Column27.Width =  18.60
+    Column27.BackColor = 245,245,245
+    Column27.Name = "Column27"
+    Column28.FontBold = .F.
+    Column28.FontSize = 10
+    Column28.ControlSource = ""
+    Column28.Width =  20.40
+    Column28.BackColor = 245,245,245
+    Column28.Name = "Column28"
+    Column29.FontBold = .F.
+    Column29.FontSize = 10
+    Column29.ControlSource = ""
+    Column29.Width =  18.20
+    Column29.BackColor = 245,245,245
+    Column29.Name = "Column29"
+    Column30.FontBold = .F.
+    Column30.FontSize = 10
+    Column30.ControlSource = ""
+    Column30.Width =  17.40
+    Column30.BackColor = 245,245,245
+    Column30.Name = "Column30"
+    Column31.FontBold = .F.
+    Column31.FontSize = 10
+    Column31.ControlSource = ""
+    Column31.Width =  17.80
+    Column31.BackColor = 245,245,245
+    Column31.Name = "Column31"
+    Column32.FontBold = .F.
+    Column32.FontSize = 10
+    Column32.ControlSource = ""
+    Column32.Width =   9.20
+    Column32.BackColor = 245,245,245
+    Column32.Name = "Column32"
+    Column33.FontBold = .F.
+    Column33.FontSize = 10
+    Column33.ControlSource = ""
+    Column33.Width =   8.80
+    Column33.BackColor = 245,245,245
+    Column33.Name = "Column33"
+    Column34.FontBold = .F.
+    Column34.FontSize = 10
+    Column34.ControlSource = ""
+    Column34.Width =  10.40
+    Column34.BackColor = 245,245,245
+    Column34.Name = "Column34"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY clear     
+    SELECT NALP       
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    POP key
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Dug"
+    ForeColor = 0,0,255
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 1
+    InputMask = "999999999999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Pot"
+    ForeColor = 255,0,0
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    InputMask = "999999999999.99"
+    Margin = 0
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 4
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    TabStop = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Mp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Mtr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPN.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Dok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Dev"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Devkurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Devdug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column12
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Devpot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column13
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Kurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column14
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Kursdug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column15
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Kurspot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column16
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Skonto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column17
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Oper"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column18
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Dpsaldo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Cena"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ulaz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Izlaz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ukupno_d"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ukupno_p"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Sifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Brrac"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Valuta"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datpri"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datpdv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datum"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Vreme"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column32
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Probni"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column32
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column33
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Arhiva"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column33
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPN.grd0.Column34
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Arhiva2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPN.grd0.Column34
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== commandbutton | Command18 | parent=NALPN
+  PROPERTIES:
+    Top =  35.27
+    Left = 142.00
+    Height =   2.00
+    Width =  36.20
+    FontSize = 11
+    Caption = "SORT"
+    TabIndex = 7
+    ToolTipText = "PROMENA SORTIRANJA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command18"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NALP
+    MORDER=TAGNO()
+    DO CASE MORDER 
+    CASE MORDER=0
+       SET ORDER TO 1
+    CASE MORDER=1
+       SET ORDER TO 2
+    CASE MORDER=2
+       SET ORDER TO 3
+    OTHERWISE 
+       SET ORDER TO
+    ENDCASE
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | CMDNALPN | parent=NALPN
+  PROPERTIES:
+    Top =  34.40
+    Left =  43.20
+    Height =   2.00
+    Width =  38.40
+    FontSize = 10
+    Caption = "PRENOS U IZRADU NALOGA"
+    TabIndex = 9
+    ToolTipText = "KNJIZENJE NALOGA U DNEVNIK"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Alignment = 6
+    Name = "CMDNALPN"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPNKNJIZINP
+    
+      
+    
+    ENDPROC

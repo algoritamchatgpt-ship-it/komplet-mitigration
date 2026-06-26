@@ -1,0 +1,136 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.FormiranjeLozinkiWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Formiranje lozinki"
+        Width="760"
+        Height="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanMinimize"
+        Background="#F0F0F0">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Padding="12"
+                Background="#1B5E20"
+                CornerRadius="4"
+                Margin="0,0,0,10">
+            <TextBlock Text="FORMIRANJE LOZINKI (ID / KORISNIK / LOZINKA)"
+                       Foreground="White"
+                       FontFamily="Tahoma"
+                       FontSize="14"
+                       FontWeight="Bold"/>
+        </Border>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Width="90" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Korisnik" Width="*" Binding="{Binding Korisnik}"/>
+                <DataGridTextColumn Header="Lozinka" Width="*" Binding="{Binding Lozinka}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="ID:"
+                       VerticalAlignment="Center"
+                       FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"/>
+            <TextBox Grid.Column="1"
+                     Height="28"
+                     Margin="4,0,8,0"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Consolas"
+                     Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Column="2" Text="Korisnik:"
+                       VerticalAlignment="Center"
+                       FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"/>
+            <TextBox Grid.Column="3"
+                     Height="28"
+                     Margin="4,0,8,0"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Tahoma"
+                     Text="{Binding Korisnik, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Column="4" Text="Lozinka:"
+                       VerticalAlignment="Center"
+                       FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"/>
+            <TextBox Grid.Column="5"
+                     Height="28"
+                     Margin="4,0,0,0"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Tahoma"
+                     Text="{Binding Lozinka, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="LOZINKE"
+                       FontFamily="Tahoma" FontSize="9"
+                       Foreground="#81C784"
+                       VerticalAlignment="Center"
+                       Margin="0,0,14,0"/>
+
+            <TextBlock Grid.Column="1"
+                       Text="{Binding Poruka}"
+                       VerticalAlignment="Center"
+                       FontFamily="Tahoma"
+                       FontSize="12"
+                       Foreground="#1565C0"/>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button Content="Novi"
+                        Width="90" Height="28"
+                        Margin="0,0,8,0"
+                        FontFamily="Tahoma"
+                        Command="{Binding NoviCommand}"/>
+                <Button Content="Sačuvaj"
+                        Width="90" Height="28"
+                        Margin="0,0,8,0"
+                        FontFamily="Tahoma"
+                        Command="{Binding SacuvajCommand}"/>
+                <Button Content="Obrisi"
+                        Width="90" Height="28"
+                        Margin="0,0,8,0"
+                        FontFamily="Tahoma"
+                        Command="{Binding ObrisiCommand}"/>
+                <Button Content="Osveži"
+                        Width="90" Height="28"
+                        Margin="0,0,8,0"
+                        FontFamily="Tahoma"
+                        Command="{Binding OsveziCommand}"/>
+                <Button x:Name="BtnZatvori"
+                        Content="Zatvori"
+                        Width="90" Height="28"
+                        FontFamily="Tahoma"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

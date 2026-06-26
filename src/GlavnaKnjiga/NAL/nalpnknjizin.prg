@@ -1,0 +1,42 @@
+PUSH KEY CLEAR
+NALP.CMD0.SETFOCUS
+TBRISI=1
+SELECT NALP
+IF EOF()
+   GO BOTTOM
+ENDIF   
+MBRNAL=BRNAL
+SET ORDER TO 2
+   PUBLIC DA_NE
+   DA_NE='D'
+   DO PORUKADANE WITH ' PRENOS U NEDOVRŠENE NALOGE '+MBRNAL
+   IF DA_NE='D'   
+      GO TOP
+      USE NALPN IN 0 ALIAS NAL
+      SELECT NALP
+      SEEK MBRNAL
+      DO WHILE.NOT.EOF()
+         IF BRNAL<>MBRNAL
+            EXIT
+         ENDIF
+         IF DUG<>0.OR.POT<>0
+            SCAttER name POLJA
+            SELECT NAL
+            APPEND BLANK
+            GATHER NAME POLJA   
+            SELECT NALP
+         ENDIF
+         SKIP
+      ENDDO
+      SELECT NAL
+      USE      
+      SELECT NALP
+      USE
+      USE &KNALPA IN 0 ALIAS NALP EXCLU
+      SELECT NALP      
+      DELETE ALL FOR BRNAL=MBRNAL
+      PACK
+      NALP.RELEASE
+      KEYBOARD '{ENTER}'
+   ENDIF   
+POP KEY

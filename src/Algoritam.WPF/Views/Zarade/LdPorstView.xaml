@@ -1,0 +1,169 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPorstView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style x:Key="PBtn" TargetType="Button">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Background" Value="#607D8B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Padding="12,8">
+            <TextBlock Text="{Binding Naslov}"
+                       Foreground="White" FontFamily="Tahoma"
+                       FontSize="13" FontWeight="Bold"/>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9"
+                BorderThickness="1,1,1,0" Padding="8,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Content="PREUZIMANJE" Style="{StaticResource PBtn}"
+                            Width="130" Command="{Binding PreuzimanjeCommand}"/>
+                    <Button Content="DODAJ" Style="{StaticResource PBtn}"
+                            Width="80" Command="{Binding DodajCommand}"/>
+                    <Button Content="BRISANJE REDA" Style="{StaticResource PBtn}"
+                            Width="130" Command="{Binding BrisanjeRedaCommand}"/>
+                    <Button Content="SAČUVAJ" Style="{StaticResource PBtn}"
+                            Width="90" Background="#2E7D32"
+                            Command="{Binding SacuvajCommand}"/>
+                    <Button Content="PREGLED" Style="{StaticResource PBtn}"
+                            Width="90" Command="{Binding PregledCommand}"/>
+                    <Button Content="F5 OSVEZI" Style="{StaticResource PBtn}"
+                            Width="90" Background="#607D8B" Foreground="White"
+                            BorderThickness="0" Command="{Binding OsveziCommand}"/>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Right"
+                        Content="IZLAZ" Width="80" Height="28"
+                        FontFamily="Tahoma" FontSize="11"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        Cursor="Hand" Click="IzlazClick"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Status -->
+        <Border DockPanel.Dock="Bottom" Background="#D7DBFF" BorderBrush="#A1A9E8"
+                BorderThickness="1" Padding="8,4">
+            <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11"/>
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  RowHeaderWidth="0"
+                  RowHeight="22"
+                  BorderThickness="0"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9"
+                  HorizontalScrollBarVisibility="Auto">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="BorderBrush" Value="#0D3F12"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                    <Setter Property="Padding" Value="4,4"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj"
+                    Binding="{Binding Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="60"/>
+                <DataGridTextColumn Header="Ime i prezime"
+                    Binding="{Binding ImePrez, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="200"/>
+                <DataGridTextColumn Header="God"
+                    Binding="{Binding God, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="50"/>
+                <DataGridTextColumn Header="Mes"
+                    Binding="{Binding Meseci, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="50"/>
+                <DataGridTextColumn Header="Dan"
+                    Binding="{Binding Dana, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="50"/>
+                <DataGridTextColumn Header="%vr"
+                    Binding="{Binding Procvr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="50"/>
+                <DataGridTextColumn Header="Od datuma"
+                    Binding="{Binding Oddat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Do datuma"
+                    Binding="{Binding Dodat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Od (nega)"
+                    Binding="{Binding Oddatnega, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Do (nega)"
+                    Binding="{Binding Dodatnega, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Dat.pos."
+                    Binding="{Binding Datpos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Dat.zahtev"
+                    Binding="{Binding Datzahtev, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Dat.dozna"
+                    Binding="{Binding Datdozna, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="ZC naziv"
+                    Binding="{Binding Zcnaziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="160"/>
+                <DataGridTextColumn Header="ZC mesto"
+                    Binding="{Binding Zcmesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="120"/>
+                <DataGridTextColumn Header="Izvod MK"
+                    Binding="{Binding Izvodmk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="120"/>
+                <DataGridTextColumn Header="Izvod mes"
+                    Binding="{Binding Izvodmes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="120"/>
+                <DataGridTextColumn Header="Dete ime"
+                    Binding="{Binding Deteime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="120"/>
+                <DataGridTextColumn Header="Dete rodj."
+                    Binding="{Binding Deterodj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}"
+                    Width="100"/>
+                <DataGridTextColumn Header="Red.br.dete"
+                    Binding="{Binding Detered, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="90"/>
+                <DataGridTextColumn Header="Naziv suda"
+                    Binding="{Binding Nazsuda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="160"/>
+                <DataGridTextColumn Header="Idbr"
+                    Binding="{Binding Idbr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

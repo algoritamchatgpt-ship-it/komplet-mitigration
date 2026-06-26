@@ -1,0 +1,662 @@
+﻿<UserControl x:Class="Algoritam.WPF.Views.Zarade.ZaradeMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Algoritam.WPF.ViewModels">
+
+    <UserControl.Resources>
+
+        
+        <Style x:Key="LdButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="3"
+                                BorderThickness="0">
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#9E9E9E"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+        <SolidColorBrush x:Key="BojaObracun"     Color="#1B5E20"/>
+        <SolidColorBrush x:Key="BojaSifarnik"    Color="#1565C0"/>
+        <SolidColorBrush x:Key="BojaPregled"     Color="#00695C"/>
+        <SolidColorBrush x:Key="BojaObrasci"     Color="#1B5E20"/>
+        <SolidColorBrush x:Key="BojaPrevoz"      Color="#E65100"/>
+        <SolidColorBrush x:Key="BojaPotvrde"     Color="#37474F"/>
+        <SolidColorBrush x:Key="BojaIzlaz"       Color="#C62828"/>
+
+        
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="SectionWrapPanelTallStyle"
+               TargetType="WrapPanel"
+               BasedOn="{StaticResource SectionWrapPanelStyle}">
+            <Setter Property="ItemHeight" Value="68"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+
+        
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Naslov aplikacije -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="GLAVNI MENI — ZARADE I DRUGA LICNA PRIMANJA"
+                               FontFamily="Tahoma" FontSize="15" FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding TrenutniPeriod}"
+                               FontFamily="Tahoma" FontSize="11"
+                               Foreground="#A5D6A7"
+                               Margin="0,1,0,0"
+                               Visibility="{Binding TrenutniPeriod, Converter={StaticResource StringToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- Info o firmi (desno) -->
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10"
+                                   Foreground="#B2DFDB" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10"
+                                   Foreground="#B2DFDB"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <Button Content="Kontakt / Podrška"
+                        DockPanel.Dock="Left"
+                        Width="130" Height="38"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#37474F"
+                        BorderThickness="0" Cursor="Hand"
+                        ToolTip="Kontakt podaci tehničke podrške"
+                        Command="{Binding KontaktCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Uputstva"
+                        DockPanel.Dock="Left"
+                        Width="115" Height="38"
+                        Margin="10,0,0,0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#1565C0"
+                        BorderThickness="0" Cursor="Hand"
+                        ToolTip="Otvorite i izaberite PDF uputstvo za rad"
+                        Command="{Binding UputstvaCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Arhiviranje"
+                        DockPanel.Dock="Left"
+                        Width="115" Height="38"
+                        Margin="10,0,0,0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#00695C"
+                        BorderThickness="0" Cursor="Hand"
+                        ToolTip="Arhiviranje podataka firme na izabranu putanju"
+                        Command="{Binding ArhivirajCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            ToolTip="Povratak na odabir firme"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- ══ Quick-access traka ═══════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top"
+                Background="#E8F5E9"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9"
+                Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10"
+                           Foreground="#757575"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0"
+                                    Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#1B5E20"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Filter traka ────────────────────────────────────────────── -->
+        <Border DockPanel.Dock="Top"
+                Background="#ECEFF1"
+                BorderThickness="0,0,0,1" BorderBrush="#CFD8DC"
+                Padding="20,6">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="🔍" FontSize="13" VerticalAlignment="Center"
+                           Margin="0,0,6,0" Foreground="#757575"/>
+                <Grid>
+                    <TextBox x:Name="BoxFilter"
+                             Width="260" Height="26"
+                             Padding="6,0"
+                             FontFamily="Tahoma" FontSize="12"
+                             VerticalContentAlignment="Center"
+                             TextChanged="BoxFilter_TextChanged"/>
+                    <TextBlock Text="Pretraži meni..."
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Margin="8,0,0,0"
+                               FontFamily="Tahoma" FontSize="12"
+                               Foreground="#BDBDBD">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=BoxFilter}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <TextBlock x:Name="BtnClearFilter"
+                           Text="  ×" FontSize="14" VerticalAlignment="Center"
+                           Cursor="Hand" Foreground="#9E9E9E" Margin="4,0,0,0"
+                           Visibility="Collapsed"
+                           MouseLeftButtonUp="BtnClearFilter_MouseLeftButtonUp"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
+                      Padding="20,12">
+            <StackPanel x:Name="MenuSadrzaj" HorizontalAlignment="Left">
+
+                
+                <TextBlock Text="Obračun zarada" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="IZVOZ&#10;TABELE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Izvoz DBF tabele u XML ili DBF format"
+                            Command="{Binding AkcijaCommand}" CommandParameter="IZVOZ_TABELE"/>
+                    <Button Content="FORMIRANJE&#10;TABELA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Pregled i kreiranje LD tabela zarada iz template-a"
+                            Command="{Binding AkcijaCommand}" CommandParameter="FORMIRANJE_TABELA"/>
+                    <Button Content="PLATNI SPISAK"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Obrada podataka i obračun zarada"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PLATNI_SPISAK"/>
+                    <Button Content="PARAMETRI 1"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Podešavanje parametara za obračun; na osnovu kolektivnog ugovora"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PARAMETRI1"/>
+                    <Button Content="PARAMETRI 2"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Podaci o osnovicama, rednom broju meseca i drugi dopunski podaci"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PARAMETRI2"/>
+                    <Button Content="REKAPITULACIJA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Rekapitulacija za ZOP"
+                            Command="{Binding AkcijaCommand}" CommandParameter="REKAPITULACIJA"/>
+                    <Button Content="OBRAČUN&#10;NAKNADA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Obračun naknada (bolovanje, porodiljsko) — pokrenuti pre glavnog obračuna"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LDNAKNADE"/>
+                    <Button Content="EMAIL&#10;LISTIĆA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObracun}"
+                            ToolTip="Generisanje PDF isplatnih listića i slanje na email radnicima"
+                            Command="{Binding AkcijaCommand}" CommandParameter="EMAIL_LISTICI"/>
+                </WrapPanel>
+
+                
+                <TextBlock Text="Šifarnici" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="RADNICI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Šifarnik sa podacima o radnicima"
+                            Command="{Binding AkcijaCommand}" CommandParameter="RADNICI"/>
+                    <Button Content="RADNO VREME"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Šifarnik sa podacima o radnom vremenu"
+                            Command="{Binding AkcijaCommand}" CommandParameter="RADNO_VREME"/>
+                    <Button Content="GRADOVI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Evidencija gradova / mesta prebivališta"
+                            Command="{Binding AkcijaCommand}" CommandParameter="GRADOVI"/>
+                    <Button Content="KREDITI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Evidencija kredita"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KREDITI"/>
+                    <Button Content="SAMODOPRINOS"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Evidencija samodoprinosa po mestima"
+                            Command="{Binding AkcijaCommand}" CommandParameter="SAMODOPRINOS"/>
+                    <Button Content="ZDRAVSTVENE&#10;KNJIŽICE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Šifarnik zdravstvenih knjižica"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ZDRAVSTVENE_KNJIZICE"/>
+                    <Button Content="BAZNA KONTA&#10;KNJIŽENJA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Bazni šifarnik konta knjiženja — zajednički za sve firme (ldkon00.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="BAZNA_KONTA"/>
+                    <Button Content="TABELA KONTA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Šifarnik konta za knjiženje zarada — specifičan za aktivnu firmu"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TABELA_KONTA"/>
+                    <Button Content="PARTNERI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Šifarnik poslovnih partnera (banke, firme) — an0.dbf"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PARTNERI"/>
+                    <Button Content="EVIDENCIJA&#10;RADNIKA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaSifarnik}"
+                            ToolTip="Pregled svih radnika sa PPP-PD šiframa (ldrad.dbf — vrstaid, vrstaprim, oznvrprih, oznolaks, oznben)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="EVIDENCIJA_RADNIKA"/>
+                </WrapPanel>
+
+                
+                <TextBlock Text="Spiskovi i pregledi" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="SPISKOVI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Izrada i štampa spiskova za isplatu po bankama"
+                            Command="{Binding AkcijaCommand}" CommandParameter="SPISKOVI"/>
+                    <Button Content="PODACI O&#10;ZARADAMA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Pregled podataka za aktivni mesec"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PODACI_ZARADE"/>
+                    <Button Content="PODACI O&#10;ZARADI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Pregled pojedinacnih zbirnih podataka iz LDPOD00"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PODACI_ZARADE_POJEDINACNO"/>
+                    <Button Content="ARHIVA ZARADA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Pregled arhiviranih zarada iz prethodnih perioda"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ARHIVA_ZARADA"/>
+                    <Button Content="TABELA SVIH&#10;ZARADA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Zbirna tabela zarada za sve obračunate periode"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TABELA_SVIH_ZARADA"/>
+                    <Button Content="KNJIŽENJE&#10;ZARADA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Knjiženje zarada"
+                            Command="{Binding AkcijaCommand}" CommandParameter="KNJIZENJE_ZARADA"/>
+                    <Button Content="EVIDENCIJA&#10;OBRAČUNA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Evidencija svih obračuna (ld0.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LD01"/>
+                    <Button Content="EVIDENCIJA&#10;PO RADNIKU"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Evidencija svih obračuna po radnicima (ld0p.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LD01P"/>
+                    <Button Content="REGISTAR"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPregled}"
+                            ToolTip="Pregled prenesenih zarada za Centralni registar (samo budžetski korisnici)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="REGISTAR"/>
+                </WrapPanel>
+
+                
+                <TextBlock Text="Obrasci i virmani" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="OPJ"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampa obrasca OPJ"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OPJ"/>
+                    <Button Content="OPJ-1 — OPJ-8"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca OPJ-1"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OPJ1_OPJ8"/>
+                    <Button Content="OD-1"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca OD-1"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OD1"/>
+                    <Button Content="OD RADNICI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampa obrasca OD za radnike"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OD_RADNICI"/>
+                    <Button Content="OD VLASNIK"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampa obrasca OD za vlasnika"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OD_VLASNIK"/>
+                    <Button Content="VIRMANI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje virmana"
+                            Command="{Binding AkcijaCommand}" CommandParameter="VIRMANI"/>
+                    <Button Content="NALOG ZA&#10;PLAĆANJE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Pregled naloga za plaćanje (nalpep.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="NALOG_ZA_PLACANJE"/>
+                    <Button Content="ZAHTEV ZA&#10;TRANSFER"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Zahtev za prenos zarada na devizni račun"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ZAHTEV_TRANSFER"/>
+                    <Button Content="PODACI ZA M4"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Podaci za M4 obrazac"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PODACI_M4"/>
+                    <Button Content="OBRAZAC PPP"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="PPP-PD prijava — prenos zarada u registar"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_PPP"/>
+                    <Button Content="OBRAZAC ZSP"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca ZSP"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_ZSP"/>
+                    <Button Content="OBRAZAC ZSD"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca ZSD"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_ZSD"/>
+                    <Button Content="OBRAZAC IOSI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca IOSI"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_IOSI"/>
+                    <Button Content="OBRAZAC OPNR"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca OPNR"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_OPNR"/>
+                    <Button Content="OBRAZAC INZS"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izrada i štampanje obrasca INZS"
+                            Command="{Binding AkcijaCommand}" CommandParameter="OBRAZAC_INZS"/>
+                    <Button Content="OBRAZAC OS"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="ZSP umanjenje poreza — obrazac OS (ldos.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LDOS"/>
+                    <Button Content="OBRAZAC OS1"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="ZSP umanjenje poreza — obrazac OS1 (ldos1.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LDOS1"/>
+                    <Button Content="IZJAVA O&#10;ISPL. ZAR."
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaObrasci}"
+                            ToolTip="Izjava o isplaćenim zaradama (ldizvjp.dbf)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="LDIZVJP"/>
+                </WrapPanel>
+
+                
+                <TextBlock Text="Prevoz i putni nalozi" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PREVOZ"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPrevoz}"
+                            ToolTip="Obrada podataka i obračun troškova prevoza"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PREVOZ"/>
+                    <Button Content="ARHIVA&#10;PREVOZA"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPrevoz}"
+                            ToolTip="Pregled arhiviranih obračuna prevoza"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PREVOZ_ARHIVA"/>
+                    <Button Content="PUTNI NALOZI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPrevoz}"
+                            ToolTip="Izrada putnih naloga"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUTNI_NALOZI"/>
+                    <Button Content="PUTARINE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Background="{StaticResource BojaPrevoz}"
+                            ToolTip="Izrada putnih naloga — putarine"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PUTARINE"/>
+                </WrapPanel>
+
+                
+                <TextBlock Text="Potvrde, izjave i posebni slucajevi" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelTallStyle}">
+                    <Button Content="PORODILJE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje obrasca NZ-1 za porodilje"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PORODILJE"/>
+                    <Button Content="BOLOVANJE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje obrasca NZ-1 za bolovanje"
+                            Command="{Binding AkcijaCommand}" CommandParameter="BOLOVANJE"/>
+                    <Button Content="INVALIDI II"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje obrasca za invalide II kategorije"
+                            Command="{Binding AkcijaCommand}" CommandParameter="INVALIDI2"/>
+                    <Button Content="PRIPRAVNICI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje obrasca za pripravnike"
+                            Command="{Binding AkcijaCommand}" CommandParameter="PRIPRAVNICI"/>
+                    <Button Content="POTVRDA&#10;NEISPONJ. USL.&#10;ZA PENZ."
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Potvrda o neispunjenim uslovima za penziju"
+                            Command="{Binding AkcijaCommand}" CommandParameter="POTVRDA_PENZ"/>
+                    <Button Content="POTVRDA O IZVRŠ.&#10;ISPLATI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje potvrde o izvršenoj isplati"
+                            Command="{Binding AkcijaCommand}" CommandParameter="POTVRDA_ISPLATA"/>
+                    <Button Content="POTVRDA O&#10;ZARADI"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje potvrde o zaradi"
+                            Command="{Binding AkcijaCommand}" CommandParameter="POTVRDA_ZARADA"/>
+                    <Button Content="IZJAVA O&#10;IZMIRENJU DOP."
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje izjave o izmirenju doprinosa"
+                            Command="{Binding AkcijaCommand}" CommandParameter="IZJAVA_DOP"/>
+                    <Button Content="IZJAVA O&#10;RADNOM VREMENU"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Izrada i štampanje izjave o radnom vremenu"
+                            Command="{Binding AkcijaCommand}" CommandParameter="IZJAVA_RADNOVREME"/>
+                    <Button Content="RADNICI&#10;ZA OLAKŠICE"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Pregled radnika sa poreskim olakšicama i umanjenjem"
+                            Command="{Binding AkcijaCommand}" CommandParameter="RADNICI_OLAKSICE"/>
+                    <Button Content="ZAHTEV ZA&#10;POVRAĆAJ"
+                            Style="{StaticResource LdButtonStyle}"
+                            Height="62"
+                            Background="{StaticResource BojaPotvrde}"
+                            ToolTip="Generisanje zahteva za povraćaj poreza i doprinosa"
+                            Command="{Binding AkcijaCommand}" CommandParameter="ZAHTEV_POVRACAJ"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </DockPanel>
+</UserControl>
+
+

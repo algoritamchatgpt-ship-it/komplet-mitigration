@@ -1,0 +1,251 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALVRSTAS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  12.00
+    Width =  89.00
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "UNOS VRSTE NALOGA PO ŠABLONU"
+    WindowType = 1
+    BackColor = 149,188,148
+    Name = "NALVRSTAS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALVRSTASTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALVRSTAS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = "UNOS VRSTA NALOGA IZ PRIMERA"
+    Height =   1.40
+    Left =   8.40
+    Top =   0.93
+    Width =  56.40
+    TabIndex = 5
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== label | Label2 | parent=NALVRSTAS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "V=VELEPRODAJA,M=MALOPRODAJA"
+    Height =   2.07
+    Left =   2.20
+    Top =   3.47
+    Width =  56.00
+    TabIndex = 6
+    BackColor = 255,255,128
+    Name = "Label2"
+
+=== textbox | Text1 | parent=NALVRSTAS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   2.00
+    InputMask = ""
+    Left =  60.20
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   3.47
+    Width =   6.20
+    Name = "Text1"
+
+=== label | Label3 | parent=NALVRSTAS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "REDNI BROJ OBJEKTA"
+    Height =   2.07
+    Left =   2.00
+    Top =   5.87
+    Width =  56.00
+    TabIndex = 7
+    BackColor = 255,255,128
+    Name = "Label3"
+
+=== textbox | Text2 | parent=NALVRSTAS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   2.27
+    InputMask = ""
+    Left =  60.20
+    MaxLength = 2
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   5.80
+    Width =   6.20
+    Name = "Text2"
+
+=== commandbutton | Command1 | parent=NALVRSTAS
+  PROPERTIES:
+    Top =   9.33
+    Left =   7.20
+    Height =   2.13
+    Width =  20.60
+    FontSize = 11
+    Caption = "UNESI"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MOBJ=THISFORM.TEXT1.VALUE
+    MRED=THISFORM.TEXT2.VALUE
+    IF MOBJ='V'
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'KALKULACIJE VP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'K'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH ALLTRIM(MOBJ)+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+       
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'RACUNI VP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'R'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH 'F'+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+       
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'NIVELACIJE VP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'N'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH 'N'+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+       
+    ENDIF   
+       
+    IF MOBJ='M'
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'KALKULACIJE MP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'K'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH ALLTRIM(MOBJ)+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+    
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'RACUNI MP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'R'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH 'R'+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+       
+       
+       APPEND BLANK
+       REPLACE VRNAL WITH STR(RECNO(),3,0)
+       REPLACE NAZIV WITH 'NIVELACIJE MP '+MRED
+       REPLACE DOK WITH MOBJ+MRED
+       REPLACE MP WITH 'PN'
+       REPLACE OBL WITH 'N'
+       REPLACE NALDOK WITH '*'
+       REPLACE ZNAKOVI WITH 2
+       REPLACE POCSIF WITH 'L'+ALLTRIM(MRED) 
+       REPLACE NAUTO WITH '*'
+    
+    ENDIF   
+       
+       
+    RELEASE THISFORM
+    POP KEY   
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALVRSTAS
+  PROPERTIES:
+    Top =   9.33
+    Left =  62.40
+    Height =   2.13
+    Width =  20.60
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 4
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC

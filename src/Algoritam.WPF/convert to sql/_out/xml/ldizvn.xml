@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldizvn">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="MESECI" type="N" length="0" decimals="0" />
+    <column name="DANA" type="N" length="0" decimals="0" />
+    <column name="CASMES" type="N" length="0" decimals="0" />
+    <column name="CASUK" type="N" length="0" decimals="0" />
+    <column name="CASBOL" type="N" length="0" decimals="0" />
+    <column name="BRUTOM4" type="N" length="2" decimals="0" />
+    <column name="PENSOC" type="N" length="2" decimals="0" />
+    <column name="BOLM4" type="N" length="2" decimals="0" />
+    <column name="PENBOL" type="N" length="2" decimals="0" />
+    <column name="BRUTOLD" type="N" length="2" decimals="0" />
+    <column name="BRUTOBOL" type="N" length="2" decimals="0" />
+    <column name="BENDOP" type="N" length="2" decimals="0" />
+    <column name="DATUM" type="D" length="0" decimals="0" />
+    <column name="MTR" type="C" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="BOSNZAMES" type="N" length="2" decimals="0" />
+    <column name="BOSNUMES" type="N" length="2" decimals="0" />
+    <column name="M4GRAD" type="C" length="0" decimals="0" />
+    <column name="REGSOC" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

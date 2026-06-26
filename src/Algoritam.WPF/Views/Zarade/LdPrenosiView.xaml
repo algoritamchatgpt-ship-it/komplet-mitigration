@@ -1,0 +1,94 @@
+﻿<Window x:Class="Algoritam.WPF.Views.Zarade.LdPrenosiView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="760"
+        Height="520"
+        MinWidth="760"
+        MinHeight="520"
+        MaxWidth="760"
+        MaxHeight="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <StackPanel VerticalAlignment="Center" Margin="16,0">
+                <TextBlock Text="{Binding Naslov, FallbackValue='PRENOSI'}"
+                           FontFamily="Tahoma" FontSize="16" FontWeight="Bold" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Footer -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Height="50">
+            <DockPanel Margin="12,0">
+                <TextBlock DockPanel.Dock="Left"
+                           Text="{Binding StatusPoruka}"
+                           FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                           Foreground="#C62828" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                <Button DockPanel.Dock="Right"
+                        Content="IZLAZ" Width="110" Height="28"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                        Cursor="Hand" Command="{Binding IzlazCommand}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Content -->
+        <Grid Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <Button Height="28" Margin="0,0,0,6" Content="PRENOS ZARADE II ISPLATA"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding PrenosZaradeIIIsplataCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="PRENOS AKONTACIJE"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding PrenosAkontacijeCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="PRENOS KREDITA"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding PrenosKreditaCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="DOTACIJA"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding DotacijaCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="TOPLI OBROK I REGRES"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding TopliObrokIRegresCommand}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <Button Height="28" Margin="0,0,0,6" Content="TROSKOVI RESTORANA"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding TroskoviRestoranaCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="EXPORT U EXCEL"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ExportUExcelCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="KOPIRANJE ZARADE"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding KopiranjeZaradeCommand}"/>
+                <Button Height="28" Margin="0,0,0,6" Content="PRENOS ZA REGISTAR"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding PrenosZaRegistarCommand}"/>
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
+</Window>

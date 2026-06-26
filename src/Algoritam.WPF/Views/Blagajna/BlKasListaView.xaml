@@ -1,0 +1,157 @@
+<Window x:Class="Algoritam.WPF.Views.Blagajna.BlKasListaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="900" Height="580"
+        WindowStartupLocation="CenterScreen"
+        Background="#FAFAFA">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1B5E20" Padding="16,10">
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding StatusPoruka}"
+                               FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7" Margin="0,2,0,0"/>
+                </StackPanel>
+                <ProgressBar IsIndeterminate="True" Width="80" Height="6"
+                             DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0"
+                             Foreground="White" Background="Transparent" BorderThickness="0"
+                             Visibility="{Binding Ucitava, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Filter -->
+        <Border Grid.Row="1" Background="#E8F5E9" Padding="12,8"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <TextBlock Text="Pretraga:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Text="{Binding FilterTekst, UpdateSourceTrigger=PropertyChanged}"
+                         Width="260" Height="26" Padding="6,0"
+                         FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"
+                         Margin="0,0,10,0"/>
+                <Button Content="Očisti" Height="26" Padding="10,0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#1B5E20" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OcistiFilterCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </WrapPanel>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Row="2" Margin="8,8,8,0" BorderBrush="#C8E6C9" BorderThickness="1">
+            <DataGrid ItemsSource="{Binding Stavke}"
+                      SelectedItem="{Binding IzabranaStavka}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      AlternatingRowBackground="#E8F5E9"
+                      RowBackground="White"
+                      BorderThickness="0"
+                      FontFamily="Tahoma" FontSize="12"
+                      SelectionMode="Single"
+                      EnableRowVirtualization="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#E8F5E9"/>
+                        <Setter Property="Foreground" Value="#1B5E20"/>
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#C8E6C9"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Šifra kase" Binding="{Binding [KASIFRA]}" Width="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="#1B5E20"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Naziv"  Binding="{Binding [NAZIV]}"  Width="*"/>
+                    <DataGridTextColumn Header="Konto"  Binding="{Binding [KONTO]}"  Width="90"/>
+                    <DataGridTextColumn Header="Saldo" Binding="{Binding [SALDO], StringFormat=N2}" Width="130">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="MTR"    Binding="{Binding [MTR]}"    Width="55"/>
+                    <DataGridTextColumn Header="Vrsta"  Binding="{Binding [VRSTA]}"  Width="60"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer -->
+        <Border Grid.Row="3" Background="#E8F5E9" Padding="12,8"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9" Margin="0,4,0,0">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <TextBlock Text="Kasa:" FontFamily="Tahoma" FontSize="11"
+                               Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBlock Text="{Binding Stavke.Count}"
+                               FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBlock Text="Ukupno saldo:" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBlock Text="{Binding UkupnoSaldo, StringFormat=N2}"
+                               FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                               Foreground="#1B5E20" VerticalAlignment="Center" MinWidth="120" TextAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <Button Content="Osveži" Width="80" Height="28" Margin="0,0,6,0"
+                            Command="{Binding OsveziCommand}"
+                            Style="{StaticResource NavButtonStyle}"/>
+                    <Button Content="Dodaj" Width="80" Height="28" Margin="0,0,6,0"
+                            Command="{Binding DodajCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Style="{StaticResource SaveButtonStyle}"/>
+                    <Button Content="Izmeni" Width="80" Height="28" Margin="0,0,6,0"
+                            Command="{Binding IzmeniCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+                    <Button Content="Obriši" Width="80" Height="28" Margin="0,0,6,0"
+                            Command="{Binding ObrisiCommand}"
+                            Style="{StaticResource WarnButtonStyle}"/>
+                    <Button Content="Zatvori" Width="80" Height="28"
+                            Command="{Binding ZatvoriCommand}"
+                            Style="{StaticResource DangerButtonStyle}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

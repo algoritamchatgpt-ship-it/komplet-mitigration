@@ -1,0 +1,142 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.ObracunBrutoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Obračun plata"
+        Width="560" Height="500"
+        MinWidth="520" MinHeight="460"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        Background="#F0F0F0">
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="44">
+            <TextBlock Text="OBRAČUN PLATA"
+                       FontFamily="Tahoma" FontSize="14" FontWeight="Bold"
+                       Foreground="White" VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <!-- Status -->
+        <Border DockPanel.Dock="Bottom" Background="#FFF9C4" Height="28"
+                Visibility="{Binding StatusPoruka, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}">
+            <TextBlock Text="{Binding StatusPoruka}"
+                       FontFamily="Tahoma" FontSize="11"
+                       Foreground="#C62828" VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <!-- Buttons -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" Height="50"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="LDBRUTO"
+                           FontFamily="Tahoma" FontSize="9" Foreground="#C8E6C9"
+                           VerticalAlignment="Center" Margin="14,0,0,0"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="POTVRDJUJEM" Width="140" Height="32"
+                        FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                        Background="#2E7D32" Foreground="White"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,12,0"
+                        Command="{Binding PotvrdiCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                <Button Content="ODUSTAJEM" Width="140" Height="32"
+                        FontFamily="Tahoma" FontSize="12"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OdustaniCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Form content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="20,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="36"/>
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock" x:Key="lbl">
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="#C40000"/>
+                    <Setter Property="TextDecorations" Value="Underline"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="28"/>
+                </Style>
+            </Grid.Resources>
+
+            <!-- Cena rada -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="UNESITE CENU RADA" FontWeight="Bold" FontSize="13"/>
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Text="{Binding CenaRada, UpdateSourceTrigger=PropertyChanged}"
+                     TextAlignment="Right"/>
+
+            <!-- Grupa -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="GRUPA"/>
+            <TextBox Grid.Row="1" Grid.Column="1"
+                     Text="{Binding Grupa, UpdateSourceTrigger=PropertyChanged}"
+                     TextAlignment="Right" Width="80" HorizontalAlignment="Left"/>
+
+            <!-- Obračunati naknade -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="OBRAČUNATI NAKNADE"/>
+            <CheckBox Grid.Row="2" Grid.Column="1"
+                      IsChecked="{Binding ObracunatiNaknade}"
+                      Content="Da" FontFamily="Tahoma" FontSize="12"
+                      VerticalAlignment="Center"/>
+
+            <!-- Od ukupne obaveze -->
+            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="OBRAČUNATI OD UKUPNE OBAVEZE"/>
+            <CheckBox Grid.Row="3" Grid.Column="1"
+                      IsChecked="{Binding ObracunatiOdUkupneObaveze}"
+                      Content="Da" FontFamily="Tahoma" FontSize="12"
+                      VerticalAlignment="Center"/>
+
+            <!-- Separator -->
+            <Border Grid.Row="4" Grid.ColumnSpan="2" Height="1" Background="#A0A080"
+                    VerticalAlignment="Center"/>
+
+            <!-- Neoporez (read-only info) -->
+            <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="IZNOS ZARADE BEZ DOPRINOSA"/>
+            <TextBlock Grid.Row="5" Grid.Column="1"
+                       Text="{Binding Neoporez, StringFormat=N2}"
+                       FontFamily="Tahoma" FontSize="12"
+                       TextAlignment="Right" VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource lbl}"
+                       Text="IZNOS ZARADE BEZ POREZA"/>
+            <TextBlock Grid.Row="6" Grid.Column="1"
+                       Text="{Binding NeoporezP, StringFormat=N2}"
+                       FontFamily="Tahoma" FontSize="12"
+                       TextAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

@@ -1,0 +1,107 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.RadniciOlaksiceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Radnici za olakšice" Width="1160" Height="620"
+        WindowStartupLocation="CenterScreen" Background="#F0F0F0">
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding UcitajCommand}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="46">
+            <DockPanel Margin="12,0">
+                <TextBlock Text="{Binding Naslov}" Foreground="White" FontSize="15" FontWeight="Bold"
+                           FontFamily="Tahoma" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center"
+                           Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="11"
+                           Text="{Binding FirmaNaziv}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9" Padding="6,5"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <CheckBox Content="Prikaži sve radnike" VerticalAlignment="Center"
+                          FontFamily="Tahoma" FontSize="11" Margin="4,0,12,0"
+                          IsChecked="{Binding PrikaziSveRadnike}"/>
+
+                <Button Content="F5 OSVEZI" Width="90" Height="26" Margin="2,0"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding UcitajCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="IZVOZ TXT" Width="90" Height="26" Margin="2,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding IzvozTxtCommand}"/>
+
+                <Button Content="ZAHTEV ZA POVRAĆAJ" Width="162" Height="26" Margin="2,0"
+                        Background="#2E7D32" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Otvori formu za generisanje zahteva za povraćaj"
+                        Command="{Binding OtvoriZahtevPovracajCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="ZATVORI" Width="80" Height="26" Margin="2,0"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZatvoriCommand}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Info -->
+        <Border DockPanel.Dock="Top" Background="#F1F8E9" Padding="8,3"
+                BorderThickness="0,0,0,1" BorderBrush="#DCEDC8">
+            <TextBlock FontFamily="Tahoma" FontSize="10" Foreground="#558B2F"
+                       Text="ldrad.dbf — radnici sa popunjenim OZNOLAKS / OZNBEN / UMANJENJE / PROCUMANJ / PORUMANJ / DOPUMANJ"/>
+        </Border>
+
+        <!-- Status -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" Padding="10,6"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Grid -->
+        <DataGrid ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                  Background="White" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  SelectionMode="Single" AlternatingRowBackground="#F9FBF9"
+                  FontFamily="Tahoma" FontSize="11">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br."       Binding="{Binding Broj}"          Width="50"/>
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding ImePrez}"   Width="200"/>
+                <DataGridTextColumn Header="JMBG"      Binding="{Binding Jmbg}"          Width="130"/>
+                <DataGridTextColumn Header="Šifra prih." Binding="{Binding SifraPrih}"   Width="90"/>
+                <DataGridTextColumn Header="OznOlaks"  Binding="{Binding OznOlaks}"      Width="90"/>
+                <DataGridTextColumn Header="OznBen"    Binding="{Binding OznBen}"        Width="80"/>
+                <DataGridTextColumn Header="Umanjenje" Binding="{Binding Umanjenje}"     Width="90"/>
+                <DataGridTextColumn Header="% umanj."  Binding="{Binding ProcUmanj, StringFormat='N2'}" Width="80"/>
+                <DataGridTextColumn Header="% por.um." Binding="{Binding PorUmanj, StringFormat='N2'}"  Width="80"/>
+                <DataGridTextColumn Header="% dop.um." Binding="{Binding DopUmanj, StringFormat='N2'}"  Width="80"/>
+                <DataGridTextColumn Header="PIO R %"   Binding="{Binding PioUmanjR, StringFormat='N2'}" Width="75"/>
+                <DataGridTextColumn Header="PIO F %"   Binding="{Binding PioUmanjF, StringFormat='N2'}" Width="75"/>
+                <DataGridTextColumn Header="Partija"   Binding="{Binding Partija}"       Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

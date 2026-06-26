@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldm4pod">
+  <columns>
+    <column name="K1" type="C" length="0" decimals="0" />
+    <column name="GODINA" type="C" length="0" decimals="0" />
+    <column name="MFROLNA" type="C" length="0" decimals="0" />
+    <column name="MFPOZIC" type="C" length="0" decimals="0" />
+    <column name="PIB" type="C" length="0" decimals="0" />
+    <column name="REGBROJ" type="C" length="0" decimals="0" />
+    <column name="DELATNOST" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

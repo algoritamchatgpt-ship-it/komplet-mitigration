@@ -1,0 +1,114 @@
+num records 6
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 519
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | KALTRROB | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =  11.50
+    Left =  28.86
+    Height =   3.39
+    Width =  35.71
+    DoCreate = .T.
+    AutoCenter = .F.
+    Caption = "TRAŽI NALOG"
+    FontBold = .T.
+    FontSize = 11
+    WindowType = 1
+    ForeColor = 255,0,0
+    BackColor = 236,233,216
+    Name = "KALTRROB"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+       DO KALTRNALTAST
+    SET PROCEDURE TO
+      
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=KALTRROB
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "NALOG"
+    Height =   1.28
+    Left =   1.71
+    Top =   0.89
+    Width =  14.57
+    ForeColor = 196,0,0
+    BackColor = 243,250,163
+    Name = "Label1"
+
+=== textbox | TXTRSIF | parent=KALTRROB
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Height =   1.72
+    Left =  19.71
+    Margin = 0
+    MaxLength = 6
+    SpecialEffect = 0
+    Top =   0.72
+    Width =  12.86
+    Name = "TXTRSIF"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF LEN(ALLTRIM(THISFORM.TXTRSIF.VALUE))<6
+       MNBRKAL=STR(VAL(ALLTRIM(THISFORM.TXTRSIF.VALUE)),6,0)
+    ELSE
+       MNBRKAL=THISFORM.TXTRSIF.VALUE
+    ENDIF
+    SET ORDER TO 1
+    LOCATE FOR BRNAL=MNBRKAL
+    
+    NALBROJ.GRD0.SETFOCUS
+    NALBROJ.GRD0.REFRESH
+    NALBROJ.REFRESH
+    THISFORM.RELEASE
+    POP KEY
+    ENDPROC

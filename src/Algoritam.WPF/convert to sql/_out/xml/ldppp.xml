@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldppp">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="BRUTOLD" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DOPSOC" type="N" length="2" decimals="0" />
+    <column name="PENSOC" type="N" length="2" decimals="0" />
+    <column name="ZDRSOC" type="N" length="2" decimals="0" />
+    <column name="NEZSOC" type="N" length="2" decimals="0" />
+    <column name="ADRESA" type="C" length="0" decimals="0" />
+    <column name="NAZIV" type="C" length="0" decimals="0" />
+    <column name="FADRESA" type="C" length="0" decimals="0" />
+    <column name="PIB" type="C" length="0" decimals="0" />
+    <column name="OPOREZIVO" type="N" length="2" decimals="0" />
+    <column name="PORDOBIT" type="N" length="2" decimals="0" />
+    <column name="STOPADOP" type="N" length="4" decimals="0" />
+    <column name="STOPAPIO" type="N" length="4" decimals="0" />
+    <column name="STOPAZDR" type="N" length="4" decimals="0" />
+    <column name="STOPANEZ" type="N" length="4" decimals="0" />
+    <column name="RADNIK" type="C" length="0" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="UKBRUTOLD" type="N" length="2" decimals="0" />
+    <column name="NETO" type="N" length="2" decimals="0" />
+    <column name="OBRAZAC" type="C" length="0" decimals="0" />
+    <column name="PROCPOR" type="N" length="2" decimals="0" />
+    <column name="DOPSOCF" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

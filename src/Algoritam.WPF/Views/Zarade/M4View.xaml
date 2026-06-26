@@ -1,0 +1,160 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.M4View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Evidencija obrasca M4" Width="1100" Height="560"
+        WindowStartupLocation="CenterScreen" Background="#F0F0F0">
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1B5E20" Padding="16,10">
+            <DockPanel>
+                <TextBlock Text="{Binding Naslov}" Foreground="White" FontSize="15"
+                           FontWeight="Bold" FontFamily="Tahoma" VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="PIB: " Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="11"/>
+                    <TextBlock Text="{Binding FirmaPib}" Foreground="White" FontFamily="Tahoma" FontSize="11" Margin="0,0,14,0"/>
+                    <TextBlock Text="RegBroj: " Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="11"/>
+                    <TextBlock Text="{Binding FirmaRegBroj}" Foreground="White" FontFamily="Tahoma" FontSize="11" Margin="0,0,14,0"/>
+                    <TextBlock Text="Delatnost: " Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="11"/>
+                    <TextBlock Text="{Binding FirmaDelatnost}" Foreground="White" FontFamily="Tahoma" FontSize="11"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="1" Background="#E8F5E9" Padding="6,5"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <!-- Navigacija -->
+                <Button Content="◀◀ PRVI" Width="68" Height="28" Margin="2,0"
+                        Background="#546E7A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding PrviCommand}"/>
+                <Button Content="◀ GORE" Width="64" Height="28" Margin="2,0"
+                        Background="#546E7A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding GoreCommand}"/>
+                <Button Content="▶ DOLE" Width="64" Height="28" Margin="2,0"
+                        Background="#546E7A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding DoleCommand}"/>
+                <Button Content="▶▶ ZADNJI" Width="76" Height="28" Margin="2,0,14,0"
+                        Background="#546E7A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZadnjiCommand}"/>
+
+                <!-- DODAVANJE / BRISANJE -->
+                <Button Content="DODAVANJE MESECA" Width="148" Height="28" Margin="2,0"
+                        Background="#388E3C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Dodaj mesec iz LD{n}.DBF u ldizvn.dbf (FoxPro: ldm4dodaj.scx)"
+                        Command="{Binding DodajMesecCommand}"/>
+                <Button Content="BRISANJE MESECA" Width="138" Height="28" Margin="2,0"
+                        Background="#C62828" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Obriši sve zapise za mesec izabranog reda"
+                        Command="{Binding BrisiMesecCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <!-- DATUMI ISPLATA -->
+                <Button Content="DATUMI ISPLATA" Width="126" Height="28" Margin="2,0"
+                        Background="#6A1B9A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Uredi datume isplata za M4 (ldm4dat.dbf)"
+                        Command="{Binding DatumiIsplataCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <!-- DODAVANJE REDA / OSNOVICE -->
+                <Button Content="DODAVANJE REDA" Width="130" Height="28" Margin="2,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Dodaj jedan red za radnika i mesec u ldizvn.dbf"
+                        Command="{Binding DodajRedCommand}"/>
+                <Button Content="OSNOVICE" Width="90" Height="28" Margin="2,0"
+                        Background="#4A148C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Pregled ldosn.dbf — osnovice za M4"
+                        Command="{Binding OsnoviceCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <!-- M4 NOVI -->
+                <Button Content="M-4K NOVI" Width="108" Height="28" Margin="2,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Pregled i štampa M4 obrasca"
+                        Command="{Binding M4NoviCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="F5 OSVEZI" Width="90" Height="28" Margin="2,0"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding OsveziCommand}"/>
+                <Button Content="ZATVORI" Width="80" Height="28" Margin="2,0"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Click="ZatvoriClick"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Info -->
+        <Border Grid.Row="2" Background="#F1F8E9" Padding="8,4"
+                BorderThickness="0,0,0,1" BorderBrush="#DCEDC8">
+            <TextBlock FontFamily="Tahoma" FontSize="10" Foreground="#558B2F"
+                       Text="ldizvn.dbf — mesečni podaci po radniku za M4 obrazac | ldm4pod.dbf — podaci firme"/>
+        </Border>
+
+        <!-- Grid -->
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                  Background="White" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  SelectionMode="Single" Margin="0">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br.rad." Binding="{Binding Broj}"          Width="65"/>
+                <DataGridTextColumn Header="Mes."    Binding="{Binding Mesec}"          Width="50"/>
+                <DataGridTextColumn Header="Naziv meseca" Binding="{Binding NazMes}"    Width="110"/>
+                <DataGridTextColumn Header="Čas.ukup." Binding="{Binding CasUk, StringFormat='N0'}"   Width="80"/>
+                <DataGridTextColumn Header="Čas.bol."  Binding="{Binding CasBol, StringFormat='N0'}"  Width="75"/>
+                <DataGridTextColumn Header="Bruto.LD"  Binding="{Binding BrutoLd, StringFormat='N2'}" Width="100"/>
+                <DataGridTextColumn Header="Bruto.M4"  Binding="{Binding BrutoM4, StringFormat='N2'}" Width="100"/>
+                <DataGridTextColumn Header="PIO (LD)"  Binding="{Binding PenSoc, StringFormat='N2'}"  Width="90"/>
+                <DataGridTextColumn Header="Bruto.bol." Binding="{Binding BrutoBol, StringFormat='N2'}" Width="100"/>
+                <DataGridTextColumn Header="PIO (bol.)" Binding="{Binding PenBol, StringFormat='N2'}"  Width="90"/>
+                <DataGridTextColumn Header="Ben.dop."  Binding="{Binding BenDop, StringFormat='N2'}"   Width="90"/>
+                <DataGridTextColumn Header="Mat.br."   Binding="{Binding MaticniBr}"    Width="130"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Status -->
+        <Border Grid.Row="4" Background="#E8F5E9" Padding="10,6"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center"/>
+        </Border>
+    </Grid>
+</Window>

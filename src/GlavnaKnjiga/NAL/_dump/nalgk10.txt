@@ -1,0 +1,903 @@
+num records 50
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALGK10 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.07
+    Left =   0.00
+    Height =  49.47
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "IZRADA NALOGA ZA KNJIŽENJE"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALGK10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE &KDAT ALIAS DATUMI IN 0 
+    USE FIRMA IN 0
+    USE NALGK10 IN 0 ALIAS NALP
+    USE KONTO10 IN 0 ALIAS KONTO ORDER 1
+    SELECT NALP
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    THISFORM.CAPTION=' EVIDENCIJA KLASE 9 SA 10 CIFARA '+OPERATER+' '+AKORIME
+    THISFORM.GRD0.RECORDSOURCE='NALP'
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.GRD0.SetAll("DynamicBackColor", "IIF(ARHIVA<>' ',RGB(184,248,227),RGB(255,255,255))", "Column")  
+    SET PROCEDURE TO TASTERI2
+       DO NALGK10TAST
+    SET PROCEDURE TO   
+    
+    ENDPROC
+    PROCEDURE Unload
+    PUSH KEY CLEAR
+    CLOSE ALL TABLES
+    POP KEY
+    POP KEY
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.GRD0.SETFOCUS
+    
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+
+=== shape | Shape1 | parent=NALGK10
+  PROPERTIES:
+    Top =   0.00
+    Left =   0.80
+    Height =   1.67
+    Width = 147.80
+    Name = "Shape1"
+
+=== commandbutton | Command23 | parent=NALGK10
+  PROPERTIES:
+    Top =  37.87
+    Left =   0.60
+    Height =   1.80
+    Width =  38.20
+    FontSize = 10
+    Caption = "PRAZNI NALOG S+F7"
+    ToolTipText = "BRISANJE STAVKI IZ NALOGA"
+    SpecialEffect = 2
+    BackColor = 255,170,213
+    Alignment = 6
+    Name = "Command23"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10PRAZNI
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALGK10
+  PROPERTIES:
+    Top =  32.47
+    Left =   1.00
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    SpecialEffect = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALGK10
+  PROPERTIES:
+    Top =  32.47
+    Left =   8.80
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    SpecialEffect = 2
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    *THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALGK10
+  PROPERTIES:
+    Top =  32.47
+    Left =  16.60
+    Height =   1.80
+    Width =  10.00
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    SpecialEffect = 2
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALGK10
+  PROPERTIES:
+    Top =  32.47
+    Left =  26.40
+    Height =   1.80
+    Width =   8.00
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    SpecialEffect = 2
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | CMDDODAJ | parent=NALGK10
+  PROPERTIES:
+    Top =  32.53
+    Left =  40.20
+    Height =   1.80
+    Width =  13.80
+    Picture = ..\dodaci\plus.bmp
+    Caption = ""
+    TabIndex = 6
+    ToolTipText = "DODAVANJE NOVOG REDA"
+    SpecialEffect = 2
+    BackColor = 128,255,255
+    Name = "CMDDODAJ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10DODAJ
+    
+    ENDPROC
+
+=== commandbutton | CMDIZLAZ | parent=NALGK10
+  PROPERTIES:
+    Top =  38.40
+    Left = 182.40
+    Height =   2.33
+    Width =  15.80
+    Picture = ..\dodaci\_cancel.bmp
+    Caption = ""
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 2
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== commandbutton | CMDKON | parent=NALGK10
+  PROPERTIES:
+    Top =  10.40
+    Left = 151.20
+    Height =   1.80
+    Width =  38.00
+    FontSize = 11
+    Caption = "\<KONTNI PLAN F4"
+    TabIndex = 10
+    ToolTipText = "KONTNI PLAN"
+    SpecialEffect = 2
+    BackColor = 128,255,255
+    Name = "CMDKON"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10KONTO
+    
+      
+    
+    ENDPROC
+
+=== label | LBLDUG | parent=NALGK10
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 12
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 148.40
+    Top =   4.67
+    Width =  24.40
+    TabIndex = 19
+    ForeColor = 0,0,128
+    BackColor = 128,255,255
+    Name = "LBLDUG"
+
+=== label | LBLPOT | parent=NALGK10
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 12
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 148.40
+    Top =   6.27
+    Width =  24.40
+    TabIndex = 20
+    ForeColor = 0,128,0
+    BackColor = 255,255,255
+    Name = "LBLPOT"
+
+=== label | LBLSALDO | parent=NALGK10
+  PROPERTIES:
+    FontBold = .T.
+    FontName = "Arial"
+    FontSize = 12
+    Alignment = 0
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 148.40
+    Top =   7.87
+    Width =  24.40
+    TabIndex = 21
+    ForeColor = 128,0,0
+    BackColor = 168,255,168
+    Name = "LBLSALDO"
+
+=== label | LBLREC | parent=NALGK10
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 148.40
+    Top =   0.00
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== label | LBLKEY | parent=NALGK10
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    Caption = ""
+    Height =   1.67
+    Left =   1.00
+    Top =  34.27
+    Width =   4.80
+    TabIndex = 24
+    BackColor = 128,255,255
+    Name = "LBLKEY"
+
+=== commandbutton | Command20 | parent=NALGK10
+  PROPERTIES:
+    Top =  36.27
+    Left =   0.60
+    Height =   1.80
+    Width =  38.20
+    FontSize = 10
+    Caption = "BRISANJE NALOGA"
+    TabIndex = 8
+    ToolTipText = "BRISANJE CELOG NALOGA"
+    SpecialEffect = 2
+    BackColor = 64,128,128
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALP
+    MBRNAL=BRNAL
+    CLOSE ALL
+    USE NALGK10 IN 0 ALIAS NALP EXCLU
+    SELECT NALP
+    SET ORDER TO 2
+    SEEK MBRNAL
+    IF FOUND()
+       IF ARHIVA=' '
+          DELETE ALL FOR BRNAL=MBRNAL
+       ENDIF
+    ENDIF
+    SET ORDER TO 
+    DELETE ALL FOR DUG=0.AND.POT=0
+    PACK
+    POP KEY
+    THISFORM.RELEASE
+    KEYBOARD '{ENTER}'
+    
+    ENDPROC
+
+=== commandbutton | Command26 | parent=NALGK10
+  PROPERTIES:
+    Top =  14.67
+    Left = 151.20
+    Height =   1.87
+    Width =  38.00
+    FontSize = 11
+    Caption = "TRAŽENJE NALOGA F9"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command26"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGKNALTRAZI
+    *THISFORM.Refresh 
+    
+    ENDPROC
+
+=== commandbutton | Command13 | parent=NALGK10
+  PROPERTIES:
+    Top =  16.47
+    Left = 151.20
+    Height =   1.87
+    Width =  38.00
+    FontSize = 11
+    Caption = "NALOG F10"
+    TabIndex = 7
+    ToolTipText = "PREGLED NALOGA"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command13"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10NAL
+    
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALGK10
+  PROPERTIES:
+    Top =  12.53
+    Left = 151.20
+    Height =   1.80
+    Width =  38.00
+    FontSize = 11
+    Caption = "K\<NJIŽI F5"
+    TabIndex = 9
+    ToolTipText = "KNJIZENJE NALOGA U DNEVNIK"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10KNJIZI
+    
+    ENDPROC
+
+=== commandbutton | CMD0 | parent=NALGK10
+  PROPERTIES:
+    Top =  32.60
+    Left =  36.80
+    Height =   1.67
+    Width =   2.60
+    Caption = "LOK"
+    Name = "CMD0"
+
+=== textbox | txtKonto2 | parent=NALGK10
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.konto"
+    Height =   1.53
+    Left =   0.80
+    MaxLength = 10
+    ReadOnly = .T.
+    TabIndex = 32
+    Top =  30.80
+    Width =  17.20
+    DisabledBackColor = 253,188,185
+    Name = "txtKonto2"
+
+=== textbox | txtNaziv | parent=NALGK10
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "konto.naziv"
+    Height =   1.53
+    Left =  17.60
+    MaxLength = 70
+    ReadOnly = .T.
+    TabIndex = 34
+    Top =  30.80
+    Width = 130.80
+    DisabledBackColor = 253,188,185
+    Name = "txtNaziv"
+
+=== textbox | txtBrnal | parent=NALGK10
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "nalp.brnal"
+    Height =   1.53
+    Left =  16.80
+    MaxLength = 6
+    ReadOnly = .T.
+    TabIndex = 45
+    Top =   0.07
+    Width =  13.80
+    DisabledBackColor = 243,250,163
+    Name = "txtBrnal"
+
+=== label | lblBrnal | parent=NALGK10
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "NALOG"
+    Height =   1.27
+    Left =   4.40
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 44
+    Name = "lblBrnal"
+
+=== textbox | txtDatdok | parent=NALGK10
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    BorderStyle = 1
+    ControlSource = "nalp.datdok"
+    Height =   1.53
+    Left =  44.20
+    ReadOnly = .T.
+    TabIndex = 47
+    Top =   0.07
+    Width =  17.80
+    DisabledBackColor = 243,250,163
+    Name = "txtDatdok"
+
+=== label | lblDatdok | parent=NALGK10
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = "DATUM"
+    Height =   1.27
+    Left =  31.80
+    Top =   0.20
+    Width =  12.00
+    TabIndex = 46
+    Name = "lblDatdok"
+
+=== grid | grd0 | parent=NALGK10
+  PROPERTIES:
+    ColumnCount = 7
+    FontBold = .F.
+    FontSize = 11
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  29.33
+    Left =   0.80
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 20
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   1.60
+    Width = 147.60
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 177,228,126
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 177,228,126
+    SelectedItemForeColor = 0,0,0
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =  18.80
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =  25.60
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 11
+    Column3.ControlSource = ""
+    Column3.Width =  24.00
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 11
+    Column4.ControlSource = ""
+    Column4.Width =  37.80
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 11
+    Column5.ControlSource = ""
+    Column5.Width =  15.80
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 11
+    Column6.ControlSource = ""
+    Column6.Width =  13.80
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 11
+    Column7.ControlSource = ""
+    Column7.Width =   4.00
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY clear     
+    SELECT NALP       
+    THISFORM.TXTKONTO2.Value=KONTO.KONTO
+    THISFORM.TXTNAZIV.Value=KONTO.NAZIV
+    THISFORM.LBLREC.CAPTION=STR(RECNO(),6,0)+'/'+STR(RECCOUNT(),6,0)
+    IF ARHIVA=' '
+       MRREC=RECNO()
+       SET ORDER TO 2
+       MBRNAL=BRNAL
+       SEEK MBRNAL
+       MDUG=0
+       MPOT=0
+       DO WHILE.NOT.EOF()
+          IF BRNAL<>MBRNAL
+             EXIT
+          ENDIF
+          MDUG=MDUG+DUG
+          MPOT=MPOT+POT
+          SKIP
+       ENDDO
+       THISFORM.LBLDUG.CAPTION=  ' DUGUJE    '
+       THISFORM.LBLPOT.CAPTION=  ' POTRAŽUJE '            
+       IF MDUG-MPOT<>0
+          THISFORM.TXTSALDO.BACKCOLOR=RGB(168,255,168)
+       ELSE
+          THISFORM.TXTSALDO.BACKCOLOR=RGB(255,0,0)
+       ENDIF      
+       THISFORM.LBLSALDO.CAPTION=' SALDO     '
+       THISFORM.TXTSALDO.VALUE=TRAN(MDUG-MPOT,'999 999 999 999.99')               
+       THISFORM.TXTDUG.VALUE=TRAN(MDUG,'999 999 999 999.99')      
+       THISFORM.TXTPOT.VALUE=TRAN(MPOT,'999 999 999 999.99')            
+       SET ORDER TO
+       GOTO MRREC
+       THISFORM.GRD0.ReadOnly=.F.   
+    ELSE
+       THISFORM.GRD0.ReadOnly=.T.   
+    ENDIF   
+    THISFORM.REFRESH
+    POP key
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALGK10.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 10
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP 
+    thisform.grd0.column1.backcolor=RGB(255,255,255)
+    THISFORM.GRD0.COLUMN2.SETFOCUS
+    POP KEY
+    ENDPROC
+    PROCEDURE GotFocus
+    thisform.grd0.column1.backcolor=RGB(210,230,220)
+    
+    ENDPROC
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    PUSH KEY CLEAR
+    SET EXACT OFF
+    IF DUG=0.AND.POT=0
+       ZADTAST=NKEYCODE
+       IF ZADTAST>=48.AND.ZADTAST<=57
+          MKONTO=CHR(ZADTAST)
+          REPLACE NALP.KONTO WITH SPACE(10)
+          KEYBOARD CHR(ZADTAST)
+          SELECT KONTO
+          SEEK MKONTO
+          PUSH KEY CLEAR
+          DO NALGK10KONTO
+          POP KEY
+          SELECT NALP
+          THISFORM.GRD0.REFRESH   
+          THISFORM.REFRESH   
+       ENDIF
+    ENDIF   
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NALGK10.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Dug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column2
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALGK10.grd0.Column3
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Pot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column3
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALGK10.grd0.Column4
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column4
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALGK10.grd0.Column5
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Datdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column5
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALGK10.grd0.Column6
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Brnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column6
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALGK10.grd0.Column7
+  PROPERTIES:
+    FontSize = 11
+    Caption = "Arhiva"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALGK10.grd0.Column7
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== textbox | TXTDUG | parent=NALGK10
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 1
+    Height =   1.67
+    Left = 172.60
+    Top =   4.67
+    Width =  27.80
+    BackColor = 128,255,255
+    Name = "TXTDUG"
+
+=== textbox | TXTPOT | parent=NALGK10
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 1
+    Height =   1.67
+    Left = 172.60
+    Top =   6.27
+    Width =  27.80
+    Name = "TXTPOT"
+
+=== textbox | TXTSALDO | parent=NALGK10
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 1
+    Height =   1.67
+    Left = 172.60
+    Top =   7.87
+    Width =  27.80
+    BackColor = 168,255,168
+    Name = "TXTSALDO"
+
+=== commandbutton | Command5 | parent=NALGK10
+  PROPERTIES:
+    Top =  18.60
+    Left = 151.20
+    Height =   1.87
+    Width =  38.00
+    FontSize = 11
+    Caption = "TRAŽENJE KONTA F7"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGKKONTRAZI
+    *THISFORM.Refresh 
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=NALGK10
+  PROPERTIES:
+    Top =  20.27
+    Left = 151.20
+    Height =   1.87
+    Width =  38.00
+    FontSize = 11
+    Caption = "KONTO F6"
+    TabIndex = 7
+    ToolTipText = "PREGLED NALOGA"
+    SpecialEffect = 2
+    BackColor = 243,250,163
+    Alignment = 6
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALGK10KONPREG
+    
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALGK10
+  PROPERTIES:
+    Top =  22.67
+    Left = 151.20
+    Height =   2.07
+    Width =  38.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZAKLJUČNI LIST"
+    TabIndex = 2
+    ToolTipText = "PREGLED ZAKLJUČNOG LISTA"
+    ForeColor = 128,0,0
+    BackColor = 214,214,214
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALP
+    SET ORDER TO 1
+    DO FORM NALZAKLJ10
+    POP KEY
+    ENDPROC

@@ -1,0 +1,415 @@
+<Window x:Class="Algoritam.WPF.Views.GlavnaKnjiga.GkNalogUnosView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1300" Height="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResizeWithGrip"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Nalog header fields -->
+            <RowDefinition Height="*"/>
+            <!-- Stavke grid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Totals -->
+            <RowDefinition Height="Auto"/>
+            <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- ── Header ────────────────────────────────────────────────────── -->
+        <Border Grid.Row="0" Background="#1A237E" Padding="16,10">
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding StatusPoruka}"
+                               FontFamily="Tahoma" FontSize="10" Foreground="#9FA8DA" Margin="0,2,0,0"/>
+                </StackPanel>
+                <ProgressBar IsIndeterminate="True" Width="80" Height="6"
+                             DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0"
+                             Foreground="White" Background="Transparent" BorderThickness="0"
+                             Visibility="{Binding Ucitava, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- ── Nalog header fields ───────────────────────────────────────── -->
+        <Border Grid.Row="1" Background="#E8EAF6" Padding="16,10"
+                BorderThickness="0,0,0,1" BorderBrush="#C5CAE9">
+            <WrapPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Br. naloga:" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1A237E" VerticalAlignment="Center" Width="80"/>
+                    <TextBox Text="{Binding BrNal, UpdateSourceTrigger=PropertyChanged}"
+                             Width="90" Height="26" Padding="6,0"
+                             FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"
+                             FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Datum:" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1A237E" VerticalAlignment="Center" Width="60"/>
+                    <DatePicker SelectedDate="{Binding Datum}"
+                                Height="26" Width="130" FontFamily="Tahoma" FontSize="11"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Vrsta:" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1A237E" VerticalAlignment="Center" Width="50"/>
+                    <ComboBox ItemsSource="{Binding VrsteNaloga}"
+                              Text="{Binding VrNal, UpdateSourceTrigger=PropertyChanged}"
+                              IsEditable="True"
+                              Width="80" Height="26"
+                              FontFamily="Tahoma" FontSize="12"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Opis naloga:" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#1A237E" VerticalAlignment="Center" Width="85"/>
+                    <TextBox Text="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"
+                             Width="300" Height="26" Padding="6,0"
+                             FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </WrapPanel>
+        </Border>
+
+        <!-- ── Stavke ───────────────────────────────────────────────────── -->
+        <Grid Grid.Row="2" Margin="8,8,8,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#E8EAF6" Padding="8,4">
+                <TextBlock Text="STAVKE NALOGA"
+                           FontFamily="Tahoma" FontSize="11" FontWeight="Bold" Foreground="#1A237E"/>
+            </Border>
+
+            <DataGrid x:Name="StavkeGrid"
+                      Grid.Row="1"
+                      ItemsSource="{Binding Stavke}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      AlternatingRowBackground="#EEF0F9"
+                      RowBackground="White"
+                      BorderThickness="1" BorderBrush="#CFD8DC"
+                      FontFamily="Tahoma" FontSize="12"
+                      SelectionMode="Single"
+                      SelectionUnit="Cell"
+                      EnableRowVirtualization="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#E8EAF6"/>
+                        <Setter Property="Foreground" Value="#1A237E"/>
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#C5CAE9"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="2,0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#C5CAE9"/>
+                                <Setter Property="Foreground" Value="#1A237E"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Konto *" Width="100"
+                        Binding="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Duguje" Width="110"
+                        Binding="{Binding Dug, StringFormat=N2, UpdateSourceTrigger=LostFocus}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Potražuje" Width="110"
+                        Binding="{Binding Pot, StringFormat=N2, UpdateSourceTrigger=LostFocus}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Opis stavke" Width="*"
+                        Binding="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Br. dok." Width="110"
+                        Binding="{Binding BrDok, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTemplateColumn Header="Datum dok." Width="115">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DatDok, StringFormat='dd.MM.yyyy'}"
+                                           Padding="4,2" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding DatDok}"
+                                            FontFamily="Tahoma" FontSize="11"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Dok" Width="60"
+                        Binding="{Binding Dok, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="DodDug" Width="90"
+                        Binding="{Binding DodDug, StringFormat=N2, UpdateSourceTrigger=LostFocus}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="DodPot" Width="90"
+                        Binding="{Binding DodPot, StringFormat=N2, UpdateSourceTrigger=LostFocus}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="MP" Width="50"
+                        Binding="{Binding Mp, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Dev" Width="50"
+                        Binding="{Binding Dev, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="DevKurs" Width="80"
+                        Binding="{Binding DevKurs, StringFormat=N4, UpdateSourceTrigger=LostFocus}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="36">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="&#x2715;"
+                                        Width="28" Height="22"
+                                        FontFamily="Tahoma" FontSize="10"
+                                        Foreground="White" Background="#C62828" BorderThickness="0"
+                                        Cursor="Hand"
+                                        Command="{Binding DataContext.ObrisiStavkuCommand,
+                                                  RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="2">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Add row button -->
+            <Border Grid.Row="2" Background="#EEF0F9" Padding="4,4"
+                    BorderThickness="1,0,1,1" BorderBrush="#CFD8DC">
+                <Button Content="+ Dodaj stavku"
+                        HorizontalAlignment="Left"
+                        Height="26" Padding="12,0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#3949AB" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding DodajStavkuCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Border>
+        </Grid>
+
+        <!-- ── Totals ────────────────────────────────────────────────────── -->
+        <Border Grid.Row="3" Padding="16,8"
+                BorderThickness="0,1,0,0" BorderBrush="#E0E0E0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#E8F5E9"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding JeBalansiran}" Value="False">
+                            <Setter Property="Background" Value="#FFF8E1"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <WrapPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,30,0">
+                    <TextBlock Text="Ukupno duguje:" FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Margin="0,0,8,0" Foreground="#1A237E"/>
+                    <TextBlock Text="{Binding UkupnoDug, StringFormat=N2}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="Bold"
+                               VerticalAlignment="Center" Foreground="#1A237E" MinWidth="110"
+                               TextAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,30,0">
+                    <TextBlock Text="Ukupno potražuje:" FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Margin="0,0,8,0" Foreground="#1A237E"/>
+                    <TextBlock Text="{Binding UkupnoPot, StringFormat=N2}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="Bold"
+                               VerticalAlignment="Center" Foreground="#1A237E" MinWidth="110"
+                               TextAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Razlika:" FontFamily="Tahoma" FontSize="12" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Margin="0,0,8,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding JeBalansiran}" Value="False">
+                                        <Setter Property="Foreground" Value="#BF360C"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Razlika, StringFormat=N2}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="Bold"
+                               VerticalAlignment="Center" MinWidth="90" TextAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding JeBalansiran}" Value="False">
+                                        <Setter Property="Foreground" Value="#BF360C"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                           VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="&#x2713; Nalog je balansiran"/>
+                            <Setter Property="Foreground" Value="#2E7D32"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding JeBalansiran}" Value="False">
+                                    <Setter Property="Text" Value="&#x26A0; Nalog nije balansiran"/>
+                                    <Setter Property="Foreground" Value="#BF360C"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </WrapPanel>
+        </Border>
+
+        <!-- ── Footer ───────────────────────────────────────────────────── -->
+        <Border Grid.Row="4" Background="#F5F5F5" Padding="12,8"
+                BorderThickness="0,1,0,0" BorderBrush="#E0E0E0">
+            <DockPanel>
+                <Button Content="Odustani" DockPanel.Dock="Left"
+                        Width="100" Height="32" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#607D8B" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OdustaniCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Sačuvaj nalog" DockPanel.Dock="Right"
+                        Width="140" Height="32" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#1A237E" BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,0"
+                        Command="{Binding SacuvajCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Background" Value="#9E9E9E"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Proknjizi F5" DockPanel.Dock="Right"
+                        Width="130" Height="32" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#2E7D32" BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,8,0"
+                        Command="{Binding ProknjiziCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Background" Value="#9E9E9E"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

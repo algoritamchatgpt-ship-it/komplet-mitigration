@@ -1,0 +1,168 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Top = 20
+    Left = 10
+    Height = 90
+    Width = 91
+    Alias = "datumi"
+    CursorSource = ..\databaze\datumi.dbf
+    Name = "Cursor1"
+
+=== form | NALPRIL1 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PREUZIMANJE PRILIVA I ODLIVA"
+    WindowType = 1
+    BackColor = 236,233,216
+    Name = "NALPRIL1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NALPRIL
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT DATUMI
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPRIL1TAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== textbox | txtDat0 | parent=NALPRIL1
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "datumi.dat0"
+    Height =   1.53
+    Left =  30.00
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.07
+    Width =  24.40
+    Name = "txtDat0"
+
+=== label | lblDat0 | parent=NALPRIL1
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Početni datum"
+    Height =   1.27
+    Left =  10.00
+    Top =   1.27
+    Width =  18.80
+    TabIndex = 5
+    ForeColor = 190,0,0
+    Name = "lblDat0"
+
+=== textbox | txtDat1 | parent=NALPRIL1
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "datumi.dat1"
+    Height =   1.53
+    Left =  30.00
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.00
+    Width =  24.40
+    Name = "txtDat1"
+
+=== label | lblDat1 | parent=NALPRIL1
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Zadnji datum"
+    Height =   1.27
+    Left =  10.00
+    Top =   3.20
+    Width =  16.60
+    TabIndex = 6
+    ForeColor = 190,0,0
+    Name = "lblDat1"
+
+=== commandbutton | Command1 | parent=NALPRIL1
+  PROPERTIES:
+    Top =  11.20
+    Left =   2.40
+    Height =   5.00
+    Width =  24.20
+    FontSize = 11
+    Picture = ..\ikone\afascikla.png
+    Caption = "\<PREUZMI"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPRIL1
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPRIL1
+  PROPERTIES:
+    Top =  11.20
+    Left =  40.80
+    Height =   5.00
+    Width =  24.20
+    FontSize = 11
+    Picture = ..\ikone\apalacdole.png
+    Caption = "\<IZLAZ"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    
+    ENDPROC

@@ -1,0 +1,99 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdOz07NoviView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1110"
+        Height="600"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+
+    <DockPanel Margin="8">
+        <Border DockPanel.Dock="Top" Background="#F9FDB0" BorderBrush="#A6AA70" BorderThickness="1" Padding="8" Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Broj Radnika"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding BrojRadnika, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Row="0" Grid.Column="3" Width="130" Height="24" Content="PRETRAŽI BROJ" Command="{Binding PretraziPoBrojuCommand}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Maticni broj"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Height="24" Text="{Binding MaticniBroj, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Row="2" Grid.Column="3" Width="130" Height="24" Content="PRETRAŽI MATIČNI" Command="{Binding PretraziPoMaticnomCommand}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" Text="Ime i prezime"/>
+                <TextBox Grid.Row="0" Grid.Column="6" Height="24" IsReadOnly="True" Text="{Binding ImePrezime}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="Datum"/>
+                <DatePicker Grid.Row="4" Grid.Column="1" Height="26"
+                            SelectedDate="{Binding Datum, Mode=TwoWay}"
+                            FontFamily="Tahoma" FontSize="11"/>
+                <TextBlock Grid.Row="4" Grid.Column="4" VerticalAlignment="Center" Text="(datum koji se štampa na obrazcu)"/>
+            </Grid>
+        </Border>
+
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="22"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mesec" Binding="{Binding NazMes}" Width="170"/>
+                <DataGridTextColumn Header="Godina" Binding="{Binding Godina}" Width="90"/>
+                <DataGridTextColumn Header="Casuk" Binding="{Binding Casuk, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Neto" Binding="{Binding Neto, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="Broj" Binding="{Binding Broj}" Width="90"/>
+                <DataGridTextColumn Header="Maticni" Binding="{Binding Maticnibr}" Width="170"/>
+                <DataGridTextColumn Header="LBO" Binding="{Binding Lbobroj}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1" Padding="8" Margin="0,8,0,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" Text="Ukupno Casuk:"/>
+                    <TextBox Width="120" Margin="0,0,12,0" IsReadOnly="True" Text="{Binding UkupnoCasuk, StringFormat=N2}"/>
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" Text="Ukupno Neto:"/>
+                    <TextBox Width="120" Margin="0,0,12,0" IsReadOnly="True" Text="{Binding UkupnoNeto, StringFormat=N2}"/>
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" Text="Ukupno Bruto:"/>
+                    <TextBox Width="120" IsReadOnly="True" Text="{Binding UkupnoBruto, StringFormat=N2}"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Width="130" Height="28" Margin="0,0,8,0" Content="PRERACUN" Command="{Binding PreracunCommand}"/>
+                    <Button Width="190" Height="28" Margin="0,0,8,0" Content="STAMPA OZ 7 NOVI" Command="{Binding StampajCommand}"/>
+                    <Button Width="100" Height="28" Content="IZLAZ" Click="IzlazClick"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1" Padding="8,5" Margin="0,8,0,0">
+            <TextBlock Text="{Binding Poruka}" />
+        </Border>
+    </DockPanel>
+</Window>

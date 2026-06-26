@@ -1,0 +1,100 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdOz07View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1400"
+        Height="620"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+    <DockPanel>
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="20"
+                  BorderThickness="0"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#1B5E20"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj" Binding="{Binding Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="Ime_prez" Binding="{Binding ImePrez, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="220"/>
+                <DataGridTextColumn Header="Maticnibr" Binding="{Binding Maticnibr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                <DataGridTextColumn Header="Lbobroj" Binding="{Binding Lbobroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                <DataGridTextColumn Header="Zkbroj" Binding="{Binding Zkbroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                <DataGridTextColumn Header="Mes1" Binding="{Binding Mes1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                <DataGridTextColumn Header="Mesec1" Binding="{Binding Mesec1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="110"/>
+                <DataGridTextColumn Header="Casuc1" Binding="{Binding Casuc1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Staz1" Binding="{Binding Staz1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="80"/>
+                <DataGridTextColumn Header="Procmin1" Binding="{Binding Procmin1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuc1" Binding="{Binding Dinuc1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinmin1" Binding="{Binding Dinmin1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuk1" Binding="{Binding Dinuk1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Mes2" Binding="{Binding Mes2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                <DataGridTextColumn Header="Mesec2" Binding="{Binding Mesec2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="110"/>
+                <DataGridTextColumn Header="Casuc2" Binding="{Binding Casuc2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Staz2" Binding="{Binding Staz2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="80"/>
+                <DataGridTextColumn Header="Procmin2" Binding="{Binding Procmin2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuc2" Binding="{Binding Dinuc2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinmin2" Binding="{Binding Dinmin2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuk2" Binding="{Binding Dinuk2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Mes3" Binding="{Binding Mes3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                <DataGridTextColumn Header="Mesec3" Binding="{Binding Mesec3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="110"/>
+                <DataGridTextColumn Header="Casuc3" Binding="{Binding Casuc3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Staz3" Binding="{Binding Staz3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="80"/>
+                <DataGridTextColumn Header="Procmin3" Binding="{Binding Procmin3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuc3" Binding="{Binding Dinuc3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinmin3" Binding="{Binding Dinmin3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuk3" Binding="{Binding Dinuk3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Casuk" Binding="{Binding Casuk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Dinuk" Binding="{Binding Dinuk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Proscas" Binding="{Binding Proscas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Prosdin" Binding="{Binding Prosdin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Staz" Binding="{Binding Staz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="80"/>
+                <DataGridTextColumn Header="Dincas" Binding="{Binding Dincas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1,1,1,0" Padding="8,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Content="OBRAZAC NAKNADA" Width="150" Height="28" Margin="0,0,8,0" Command="{Binding ObrazacNaknadaCommand}"/>
+                    <Button Content="PREUZIMANJE" Width="120" Height="28" Margin="0,0,8,0" Command="{Binding PreuzimanjeCommand}"/>
+                    <Button Content="DODAJ" Width="90" Height="28" Margin="0,0,8,0" Command="{Binding DodajRedCommand}"/>
+                    <Button Content="KARTICA F7" Width="120" Height="28" Margin="0,0,8,0" Command="{Binding KarticaF7Command}"/>
+                    <Button Content="SAČUVAJ" Width="100" Height="28" Margin="0,0,8,0" Command="{Binding SacuvajRucnoCommand}"/>
+                    <Button Content="BRISANJE" Width="110" Height="28" Margin="0,0,8,0" Command="{Binding BrisanjeCommand}"/>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Right"
+                        Content="_IZLAZ"
+                        Width="120"
+                        Height="28"
+                        Background="#C62828"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Click="IzlazClick"/>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#D7DBFF" BorderBrush="#A1A9E8" BorderThickness="1" Padding="8,5">
+            <TextBlock Text="{Binding Poruka}" />
+        </Border>
+    </DockPanel>
+</Window>

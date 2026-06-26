@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj4">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="ABRUTO" type="N" length="2" decimals="0" />
+    <column name="APR_NORM" type="N" length="2" decimals="0" />
+    <column name="ANORMIRTR" type="N" length="2" decimals="0" />
+    <column name="ASNORMIRTR" type="N" length="2" decimals="0" />
+    <column name="AOPOREZIVO" type="N" length="2" decimals="0" />
+    <column name="APR_DOH" type="N" length="2" decimals="0" />
+    <column name="APORDOH" type="N" length="2" decimals="0" />
+    <column name="ACNETO" type="N" length="2" decimals="0" />
+    <column name="UKPOREZ" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="PR_NORM" type="N" length="2" decimals="0" />
+    <column name="NORMIRTR" type="N" length="2" decimals="0" />
+    <column name="SNORMIRTR" type="N" length="2" decimals="0" />
+    <column name="OPOREZIVO" type="N" length="2" decimals="0" />
+    <column name="PR_DOH" type="N" length="2" decimals="0" />
+    <column name="PORDOH" type="N" length="2" decimals="0" />
+    <column name="CNETO" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

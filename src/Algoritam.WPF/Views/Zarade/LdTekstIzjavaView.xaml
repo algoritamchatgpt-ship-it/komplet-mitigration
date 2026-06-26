@@ -1,0 +1,73 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdTekstIzjavaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+    <DockPanel>
+        <DataGrid x:Name="TekstGrid"
+                  DockPanel.Dock="Top"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="20"
+                  BorderThickness="0"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tekst1" Binding="{Binding Tekst1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst2" Binding="{Binding Tekst2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst3" Binding="{Binding Tekst3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst4" Binding="{Binding Tekst4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst5" Binding="{Binding Tekst5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst6" Binding="{Binding Tekst6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst7" Binding="{Binding Tekst7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst8" Binding="{Binding Tekst8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst9" Binding="{Binding Tekst9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst10" Binding="{Binding Tekst10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst11" Binding="{Binding Tekst11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst12" Binding="{Binding Tekst12, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst13" Binding="{Binding Tekst13, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst14" Binding="{Binding Tekst14, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                <DataGridTextColumn Header="Tekst15" Binding="{Binding Tekst15, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1,1,1,0" Padding="8,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Content="PRVI" Width="80" Height="28" Margin="0,0,8,0" Command="{Binding PrviCommand}"/>
+                    <Button Content="GORE" Width="80" Height="28" Margin="0,0,8,0" Command="{Binding GoreCommand}"/>
+                    <Button Content="DOLE" Width="80" Height="28" Margin="0,0,8,0" Command="{Binding DoleCommand}"/>
+                    <Button Content="ZADNJI" Width="90" Height="28" Margin="0,0,8,0" Command="{Binding ZadnjiCommand}"/>
+                    <Button Content="UNESI TEKST" Width="130" Height="28" Margin="0,0,8,0" Command="{Binding UnesiTekstCommand}"/>
+                    <Button Content="PREGLED" Width="100" Height="28" Margin="0,0,8,0" Command="{Binding PregledCommand}"/>
+                    <Button Content="SAČUVAJ" Width="100" Height="28" Margin="0,0,8,0" Command="{Binding SacuvajRucnoCommand}"/>
+                    <Button Content="BRISANJE" Width="110" Height="28" Margin="0,0,8,0" Command="{Binding BrisanjeCommand}"/>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Right"
+                        Content="_IZLAZ"
+                        Width="120"
+                        Height="28"
+                        Background="#C62828"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Click="IzlazClick"/>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#D7DBFF" BorderBrush="#A1A9E8" BorderThickness="1" Padding="8,5">
+            <TextBlock Text="{Binding Poruka}" />
+        </Border>
+    </DockPanel>
+</Window>

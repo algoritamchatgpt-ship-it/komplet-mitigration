@@ -1,0 +1,104 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdRadvrerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EVIDENCIJA RADNIKA"
+        Width="1260" Height="540"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0">
+    <!-- BackColor = RGB(183,188,249) — ista kao glavni form -->
+
+    <DockPanel>
+
+        <!-- Naslov -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50" Padding="16,0">
+            <TextBlock Text="EVIDENCIJA RADNIKA" Foreground="White"
+                       FontFamily="Tahoma" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Dno: pretraga i izlaz -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9"
+                BorderBrush="#C8E6C9" BorderThickness="0,2,0,0" Padding="6,6">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="IZLAZ"
+                        Width="90" Height="28" Margin="4,0,2,0"
+                        FontFamily="Tahoma" FontSize="11"
+                        Background="#C62828" Foreground="White" BorderThickness="0"
+                        Cursor="Hand" Click="IzlazClick"/>
+
+                <!-- TXTIME_PREZ: pretraga po imenu (ORDER 2 = po imenu) -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Pretraga:" FontFamily="Tahoma" FontSize="11"
+                               VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="TxtPretraga" Width="220" Height="24"
+                             FontFamily="Tahoma" FontSize="11"
+                             BorderBrush="#808080" BorderThickness="1"
+                             Padding="4,2"
+                             TextChanged="PretragaChanged"/>
+                </StackPanel>
+
+                <TextBlock x:Name="TxtStatus" VerticalAlignment="Center"
+                           FontFamily="Tahoma" FontSize="11" Margin="12,0,0,0"/>
+            </DockPanel>
+        </Border>
+
+        <!-- grdLdrad: 22 kolone iz LDRAD, ORDER 2 (po imenu/prezimenu) -->
+        <DataGrid x:Name="GrdLdrad"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single" SelectionUnit="FullRow"
+                  Background="#F5F5F5" GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#C0C0C0" HeadersVisibility="Column"
+                  RowHeight="20" FontFamily="Tahoma" FontSize="11"
+                  BorderBrush="#808080" BorderThickness="1"
+                  Margin="4,4,4,0">
+            <DataGrid.Columns>
+                <!-- Column1: Broj W=5.80 -->
+                <DataGridTextColumn Header="Broj"       Binding="{Binding Broj}"      Width="50"/>
+                <!-- Column2: Ime_prez W=31.60 -->
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding ImePrez}"   Width="200"/>
+                <!-- Column3: W=17 -->
+                <DataGridTextColumn Header="Vrsta ID"   Binding="{Binding VrstaId}"   Width="70"/>
+                <!-- Column4: W=4.60 -->
+                <DataGridTextColumn Header="Preb."      Binding="{Binding Prebival}"  Width="50"/>
+                <!-- Column5: W=9.20 -->
+                <DataGridTextColumn Header="Matični br." Binding="{Binding MaticniBr}" Width="100"/>
+                <!-- Column6: W=13.40 -->
+                <DataGridTextColumn Header="Katalog"    Binding="{Binding Katalog}"   Width="60"/>
+                <!-- Column7: W=10.60 -->
+                <DataGridTextColumn Header="Vr.prim."   Binding="{Binding VrstaPrim}" Width="70"/>
+                <!-- Column8: W=10.60 -->
+                <DataGridTextColumn Header="Oz.vr.prih" Binding="{Binding OznVrPrih}" Width="80"/>
+                <!-- Column9: W=11.80 -->
+                <DataGridTextColumn Header="Oz.olaks."  Binding="{Binding OznOlaks}"  Width="70"/>
+                <!-- Column10: W=10.80 -->
+                <DataGridTextColumn Header="Oz.ben."    Binding="{Binding OznBen}"    Width="60"/>
+                <!-- Column11: W=13.80 -->
+                <DataGridTextColumn Header="Start bod"  Binding="{Binding StartBod}"  Width="80"/>
+                <!-- Column12: W=11.20 -->
+                <DataGridTextColumn Header="Staž"       Binding="{Binding Staz}"      Width="60"/>
+                <!-- Column13: W=14 -->
+                <DataGridTextColumn Header="Vrsta"      Binding="{Binding Vrsta}"     Width="60"/>
+                <!-- Column14: W=14 -->
+                <DataGridTextColumn Header="Grupa"      Binding="{Binding Grupa}"     Width="60"/>
+                <!-- Column15: W=10 -->
+                <DataGridTextColumn Header="Grupa1"     Binding="{Binding Grupa1}"    Width="60"/>
+                <!-- Column16: W=11.40 -->
+                <DataGridTextColumn Header="Stepen"     Binding="{Binding Stepen}"    Width="60"/>
+                <!-- Column17: W=6.60 -->
+                <DataGridTextColumn Header="Ben.%"      Binding="{Binding BenProc}"   Width="60"/>
+                <!-- Column18: W=8.60 -->
+                <DataGridTextColumn Header="MFP3.%"     Binding="{Binding Mfp3Proc}"  Width="60"/>
+                <!-- Column19: W=9.20 -->
+                <DataGridTextColumn Header="MFP6"       Binding="{Binding Mfp6}"      Width="70"/>
+                <!-- Column20: W=13 -->
+                <DataGridTextColumn Header="MFP7"       Binding="{Binding Mfp7}"      Width="70"/>
+                <!-- Column21: W=15.20 -->
+                <DataGridTextColumn Header="Prevoz"     Binding="{Binding Prevoz}"    Width="60"/>
+                <!-- Column22: W=9.60 -->
+                <DataGridTextColumn Header="Brisanje"   Binding="{Binding Brisanje}"  Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

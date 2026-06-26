@@ -1,0 +1,87 @@
+<Window x:Class="GlavnaKnjiga.Views.NalpDefkWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Caption}"
+        Width="1200" Height="580"
+        WindowStartupLocation="CenterScreen"
+        Background="#B7BCF9"
+        ResizeMode="CanResize"
+        KeyDown="Window_KeyDown">
+
+    <DockPanel>
+        <!-- ── Buttons (bottom) ── -->
+        <Border DockPanel.Dock="Bottom" Background="#B7BCF9" Padding="6,4">
+            <WrapPanel>
+                <Button Content="PRVI"    Width="72"  Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Foreground="Blue" Command="{Binding IdiNaVrhCommand}"/>
+                <Button Content="GORE"    Width="72"  Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Foreground="Blue" Command="{Binding IdiGoreCommand}"/>
+                <Button Content="DOLE"    Width="72"  Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Foreground="Blue" Command="{Binding IdiDoleCommand}"/>
+                <Button Content="ZADNJI"  Width="72"  Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Foreground="Blue" Command="{Binding IdiNaDnoCommand}"/>
+
+                <Button Content="DODAJ +"  Width="100" Height="28" Margin="24,0,2,0" FontSize="11"
+                        Background="#C0C0C0" Command="{Binding DodajCommand}"/>
+                <Button Content="BRISANJE" Width="100" Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Command="{Binding BrisiCommand}"/>
+                <Button Content="SNIMI"    Width="80"  Height="28" Margin="2,0" FontSize="11"
+                        Background="#C0C0C0" Command="{Binding SnimiCommand}"/>
+
+                <Button Content="Izlaz"   Width="120" Height="28" Margin="24,0,2,0" FontSize="11"
+                        Background="#C0C0C0" Foreground="Red" Command="{Binding IzlazCommand}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- ── Editable DataGrid — 12 kolona (nalpdefk.dbf) ── -->
+        <DataGrid x:Name="Grd0"
+                  ItemsSource="{Binding Redovi}"
+                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserSortColumns="True"
+                  FontFamily="Arial"
+                  FontSize="11"
+                  RowHeight="21"
+                  Background="#F5F5F5"
+                  GridLinesVisibility="All"
+                  HeadersVisibility="Column"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow">
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"     Color="#F7C4AE"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"     Color="#F7C4AE"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black"/>
+            </DataGrid.Resources>
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background"   Value="#B7BCF9"/>
+                    <Setter Property="FontFamily"   Value="Arial"/>
+                    <Setter Property="FontSize"     Value="11"/>
+                    <Setter Property="Padding"      Value="4,2"/>
+                    <Setter Property="BorderBrush"  Value="#9097D4"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Sifprod"   Binding="{Binding Sifprod}"   Width="80"  />
+                <DataGridTextColumn Header="Konto"     Binding="{Binding Konto}"     Width="120" />
+                <DataGridTextColumn Header="Pnaziv"    Binding="{Binding Pnaziv}"    Width="250" />
+                <DataGridTextColumn Header="Devizno"   Binding="{Binding Devizno}"   Width="60"  />
+                <DataGridTextColumn Header="Sifarnik"  Binding="{Binding Sifarnik}"  Width="60"  />
+                <DataGridTextColumn Header="Dok"       Binding="{Binding Dok}"       Width="50"  />
+                <DataGridTextColumn Header="Vrsta"     Binding="{Binding Vrsta}"     Width="50"  />
+                <DataGridTextColumn Header="Imetabele" Binding="{Binding Imetabele}" Width="130" />
+                <DataGridTextColumn Header="Dp"        Binding="{Binding Dp}"        Width="35"  />
+                <DataGridTextColumn Header="Preneto"   Binding="{Binding Preneto}"   Width="80"  />
+                <DataGridTextColumn Header="Numred"    Binding="{Binding Numred}"    Width="70"  />
+                <DataGridTextColumn Header="Idbr"      Binding="{Binding Idbr}"      Width="50"  />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

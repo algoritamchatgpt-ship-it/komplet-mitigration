@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldarhpar">
+  <columns>
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="VRSTA" type="C" length="0" decimals="0" />
+    <column name="PUTANJA" type="C" length="0" decimals="0" />
+    <column name="GODINA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

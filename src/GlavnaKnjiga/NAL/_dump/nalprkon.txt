@@ -1,0 +1,560 @@
+num records 26
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | CURSOR1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "nalprkon"
+    CursorSource = ..\databaze\nalprkon.dbf
+    Name = "CURSOR1"
+
+=== form | NALPRKON | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    ShowTips = .T.
+    AutoCenter = .F.
+    Caption = ""
+    WindowType = 1
+    WindowState = 0
+    BackColor = 183,188,249
+    Name = "NALPRKON"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    CLOSE ALL TABLES
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE FIRMA IN 0
+    use nalprKON in 0 order 1
+    SELECT NALPRKON
+    THISFORM.CAPTION=' PREGLED KONTA   '+OPERATER+' '+AKORIME
+    THISFORM.GRD0.RECORDSOURCE='NALPRKON'
+    *--------------------ODREDJIVANJE BOJA--------------------
+    THISFORM.GRD0.BackColor=RGB(MBOJA2POZ1,MBOJA2POZ2,MBOJA2POZ3)
+    THISFORM.GRD0.FOREColor=RGB(MBOJA2SLO1,MBOJA2SLO2,MBOJA2SLO3)
+    THISFORM.BackColor=RGB(MBOJA4POZ1,MBOJA4POZ2,MBOJA4POZ3)
+    THISFORM.FOREColor=RGB(MBOJA4SLO1,MBOJA4SLO2,MBOJA4SLO3)
+    *-------------------KRAJ ODREDJIVANJA BOJA----------------
+    THISFORM.GRD0.SetAll("DynamicBackColor", "IIF(SALDO<0, RGB(MBOJA1POZ1,MBOJA1POZ2,MBOJA1POZ3), RGB(198,255,198))", "Column")  
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALPRKONTAST
+    SET PROCEDURE TO   
+    THISFORM.REFRESH
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALPRKON
+  PROPERTIES:
+    Top =  37.07
+    Left =   3.60
+    Height =   1.80
+    Width =   9.40
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .F.
+    Caption = "DOLE"
+    Default = .F.
+    MousePointer = 4
+    Style = 0
+    TabIndex = 2
+    Visible = .T.
+    SpecialEffect = 0
+    ColorSource = 0
+    ColorScheme = 1
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRKON
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPRKON
+  PROPERTIES:
+    Top =  37.07
+    Left =  12.80
+    Height =   1.80
+    Width =   9.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "GORE"
+    Style = 0
+    TabIndex = 3
+    SpecialEffect = 0
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRKON
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALPRKON
+  PROPERTIES:
+    Top =  37.07
+    Left =  22.00
+    Height =   1.80
+    Width =   9.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZADNJI"
+    Style = 0
+    TabIndex = 4
+    SpecialEffect = 0
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRKON
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALPRKON
+  PROPERTIES:
+    Top =  37.07
+    Left =  31.20
+    Height =   1.80
+    Width =   9.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "PRVI"
+    Style = 0
+    TabIndex = 5
+    SpecialEffect = 0
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT NALPRKON
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALPRKON
+  PROPERTIES:
+    Top =  36.67
+    Left = 180.00
+    Height =   4.60
+    Width =  21.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 7
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 0
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALPRKON
+  PROPERTIES:
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.20
+    Top =   0.27
+    Width = 202.40
+    TabIndex = 8
+    BackColor = 253,236,204
+    Name = "Label1"
+
+=== grid | GRD0 | parent=NALPRKON
+  PROPERTIES:
+    ColumnCount = 5
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    DeleteMark = .F.
+    Height =  34.80
+    Left =   0.20
+    Panel = 1
+    ReadOnly = .T.
+    RecordSourceType = 1
+    RowHeight = 19
+    TabIndex = 1
+    Top =   1.93
+    Width = 202.60
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 247,196,174
+    HighlightForeColor = 0,0,0
+    HighlightStyle = 1
+    Name = "GRD0"
+    Column1.FontBold = .F.
+    Column1.FontName = "Tahoma"
+    Column1.FontSize = 10
+    Column1.Alignment = 1
+    Column1.ControlSource = ""
+    Column1.Width =  15.80
+    Column1.ReadOnly = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontName = "Tahoma"
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  33.00
+    Column2.ReadOnly = .T.
+    Column2.Format = "999"
+    Column2.InputMask = "999 999 999 999.99"
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontName = "Tahoma"
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  28.20
+    Column3.ReadOnly = .T.
+    Column3.Format = "999"
+    Column3.InputMask = "999 999 999 999.99"
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontName = "Tahoma"
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  29.00
+    Column4.ReadOnly = .T.
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontName = "Tahoma"
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width = 109.00
+    Column5.ReadOnly = .T.
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY CLEAR
+    THISFORM.LABEL1.CAPTION=KONTO+' '+TRANSFORM(saldo,'999 999 999 999.99')+' '+NAZIV
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== header | Header1 | parent=NALPRKON.GRD0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRKON.GRD0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Alignment = 1
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALPRKON.GRD0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Dug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRKON.GRD0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRKON.GRD0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Pot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRKON.GRD0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Format = "999"
+    InputMask = "999 999 999 999.99"
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRKON.GRD0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Saldo"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRKON.GRD0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALPRKON.GRD0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALPRKON.GRD0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Tahoma"
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== commandbutton | Command5 | parent=NALPRKON
+  PROPERTIES:
+    Top =  37.07
+    Left =  44.40
+    Height =   1.80
+    Width =  30.00
+    FontBold = .F.
+    FontSize = 11
+    Caption = "PREUZIMANJE"
+    Style = 0
+    TabIndex = 5
+    SpecialEffect = 0
+    ForeColor = 0,0,255
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO IDEL WITH (KKOCKAX)
+    USE nal IN 0 ORDER 1
+    SELECT nal
+    TOTAL ON KONTO TO &KKOCKA
+    use
+    SELECT NALPRKON
+    USE
+    USE NALPRKON IN 0 EXCLUSIVE
+    SELECT NALPRKON
+    ZAP
+    APPEND FROM &KKOCKA
+    SET ORDER TO 1
+    REPLACE ALL SALDO WITH DUG-POT
+    USE &KKONTO IN 0 ALIAS KONTO ORDER 1
+    SELECT NALPRKON
+    GO TOP
+    DO WHILE.NOT.EOF()
+       MKONTO=KONTO
+       SELECT KONTO
+       SEEK MKONTO
+       IF FOUND()
+          MNAZIV=NAZIV
+          SELECT NALPRKON
+          REPLACE NAZIV WITH MNAZIV
+       ELSE
+          SELECT NALPRKON   
+       ENDIF
+       SKIP
+    ENDDO
+    SELECT KONTO
+    USE   
+    SELECT NALPRKON
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.RELEASE
+    KEYBOARD '{ENTER}'
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NALPRKON
+  PROPERTIES:
+    Top =  36.80
+    Left =  76.80
+    Height =   2.13
+    Width =  22.20
+    FontSize = 11
+    Caption = "SORT"
+    TabIndex = 7
+    ToolTipText = "PROMENA SORTIRANJA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    push key clear
+    SELECT NALPRNAL
+    MORDER=TAGNO()
+    DO CASE MORDER 
+    CASE MORDER=0
+       SET ORDER TO 1
+    CASE MORDER=1
+       SET ORDER TO 2
+    CASE MORDER=2
+       SET ORDER TO 3
+    CASE MORDER=3
+       SET ORDER TO 4
+    CASE MORDER=4
+       SET ORDER TO 5
+    CASE MORDER=5
+       SET ORDER TO 6
+    OTHERWISE 
+       SET ORDER TO
+    ENDCASE
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | CMDF6 | parent=NALPRKON
+  PROPERTIES:
+    Top =  36.80
+    Left = 100.80
+    Height =   2.07
+    Width =  33.60
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<TRAŽENJE F6"
+    TabIndex = 10
+    ToolTipText = "DODAVANJE NOVOG NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "CMDF6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPRKONTRAZI
+    
+    
+    ENDPROC
+
+=== commandbutton | CMDF10 | parent=NALPRKON
+  PROPERTIES:
+    Top =  38.67
+    Left = 100.80
+    Height =   2.13
+    Width =  33.60
+    FontSize = 11
+    Caption = "KARTICA F10"
+    TabIndex = 7
+    ToolTipText = "PREGLED NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "CMDF10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALPRKONPREGS
+    
+    ENDPROC

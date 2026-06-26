@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj">
+  <columns>
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="OPIS" type="C" length="0" decimals="0" />
+    <column name="ZAPOSL" type="N" length="0" decimals="0" />
+    <column name="ZARADA" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="FOND" type="N" length="2" decimals="0" />
+    <column name="ZAISPLAT" type="N" length="2" decimals="0" />
+    <column name="RLINI" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

@@ -1,0 +1,53 @@
+<Window x:Class="GlavnaKnjiga.Views.NalvrstasSWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UNOS VRSTE NALOGA PO ŠABLONU"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#95BC94">
+
+    <StackPanel Margin="12">
+        <Border Background="#80FF80" BorderBrush="Gray" BorderThickness="1" Padding="6,4" Margin="0,0,0,8">
+            <TextBlock Text="UNOS VRSTA NALOGA IZ PRIMERA" FontFamily="Tahoma" FontSize="11" FontWeight="Bold"/>
+        </Border>
+
+        <!-- V/M -->
+        <Grid Margin="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                       Foreground="#800000" Background="#FFFF80"
+                       Text="V=VELEPRODAJA, M=MALOPRODAJA" Width="220" Margin="0,0,8,0"
+                       VerticalAlignment="Center"/>
+            <TextBox x:Name="TxtObj" Grid.Column="1" Width="40" MaxLength="1"
+                     FontFamily="Tahoma" FontSize="11"/>
+        </Grid>
+
+        <!-- Redni broj -->
+        <Grid Margin="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                       Foreground="#800000" Background="#FFFF80"
+                       Text="REDNI BROJ OBJEKTA" Width="220" Margin="0,0,8,0"
+                       VerticalAlignment="Center"/>
+            <TextBox x:Name="TxtRed" Grid.Column="1" Width="40" MaxLength="2"
+                     FontFamily="Tahoma" FontSize="11"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,4">
+            <Button Content="UNESI" Width="100" Margin="8,0"
+                    Click="BtnUnesi_Click"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+            <Button Content="IZLAZ" Width="100" Margin="8,0"
+                    Click="BtnIzlaz_Click"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

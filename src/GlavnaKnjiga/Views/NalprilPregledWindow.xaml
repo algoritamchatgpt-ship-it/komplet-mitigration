@@ -1,0 +1,53 @@
+<Window x:Class="GlavnaKnjiga.Views.NalprilPregledWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="900" Height="620"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F4F8">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#1A237E" Padding="14,9">
+            <TextBlock Text="{Binding Naslov}" Foreground="White"
+                       FontFamily="Tahoma" FontSize="14" FontWeight="Bold"/>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8EAF6" Padding="10">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Prethodno D/P: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding UkupnoDugpre, StringFormat=N2}"/>
+                    <TextBlock Text=" / " />
+                    <TextBlock Text="{Binding UkupnoPotpre, StringFormat=N2}" Margin="0,0,18,0"/>
+                    <TextBlock Text="Tekuće D/P: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding UkupnoDug, StringFormat=N2}"/>
+                    <TextBlock Text=" / " />
+                    <TextBlock Text="{Binding UkupnoPot, StringFormat=N2}" Margin="0,0,18,0"/>
+                    <TextBlock Text="Saldo: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding UkupniSaldo, StringFormat=N2}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Štampaj" Width="90" Margin="0,0,8,0" Click="OnStampajClick"/>
+                    <Button Content="Izlaz" Width="90" Foreground="#B00000"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <DataGrid x:Name="GridPregled"
+                  ItemsSource="{Binding Redovi}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  FontFamily="Tahoma" FontSize="12"
+                  AlternatingRowBackground="#F5F5F5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Grupa" Binding="{Binding Grupa}" Width="70"/>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}" Width="140"/>
+                <DataGridTextColumn Header="Preth. duguje" Binding="{Binding Dugpre, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="Preth. potražuje" Binding="{Binding Potpre, StringFormat=N2}" Width="150"/>
+                <DataGridTextColumn Header="Tekuće duguje" Binding="{Binding Dug, StringFormat=N2}" Width="140"/>
+                <DataGridTextColumn Header="Tekuće potražuje" Binding="{Binding Pot, StringFormat=N2}" Width="150"/>
+                <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat=N2}" Width="130"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

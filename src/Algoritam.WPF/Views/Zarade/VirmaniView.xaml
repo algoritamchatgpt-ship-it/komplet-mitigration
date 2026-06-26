@@ -1,0 +1,213 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.VirmaniView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Virmani" Width="1500" Height="680"
+        WindowStartupLocation="CenterScreen" Background="#F0F0F0">
+    <Window.InputBindings>
+        <KeyBinding Key="F2" Command="{Binding PreuzimanjeCommand}"/>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="46">
+            <DockPanel Margin="12,0">
+                <TextBlock Text="{Binding Naslov}" Foreground="White" FontSize="16" FontWeight="Bold"
+                           FontFamily="Tahoma" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center"
+                           Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="12"
+                           Text="{Binding BrojVirmana, StringFormat='Virmana: {0}'}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9" Padding="6,5"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <Button Content="DODAJ" Width="72" Height="26" Margin="2,0"
+                        Background="#388E3C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding DodajCommand}"/>
+                <Button Content="OBRIŠI" Width="72" Height="26" Margin="2,0"
+                        Background="#D32F2F" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ObrisiSelektovanCommand}"/>
+                <Button Content="OBRIŠI SVE" Width="90" Height="26" Margin="2,0"
+                        Background="#C62828" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ObrisiSveCommand}"/>
+                <Button Content="OBRIŠI PRVI NE" Width="112" Height="26" Margin="2,0"
+                        Background="#BF360C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ObrisiPrveNeCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="PREUZIMANJE [F2]" Width="138" Height="26" Margin="2,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        Command="{Binding PreuzimanjeCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="POZIV-ODOBR." Width="106" Height="26" Margin="2,0"
+                        Background="#4527A0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Auto-generiši poziv na broj odobrenja (97-GGMM-XXXX) za sve virmane"
+                        Command="{Binding PozivOdobrenjeCommand}"/>
+                <Button Content="POZIV-ZADUŽ." Width="106" Height="26" Margin="2,0"
+                        Background="#311B92" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Auto-generiši poziv na broj zaduženja (97-GGMM-XXXX) za sve virmane"
+                        Command="{Binding PozivZaduzenjeCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="ZAOKRUŽI IZNOSE" Width="128" Height="26" Margin="2,0"
+                        Background="#6A1B9A" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZaokruziIznoseCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="SAČUVAJ" Width="82" Height="26" Margin="2,0"
+                        Background="#2E7D32" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        Command="{Binding SacuvajCommand}"/>
+                <Button Content="JEDAN VIRMAN POPUNI" Width="158" Height="26" Margin="2,0"
+                        Background="#1565C0" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Otvori formu za popunjavanje izabranog virmana (ekvivalent FoxPro virm1.scx)"
+                        Command="{Binding JedanVirmanPopuniCommand}"/>
+                <Button Content="JEDAN KOMPLET" Width="122" Height="26" Margin="2,0"
+                        Background="#E65100" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Štampaj izabrani virman (LDVIRM0N2 ekvivalent)"
+                        Command="{Binding JedanKompletCommand}"/>
+                <Button Content="ŠTAMPA KOMPLET" Width="126" Height="26" Margin="2,0"
+                        Background="#BF360C" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold" Cursor="Hand"
+                        ToolTip="Štampaj sve virmane sa iznosom &gt; 0 odjednom"
+                        Command="{Binding StampaKompletCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="IZVOZ RAIFFEISEN" Width="136" Height="26" Margin="2,0"
+                        Background="#6D4C41" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding IzvozRaiffeisenCommand}"/>
+                <Button Content="IZVOZ ASSECO" Width="118" Height="26" Margin="2,0"
+                        Background="#5D4037" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Izvoz za Asseco e-banking sistem (Banca Intesa, UniCredit, AIK...)"
+                        Command="{Binding IzvozAssecoCommand}"/>
+                <Button Content="IZVOZ HALCOM" Width="116" Height="26" Margin="2,0"
+                        Background="#4E342E" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        ToolTip="Izvoz za Halcom e-banking sistem (Raiffeisen, NLB Komercijalna...)"
+                        Command="{Binding IzvozHalcomCommand}"/>
+
+                <Separator Width="10" Background="Transparent"/>
+
+                <Button Content="OSVEZI [F5]" Width="90" Height="26" Margin="2,0"
+                        Background="#607D8B" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding OsveziCommand}"/>
+                <Button Content="ZATVORI" Width="80" Height="26" Margin="2,0"
+                        Background="#455A64" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Command="{Binding ZatvoriCommand}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" Padding="10,6"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBlock Text="UKUPNO: " FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UkupnoText}" FontFamily="Tahoma" FontSize="12"
+                               FontWeight="Bold" Foreground="#1B5E20" VerticalAlignment="Center"
+                               Margin="4,0,16,0"/>
+                    <TextBlock Text="{Binding BrojVirmana, StringFormat='({0} stavki)'}"
+                               FontFamily="Tahoma" FontSize="11" Foreground="#555"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11"
+                           VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ImaNeacuvana}" Value="True">
+                                    <Setter Property="Foreground" Value="#D32F2F"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ImaNeacuvana}" Value="False">
+                                    <Setter Property="Foreground" Value="#2E7D32"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DockPanel>
+        </Border>
+
+        <!-- Grid -->
+        <DataGrid x:Name="VirmaniGrid"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  SelectionMode="Single"
+                  Background="White" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  AlternatingRowBackground="#F9FBF9" FontFamily="Tahoma" FontSize="11"
+                  Margin="4,4,4,0">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1B5E20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Štp" Binding="{Binding Stampa, UpdateSourceTrigger=LostFocus}" Width="36"/>
+                <DataGridTextColumn Header="V" Binding="{Binding Vrsta, UpdateSourceTrigger=LostFocus}" Width="30"/>
+                <DataGridTextColumn Header="Naziv primaoca" Binding="{Binding NazRac, UpdateSourceTrigger=LostFocus}" Width="200"/>
+                <DataGridTextColumn Header="Žiro račun primaoca" Binding="{Binding ZiroRac, UpdateSourceTrigger=LostFocus}" Width="160"/>
+                <DataGridTextColumn Header="Mod." Binding="{Binding Modelo, UpdateSourceTrigger=LostFocus}" Width="40"/>
+                <DataGridTextColumn Header="Poziv na br." Binding="{Binding PozivO, UpdateSourceTrigger=LostFocus}" Width="130"/>
+                <!-- Date column with DatePicker for editing -->
+                <DataGridTemplateColumn Header="Datum" Width="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DatDok, StringFormat=dd.MM.yyyy}"
+                                       VerticalAlignment="Center" Margin="4,0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding DatDok, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        FontFamily="Tahoma" FontSize="11"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Iznos (DUG)" Binding="{Binding Dug, StringFormat=N2, UpdateSourceTrigger=LostFocus}" Width="110">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Svrha plaćanja" Binding="{Binding Svrha, UpdateSourceTrigger=LostFocus}" Width="220"/>
+                <DataGridTextColumn Header="Naziv platioca" Binding="{Binding NazRacZ, UpdateSourceTrigger=LostFocus}" Width="160"/>
+                <DataGridTextColumn Header="Žiro račun platioca" Binding="{Binding ZiroRacZ, UpdateSourceTrigger=LostFocus}" Width="160"/>
+                <DataGridTextColumn Header="Šifra" Binding="{Binding Sif1, UpdateSourceTrigger=LostFocus}" Width="55"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

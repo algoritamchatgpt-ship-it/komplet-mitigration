@@ -1,0 +1,39 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdBolRowEditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="1200"
+        Height="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+    <DockPanel Margin="10">
+        <Border DockPanel.Dock="Top" Background="#455A64" Padding="10,6" CornerRadius="4" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Naslov}" Foreground="White" FontSize="14" FontWeight="Bold"/>
+        </Border>
+
+        <DataGrid ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal"
+                  AlternatingRowBackground="#E8F5E9" />
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1" Padding="8,6" Margin="0,8,0,0">
+            <DockPanel>
+                <TextBlock Text="Izmene se odmah primenjuju na red. Zatvaranje pamti izmene."
+                           VerticalAlignment="Center"/>
+                <Button DockPanel.Dock="Right"
+                        Width="120"
+                        Height="28"
+                        Content="ZATVORI"
+                        Click="ZatvoriClick"
+                        Background="#C62828"
+                        Foreground="White"
+                        BorderThickness="0"/>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</Window>

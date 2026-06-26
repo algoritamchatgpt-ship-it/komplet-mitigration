@@ -1,0 +1,173 @@
+<UserControl x:Class="Algoritam.WPF.Views.Mlekara.MlekaraMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="MlButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <SolidColorBrush x:Key="BojaGlavna" Color="#F57F17"/>
+        <SolidColorBrush x:Key="BojaHaccp"  Color="#EF6C00"/>
+        <SolidColorBrush x:Key="BojaIzlaz"  Color="#C62828"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+        <Border DockPanel.Dock="Top" Background="#F57F17" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="GLAVNI MENI — MLEKARA"
+                           FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFE0B2" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFE0B2"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#FFF3E0"
+                BorderThickness="0,0,0,1" BorderBrush="#FFE0B2" Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#F57F17"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel HorizontalAlignment="Left">
+
+                <TextBlock Text="Otkup mleka" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="PRIJEM I&#10;ISPLATA MLEKA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            ToolTip="Dnevna evidencija otkupa mleka i obračun isplate"
+                            Command="{Binding AkcijaCommand}" CommandParameter="MLE_PRIJEM"/>
+                    <Button Content="REKAPITULACIJA&#10;DOBAVLJAČA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="MLE_REKAP"/>
+                </WrapPanel>
+
+                <TextBlock Text="HACCP — sistem kvaliteta proizvodnje" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="DNEVNI IZV.&#10;PROIZVODNJE" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_PROIZV"/>
+                    <Button Content="UTROŠAK&#10;SIROVINA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_UTROSAK"/>
+                    <Button Content="PRIJEM MLEKA&#10;(KVALITET)" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_MLEKO"/>
+                    <Button Content="DNEVNIK PROIZV.&#10;SIREVA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_SIREVI"/>
+                    <Button Content="EVIDENCIJA&#10;RAČUNA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_RACUNI"/>
+                    <Button Content="KNJIGA&#10;PRIJEMA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_KNJPRIJ"/>
+                    <Button Content="MAGACINSKA&#10;KARTICA" Style="{StaticResource MlButtonStyle}"
+                            Background="{StaticResource BojaHaccp}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="HC_MAGKART"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

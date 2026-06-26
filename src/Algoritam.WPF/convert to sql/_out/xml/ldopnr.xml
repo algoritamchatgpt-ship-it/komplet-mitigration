@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopnr">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="ADRESA" type="C" length="0" decimals="0" />
+    <column name="DATNEZAP" type="D" length="0" decimals="0" />
+    <column name="DATUGOVOR" type="D" length="0" decimals="0" />
+    <column name="DATPRI" type="D" length="0" decimals="0" />
+    <column name="DATZASNIV" type="D" length="0" decimals="0" />
+    <column name="POROLAKS" type="C" length="0" decimals="0" />
+    <column name="SIME_PREZ" type="C" length="0" decimals="0" />
+    <column name="SMATICNI" type="C" length="0" decimals="0" />
+    <column name="DATGUB" type="D" length="0" decimals="0" />
+    <column name="RAZLOG" type="C" length="0" decimals="0" />
+    <column name="DATUPLPOR" type="D" length="0" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

@@ -1,0 +1,53 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.BaznaKontaPregledView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pregled konta — štampa"
+        Width="780" Height="580"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#1B5E20" Height="44">
+            <DockPanel Margin="16,0">
+                <TextBlock Text="PREGLED KONTA KNJIŽENJA"
+                           Foreground="White" FontSize="14" FontWeight="Bold" FontFamily="Tahoma"
+                           VerticalAlignment="Center"/>
+                <Button x:Name="BtnStampaj" DockPanel.Dock="Right"
+                        Content="STAMPAJ" Width="90" Height="28"
+                        Background="#1565C0" Foreground="White"
+                        BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                        Cursor="Hand"
+                        Click="StampajClick"/>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Margin="12,10,12,0"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <Border Background="White" Padding="20"
+                    BorderBrush="#C8E6C9" BorderThickness="1">
+                <StackPanel x:Name="PanelSadrzaj"/>
+            </Border>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="#E8F5E9"
+                BorderBrush="#C8E6C9" BorderThickness="0,1,0,0"
+                Padding="12,6">
+            <DockPanel>
+                <Button Content="ZATVORI" DockPanel.Dock="Right"
+                        Width="90" Height="28"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" FontFamily="Tahoma"
+                        FontSize="11"
+                        Cursor="Hand" Click="ZatvoriClick"/>
+                <TextBlock x:Name="TxtBroj" FontFamily="Tahoma" FontSize="11"
+                           VerticalAlignment="Center" Foreground="#37474F"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

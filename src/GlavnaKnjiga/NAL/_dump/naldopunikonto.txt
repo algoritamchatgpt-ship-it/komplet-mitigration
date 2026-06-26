@@ -1,0 +1,141 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALDOPUNIKONTO | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   9.07
+    Width =  71.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "DOPUNA KONTA SA 00"
+    WindowType = 1
+    AlwaysOnTop = .T.
+    BackColor = 236,233,216
+    Name = "NALDOPUNIKONTO"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTNALDOPUNI.VALUE='N'
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO NALDOPUNIKONTATAST
+    SET PROCEDURE TO    
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALDOPUNIKONTO
+  PROPERTIES:
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "Dopuni konta   D/N"
+    Height =   1.60
+    Left =   2.40
+    Top =   1.60
+    Width =  31.20
+    TabIndex = 3
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALDOPUNIKONTO
+  PROPERTIES:
+    AutoSize = .F.
+    Top =   4.80
+    Left =  24.00
+    Height =   4.00
+    Width =  19.20
+    FontSize = 11
+    FontUnderline = .F.
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<IZLAZ"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDOPUNI=THISFORM.TXTNALDOPUNI.Value
+    IF MDOPUNI='D'
+       SELECT NAL
+       GO TOP
+       DO WHILE.NOT.EOF()
+          IF LEN(ALLTRIM(KONTO))>0
+              REPLACE KONTO WITH ALLTRIM(KONTO)+'00'
+          ENDIF   
+          SKIP
+       ENDDO
+       GO TOP
+       SET RELATION TO
+       SELECT KONTO
+       GO TOP
+       DO WHILE.NOT.EOF()
+          IF LEN(ALLTRIM(KONTO))>0
+              REPLACE KONTO WITH ALLTRIM(KONTO)+'00'
+          ENDIF   
+          SKIP
+       ENDDO
+       SELECT NAL
+       SET RELATION TO BRNAL INTO NALBROJ  ADDITIVE
+       SET RELATION TO KONTO INTO KONTO ADDITIVE
+       SET RELATION TO MP INTO MESTA ADDITIVE
+       SET RELATION TO MTR INTO MTR ADDITIVE
+    ENDIF
+    THISFORM.Release
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTNALDOPUNI | parent=NALDOPUNIKONTO
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.67
+    Left =  38.40
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.60
+    Width =   9.60
+    Name = "TXTNALDOPUNI"

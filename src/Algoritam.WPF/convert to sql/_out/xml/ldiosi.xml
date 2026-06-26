@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldiosi">
+  <columns>
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="UKZAPOS" type="N" length="0" decimals="0" />
+    <column name="BROJINVAL" type="N" length="0" decimals="0" />
+    <column name="UKINVAL" type="N" length="0" decimals="0" />
+    <column name="BROJFINANS" type="N" length="0" decimals="0" />
+    <column name="DINFINANS" type="N" length="0" decimals="0" />
+    <column name="BROJINVALU" type="N" length="0" decimals="0" />
+    <column name="DINUGOV" type="N" length="0" decimals="0" />
+    <column name="BROJUGOV" type="C" length="0" decimals="0" />
+    <column name="DATUGOV" type="D" length="0" decimals="0" />
+    <column name="BROJINVALP" type="N" length="0" decimals="0" />
+    <column name="DINPENAL" type="N" length="0" decimals="0" />
+    <column name="DATUPLATEP" type="D" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

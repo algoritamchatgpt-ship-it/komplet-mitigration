@@ -1,0 +1,206 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 0
+    Left = 0
+    Width = 0
+    Height = 0
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALUNIOR0 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  16.93
+    Width = 108.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PRIJEM RAČUNA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALUNIOR0"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO nalunior0TAST
+    SET PROCEDURE TO   
+    
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALUNIOR0
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 2
+    Caption = "PRIJEM RAČUNA IZ STRIPA"
+    Height =   1.60
+    Left =  13.00
+    Top =   0.60
+    Width =  86.40
+    TabIndex = 5
+    BackColor = 241,209,173
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALUNIOR0
+  PROPERTIES:
+    Top =  11.20
+    Left =  12.00
+    Height =   5.07
+    Width =  26.40
+    FontSize = 11
+    Picture = ..\ikone\aknjigalenjir.png
+    Caption = "\<PRIJEM"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET CENTURY OFF
+    MDAT0=THISFORM.TXTDAT0.Value
+    MDAT1=THISFORM.TXTDAT1.Value
+    DO IDEL WITH (KKOCKAX)
+    USE UNIOR0 IN 0
+    SELECT UNIOR0
+    COPY TO &KKOCKA FOR DATslanja>=MDAT0.AND.DATSLANJA<=MDAT1
+    USE
+    USE &kkocka IN 0 ALIAS kocka exclu
+    SELECT unior
+    GO top
+    DO while.not.eof()
+       midbr=idbr
+       SELECT kocka
+       LOCATE FOR idbr=midbr
+       IF FOUND()
+          DELETE NEXT 1
+       ENDIF
+       SELECT unior   
+       SKIP
+    enddo   
+    SELECT kocka
+    PACK
+    use
+    SELECT UNIOR
+    GO TOP
+    APPEND FROM &KKOCKA
+    SELECT UNIOR
+    GO TOP
+    THISFORM.Release
+    SET CENTURY ON
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALUNIOR0
+  PROPERTIES:
+    Top =  11.20
+    Left =  72.00
+    Height =   5.07
+    Width =  26.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<IZLAZ"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release 
+    ENDPROC
+
+=== textbox | TXTDAT0 | parent=NALUNIOR0
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.80
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   3.27
+    Width =  21.80
+    Name = "TXTDAT0"
+
+=== textbox | TXTDAT1 | parent=NALUNIOR0
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.80
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   5.67
+    Width =  21.80
+    Name = "TXTDAT1"
+
+=== label | Label2 | parent=NALUNIOR0
+  PROPERTIES:
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "POČETNI DATUM"
+    Height =   1.67
+    Left =  24.60
+    Top =   3.27
+    Width =  29.00
+    TabIndex = 6
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label2"
+
+=== label | Label3 | parent=NALUNIOR0
+  PROPERTIES:
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    Caption = "ZADNJI DATUM"
+    Height =   1.67
+    Left =  24.60
+    Top =   5.67
+    Width =  29.00
+    TabIndex = 7
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label3"

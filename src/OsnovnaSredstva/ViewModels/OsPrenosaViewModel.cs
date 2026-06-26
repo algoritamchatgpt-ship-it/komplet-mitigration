@@ -1,0 +1,276 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using OsnovnaSredstva.Services;
+using OsnovnaSredstva.Services.Dbf;
+using Serilog;
+using System.Collections.ObjectModel;
+using System.IO;
+
+namespace OsnovnaSredstva.ViewModels;
+
+public partial class OsPrenosaViewModel : ObservableObject
+{
+    private static readonly ILogger _logger = Serilog.Log.ForContext<OsPrenosaViewModel>();
+    private readonly AppState _appState;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(PokrenuiPrenosuCommand))]
+    private bool _uToku = false;
+
+    [ObservableProperty] private string _trenutniPeriod = "";
+    [ObservableProperty] private int _novaGodina;
+    [ObservableProperty] private string _statusPoruka = "";
+    [ObservableProperty] private bool   _uspjesno     = false;
+    [ObservableProperty] private string _upozorenje   = "";
+    [ObservableProperty] private bool   _imaUpozorenje = false;
+
+    public ObservableCollection<string> Log { get; } = [];
+
+    public OsPrenosaViewModel(AppState appState)
+    {
+        _appState = appState;
+        _novaGodina = appState.AktivnaGodina + 1;
+        AzurirajUpozorenje();
+        UcitajTrenutnePeriod();
+    }
+
+    [RelayCommand] private void PovecajGodinu() { NovaGodina = Math.Min(NovaGodina + 1, 2099); AzurirajUpozorenje(); }
+    [RelayCommand] private void SmanjuGodinu()  { NovaGodina = Math.Max(NovaGodina - 1, _appState.AktivnaGodina + 1); AzurirajUpozorenje(); }
+
+    private void AzurirajUpozorenje()
+    {
+        if (NovaGodina <= _appState.AktivnaGodina)
+        {
+            Upozorenje    = $"⛔  Ciljna godina ({NovaGodina}) mora biti veća od aktivne ({_appState.AktivnaGodina}). Prenos nije moguć.";
+            ImaUpozorenje = true;
+        }
+        else if (NovaGodina > _appState.AktivnaGodina + 1)
+        {
+            Upozorenje    = $"⚠  Preskačete godinu {_appState.AktivnaGodina + 1}! Prenos iz {_appState.AktivnaGodina} direktno u {NovaGodina} može ostaviti praznine.";
+            ImaUpozorenje = true;
+        }
+        else
+        {
+            Upozorenje    = "";
+            ImaUpozorenje = false;
+        }
+        PokrenuiPrenosuCommand.NotifyCanExecuteChanged();
+    }
+
+    public bool MozePokrenuti() => !UToku && NovaGodina > _appState.AktivnaGodina;
+
+    [RelayCommand(CanExecute = nameof(MozePokrenuti))]
+    private async Task PokrenuiPrenosu()
+    {
+        if (NovaGodina <= _appState.AktivnaGodina)
+        {
+            StatusPoruka = $"Greška: Ciljna godina {NovaGodina} mora biti veća od aktivne {_appState.AktivnaGodina}.";
+            return;
+        }
+
+        Log.Clear();
+        Uspjesno = false;
+        UToku = true;
+        StatusPoruka = "Prenos u toku...";
+        _logger.Information("Pokrenuti prenos na godinu {Godina}", NovaGodina);
+
+        try
+        {
+            var noviEdat0 = new DateTime(NovaGodina, 1, 1);
+            var noviEdat1 = new DateTime(NovaGodina, 12, 31);
+
+            await Task.Run(() =>
+            {
+                // 1. ospodaci.dbf — ažuriranje perioda
+                var podaciPath = DbfPutanja("ospodaci.dbf");
+                if (podaciPath != null)
+                {
+                    AzurirajOspodaci(podaciPath, noviEdat0, noviEdat1);
+                    DodajLog($"✓ ospodaci.dbf — period: {noviEdat0:dd.MM.yyyy} do {noviEdat1:dd.MM.yyyy}");
+                }
+                else
+                {
+                    DodajLog("Napomena: ospodaci.dbf nije pronađen.");
+                }
+
+                // 2. osa.dbf — arhiviranje tekuće godine (kopija os.dbf)
+                var osPath = DbfPutanja("os.dbf");
+                if (osPath != null)
+                {
+                    var dir = Path.GetDirectoryName(osPath)!;
+                    var osaPath = Path.Combine(dir, "osa.dbf");
+                    File.Copy(osPath, osaPath, overwrite: true);
+                    DodajLog($"✓ osa.dbf — arhivirana tekuća godina (kopija os.dbf).");
+
+                    // Timestamped backup prije prepisa
+                    var backupName = $"os_backup_{DateTime.Now:yyyyMMdd_HHmmss}.dbf";
+                    var backupPath = Path.Combine(dir, backupName);
+                    File.Copy(osPath, backupPath, overwrite: false);
+                    DodajLog($"✓ Backup: {backupName}");
+
+                    // 3. os.dbf — prenos SAD2 → SAD02 za novu godinu
+                    var n = AzurirajOs(osPath, noviEdat0);
+                    DodajLog($"✓ os.dbf — ažurirano {n} zapisa (SAD2 → SAD02, novi DATUM0).");
+                }
+                else
+                {
+                    DodajLog("Napomena: os.dbf nije pronađen.");
+                }
+            });
+
+            _appState.AktivnaGodina = NovaGodina;
+            TrenutniPeriod = $"01.01.{NovaGodina} — 31.12.{NovaGodina}";
+            DodajLog("─────────────────────────────────");
+            DodajLog($"Prenos u {NovaGodina}. godinu završen.");
+            StatusPoruka = $"Prenos uspješno završen. Aktivna godina: {NovaGodina}.";
+            Uspjesno = true;
+            _logger.Information("Prenos na godinu {Godina} uspješno završen", NovaGodina);
+        }
+        catch (Exception ex)
+        {
+            DodajLog($"GREŠKA: {ex.Message}");
+            StatusPoruka = $"Prenos nije završen — {ex.Message}";
+            _logger.Error(ex, "Greška pri prenosu na godinu {Godina}", NovaGodina);
+        }
+        finally
+        {
+            UToku = false;
+        }
+    }
+
+    private void UcitajTrenutnePeriod()
+    {
+        var path = DbfPutanja("ospodaci.dbf");
+        if (path == null) { TrenutniPeriod = "ospodaci.dbf nije pronađen"; return; }
+
+        try
+        {
+            var reader = new SimpleDbfReader(path);
+            foreach (var r in reader.Zapisi())
+            {
+                var edat0 = r.DajDate("EDAT0");
+                var edat1 = r.DajDate("EDAT1");
+                TrenutniPeriod = edat0.HasValue && edat1.HasValue
+                    ? $"{edat0:dd.MM.yyyy} — {edat1:dd.MM.yyyy}"
+                    : "Period nije definisan";
+                return;
+            }
+            TrenutniPeriod = "ospodaci.dbf je prazan";
+        }
+        catch (Exception ex) { TrenutniPeriod = $"Greška: {ex.Message}"; }
+    }
+
+    private static void AzurirajOspodaci(string path, DateTime edat0, DateTime edat1)
+    {
+        var schema = DbfTableWriter.LoadSchema(path);
+        var reader = new SimpleDbfReader(path);
+        var zapisi = reader.Zapisi().ToList();
+        if (zapisi.Count == 0) return;
+
+        var prviZapis = zapisi[0];
+        var red = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+        foreach (var f in reader.Fields)
+        {
+            red[f.Name] = f.Type switch
+            {
+                'D'      => (object?)prviZapis.DajDate(f.Name),
+                'N' or 'F' => prviZapis.DajDecimal(f.Name),
+                'L'      => prviZapis.DajBool(f.Name),
+                _        => prviZapis.DajString(f.Name)
+            };
+        }
+        red["EDAT0"] = edat0;
+        red["EDAT1"] = edat1;
+
+        DbfTableWriter.WriteTable(path, schema, new[] { red },
+            (r, f) => r.TryGetValue(f, out var v) ? v : null);
+    }
+
+    private static int AzurirajOs(string path, DateTime noviDatum0)
+    {
+        var schema = DbfTableWriter.LoadSchema(path);
+        var reader = new SimpleDbfReader(path);
+        var fields = reader.Fields;
+        var sviRedovi = new List<Dictionary<string, object?>>();
+        var count = 0;
+
+        foreach (var r in reader.Zapisi())
+        {
+            var red = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+            foreach (var f in fields)
+            {
+                red[f.Name] = f.Type switch
+                {
+                    'D'        => (object?)r.DajDate(f.Name),
+                    'N' or 'F' => r.DajDecimal(f.Name),
+                    'L'        => r.DajBool(f.Name),
+                    _          => r.DajString(f.Name)
+                };
+            }
+
+            // ── PP polja (poreska propisa) ──────────────────────────────────────
+            var sad2  = r.DajDecimal("SAD2");
+            var isp2  = r.DajDecimal("ISP2");
+            var nab2  = r.DajDecimal("NAB2");
+            var nab02 = r.DajDecimal("NAB02");
+
+            // Početne PP vrijednosti nove godine = završne vrijednosti prethodne
+            red["SAD02"]  = sad2;    // poč. sadašnja PP  = završ. sadašnja PP
+            red["ISP02"]  = isp2;    // poč. ispravka PP  = završ. ispravka PP
+            // NAB02 = originalna PP nabavna vrijednost; prenosi se iz godine u godinu
+            // Ako je Obračun bio izvršen i NAB2 > 0, NAB02 se ažurira (nova ulaganja POA)
+            red["NAB02"]  = nab2 > 0 ? nab2 : nab02;
+            // Tekući period PP — resetuj amortizaciju i nabavku; sadašnja = poč.
+            red["AMORT2"] = 0m;
+            red["NAB2"]   = 0m;
+            red["ISP2"]   = isp2;    // tekuća ispravka PP kreće od poč. vrijednosti
+            red["SAD2"]   = sad2;    // tekuća sadašnja PP kreće od poč. vrijednosti
+
+            // ── MRS polja (međunarodni računovodstveni standardi) ───────────────
+            var nab0 = r.DajDecimal("NAB0");
+            var isp0 = r.DajDecimal("ISP0");
+            var nab  = r.DajDecimal("NAB");
+            var isp  = r.DajDecimal("ISP");
+
+            // NAB/ISP drže završne (kumulativne) vrijednosti → direktno postaju nova početna
+            var noviNab0 = nab  > 0 ? nab  : nab0;
+            var noviIsp0 = isp  > 0 ? isp  : isp0;
+            var noviSad0 = noviNab0 - noviIsp0;
+
+            red["NAB0"]   = noviNab0;
+            red["ISP0"]   = noviIsp0;
+            red["SAD0"]   = noviSad0;
+            // Tekući period MRS — resetuj na 0, tekuće = početne
+            red["NAB"]    = 0m;
+            red["ISP"]    = 0m;
+            red["SAD"]    = noviSad0;        // tekuća sadašnja MRS kreće od poč.
+            red["AMORT"]  = 0m;
+
+            // ── PAM / RAM — resetuj za novu godinu (obračunavaju se iznova) ──────
+            red["PAM"] = 0m;
+            red["RAM"] = 0m;
+
+            // ── Datum ────────────────────────────────────────────────────────────
+            red["DATUM0"] = noviDatum0;
+
+            count++;
+            sviRedovi.Add(red);
+        }
+
+        DbfTableWriter.WriteTable(path, schema, sviRedovi,
+            (r, f) => r.TryGetValue(f, out var v) ? v : null);
+
+        return count;
+    }
+
+    private void DodajLog(string poruka)
+    {
+        App.Current.Dispatcher.BeginInvoke(() =>
+        {
+            Log.Add(poruka);
+            StatusPoruka = poruka;
+        });
+    }
+
+    private string? DbfPutanja(string ime) => DbfHelper.NadjiDbf(_appState, ime);
+}

@@ -1,0 +1,736 @@
+num records 13
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALMTRPREGLED | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  22.20
+    Width =  99.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PREGLED MESTA TROŠKOVA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALMTRPREGLED"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.TXTKURS.Value=80
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO NALMTRPREGLEDTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALMTRPREGLED
+  PROPERTIES:
+    Top =  12.80
+    Left =  31.20
+    Height =   2.07
+    Width =  36.00
+    FontSize = 11
+    Caption = "\<PREGLED KLASA 5"
+    TabIndex = 4
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    MKURS=THISFORM.TXTKURS.VALUE
+    DO IDEL WITH (KKOCKAX)
+    SELECT NALMTR
+    COPY TO &KKOCKA FOR DATDOK>=MDAT0.AND.DATDOK<=MDAT1.AND.SUBSTR(KONTO,1,1)='5'
+    PUBLIC AKON01,;
+           AKON02,;
+           AKON03,;
+           AKON04,;
+           AKON05,;
+           AKON06,;
+           AKON07,;
+           AKON08,;
+           AKON09,;
+           AKON10,;
+           AKON11,;
+           AKON12,;
+           AKON13,;
+           AKON14,;
+           AKON15,;
+           AKON16,;
+           AKON17,;
+           AKON18,;
+           AKON19,;
+           AKON20,;
+           AKON21,;
+           AKON22,;
+           AKON23,;
+           AKON24,;
+           AKON25,;
+           AKON26,;
+           AKON27,;
+           AKON28,;
+           AKON29,;
+           AKON30
+    SELECT NALMTRK
+    GO TOP
+    I=1
+    DO WHILE.NOT.EOF()
+       DO CASE I
+          CASE I=1
+             AKON01=KONTOTR
+          CASE I=2
+             AKON02=KONTOTR
+          CASE I=3
+             AKON03=KONTOTR
+          CASE I=4
+             AKON04=KONTOTR
+          CASE I=5
+             AKON05=KONTOTR
+          CASE I=6
+             AKON06=KONTOTR
+          CASE I=7
+             AKON07=KONTOTR
+          CASE I=8
+             AKON08=KONTOTR
+          CASE I=9
+             AKON09=KONTOTR
+          CASE I=10
+             AKON10=KONTOTR
+          CASE I=11
+             AKON11=KONTOTR
+          CASE I=12
+             AKON12=KONTOTR
+          CASE I=13
+             AKON13=KONTOTR
+          CASE I=14
+             AKON14=KONTOTR
+          CASE I=15
+             AKON15=KONTOTR
+          CASE I=16
+             AKON16=KONTOTR
+          CASE I=17
+             AKON17=KONTOTR
+          CASE I=18
+             AKON18=KONTOTR
+          CASE I=19
+             AKON19=KONTOTR
+          CASE I=20
+             AKON20=KONTOTR
+          CASE I=21
+             AKON21=KONTOTR
+          CASE I=22
+             AKON22=KONTOTR
+          CASE I=23 
+             AKON23=KONTOTR
+          CASE I=24
+             AKON24=KONTOTR
+          CASE I=25
+             AKON25=KONTOTR
+          CASE I=26
+             AKON26=KONTOTR
+          CASE I=27
+             AKON27=KONTOTR
+          CASE I=28
+             AKON28=KONTOTR
+          CASE I=29
+             AKON29=KONTOTR
+          CASE I=30
+             AKON30=KONTOTR
+       ENDCASE      
+       SKIP
+       I=I+1
+    ENDDO   
+    
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON KONTO TAG KONTO
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP
+    PUBLIC AKURS
+    AKURS=MKURS
+    
+    COPY TO NALMTR01 FIELDS KONTO,NAZIV,IZNOS01,;
+                                      IZNOS02,;
+                                      IZNOS03,;
+                                      IZNOS04,;
+                                      IZNOS05,;
+                                      IZNOS06,;
+                                      IZNOS07,;
+                                      IZNOS08,;
+                                      IZNOS09,;
+                                      IZNOS10,;
+                                      IZNOS11,;
+                                      IZNOS12,;
+                                      IZNOS13,;
+                                      IZNOS14,;
+                                      IZNOS15,;
+                                      IZNOS16,;
+                                      IZNOS17,;
+                                      IZNOS18,;
+                                      IZNOS19,;
+                                      IZNOS20,;
+                                      IZNOS21,;
+                                      IZNOS22,;
+                                      IZNOS23,;
+                                      IZNOS24,;
+                                      IZNOS25,;
+                                      IZNOS26,;
+                                      IZNOS27,;
+                                      IZNOS28,;
+                                      IZNOS29,;
+                                      IZNOS30,;
+                                      UKUPNO TYPE XL5
+    
+    
+    
+    *REPORT FORM NALMTR01 PREVIEW 
+       mfile='NALMTR01'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    GO TOP
+    *REPORT FORM NALMTR02 PREVIEW 
+       mfile='NALMTR02'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    GO TOP
+    *REPORT FORM NALMTR03 PREVIEW 
+       mfile='NALMTR03'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    SELECT KOCKA
+    USE
+    SELECT NALMTR
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTDAT0 | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.20
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   0.80
+    Width =  26.40
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Početni datum"
+    Height =   1.67
+    Left =  22.00
+    Top =   0.80
+    Width =  19.80
+    TabIndex = 7
+    ForeColor = 196,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.20
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.07
+    Width =  26.20
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Zadnji datum"
+    Height =   1.67
+    Left =  22.00
+    Top =   3.07
+    Width =  19.80
+    TabIndex = 8
+    ForeColor = 196,0,0
+    BackColor = 128,255,255
+    Name = "Label6"
+
+=== commandbutton | Command2 | parent=NALMTRPREGLED
+  PROPERTIES:
+    Top =  16.00
+    Left =  31.20
+    Height =   2.07
+    Width =  36.00
+    FontSize = 11
+    Caption = "\<PREGLED KLASA 6"
+    TabIndex = 5
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    MKURS=THISFORM.TXTKURS.VALUE
+    
+    DO IDEL WITH (KKOCKAX)
+    SELECT NALMTR
+    COPY TO &KKOCKA FOR DATDOK>=MDAT0.AND.DATDOK<=MDAT1.AND.SUBSTR(KONTO,1,1)='6'
+    PUBLIC AKON01,;
+           AKON02,;
+           AKON03,;
+           AKON04,;
+           AKON05,;
+           AKON06,;
+           AKON07,;
+           AKON08,;
+           AKON09,;
+           AKON10,;
+           AKON11,;
+           AKON12,;
+           AKON13,;
+           AKON14,;
+           AKON15,;
+           AKON16,;
+           AKON17,;
+           AKON18,;
+           AKON19,;
+           AKON20,;
+           AKON21,;
+           AKON22,;
+           AKON23,;
+           AKON24,;
+           AKON25,;
+           AKON26,;
+           AKON27,;
+           AKON28,;
+           AKON29,;
+           AKON30
+    SELECT NALMTRK
+    GO TOP
+    I=1
+    DO WHILE.NOT.EOF()
+       DO CASE I
+          CASE I=1
+             AKON01=KONTOTR
+          CASE I=2
+             AKON02=KONTOTR
+          CASE I=3
+             AKON03=KONTOTR
+          CASE I=4
+             AKON04=KONTOTR
+          CASE I=5
+             AKON05=KONTOTR
+          CASE I=6
+             AKON06=KONTOTR
+          CASE I=7
+             AKON07=KONTOTR
+          CASE I=8
+             AKON08=KONTOTR
+          CASE I=9
+             AKON09=KONTOTR
+          CASE I=10
+             AKON10=KONTOTR
+          CASE I=11
+             AKON11=KONTOTR
+          CASE I=12
+             AKON12=KONTOTR
+          CASE I=13
+             AKON13=KONTOTR
+          CASE I=14
+             AKON14=KONTOTR
+          CASE I=15
+             AKON15=KONTOTR
+          CASE I=16
+             AKON16=KONTOTR
+          CASE I=17
+             AKON17=KONTOTR
+          CASE I=18
+             AKON18=KONTOTR
+          CASE I=19
+             AKON19=KONTOTR
+          CASE I=20
+             AKON20=KONTOTR
+          CASE I=21
+             AKON21=KONTOTR
+          CASE I=22
+             AKON22=KONTOTR
+          CASE I=23 
+             AKON23=KONTOTR
+          CASE I=24
+             AKON24=KONTOTR
+          CASE I=25
+             AKON25=KONTOTR
+          CASE I=26
+             AKON26=KONTOTR
+          CASE I=27
+             AKON27=KONTOTR
+          CASE I=28
+             AKON28=KONTOTR
+          CASE I=29
+             AKON29=KONTOTR
+          CASE I=30
+             AKON30=KONTOTR
+       ENDCASE      
+       SKIP
+       I=I+1
+    ENDDO   
+    
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON KONTO TAG KONTO
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP
+    PUBLIC AKURS
+    AKURS=MKURS
+    
+    COPY TO NALMTR02 FIELDS KONTO,NAZIV,IZNOS01,;
+                                      IZNOS02,;
+                                      IZNOS03,;
+                                      IZNOS04,;
+                                      IZNOS05,;
+                                      IZNOS06,;
+                                      IZNOS07,;
+                                      IZNOS08,;
+                                      IZNOS09,;
+                                      IZNOS10,;
+                                      IZNOS11,;
+                                      IZNOS12,;
+                                      IZNOS13,;
+                                      IZNOS14,;
+                                      IZNOS15,;
+                                      IZNOS16,;
+                                      IZNOS17,;
+                                      IZNOS18,;
+                                      IZNOS19,;
+                                      IZNOS20,;
+                                      IZNOS21,;
+                                      IZNOS22,;
+                                      IZNOS23,;
+                                      IZNOS24,;
+                                      IZNOS25,;
+                                      IZNOS26,;
+                                      IZNOS27,;
+                                      IZNOS28,;
+                                      IZNOS29,;
+                                      IZNOS30,;
+                                      UKUPNO TYPE XL5
+    
+    *REPORT FORM NALMTR01 PREVIEW 
+       mfile='NALMTR01'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    GO TOP
+    *REPORT FORM NALMTR02 PREVIEW 
+       mfile='NALMTR02'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    GO TOP
+    *REPORT FORM NALMTR03 PREVIEW 
+       mfile='NALMTR03'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    SELECT KOCKA
+    USE
+    SELECT NALMTR
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALMTRPREGLED
+  PROPERTIES:
+    Top =  19.20
+    Left =  31.20
+    Height =   2.07
+    Width =  36.00
+    FontSize = 11
+    Caption = "\<PREGLED SVE"
+    TabIndex = 6
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    MKURS=THISFORM.TXTKURS.VALUE
+    
+    DO IDEL WITH (KKOCKAX)
+    SELECT NALMTR
+    COPY TO &KKOCKA FOR DATDOK>=MDAT0.AND.DATDOK<=MDAT1
+    PUBLIC AKON01,;
+           AKON02,;
+           AKON03,;
+           AKON04,;
+           AKON05,;
+           AKON06,;
+           AKON07,;
+           AKON08,;
+           AKON09,;
+           AKON10,;
+           AKON11,;
+           AKON12,;
+           AKON13,;
+           AKON14,;
+           AKON15,;
+           AKON16,;
+           AKON17,;
+           AKON18,;
+           AKON19,;
+           AKON20,;
+           AKON21,;
+           AKON22,;
+           AKON23,;
+           AKON24,;
+           AKON25,;
+           AKON26,;
+           AKON27,;
+           AKON28,;
+           AKON29,;
+           AKON30
+    SELECT NALMTRK
+    GO TOP
+    I=1
+    DO WHILE.NOT.EOF()
+       DO CASE I
+          CASE I=1
+             AKON01=KONTOTR
+          CASE I=2
+             AKON02=KONTOTR
+          CASE I=3
+             AKON03=KONTOTR
+          CASE I=4
+             AKON04=KONTOTR
+          CASE I=5
+             AKON05=KONTOTR
+          CASE I=6
+             AKON06=KONTOTR
+          CASE I=7
+             AKON07=KONTOTR
+          CASE I=8
+             AKON08=KONTOTR
+          CASE I=9
+             AKON09=KONTOTR
+          CASE I=10
+             AKON10=KONTOTR
+          CASE I=11
+             AKON11=KONTOTR
+          CASE I=12
+             AKON12=KONTOTR
+          CASE I=13
+             AKON13=KONTOTR
+          CASE I=14
+             AKON14=KONTOTR
+          CASE I=15
+             AKON15=KONTOTR
+          CASE I=16
+             AKON16=KONTOTR
+          CASE I=17
+             AKON17=KONTOTR
+          CASE I=18
+             AKON18=KONTOTR
+          CASE I=19
+             AKON19=KONTOTR
+          CASE I=20
+             AKON20=KONTOTR
+          CASE I=21
+             AKON21=KONTOTR
+          CASE I=22
+             AKON22=KONTOTR
+          CASE I=23 
+             AKON23=KONTOTR
+          CASE I=24
+             AKON24=KONTOTR
+          CASE I=25
+             AKON25=KONTOTR
+          CASE I=26
+             AKON26=KONTOTR
+          CASE I=27
+             AKON27=KONTOTR
+          CASE I=28
+             AKON28=KONTOTR
+          CASE I=29
+             AKON29=KONTOTR
+          CASE I=30
+             AKON30=KONTOTR
+       ENDCASE      
+       SKIP
+       I=I+1
+    ENDDO   
+    
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON KONTO TAG KONTO
+    SET ORDER TO 1
+    TOTAL ON KONTO TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP
+    PUBLIC AKURS
+    AKURS=MKURS
+    COPY TO NALMTR03 FIELDS KONTO,NAZIV,IZNOS01,;
+                                      IZNOS02,;
+                                      IZNOS03,;
+                                      IZNOS04,;
+                                      IZNOS05,;
+                                      IZNOS06,;
+                                      IZNOS07,;
+                                      IZNOS08,;
+                                      IZNOS09,;
+                                      IZNOS10,;
+                                      IZNOS11,;
+                                      IZNOS12,;
+                                      IZNOS13,;
+                                      IZNOS14,;
+                                      IZNOS15,;
+                                      IZNOS16,;
+                                      IZNOS17,;
+                                      IZNOS18,;
+                                      IZNOS19,;
+                                      IZNOS20,;
+                                      IZNOS21,;
+                                      IZNOS22,;
+                                      IZNOS23,;
+                                      IZNOS24,;
+                                      IZNOS25,;
+                                      IZNOS26,;
+                                      IZNOS27,;
+                                      IZNOS28,;
+                                      IZNOS29,;
+                                      IZNOS30,;
+                                      UKUPNO TYPE XL5
+    
+    *REPORT FORM NALMTR01 PREVIEW
+       mfile='NALMTR01'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+     
+    GO TOP
+    *REPORT FORM NALMTR02 PREVIEW 
+       mfile='NALMTR02'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    GO TOP
+    *REPORT FORM NALMTR03 PREVIEW 
+       mfile='NALMTR03'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    SELECT KOCKA
+    USE
+    SELECT NALMTR
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTKURS | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    Format = "R"
+    Height =   1.67
+    InputMask = "999999.9999"
+    Left =  43.20
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   6.07
+    Width =  26.20
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTKURS"
+
+=== label | Label1 | parent=NALMTRPREGLED
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Kurs"
+    Height =   1.67
+    Left =  22.00
+    Top =   6.07
+    Width =  19.80
+    TabIndex = 9
+    ForeColor = 196,0,0
+    BackColor = 128,255,255
+    Name = "Label1"

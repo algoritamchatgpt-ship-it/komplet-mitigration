@@ -1,0 +1,129 @@
+<Window x:Class="Algoritam.WPF.Views.OsnovnaSredstva.OsUnosView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UNOS NOVOG OSNOVNOG SREDSTVA"
+        Width="560" Height="640"
+        MinWidth="480" MinHeight="420"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F4F8"
+        ResizeMode="CanResize">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#4527A0" Padding="16,12">
+            <StackPanel>
+                <TextBlock Text="UNOS NOVOG OSNOVNOG SREDSTVA"
+                           FontFamily="Tahoma" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="{Binding StatusPoruka}"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#CE93D8"
+                           Margin="0,3,0,0"
+                           Visibility="{Binding StatusPoruka,
+                               Converter={StaticResource StringToVisibilityConverter}}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Forma — dinamička polja -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="16,12">
+            <ItemsControl ItemsSource="{Binding Polja}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Labela}"
+                                       FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="#4527A0"
+                                       VerticalAlignment="Center"
+                                       TextWrapping="Wrap"/>
+
+                            <!-- Tekst / Broj -->
+                            <TextBox Grid.Column="1"
+                                     Text="{Binding Vrednost, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="26" Padding="6,0"
+                                     FontFamily="Tahoma" FontSize="12"
+                                     VerticalContentAlignment="Center"
+                                     Visibility="{Binding JeTekstIliBrojcano,
+                                         Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                            <!-- Datum -->
+                            <DatePicker Grid.Column="1"
+                                        SelectedDate="{Binding DatumVrednost}"
+                                        Height="26"
+                                        FontFamily="Tahoma" FontSize="12"
+                                        Visibility="{Binding JeDatum,
+                                            Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                            <!-- Bool -->
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding BoolVrednost}"
+                                      VerticalAlignment="Center"
+                                      Visibility="{Binding JeBool,
+                                          Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" Background="#F5F5F5" Padding="16,10"
+                BorderThickness="0,1,0,0" BorderBrush="#E0E0E0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="BtnOdustani"
+                        Content="Odustani"
+                        Width="100" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#757575" BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,10,0"
+                        Command="{Binding OdustaniCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnSacuvaj"
+                        Content="Sačuvaj"
+                        Width="100" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#4527A0" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding SacuvajCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Background" Value="#9E9E9E"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

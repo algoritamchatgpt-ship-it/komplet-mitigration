@@ -1,0 +1,556 @@
+num records 31
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALVRSTAK | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   1.38
+    Left =  23.67
+    Height =  35.06
+    Width =  66.67
+    DoCreate = .T.
+    AutoCenter = .F.
+    Caption = "VRSTE NALOGA ZA KNJIŽENJE"
+    FontSize = 10
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALVRSTAK"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERI2
+       DO NALVRSTAKTAST
+    SET PROCEDURE TO
+    SELECT NALVRSTA
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== shape | Shape1 | parent=NALVRSTAK
+  PROPERTIES:
+    Top =   7.50
+    Left =   1.00
+    Height =   8.69
+    Width =  65.17
+    BackColor = 254,227,165
+    Name = "Shape1"
+
+=== commandbutton | Command1 | parent=NALVRSTAK
+  PROPERTIES:
+    Top =  30.00
+    Left =  20.00
+    Height =   4.19
+    Width =  22.00
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<IZLAZ"
+    TabIndex = 11
+    ForeColor = 0,0,0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM   
+       
+    ENDPROC
+
+=== textbox | txtVrnal | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.vrnal"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 3
+    ReadOnly = .F.
+    SpecialEffect = 0
+    TabIndex = 12
+    Top =   0.25
+    Width =   6.50
+    BackColor = 128,255,255
+    DisabledBackColor = 0,128,255
+    Name = "txtVrnal"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    REPLACE VRNAL WITH STR(VAL(ALLTRIM(VRNAL)),3,0)
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | lblVrnal | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Vrsta naloga"
+    Height =   1.19
+    Left =   1.17
+    Top =   0.25
+    Width =  13.33
+    TabIndex = 13
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "lblVrnal"
+
+=== textbox | txtNaziv | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.naziv"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 30
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   2.00
+    Width =  36.50
+    ForeColor = 255,128,0
+    BackColor = 255,255,255
+    Name = "txtNaziv"
+
+=== label | lblNaziv | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Naziv"
+    Height =   1.19
+    Left =   1.17
+    Top =   2.13
+    Width =   6.00
+    TabIndex = 14
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "lblNaziv"
+
+=== textbox | txtDok | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.dok"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.75
+    Width =   6.50
+    ForeColor = 255,128,0
+    BackColor = 255,255,255
+    Name = "txtDok"
+
+=== label | lblDok | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Objekat"
+    Height =   1.19
+    Left =   1.17
+    Top =   4.06
+    Width =   8.33
+    TabIndex = 15
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "lblDok"
+
+=== textbox | txtMp | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.mp"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 2
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   5.50
+    Width =   6.33
+    ForeColor = 255,128,0
+    BackColor = 255,255,255
+    Name = "txtMp"
+
+=== label | lblMp | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto"
+    Height =   1.19
+    Left =   1.17
+    Top =   5.81
+    Width =   6.50
+    TabIndex = 16
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "lblMp"
+
+=== textbox | txtObl | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.obl"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =  14.31
+    Width =   5.17
+    ForeColor = 128,0,255
+    BackColor = 255,255,255
+    Name = "txtObl"
+
+=== label | lblObl | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "OBLIK KNJIŽENJA K=KALKULACIJE,R=RAČUNI,N=NIVELACIJE"
+    Height =   2.38
+    Left =   1.17
+    Top =   7.56
+    Width =  52.33
+    TabIndex = 18
+    BackColor = 128,255,255
+    Name = "lblObl"
+
+=== textbox | txtPeriod | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.period"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 2
+    SpecialEffect = 0
+    TabIndex = 5
+    Top =  17.19
+    Width =   6.33
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "txtPeriod"
+
+=== label | lblPeriod | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Period ponavljanja"
+    Height =   1.19
+    Left =   1.17
+    Top =  17.44
+    Width =  19.67
+    TabIndex = 21
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "lblPeriod"
+
+=== textbox | txtNaldok | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.naldok"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 6
+    Top =  18.94
+    Width =   5.17
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "txtNaldok"
+
+=== label | lblNaldok | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Nalog=dokument"
+    Height =   1.19
+    Left =   1.17
+    Top =  19.19
+    Width =  18.33
+    TabIndex = 22
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "lblNaldok"
+
+=== textbox | txtZnakovi | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.znakovi"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 7
+    Top =  20.75
+    Width =   5.17
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "txtZnakovi"
+
+=== label | lblZnakovi | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Broj znakova ponavljanja"
+    Height =   1.38
+    Left =   1.17
+    Top =  20.63
+    Width =  26.67
+    TabIndex = 24
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "lblZnakovi"
+
+=== label | Label1 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "S=KOMISION,U=USLUGE,I=IZVOD,B=BLAGAJNA"
+    Height =   1.19
+    Left =   1.67
+    Top =   9.88
+    Width =  54.50
+    TabIndex = 19
+    BackColor = 128,255,255
+    Name = "Label1"
+
+=== label | Label2 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "P=POREZ,O=OSTALO,A=POČETNA STANJA"
+    Height =   1.19
+    Left =   1.67
+    Top =  11.06
+    Width =  50.50
+    TabIndex = 17
+    BackColor = 128,255,255
+    Name = "Label2"
+
+=== label | Label3 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Z=ZAKLJUČNA KNJIŽENJA, T=ULAZNI RAČUNI"
+    Height =   1.19
+    Left =   1.67
+    Top =  12.19
+    Width =  51.33
+    TabIndex = 20
+    BackColor = 128,255,255
+    Name = "Label3"
+
+=== textbox | txtpocsif | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.pocsif"
+    Height =   1.44
+    Left =  29.67
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 8
+    Top =  22.50
+    Width =   7.17
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "txtpocsif"
+
+=== label | Label4 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Znaci ponavljanja"
+    Height =   1.19
+    Left =   1.17
+    Top =  22.50
+    Width =  18.50
+    TabIndex = 23
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "Label4"
+
+=== textbox | TXTNAUTO | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "nalvrsta.nauto"
+    Height =   1.44
+    Left =  29.83
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 9
+    Top =  24.19
+    Width =   2.83
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "TXTNAUTO"
+
+=== label | Label5 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Automatski nalog"
+    Height =   1.19
+    Left =   1.17
+    Top =  24.25
+    Width =  18.50
+    TabIndex = 25
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "Label5"
+
+=== textbox | TXTKONTO | parent=NALVRSTAK
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    ControlSource = "NALVRSTA.KONTO"
+    Height =   1.44
+    Left =  29.83
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 10
+    Top =  26.00
+    Width =  22.17
+    ForeColor = 0,0,255
+    BackColor = 255,255,255
+    Name = "TXTKONTO"
+
+=== label | Label6 | parent=NALVRSTAK
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto ukrštanja"
+    Height =   1.19
+    Left =   1.17
+    Top =  26.06
+    Width =  16.83
+    TabIndex = 26
+    ForeColor = 190,0,0
+    BackColor = 255,128,64
+    Name = "Label6"

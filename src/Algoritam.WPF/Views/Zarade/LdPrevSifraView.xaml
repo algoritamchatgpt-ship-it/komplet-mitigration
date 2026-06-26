@@ -1,0 +1,38 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPrevSifraView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Unos šifre prihoda"
+        Width="360" Height="160"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F0F0F0">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#607D8B" Height="40">
+            <TextBlock Text="ŠIFRA PRIHODA"
+                       Margin="14,0" VerticalAlignment="Center"
+                       Foreground="White" FontFamily="Tahoma" FontSize="12" FontWeight="Bold"/>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9"
+                BorderThickness="0,1,0,0" Padding="10,8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="POTVRDI" Width="90" Height="28" Margin="0,0,8,0"
+                        Background="#1B5E20" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Cursor="Hand" Command="{Binding PotvrdiCommand}"/>
+                <Button Content="IZLAZ" Width="90" Height="28"
+                        Background="#C62828" Foreground="White" BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Cursor="Hand" Click="ZatvoriClick"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Margin="20,14">
+            <TextBlock Text="ŠIFRA PRIHODA:" FontFamily="Tahoma" FontSize="11" Margin="0,0,0,5"/>
+            <TextBox Height="26" VerticalContentAlignment="Center" FontFamily="Tahoma" FontSize="12"
+                     FontWeight="SemiBold" MaxLength="20"
+                     Text="{Binding Sifraprih, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

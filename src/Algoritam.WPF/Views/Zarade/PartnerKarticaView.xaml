@@ -1,0 +1,124 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.PartnerKarticaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Partner kartica"
+        Width="760" Height="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#1565C0" Height="48">
+            <TextBlock Text="{Binding Naslov}"
+                       Margin="14,0"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       FontFamily="Tahoma"
+                       FontSize="14"
+                       FontWeight="Bold"/>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Padding="10,8">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="OTKAZI"
+                            Width="96"
+                            Height="28"
+                            Margin="0,0,8,0"
+                            Command="{Binding OtkaziCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="POTVRDI"
+                            Width="96"
+                            Height="28"
+                            Background="#1565C0"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Command="{Binding PotvrdiCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Margin="14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Sifra" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Stavka.Sifra, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Naziv" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Stavka.Naziv, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Naziv 2" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Stavka.Naziv2, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Posta" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Stavka.Posta, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Mesto" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Stavka.Mesto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Ulica" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Stavka.Ulica, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Broj" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Stavka.Ulbroj, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Telefon" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Stavka.Telefon, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Text="Telefon 2" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Stavka.Telefon2, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="9" Grid.Column="0" Text="Fax" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Stavka.Fax, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="10" Grid.Column="0" Text="E-mail" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Stavka.Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="11" Grid.Column="0" Text="Kontakt osoba" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding Stavka.Lice1, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="12" Grid.Column="0" Text="Telefon kontakta" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding Stavka.TelLice1, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="13" Grid.Column="0" Text="PIB" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="13" Grid.Column="1" Text="{Binding Stavka.Pib, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="14" Grid.Column="0" Text="PIB2" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding Stavka.Pib2, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="15" Grid.Column="0" Text="Maticni broj" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="15" Grid.Column="1" Text="{Binding Stavka.Maticni, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="16" Grid.Column="0" Text="Ziro racun" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="16" Grid.Column="1" Text="{Binding Stavka.ZiroRac, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="17" Grid.Column="0" Text="Drzava" Margin="0,0,8,8"/>
+                <TextBox Grid.Row="17" Grid.Column="1" Text="{Binding Stavka.Drzava, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

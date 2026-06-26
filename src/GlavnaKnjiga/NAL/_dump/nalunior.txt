@@ -1,0 +1,1576 @@
+num records 99
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | CURSOR1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "unior"
+    CursorSource = ..\databaze\unior.dbf
+    Name = "CURSOR1"
+
+=== form | NALUNIOR | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.07
+    Left =   0.00
+    Height =  49.47
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "UNIOR-TABELA PRENOSA IZ STRIPA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 183,188,249
+    Name = "NALUNIOR"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    PUSH KEY CLEAR
+    CLOSE ALL TABLES
+    POP KEY
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE unior IN 0 EXCLU
+    SELECT unior
+    THISFORM.GRD0.RecordSource='unior'
+    thisform.grd0.setall("dynamicbackcolor", "iif(ARHIVA='*', rgb(247,245,238), rgb(200,255,205))", "column")  
+    THISFORM.GRD0.SETFOCUS
+    SET PROCEDURE TO TASTERI2
+       DO naluniorTAST
+    SET PROCEDURE TO   
+    
+    ENDPROC
+
+=== shape | Shape1 | parent=NALUNIOR
+  PROPERTIES:
+    Top =   0.20
+    Left =   0.00
+    Height =   2.27
+    Width = 198.40
+    Name = "Shape1"
+
+=== commandbutton | Command1 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.60
+    Left =   0.20
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\dnarrow.bmp
+    Caption = ""
+    TabIndex = 2
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.60
+    Left =   8.00
+    Height =   1.80
+    Width =   8.20
+    Picture = ..\dodaci\uparrow.bmp
+    Caption = ""
+    TabIndex = 3
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    *THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.60
+    Left =  15.80
+    Height =   1.80
+    Width =  10.00
+    Picture = ..\dodaci\dnbottom.bmp
+    Caption = ""
+    TabIndex = 4
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command4 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.60
+    Left =  25.60
+    Height =   1.80
+    Width =   8.00
+    Picture = ..\dodaci\uptop.bmp
+    Caption = ""
+    TabIndex = 5
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    POP KEY
+    *THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | CMDIZLAZ | parent=NALUNIOR
+  PROPERTIES:
+    Top =  36.00
+    Left = 180.00
+    Height =   4.87
+    Width =  19.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "Izlaz"
+    TabIndex = 14
+    ToolTipText = "POVRATAK U PRETHODNI PROZOR"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "CMDIZLAZ"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBLREC | parent=NALUNIOR
+  PROPERTIES:
+    FontBold = .T.
+    FontItalic = .T.
+    FontSize = 10
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left = 162.00
+    Top =   0.33
+    Width =  36.00
+    TabIndex = 23
+    ForeColor = 255,0,0
+    BackColor = 192,192,192
+    Name = "LBLREC"
+
+=== grid | grd0 | parent=NALUNIOR
+  PROPERTIES:
+    ColumnCount = 33
+    FontBold = .F.
+    FontSize = 10
+    AllowHeaderSizing = .F.
+    AllowRowSizing = .F.
+    DeleteMark = .F.
+    Height =  29.27
+    Left =   0.00
+    Panel = 1
+    RecordSourceType = 1
+    RowHeight = 19
+    ScrollBars = 3
+    SplitBar = .T.
+    TabIndex = 1
+    ToolTipText = "TABELA ZA UNOS NALOGA"
+    Top =   2.40
+    Width = 198.40
+    BackColor = 245,245,245
+    GridLineColor = 183,188,249
+    HighlightBackColor = 177,228,126
+    HighlightForeColor = 0,0,0
+    SelectedItemBackColor = 177,228,126
+    SelectedItemForeColor = 0,0,0
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =   7.20
+    Column1.Visible = .T.
+    Column1.BackColor = 245,245,245
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  15.80
+    Column2.Visible = .T.
+    Column2.ForeColor = 0,0,255
+    Column2.BackColor = 245,245,245
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  16.40
+    Column3.Visible = .T.
+    Column3.ForeColor = 255,0,0
+    Column3.BackColor = 245,245,245
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  11.40
+    Column4.Visible = .T.
+    Column4.BackColor = 245,245,245
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =  16.60
+    Column5.Visible = .T.
+    Column5.BackColor = 245,245,245
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  17.00
+    Column6.Visible = .T.
+    Column6.BackColor = 245,245,245
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =  17.60
+    Column7.Visible = .T.
+    Column7.BackColor = 245,245,245
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =  20.60
+    Column8.Visible = .T.
+    Column8.BackColor = 245,245,245
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =  17.20
+    Column9.Visible = .T.
+    Column9.BackColor = 245,245,245
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =   8.60
+    Column10.Visible = .T.
+    Column10.BackColor = 245,245,245
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  17.60
+    Column11.Visible = .T.
+    Column11.BackColor = 245,245,245
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  19.80
+    Column12.BackColor = 245,245,245
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =  19.80
+    Column13.BackColor = 245,245,245
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =  18.40
+    Column14.BackColor = 245,245,245
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =  18.40
+    Column15.BackColor = 245,245,245
+    Column15.Name = "Column15"
+    Column16.FontBold = .F.
+    Column16.FontSize = 10
+    Column16.ControlSource = ""
+    Column16.Width =  17.40
+    Column16.BackColor = 245,245,245
+    Column16.Name = "Column16"
+    Column17.FontBold = .F.
+    Column17.FontSize = 10
+    Column17.ControlSource = ""
+    Column17.Width =  18.60
+    Column17.BackColor = 245,245,245
+    Column17.Name = "Column17"
+    Column18.FontBold = .F.
+    Column18.FontSize = 10
+    Column18.ControlSource = ""
+    Column18.Width =  17.60
+    Column18.BackColor = 245,245,245
+    Column18.Name = "Column18"
+    Column19.FontBold = .F.
+    Column19.FontSize = 10
+    Column19.ControlSource = ""
+    Column19.Width =   7.00
+    Column19.BackColor = 245,245,245
+    Column19.Name = "Column19"
+    Column20.FontBold = .F.
+    Column20.FontSize = 10
+    Column20.ControlSource = ""
+    Column20.Width =  15.00
+    Column20.BackColor = 245,245,245
+    Column20.Name = "Column20"
+    Column21.FontBold = .F.
+    Column21.FontSize = 10
+    Column21.ControlSource = ""
+    Column21.Width =  17.80
+    Column21.BackColor = 245,245,245
+    Column21.Name = "Column21"
+    Column22.FontBold = .F.
+    Column22.FontSize = 10
+    Column22.ControlSource = ""
+    Column22.Width =  24.80
+    Column22.BackColor = 245,245,245
+    Column22.Name = "Column22"
+    Column23.FontBold = .F.
+    Column23.FontSize = 10
+    Column23.ControlSource = ""
+    Column23.Width =  21.40
+    Column23.BackColor = 245,245,245
+    Column23.Name = "Column23"
+    Column24.FontBold = .F.
+    Column24.FontSize = 10
+    Column24.ControlSource = ""
+    Column24.Width =  15.20
+    Column24.BackColor = 245,245,245
+    Column24.Name = "Column24"
+    Column25.FontBold = .F.
+    Column25.FontSize = 10
+    Column25.ControlSource = ""
+    Column25.Width =   8.80
+    Column25.BackColor = 245,245,245
+    Column25.Name = "Column25"
+    Column26.FontBold = .F.
+    Column26.FontSize = 10
+    Column26.ControlSource = ""
+    Column26.Width =  46.40
+    Column26.BackColor = 245,245,245
+    Column26.Name = "Column26"
+    Column27.FontBold = .F.
+    Column27.FontSize = 10
+    Column27.ControlSource = ""
+    Column27.Width =  25.60
+    Column27.BackColor = 245,245,245
+    Column27.Name = "Column27"
+    Column28.FontBold = .F.
+    Column28.FontSize = 10
+    Column28.ControlSource = ""
+    Column28.Width =   8.20
+    Column28.BackColor = 245,245,245
+    Column28.Name = "Column28"
+    Column29.FontBold = .F.
+    Column29.FontSize = 10
+    Column29.ControlSource = ""
+    Column29.Width =  12.60
+    Column29.BackColor = 245,245,245
+    Column29.Name = "Column29"
+    Column30.FontBold = .F.
+    Column30.FontSize = 10
+    Column30.ControlSource = ""
+    Column30.Width =   9.80
+    Column30.BackColor = 245,245,245
+    Column30.Name = "Column30"
+    Column31.FontBold = .F.
+    Column31.FontSize = 10
+    Column31.ControlSource = ""
+    Column31.Width =   9.80
+    Column31.BackColor = 245,245,245
+    Column31.Name = "Column31"
+    Column32.FontBold = .F.
+    Column32.FontSize = 10
+    Column32.ControlSource = ""
+    Column32.Width =  20.60
+    Column32.BackColor = 245,245,245
+    Column32.Name = "Column32"
+    Column33.FontBold = .F.
+    Column33.FontSize = 10
+    Column33.ControlSource = ""
+    Column33.Width =  23.40
+    Column33.BackColor = 245,245,245
+    Column33.Name = "Column33"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    THISFORM.REFRESH
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Vpdv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Kontoa"
+    ForeColor = 0,0,255
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 1
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,255
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Konto"
+    ForeColor = 255,0,0
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 255,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brnal"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column4
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datslanja"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column5
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datpdv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column6
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .F.
+    TabStop = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Datdok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column7
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Brrac"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column8
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE KeyPress
+    LPARAMETERS nKeyCode, nShiftAltCtrl
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Valuta"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column9
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Sifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF ARHIVA=' '
+    MSIFRA=SIFRA
+    IF msifra<>'     '
+       REPLACE SIFRA WITH STR(VAL(ALLTRIM(msifra)),5,0)
+       mmsifra=sifra
+       USE an0 IN 0 ORDER 1
+       SELECT an0
+       SEEK mmsifra
+       IF FOUND()
+          SELECT unior
+          replace naziv WITH an0.naziv
+          replace pib with an0.pib
+       ENDIF
+       SELECT an0
+       USE
+       SELECT unior   
+    ENDIF
+    ENDIF
+    thisform.refresh   
+    
+    
+    ENDPROC
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Ukprod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column11
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column12
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Osn18"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column12
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column13
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Pdv18"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column13
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column14
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Osn8"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column14
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column15
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Pdv8"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column15
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column16
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ukupno"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column16
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column17
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Pdv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column17
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column18
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Osn0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column18
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Dok"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column19
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Dev"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column20
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Devkurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column21
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Devdug"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column22
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Devpot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column23
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Kurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column24
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Arhiva"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column25
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Naziv"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column26
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Pib"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column27
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Pogon"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column28
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Povezanol"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column29
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Vrstaf"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column30
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Preneto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column31
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column32
+  PROPERTIES:
+    Caption = "Numred"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column32
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== header | Header1 | parent=NALUNIOR.grd0.Column33
+  PROPERTIES:
+    Caption = "Idbr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=NALUNIOR.grd0.Column33
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 245,245,245
+    SelectedForeColor = 0,0,0
+    SelectedBackColor = 177,228,126
+    Name = "Text1"
+
+=== commandbutton | Command6 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  34.67
+    Left =   0.60
+    Height =   2.47
+    Width =  41.00
+    FontSize = 9
+    Caption = "BRISANJE PROKNJIŽENIH STAVKI"
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT UNIOR
+    DELETE ALL FOR BRNAL<>SPACE(6).AND.ARHIVA='*'
+    PACK
+    THISFORM.Release
+    KEYBOARD '{ENTER}'
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.60
+    Left =  34.60
+    Height =   1.87
+    Width =  12.00
+    FontSize = 11
+    Caption = "+"
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT UNIOR
+    APPEND BLANK
+    THISFORM.GRD0.SETFOCUS()
+    
+    ENDPROC
+
+=== commandbutton | Command7 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  32.00
+    Left = 163.20
+    Height =   2.07
+    Width =  30.60
+    FontSize = 11
+    Caption = "Knjiženje"
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY clear
+    SELECT UNIOR
+    mbrnal=brnal
+    GO TOP
+    DO while.not.eof()
+       IF brnal=mbrnal
+       IF brnal<>SPACE(6).and.arhiva=' '.AND.LEN(ALLTRIM(konto))=10
+          mkontoa=kontoa
+          mkonto=konto
+          mdev=dev
+          mdatpdv=datpdv
+          MKURS=KURS
+          *mbrnal=brnal
+          MDATDOK=DATDOK
+          USE &Kdev ALIAS dev IN 0 ORDER 1
+          SELECT dev
+          LOCATE FOR dev=mdev.and.datdok=Mdatpdv
+          IF FOUND()
+             mdevkurs=kurs
+          ELSE
+             mdevkurs=0
+          endif      
+          USE
+          SELECT UNIOR
+          IF devdug<>0
+             replace osn18 WITH mdevkurs*devdug
+             replace ukprod WITH mdevkurs*devdug
+          endif   
+          replace devkurs WITH mdevkurs
+          *replace kurs WITH mdevkurs 
+          mkurs=kurs
+          SCATTER NAME polja
+          Mdug=osn18+pdv18+osn0
+          USE aaan IN 0
+          SELECT aaan
+          LOCATE FOR konto=mkontoa
+          IF FOUND()
+             msifprod=ALLTRIM(sifprod)
+             manal='anal'+msifprod+'.dbf'
+             IF FILE(manal)
+               USE &manal IN 0 ALIAS anal
+               SELECT anal
+               APPEND BLANK
+               GATHER NAME polja
+               replace pkonto WITH mkonto
+               replace dug WITH mdug
+               *replace kursdug WITH dug*kurs
+               SELECT anal
+               use
+             ENDIF
+          ENDIF
+          SELECT aaan 
+          USE
+          USE pdvi IN 0 ALIAS pdv
+          SELECT pdv
+          APPEND BLANK
+          GATHER NAME polja
+          REPLACE UKPROD WITH OSN18+PDV18+osn0
+          REPLACE DATPRI WITH DATPDV
+          IF MDEV<>'   '
+             replace ops WITH 'O'
+          ENDIF
+          SELECT pdv
+          USE
+          USE &KNALP IN 0 ALIAS NALP
+          SELECT NALP
+          LOCATE FOR brnal=mbrnal
+          if.not.found()
+             APPEND BLANK
+             REPLACE DATDOK WITH MDATDOK
+             REPLACE BRNAL WITH MBRNAL
+             REPLACE OPIS WITH 'IZLAZNI RACUNI'
+             replace kurs WITH mkurs
+             IF dug<>0
+                replace kursdug WITH kurs*dug
+             ELSE
+                replace kurspot WITH kurs*pot
+             endif
+             
+          ENDIF   
+          USE
+          SELECT unior   
+          REPLACE ARHIVA WITH '*'
+       endif   
+       endif
+       SELECT unior
+       SKIP
+    enddo   
+    
+    THISFORM.Release
+    KEYBOARD '{ENTER}'
+    POP key
+    ENDPROC
+
+=== commandbutton | Command8 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.87
+    Left =  69.40
+    Height =   2.07
+    Width =  34.80
+    FontSize = 11
+    Caption = "Prijem"
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIOR0
+    THISFORM.Release
+    KEYBOARD '{ENTER}'
+    ENDPROC
+
+=== commandbutton | Command9 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  34.80
+    Left =  43.20
+    Height =   2.07
+    Width =  25.00
+    FontSize = 11
+    Caption = "Tabela konta"
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIORKON
+    
+    ENDPROC
+
+=== commandbutton | CMDPART | parent=NALUNIOR
+  PROPERTIES:
+    Top =  36.67
+    Left =  43.20
+    Height =   2.13
+    Width =  25.00
+    FontSize = 11
+    Caption = "Partneri F4"
+    TabIndex = 8
+    ToolTipText = "SIFARNIK PARTNERA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "CMDPART"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO NALuniorpART
+    
+    ENDPROC
+
+=== commandbutton | Command10 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  33.67
+    Left =  69.40
+    Height =   2.13
+    Width =  34.80
+    FontSize = 11
+    Caption = "Kontiranje"
+    TabIndex = 8
+    ToolTipText = "SIFARNIK PARTNERA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    SELECT UNIOR
+    REPLACE ALL SIFRA WITH STR(VAL(sifra),5,0)
+    USE AN0 IN 0 ORDER 1
+    SELECT unior
+    SET RELATION TO SIFRA INTO AN0 ADDITIVE
+    REPLACE ALL NAZIV WITH AN0.NAZIV
+    REPLACE ALL PIB WITH AN0.PIB
+    REPLACE ALL povezanol WITH an0.povezanol
+    SET CENTURY OFF
+    *REPLACE ALL BRNAL WITH SUBSTR(DTOC(DATSLANJA),1,2)+SUBSTR(DTOC(DATSLANJA),4,2)+SUBSTR(DTOC(DATSLANJA),7,2) FOR BRNAL=SPACE(6)
+    SET CENTURY On
+    SET RELATION TO
+    SELECT AN0
+    USE
+    USE uniorkon IN 0 
+    SELECT unior
+    GO TOP
+    DO WHILE.NOT.EOF()
+       mvpdv=vpdv
+       mpovezanol=povezanol
+       mpogon=pogon
+       MVRSTAF=VRSTAF
+       IF VPDV='IN0'
+          SELECT uniorkon
+          LOCATE FOR vpdv='IN0'.AND.POVEZANOL=mpovezanol.AND.POGON=MPOGON.AND.VRSTAF=MVRSTAF
+          IF FOUND()
+             mkonto=konto
+             mkontoa=kontoa
+          ELSE
+             mkonto='nema'
+             mkontoa='nema'
+          ENDIF
+          SELECT UNIOR
+          IF konto=SPACE(10).or.konto='nema      '
+          REPLACE KONTO WITH  mkonto
+          ENDIF
+          IF kontoa=SPACE(10).or.kontoa='nema      '      
+          REPLACE KONTOA WITH mkontoa
+          endif
+       ELSE
+          SELECT uniorkon
+          LOCATE FOR vpdv='IZV'.AND.POVEZANOL=mpovezanol.AND.POGON=MPOGON.AND.VRSTAF=MVRSTAF
+          IF FOUND()
+             mkonto=konto
+             mkontoa=kontoa
+          ELSE
+             mkonto='nema'
+             mkontoa='nema'
+          ENDIF
+          SELECT UNIOR
+          IF konto=SPACE(10).or.konto='nema      '
+          REPLACE KONTO WITH  mkonto
+          ENDIF
+          IF kontoa=SPACE(10).or.kontoa='nema      '      
+          REPLACE KONTOA WITH mkontoa
+          endif
+          REPLACE DEV WITH 'EUR'
+       ENDIF       
+       SKIP
+    ENDDO   
+    SELECT UNIORKON
+    USE
+    SELECT unior
+    GO top
+    
+    ENDPROC
+
+=== textbox | txtSifra | parent=NALUNIOR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "unior.sifra"
+    Height =   1.53
+    Left =   8.80
+    MaxLength = 5
+    ReadOnly = .T.
+    TabIndex = 30
+    Top =   0.53
+    Width =   9.80
+    Name = "txtSifra"
+
+=== label | lblSifra | parent=NALUNIOR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Sifra"
+    Left =   2.20
+    Top =   0.93
+    Width =   5.00
+    TabIndex = 29
+    Name = "lblSifra"
+
+=== textbox | txtNaziv | parent=NALUNIOR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "unior.naziv"
+    Height =   1.53
+    Left =  29.60
+    MaxLength = 40
+    ReadOnly = .T.
+    TabIndex = 32
+    Top =   0.53
+    Width =  57.60
+    Name = "txtNaziv"
+
+=== label | lblNaziv | parent=NALUNIOR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Naziv"
+    Left =  22.20
+    Top =   0.93
+    Width =   5.80
+    TabIndex = 31
+    Name = "lblNaziv"
+
+=== textbox | txtPogon | parent=NALUNIOR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "unior.pogon"
+    Height =   1.53
+    Left = 100.80
+    MaxLength = 1
+    ReadOnly = .T.
+    TabIndex = 34
+    Top =   0.53
+    Width =   6.20
+    Name = "txtPogon"
+
+=== label | lblPogon | parent=NALUNIOR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Pogon"
+    Left =  92.00
+    Top =   0.93
+    Width =   7.20
+    TabIndex = 33
+    Name = "lblPogon"
+
+=== textbox | txtPovezanol | parent=NALUNIOR
+  PROPERTIES:
+    Comment = ""
+    ControlSource = "unior.povezanol"
+    Height =   1.53
+    Left = 127.40
+    MaxLength = 1
+    ReadOnly = .T.
+    TabIndex = 36
+    Top =   0.53
+    Width =   6.20
+    Name = "txtPovezanol"
+
+=== label | lblPovezanol | parent=NALUNIOR
+  PROPERTIES:
+    AutoSize = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Povezanol"
+    Left = 114.60
+    Top =   0.93
+    Width =  11.20
+    TabIndex = 35
+    Name = "lblPovezanol"
+
+=== commandbutton | Command11 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  37.60
+    Left =   0.80
+    Height =   2.07
+    Width =  40.60
+    FontSize = 11
+    Caption = "Unos kursa"
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIORkurs
+    THISFORM.Release
+    KEYBOARD '{ENTER}'
+    ENDPROC
+
+=== commandbutton | Command12 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  35.60
+    Left =  69.40
+    Height =   2.00
+    Width =  34.80
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Sort"
+    TabIndex = 6
+    ToolTipText = "SORTIRANJE TABELE"
+    SpecialEffect = 0
+    BackColor = 255,255,159
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    MORDER=TAGNO()
+    DO CASE MORDER 
+    CASE MORDER=0
+       SET ORDER TO 1
+    CASE MORDER=1
+       SET ORDER TO 2
+    CASE MORDER=2
+       SET ORDER TO 3
+    CASE MORDER=3
+       SET ORDER TO 4
+    OTHERWISE 
+       SET ORDER TO
+    ENDCASE
+    THISFORM.GRD0.COLUMN6.SetFocus 
+    THISFORM.GRD0.Refresh
+    THISFORM.GRD0.SETFOCUS
+    ENDPROC
+
+=== commandbutton | Command19 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  31.80
+    Left = 105.60
+    Height =   2.20
+    Width =  34.80
+    FontSize = 11
+    Caption = "TRAŽENJE NALOGA "
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command19"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIORNALTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command13 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  33.80
+    Left = 105.60
+    Height =   2.20
+    Width =  34.80
+    FontSize = 11
+    Caption = "TRAŽENJE RAČUNA"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command13"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIORRACTRAZI
+    
+    ENDPROC
+
+=== commandbutton | Command14 | parent=NALUNIOR
+  PROPERTIES:
+    Top =  35.80
+    Left = 105.60
+    Height =   2.20
+    Width =  34.80
+    FontSize = 11
+    Caption = "TRAŽENJE DAT.PDV"
+    TabIndex = 7
+    ToolTipText = "TRAŽENJE NALOGA"
+    SpecialEffect = 0
+    BackColor = 192,192,192
+    Name = "Command14"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM NALUNIORDATPDVTRAZI
+    
+    ENDPROC

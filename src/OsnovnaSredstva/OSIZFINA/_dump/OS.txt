@@ -1,0 +1,1713 @@
+num records 128
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | CURSOR1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "os"
+    CursorSource = ..\databaze\os.dbf
+    Name = "CURSOR1"
+
+=== form | OS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 2
+    BackColor = 185,182,241
+    Name = "OS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    CLOSE ALL 
+    RELEASE stara_nova
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    PUBLIC stara_nova
+    STORE 0 TO stara_nova
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET CENTURY on
+    SET DELETED ON
+    
+    MSCW=_SCREEN.Width/1024*203.4
+    MSCH=_SCREEN.HEighT/768*49
+    THISFORM.Width=MSCW
+    THISFORM.HEighT=MSCH
+    THISFORM.GRD0.Width=MSCW
+    
+    MODAKLE='S'
+    IF MODAKLE='S'
+       USE OS IN 0
+       select os
+       USE OS0 IN 0 ORDER 1
+       select os0
+       USE OSPODACI IN 0 
+       select ospodaci
+       
+       USE &KOSAG IN 0 ORDER 1 ALIAS OSAG
+       USE &KOSAGPOD IN 0 ORDER 1 ALIAS OSAGPOD
+       USE MTR  IN 0 ORDER 1     
+       SELECT OS
+       SET RELATION TO OSIFRA INTO OS0 ADDITIVE
+       SET RELATION TO AG INTO OSAG ADDITIVE
+       SET RELATION TO AG+AGPOD INTO OSAGPOD ADDITIVE
+       SET RELATION TO MTR INTO MTR ADDITIVE   
+    ELSE
+    
+    ENDIF
+    GO TOP
+    THISFORM.CAPTION=' OSNOVNA SREDSTVA - EVIDENCIJA  '+OPERATER+' '+AKORIME
+    THISFORM.GRD0.RECORDSOURCE='OS'
+    thisform.grd0.column41.ControlSource = 'os.idbr'
+    thisform.grd0.column42.ControlSource = 'os.datstartam'
+    thisform.grd0.column43.ControlSource = 'os.iznosulag'
+    thisform.grd0.column44.ControlSource = 'os.datulag'
+    thisform.grd0.column45.ControlSource = 'os.nacinob'
+    thisform.grd0.column46.ControlSource = 'os.pam'
+    thisform.grd0.column47.ControlSource = 'os.ram'
+    thisform.grd0.column48.ControlSource = 'os.obezvredj'
+    thisform.grd0.column49.ControlSource = 'os.polje1'
+    
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERIO2
+       DO OSTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=OS
+  PROPERTIES:
+    Top =  30.07
+    Left =   1.60
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OS
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+
+=== commandbutton | Command2 | parent=OS
+  PROPERTIES:
+    Top =  30.07
+    Left =  17.40
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OS
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+
+=== commandbutton | Command3 | parent=OS
+  PROPERTIES:
+    Top =  30.13
+    Left =  33.00
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OS
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+
+=== commandbutton | Command4 | parent=OS
+  PROPERTIES:
+    Top =  30.13
+    Left =  48.80
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OS
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+
+=== commandbutton | Command5 | parent=OS
+  PROPERTIES:
+    Top =  30.13
+    Left =  64.80
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "\<DODAJ"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OS
+    APPEND BLANK
+    *REPLACE OSIFRA WITH STR(RECNO(),4,0)
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    pop key
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=OS
+  PROPERTIES:
+    Top =  37.40
+    Left = 175.20
+    Height =   2.60
+    Width =  21.60
+    FontSize = 11
+    Caption = "IZLAZ"
+    TabIndex = 13
+    BackColor = 192,192,192
+    Name = "Command6"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | LBLNAZIV | parent=OS
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.60
+    Top =   1.87
+    Width = 198.00
+    TabIndex = 14
+    ForeColor = 255,0,0
+    BackColor = 255,255,128
+    Name = "LBLNAZIV"
+
+=== commandbutton | Command7 | parent=OS
+  PROPERTIES:
+    Top =  32.67
+    Left = 120.00
+    Height =   1.80
+    Width =  30.20
+    FontSize = 11
+    Caption = "POD\<ACI "
+    TabIndex = 8
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    DO FORM OSPODACI
+    thisform.REFRESH()
+    
+    
+    ENDPROC
+
+=== commandbutton | Command9 | parent=OS
+  PROPERTIES:
+    Top =  30.27
+    Left = 120.00
+    Height =   1.80
+    Width =  30.20
+    FontSize = 11
+    Caption = "\<PRENOS"
+    TabIndex = 7
+    BackColor = 192,192,192
+    Name = "Command9"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO FORM OSPRENOS
+    THISFORM.Release
+    POP key
+    KEYBOARD '{ENTER}'
+    
+    ENDPROC
+
+=== commandbutton | Command10 | parent=OS
+  PROPERTIES:
+    Top =  35.07
+    Left = 120.00
+    Height =   1.80
+    Width =  30.20
+    FontSize = 11
+    Caption = "\<OBRAČUN"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+       DO OSOBRAC
+    GO TOP
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+
+=== grid | GRD0 | parent=OS
+  PROPERTIES:
+    ColumnCount = 49
+    FontBold = .F.
+    FontSize = 10
+    DeleteMark = .F.
+    Height =  23.87
+    Left =   0.00
+    Panel = 1
+    ReadOnly = .F.
+    RecordSourceType = 1
+    RowHeight = 19
+    TabIndex = 1
+    Top =   3.40
+    Width = 201.80
+    BackColor = 242,242,242
+    GridLineColor = 197,201,250
+    HighlightForeColor = 0,0,0
+    HighlightStyle = 2
+    Name = "GRD0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 10
+    Column1.ControlSource = ""
+    Column1.Width =   8.20
+    Column1.ReadOnly = .F.
+    Column1.Visible = .T.
+    Column1.BackColor = 242,242,242
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 10
+    Column2.ControlSource = ""
+    Column2.Width =  56.40
+    Column2.ReadOnly = .F.
+    Column2.BackColor = 242,242,242
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 10
+    Column3.ControlSource = ""
+    Column3.Width =  19.00
+    Column3.ReadOnly = .F.
+    Column3.BackColor = 242,242,242
+    Column3.Name = "Column3"
+    Column4.FontBold = .F.
+    Column4.FontSize = 10
+    Column4.ControlSource = ""
+    Column4.Width =  21.20
+    Column4.ReadOnly = .F.
+    Column4.BackColor = 242,242,242
+    Column4.Name = "Column4"
+    Column5.FontBold = .F.
+    Column5.FontSize = 10
+    Column5.ControlSource = ""
+    Column5.Width =  21.40
+    Column5.ReadOnly = .F.
+    Column5.BackColor = 242,242,242
+    Column5.Name = "Column5"
+    Column6.FontBold = .F.
+    Column6.FontSize = 10
+    Column6.ControlSource = ""
+    Column6.Width =  21.20
+    Column6.ReadOnly = .F.
+    Column6.BackColor = 242,242,242
+    Column6.Name = "Column6"
+    Column7.FontBold = .F.
+    Column7.FontSize = 10
+    Column7.ControlSource = ""
+    Column7.Width =  21.80
+    Column7.ReadOnly = .F.
+    Column7.BackColor = 242,242,242
+    Column7.Name = "Column7"
+    Column8.FontBold = .F.
+    Column8.FontSize = 10
+    Column8.ControlSource = ""
+    Column8.Width =  22.80
+    Column8.ReadOnly = .F.
+    Column8.BackColor = 242,242,242
+    Column8.Name = "Column8"
+    Column9.FontBold = .F.
+    Column9.FontSize = 10
+    Column9.ControlSource = ""
+    Column9.Width =  21.20
+    Column9.ReadOnly = .F.
+    Column9.BackColor = 242,242,242
+    Column9.Name = "Column9"
+    Column10.FontBold = .F.
+    Column10.FontSize = 10
+    Column10.ControlSource = ""
+    Column10.Width =  24.00
+    Column10.ReadOnly = .F.
+    Column10.BackColor = 242,242,242
+    Column10.Name = "Column10"
+    Column11.FontBold = .F.
+    Column11.FontSize = 10
+    Column11.ControlSource = ""
+    Column11.Width =  27.20
+    Column11.ReadOnly = .F.
+    Column11.BackColor = 242,242,242
+    Column11.Name = "Column11"
+    Column12.FontBold = .F.
+    Column12.FontSize = 10
+    Column12.ControlSource = ""
+    Column12.Width =  31.80
+    Column12.ReadOnly = .F.
+    Column12.BackColor = 242,242,242
+    Column12.Name = "Column12"
+    Column13.FontBold = .F.
+    Column13.FontSize = 10
+    Column13.ControlSource = ""
+    Column13.Width =   9.60
+    Column13.ReadOnly = .F.
+    Column13.BackColor = 242,242,242
+    Column13.Name = "Column13"
+    Column14.FontBold = .F.
+    Column14.FontSize = 10
+    Column14.ControlSource = ""
+    Column14.Width =  19.20
+    Column14.ReadOnly = .F.
+    Column14.BackColor = 242,242,242
+    Column14.Name = "Column14"
+    Column15.FontBold = .F.
+    Column15.FontSize = 10
+    Column15.ControlSource = ""
+    Column15.Width =  18.40
+    Column15.ReadOnly = .F.
+    Column15.BackColor = 242,242,242
+    Column15.Name = "Column15"
+    Column16.FontBold = .F.
+    Column16.FontSize = 10
+    Column16.ControlSource = ""
+    Column16.Width =  21.80
+    Column16.ReadOnly = .F.
+    Column16.BackColor = 242,242,242
+    Column16.Name = "Column16"
+    Column17.FontBold = .F.
+    Column17.FontSize = 10
+    Column17.ControlSource = ""
+    Column17.Width =  22.20
+    Column17.ReadOnly = .F.
+    Column17.BackColor = 242,242,242
+    Column17.Name = "Column17"
+    Column18.FontBold = .F.
+    Column18.FontSize = 10
+    Column18.ControlSource = ""
+    Column18.Width =  19.20
+    Column18.ReadOnly = .F.
+    Column18.BackColor = 242,242,242
+    Column18.Name = "Column18"
+    Column19.FontBold = .F.
+    Column19.FontSize = 10
+    Column19.ControlSource = ""
+    Column19.Width =  19.00
+    Column19.ReadOnly = .F.
+    Column19.BackColor = 242,242,242
+    Column19.Name = "Column19"
+    Column20.FontBold = .F.
+    Column20.FontSize = 10
+    Column20.ControlSource = ""
+    Column20.Width =  22.60
+    Column20.ReadOnly = .F.
+    Column20.BackColor = 242,242,242
+    Column20.Name = "Column20"
+    Column21.FontBold = .F.
+    Column21.FontSize = 10
+    Column21.ControlSource = ""
+    Column21.Width =  19.40
+    Column21.ReadOnly = .F.
+    Column21.BackColor = 242,242,242
+    Column21.Name = "Column21"
+    Column22.FontBold = .F.
+    Column22.FontSize = 10
+    Column22.ControlSource = ""
+    Column22.Width =  23.40
+    Column22.ReadOnly = .F.
+    Column22.BackColor = 242,242,242
+    Column22.Name = "Column22"
+    Column23.FontBold = .F.
+    Column23.FontSize = 10
+    Column23.ControlSource = ""
+    Column23.Width =  18.00
+    Column23.ReadOnly = .F.
+    Column23.BackColor = 242,242,242
+    Column23.Name = "Column23"
+    Column24.FontBold = .F.
+    Column24.FontSize = 10
+    Column24.ControlSource = ""
+    Column24.Width =  18.00
+    Column24.ReadOnly = .F.
+    Column24.BackColor = 242,242,242
+    Column24.Name = "Column24"
+    Column25.FontBold = .F.
+    Column25.FontSize = 10
+    Column25.ControlSource = ""
+    Column25.Width =  27.40
+    Column25.ReadOnly = .F.
+    Column25.BackColor = 242,242,242
+    Column25.Name = "Column25"
+    Column26.FontBold = .F.
+    Column26.FontSize = 10
+    Column26.ControlSource = ""
+    Column26.Width =   8.60
+    Column26.ReadOnly = .F.
+    Column26.BackColor = 242,242,242
+    Column26.Name = "Column26"
+    Column27.FontBold = .F.
+    Column27.FontSize = 10
+    Column27.ControlSource = ""
+    Column27.Width =   7.20
+    Column27.ReadOnly = .F.
+    Column27.BackColor = 242,242,242
+    Column27.Name = "Column27"
+    Column28.FontBold = .F.
+    Column28.FontSize = 10
+    Column28.ControlSource = ""
+    Column28.Width =  19.60
+    Column28.ReadOnly = .F.
+    Column28.BackColor = 242,242,242
+    Column28.Name = "Column28"
+    Column29.FontBold = .F.
+    Column29.FontSize = 10
+    Column29.ControlSource = ""
+    Column29.Width =   4.20
+    Column29.ReadOnly = .F.
+    Column29.BackColor = 242,242,242
+    Column29.Name = "Column29"
+    Column30.FontBold = .F.
+    Column30.FontSize = 10
+    Column30.ControlSource = ""
+    Column30.Width =   9.00
+    Column30.ReadOnly = .F.
+    Column30.BackColor = 242,242,242
+    Column30.Name = "Column30"
+    Column31.FontBold = .F.
+    Column31.FontSize = 10
+    Column31.ControlSource = ""
+    Column31.Width =  11.80
+    Column31.ReadOnly = .F.
+    Column31.BackColor = 242,242,242
+    Column31.Name = "Column31"
+    Column32.FontBold = .F.
+    Column32.FontSize = 10
+    Column32.ControlSource = ""
+    Column32.Width =   8.80
+    Column32.ReadOnly = .F.
+    Column32.BackColor = 242,242,242
+    Column32.Name = "Column32"
+    Column33.FontBold = .F.
+    Column33.FontSize = 10
+    Column33.ControlSource = ""
+    Column33.Width =  15.00
+    Column33.ReadOnly = .F.
+    Column33.BackColor = 242,242,242
+    Column33.Name = "Column33"
+    Column34.FontBold = .F.
+    Column34.FontSize = 10
+    Column34.ControlSource = ""
+    Column34.Width =  10.20
+    Column34.ReadOnly = .F.
+    Column34.BackColor = 242,242,242
+    Column34.Name = "Column34"
+    Column35.FontBold = .F.
+    Column35.FontSize = 10
+    Column35.ControlSource = ""
+    Column35.Width =  22.60
+    Column35.ReadOnly = .F.
+    Column35.BackColor = 242,242,242
+    Column35.Name = "Column35"
+    Column36.FontBold = .F.
+    Column36.FontSize = 10
+    Column36.ControlSource = ""
+    Column36.Width =  24.20
+    Column36.ReadOnly = .F.
+    Column36.BackColor = 242,242,242
+    Column36.Name = "Column36"
+    Column37.FontBold = .F.
+    Column37.FontSize = 10
+    Column37.ControlSource = ""
+    Column37.Width =   6.40
+    Column37.ReadOnly = .F.
+    Column37.BackColor = 242,242,242
+    Column37.Name = "Column37"
+    Column38.FontBold = .F.
+    Column38.FontSize = 10
+    Column38.ControlSource = ""
+    Column38.Width =  18.20
+    Column38.ReadOnly = .F.
+    Column38.BackColor = 242,242,242
+    Column38.Name = "Column38"
+    Column39.FontBold = .F.
+    Column39.FontSize = 10
+    Column39.ControlSource = ""
+    Column39.Width =   9.80
+    Column39.ReadOnly = .F.
+    Column39.BackColor = 242,242,242
+    Column39.Name = "Column39"
+    Column40.FontBold = .F.
+    Column40.FontSize = 10
+    Column40.ControlSource = ""
+    Column40.Width =   9.80
+    Column40.ReadOnly = .F.
+    Column40.BackColor = 242,242,242
+    Column40.Name = "Column40"
+    Column41.FontBold = .F.
+    Column41.FontSize = 10
+    Column41.ControlSource = ""
+    Column41.Width =   5.00
+    Column41.ReadOnly = .F.
+    Column41.BackColor = 242,242,242
+    Column41.Name = "Column41"
+    Column42.FontBold = .F.
+    Column42.FontSize = 10
+    Column42.Width =  15.00
+    Column42.ReadOnly = .F.
+    Column42.BackColor = 242,242,242
+    Column42.Name = "Column42"
+    Column43.FontBold = .F.
+    Column43.FontSize = 10
+    Column43.Width =  21.40
+    Column43.ReadOnly = .F.
+    Column43.BackColor = 242,242,242
+    Column43.Name = "Column43"
+    Column44.FontBold = .F.
+    Column44.FontSize = 10
+    Column44.Width =  16.00
+    Column44.ReadOnly = .F.
+    Column44.BackColor = 242,242,242
+    Column44.Name = "Column44"
+    Column45.FontBold = .F.
+    Column45.FontSize = 10
+    Column45.Width =  15.00
+    Column45.ReadOnly = .F.
+    Column45.BackColor = 242,242,242
+    Column45.Name = "Column45"
+    Column46.FontBold = .F.
+    Column46.FontSize = 10
+    Column46.Width =  21.40
+    Column46.ReadOnly = .F.
+    Column46.BackColor = 242,242,242
+    Column46.Name = "Column46"
+    Column47.FontBold = .F.
+    Column47.FontSize = 10
+    Column47.Width =  21.40
+    Column47.ReadOnly = .F.
+    Column47.BackColor = 242,242,242
+    Column47.Name = "Column47"
+    Column48.FontBold = .F.
+    Column48.FontSize = 10
+    Column48.Width =  21.40
+    Column48.ReadOnly = .F.
+    Column48.BackColor = 242,242,242
+    Column48.Name = "Column48"
+    Column49.Width =   9.60
+    Column49.Name = "Column49"
+  METHODS (literal FoxPro source):
+    PROCEDURE AfterRowColChange
+    LPARAMETERS nColIndex
+    PUSH KEY CLEAR
+    THISFORM.LBLNAZIV.CAPTION=OS0.NAZ
+    THISFORM.LABEL1.CAPTION=OSAG.OPIS+' '+OSAGPOD.OPIS
+    THISFORM.txtos2.CAPTION=' mesto-'+OS.mesto+' konto-'+os.konto+' '+' inv.broj-'+os.invbroj+' grupa-'+os.ag+' poreska grupa-'+os.agpod
+    THISFORM.REFRESH
+    POP key
+    ENDPROC
+    PROCEDURE Click
+    
+    
+    ENDPROC
+
+=== header | Header1 | parent=OS.GRD0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    Caption = "Osifra"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .F.
+    Visible = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column2
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Naz"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column2
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column3
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Stopaot"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column3
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column4
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Stopaot2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column4
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column5
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Nab0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column5
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column6
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Isp0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column6
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column7
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Sad0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column7
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column8
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Procena"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column8
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column9
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Razlproc"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column9
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column10
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Nab02"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column10
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column11
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Isp02"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column11
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column12
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Sad02"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column12
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column13
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Brmes"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column13
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column14
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datum0"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column14
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column15
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datum1"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column15
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column16
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Amort"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column16
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column17
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Amort2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column17
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column18
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ispam"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column18
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column19
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Nab"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column19
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column20
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Isp"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column20
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column21
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Sad"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column21
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column22
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Nab2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column22
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column23
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Isp2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column23
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column24
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Sad2"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column24
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column25
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Invbroj"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column25
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column26
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Mesto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column26
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column27
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Mtr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column27
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column28
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Konto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column28
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column29
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Ag"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column29
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column30
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Agpod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column30
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column31
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Procgod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column31
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column32
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Grupa"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column32
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column33
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datnab"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column33
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column34
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Godpro"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column34
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column35
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datobr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column35
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column36
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Datprod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column36
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column37
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Oper"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column37
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column38
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Kurs"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column38
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column39
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Preneto"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column39
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column40
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Numred"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column40
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column41
+  PROPERTIES:
+    FontSize = 10
+    Caption = "Idbr"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column41
+  PROPERTIES:
+    FontSize = 10
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column42
+  PROPERTIES:
+    Caption = "Datstartam"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column42
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column43
+  PROPERTIES:
+    Caption = "Iznosulag"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column43
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column44
+  PROPERTIES:
+    Caption = "Datulag"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column44
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column45
+  PROPERTIES:
+    Caption = "Nacinob"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column45
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column46
+  PROPERTIES:
+    Caption = "PAM"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column46
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column47
+  PROPERTIES:
+    Caption = "RAM"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column47
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column48
+  PROPERTIES:
+    Caption = "Obezvredj"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column48
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== header | Header1 | parent=OS.GRD0.Column49
+  PROPERTIES:
+    Caption = "Br. dana"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OS.GRD0.Column49
+  PROPERTIES:
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "Text1"
+
+=== commandbutton | Command12 | parent=OS
+  PROPERTIES:
+    Top =  34.27
+    Left =  82.20
+    Height =   1.80
+    Width =  33.40
+    FontSize = 11
+    Caption = "PREGLEDI MRS"
+    TabIndex = 9
+    BackColor = 255,255,128
+    Name = "Command12"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM OSPopis2 
+    POP key
+    
+    ENDPROC
+
+=== label | Label1 | parent=OS
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.60
+    Top =  27.20
+    Width = 198.00
+    TabIndex = 14
+    ForeColor = 255,0,0
+    BackColor = 136,253,130
+    Name = "Label1"
+
+=== commandbutton | Command11 | parent=OS
+  PROPERTIES:
+    Top =  30.20
+    Left =  82.20
+    Height =   1.80
+    Width =  33.40
+    FontSize = 11
+    Caption = "SALDO KONTA"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command11"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM ospopis3
+    POP key
+    
+    ENDPROC
+
+=== commandbutton | Command13 | parent=OS
+  PROPERTIES:
+    Top =  38.47
+    Left =  21.60
+    Height =   1.80
+    Width =  50.40
+    FontSize = 11
+    Caption = "ZADNJE U POČETNO"
+    TabIndex = 7
+    BackColor = 255,255,128
+    Name = "Command13"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    *MESSAGEBOX("IZLOG U RADU !!!",0+64,"PORUKA OBAVESTENJA")
+    *return
+    
+    PUSH KEY CLEAR
+    DO  FORM OSPRENOSZUP 
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command14 | parent=OS
+  PROPERTIES:
+    Top =  36.27
+    Left =  78.40
+    Height =   1.80
+    Width =  37.40
+    FontSize = 10
+    Caption = "PREGL. PORESKA stara OS."
+    TabIndex = 9
+    BackColor = 255,255,128
+    Name = "Command14"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    stara_nova=1
+    DO  FORM OSPOPIS2P
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command15 | parent=OS
+  PROPERTIES:
+    Top =  32.20
+    Left =  82.20
+    Height =   1.80
+    Width =  33.40
+    FontSize = 11
+    Caption = "SALDO MESTA"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command15"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM OSPOPIS31 
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command8 | parent=OS
+  PROPERTIES:
+    Top =  32.80
+    Left =  21.60
+    Height =   1.80
+    Width =  50.40
+    FontSize = 11
+    Caption = "TRAŽENJE ŠIFRE"
+    TabIndex = 7
+    BackColor = 192,192,192
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM OSTRAZISIF 
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command16 | parent=OS
+  PROPERTIES:
+    Top =  34.67
+    Left =  21.60
+    Height =   1.80
+    Width =  50.40
+    FontSize = 11
+    Caption = "TRAŽENJE INVENTARNOG BROJA"
+    TabIndex = 7
+    BackColor = 192,192,192
+    Name = "Command16"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM OSTRAZIINV 
+    POP KEY
+    ENDPROC
+
+=== label | txtos2 | parent=OS
+  PROPERTIES:
+    FontBold = .T.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =   0.60
+    Top =   0.27
+    Width = 198.00
+    TabIndex = 14
+    ForeColor = 255,255,255
+    BackColor = 128,128,255
+    Name = "txtos2"
+
+=== commandbutton | Command17 | parent=OS
+  PROPERTIES:
+    Top =  36.53
+    Left =  21.60
+    Height =   1.80
+    Width =  50.40
+    FontSize = 11
+    Caption = "PREGLED KARTICA"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command17"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    DO  FORM OSPOPIS4
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command18 | parent=OS
+  PROPERTIES:
+    Top =  30.40
+    Left = 153.60
+    Height =   1.80
+    Width =  33.80
+    FontBold = .F.
+    FontSize = 10
+    Caption = "SORT"
+    TabIndex = 6
+    ToolTipText = "PARAMETRI KNJIŽENJA"
+    SpecialEffect = 2
+    BackColor = 192,192,192
+    Name = "Command18"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    MORDER=TAGNO()
+    DO CASE MORDER 
+    CASE MORDER=0
+       SET ORDER TO 1
+    CASE MORDER=1
+       SET ORDER TO 2
+    CASE MORDER=2
+       SET ORDER TO 3
+    CASE MORDER=3
+       SET ORDER TO 4
+    CASE MORDER=4
+       SET ORDER TO 5
+    CASE MORDER=5
+       SET ORDER TO 6
+    CASE MORDER=6
+       SET ORDER TO 7
+    CASE MORDER=7
+       SET ORDER TO 8
+    OTHERWISE 
+       SET ORDER TO
+    ENDCASE
+    THISFORM.GRD0.COLUMN6.SetFocus 
+    THISFORM.GRD0.Refresh
+    THISFORM.GRD0.SETFOCUS
+    ENDPROC
+
+=== commandbutton | Command19 | parent=OS
+  PROPERTIES:
+    Top =  32.67
+    Left = 153.60
+    Height =   1.80
+    Width =  33.60
+    FontSize = 11
+    Caption = "POA OBRAZAC"
+    TabIndex = 9
+    BackColor = 255,255,128
+    Name = "Command19"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    USE FIRMA IN 0
+    REPORT FORM ospoa NOCONSOLE prev
+    SELECT firma
+    USE
+    SELECT os
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command20 | parent=OS
+  PROPERTIES:
+    Top =  35.07
+    Left = 153.60
+    Height =   1.80
+    Width =  33.60
+    FontSize = 11
+    Caption = "EVIDENCIJA POA"
+    TabIndex = 9
+    BackColor = 255,255,128
+    Name = "Command20"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET cent off
+    USE firma IN 0
+    SELECT os
+    SET FILTER TO !EMPTY(nacinob)
+    REPORT FORM osevidencija NOCONSOLE prev
+    SELECT firma
+    use
+    SELECT os
+    SET FILTER TO
+    SET CENTURY on 
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command21 | parent=OS
+  PROPERTIES:
+    Top =  38.40
+    Left =  78.40
+    Height =   1.80
+    Width =  37.40
+    FontSize = 10
+    Caption = "PREGL. PORESKA nova OS."
+    TabIndex = 9
+    BackColor = 255,255,128
+    Name = "Command21"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    stara_nova=2
+    DO  FORM OSPOPIS2P
+    POP KEY
+    
+    ENDPROC

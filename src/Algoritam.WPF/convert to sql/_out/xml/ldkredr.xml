@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldkredr">
+  <columns>
+    <column name="KREDIT" type="N" length="0" decimals="0" />
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRA" type="C" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="DUG" type="N" length="2" decimals="0" />
+    <column name="IZNOS" type="N" length="2" decimals="0" />
+    <column name="SALDO" type="N" length="2" decimals="0" />
+    <column name="BRNAL" type="C" length="0" decimals="0" />
+    <column name="DEV" type="C" length="0" decimals="0" />
+    <column name="DEVKURS" type="N" length="6" decimals="0" />
+    <column name="DEVDUG" type="N" length="6" decimals="0" />
+    <column name="DEVPOT" type="N" length="6" decimals="0" />
+    <column name="DEVSALDO" type="N" length="6" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="ARHIVA2" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

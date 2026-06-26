@@ -1,0 +1,496 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdParametriWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1250" Height="860"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SacuvajCommand}"/>
+        <KeyBinding Key="Escape" Command="{Binding OtkaziCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <!-- Alias na globalni StackedLabelStyle iz AppTheme.xaml -->
+        <Style x:Key="LabelStyle" TargetType="TextBlock" BasedOn="{StaticResource StackedLabelStyle}"/>
+
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="BorderBrush" Value="#B0BEC5"/>
+            <Setter Property="IsReadOnly" Value="False"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding JeIzmena}" Value="False">
+                    <Setter Property="IsReadOnly" Value="True"/>
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DateStyle" TargetType="DatePicker">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding JeIzmena}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ComboInputStyle" TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding JeIzmena}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!-- Alias na globalni HeaderButtonStyle iz AppTheme.xaml -->
+        <Style x:Key="TopButtonStyle" TargetType="Button" BasedOn="{StaticResource HeaderButtonStyle}">
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+        <Style x:Key="ReadOnlyBoxStyle" TargetType="TextBox" BasedOn="{StaticResource InputStyle}">
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="PARAMETRI ZARADA" FontFamily="Tahoma" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                    <Border Margin="0,2,0,0" Padding="6,1" CornerRadius="8" HorizontalAlignment="Left">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#455A64"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding JeIzmena}" Value="True">
+                                        <Setter Property="Background" Value="#E65100"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock FontFamily="Tahoma" FontSize="9" FontWeight="SemiBold" Foreground="White">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="REZIM PREGLEDA"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding JeIzmena}" Value="True">
+                                            <Setter Property="Text" Value="REZIM IZMENE (NESAČUVANO)"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="IZMENI" Style="{StaticResource TopButtonStyle}" Background="#1565C0" Command="{Binding IzmeniCommand}"/>
+                    <Button Content="SAČUVAJ" Style="{StaticResource TopButtonStyle}" Background="#2E7D32" Command="{Binding SacuvajCommand}"/>
+                    <Button Content="OTKAZI" Style="{StaticResource TopButtonStyle}" Background="#C62828" Command="{Binding OtkaziCommand}"/>
+                    <Button Content="PODRAZUMEVANO" Style="{StaticResource TopButtonStyle}" Background="#1565C0" Command="{Binding ObnoviPodrazumevanoCommand}"/>
+                    <Button Content="OSVEZI" Style="{StaticResource TopButtonStyle}" Background="#607D8B" Command="{Binding OsveziCommand}"/>
+                    <Button Content="ZATVORI" Style="{StaticResource TopButtonStyle}" Background="#455A64" Click="OnZatvoriClick" Margin="0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Padding="12,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" Foreground="#455A64"/>
+                <TextBlock Grid.Column="1"
+                           Text="Prečice: Ctrl+S Sačuvaj | Esc Otkazi | F5 Osvezi"
+                           FontFamily="Tahoma"
+                           FontSize="11"
+                           Foreground="#607D8B"/>
+            </Grid>
+        </Border>
+
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}" FontFamily="Tahoma" Margin="12">
+            <TabItem Header="LDPAR - Parametri 1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Kolektivni ugovor" Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="% nocni rad" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procnoc}"/>
+                                    <TextBlock Text="% produzni rad" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procprod}"/>
+                                    <TextBlock Text="% praznik" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procpraz}"/>
+                                    <TextBlock Text="% nedelja" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procned}"/>
+                                    <TextBlock Text="% minuli rad" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procmin}"/>
+                                    <TextBlock Text="% bolovanje" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procbol}"/>
+                                    <TextBlock Text="% placeno odsustvo" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procplac}"/>
+                                    <TextBlock Text="% suspenzija" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procsus}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="Prosecna bruto plata" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Prosbruto}"/>
+                                    <TextBlock Text="Minimalna zarada" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Minimal}"/>
+                                    <TextBlock Text="% poreza" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Procpor}"/>
+                                    <TextBlock Text="Minuli rad nacin 0/1/2/3" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Minnac}"/>
+                                    <TextBlock Text="Koeficijent starta" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Ekoefs}"/>
+                                    <TextBlock Text="% pripravnost" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Priprav}"/>
+                                    <TextBlock Text="Vrsta zarade II D/N" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Vrstaplate}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Beneficije i dodatci" Grid.Row="0" Grid.Column="1" Margin="10,0,0,10">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="% beneficije 12/14" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Ben1}"/>
+                                    <TextBlock Text="% beneficije 12/15" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Ben2}"/>
+                                    <TextBlock Text="% beneficije 12/16" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Ben3}"/>
+                                    <TextBlock Text="% beneficije 12/18" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Ben4}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="Zarada po satu" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dinsat}"/>
+                                    <TextBlock Text="Topli obrok po danu" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Tosat}"/>
+                                    <TextBlock Text="Regres za mesec" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Regsat}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Doprinosi" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,10">
+                            <Grid Margin="12">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Vrsta" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="PIO R" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="ZDR R" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="NEZ R" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="4" Text="PIO P" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="5" Text="ZDR P" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="6" Text="NEZ P" Style="{StaticResource LabelStyle}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Redovna" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppr1}"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzr1}"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnr1}"/>
+                                <TextBox Grid.Row="1" Grid.Column="4" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppf1}"/>
+                                <TextBox Grid.Row="1" Grid.Column="5" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzf1}"/>
+                                <TextBox Grid.Row="1" Grid.Column="6" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnf1}"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Porodiljsko" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppr2}"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzr2}"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnr2}"/>
+                                <TextBox Grid.Row="2" Grid.Column="4" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppf2}"/>
+                                <TextBox Grid.Row="2" Grid.Column="5" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzf2}"/>
+                                <TextBox Grid.Row="2" Grid.Column="6" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnf2}"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Bolovanje 30+" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppr3}"/>
+                                <TextBox Grid.Row="3" Grid.Column="2" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzr3}"/>
+                                <TextBox Grid.Row="3" Grid.Column="3" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnr3}"/>
+                                <TextBox Grid.Row="3" Grid.Column="4" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppf3}"/>
+                                <TextBox Grid.Row="3" Grid.Column="5" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzf3}"/>
+                                <TextBox Grid.Row="3" Grid.Column="6" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnf3}"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Invalidi" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppr4}"/>
+                                <TextBox Grid.Row="4" Grid.Column="2" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzr4}"/>
+                                <TextBox Grid.Row="4" Grid.Column="3" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnr4}"/>
+                                <TextBox Grid.Row="4" Grid.Column="4" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppf4}"/>
+                                <TextBox Grid.Row="4" Grid.Column="5" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzf4}"/>
+                                <TextBox Grid.Row="4" Grid.Column="6" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnf4}"/>
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Penzioneri" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppr5}"/>
+                                <TextBox Grid.Row="5" Grid.Column="2" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzr5}"/>
+                                <TextBox Grid.Row="5" Grid.Column="3" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnr5}"/>
+                                <TextBox Grid.Row="5" Grid.Column="4" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Doppf5}"/>
+                                <TextBox Grid.Row="5" Grid.Column="5" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopzf5}"/>
+                                <TextBox Grid.Row="5" Grid.Column="6" Style="{StaticResource InputStyle}" Text="{Binding Parametar.Dopnf5}"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Solidarni porez i zastita" Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="Solidarni porez 1 od" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solporod1}"/>
+                                    <TextBlock Text="Solidarni porez 1 do" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solpordo1}"/>
+                                    <TextBlock Text="Solidarni porez 1 stopa" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solproc1}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,8,0">
+                                    <TextBlock Text="Solidarni porez 2 od" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solporod2}"/>
+                                    <TextBlock Text="Solidarni porez 2 do" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solpordo2}"/>
+                                    <TextBlock Text="Solidarni porez 2 stopa" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Solproc2}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                                    <TextBlock Text="% umanjenja" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Bkproc}"/>
+                                    <TextBlock Text="Zasticeni iznos" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Bkzastita}"/>
+                                    <TextBlock Text="Nacin 0/1" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Bknacin}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="LDPAR2 - Parametri 2">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Period i isplata" Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="Redni broj" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.RedniBr}"/>
+                                    <TextBlock Text="Mesec" Style="{StaticResource LabelStyle}"/>
+                                    <ComboBox Style="{StaticResource ComboInputStyle}"
+                                              ItemsSource="{Binding Meseci}"
+                                              DisplayMemberPath="Prikaz"
+                                              SelectedValuePath="Vrednost"
+                                              SelectedValue="{Binding Parametar.Mesec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectionChanged="OnMesecSelectionChanged"/>
+                                    <TextBlock Text="Naziv meseca" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource ReadOnlyBoxStyle}" Text="{Binding Parametar.Nazmes}"/>
+                                    <TextBlock Text="Redni broj isplate" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Redispl}"/>
+                                    <TextBlock Text="Vrsta isplate" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Isplata}"/>
+                                    <TextBlock Text="Sekundarna isplata" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Sisplata}"/>
+                                    <TextBlock Text="Godina" Style="{StaticResource LabelStyle}"/>
+                                    <ComboBox Style="{StaticResource ComboInputStyle}"
+                                              ItemsSource="{Binding Godine}"
+                                              SelectedItem="{Binding Parametar.Godina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectionChanged="OnGodinaSelectionChanged"/>
+                                    <TextBlock Text="Pocetni datum" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Datod}"/>
+                                    <TextBlock Text="Zadnji datum" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Datdo}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="Datum 1" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Dat1}"/>
+                                    <TextBlock Text="Datum 2" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Dat2}"/>
+                                    <TextBlock Text="Datum 3" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Dat3}"/>
+                                    <TextBlock Text="Datum 4" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Dat4}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Sati, olaksice i nazivi" Grid.Row="0" Grid.Column="1" Margin="10,0,0,10">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="Radni sati u mesecu" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Cmes}"/>
+                                    <TextBlock Text="Kalendarski broj dana" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource ReadOnlyBoxStyle}" Text="{Binding Parametar.Dana}"/>
+                                    <TextBlock Text="Casovi praznika" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Cpraz}"/>
+                                    <TextBlock Text="Zakonski broj sati" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Czakon}"/>
+                                    <TextBlock Text="Naknade posebno D/N" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nakpos}"/>
+                                    <TextBlock Text="Aktivni tekuci racun" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Aktivrac}"/>
+                                    <TextBlock Text="Konacna isplata" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Konacna}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="Srazmerno casovima D/N" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Srazpor}"/>
+                                    <TextBlock Text="Zarada bez doprinosa" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Neoporez, StringFormat={}{0:F2}}"/>
+                                    <TextBlock Text="Zarada bez poreza" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Neoporezp, StringFormat={}{0:F2}}"/>
+                                    <TextBlock Text="Decimale" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Decimale}"/>
+                                    <TextBlock Text="Pocetak delatnosti" Style="{StaticResource LabelStyle}"/>
+                                    <DatePicker Style="{StaticResource DateStyle}" SelectedDate="{Binding Parametar.Datpocdel}"/>
+                                    <TextBlock Text="Cena rada" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Cenarada, StringFormat={}{0:F2}}"/>
+                                    <TextBlock Text="Najniza osnovica" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Najosn, StringFormat={}{0:F2}}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Nazivi i osnovice" Grid.Row="1" Grid.ColumnSpan="2">
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="Primanja 1-5 i terenski" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp1}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp2}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp3}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp4}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp5}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazp5ter}"/>
+                                    <TextBlock Text="Obustave 1-6" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo1}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo2}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo3}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo4}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo5}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Nazo6}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="8,0,8,0">
+                                    <TextBlock Text="Sifre i osnovice" Style="{StaticResource LabelStyle}"/>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S1}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin1, StringFormat={}{0:F2}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S3}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin3, StringFormat={}{0:F2}}"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S4}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin4, StringFormat={}{0:F2}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S5}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin5, StringFormat={}{0:F2}}"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S6}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin6, StringFormat={}{0:F2}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S71}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin71, StringFormat={}{0:F2}}"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S72}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin72, StringFormat={}{0:F2}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="55" Text="{Binding Parametar.S8}" Margin="0,0,4,8"/><TextBox Style="{StaticResource InputStyle}" Width="85" Text="{Binding Parametar.Sdin8, StringFormat={}{0:F2}}"/></StackPanel>
+                                    <TextBlock Text="Komora R / S / Region" Style="{StaticResource LabelStyle}"/>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Komoraj, StringFormat={}{0:F3}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Komoras, StringFormat={}{0:F3}}" Margin="0,0,8,8"/><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Komorar, StringFormat={}{0:F3}}"/></StackPanel>
+                                    <TextBlock Text="Broj zaposlenih 01.01 / zasnivanje / koristi" Style="{StaticResource LabelStyle}"/>
+                                    <StackPanel Orientation="Horizontal"><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Brzap0}" Margin="0,0,8,8"/><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Brzap1}" Margin="0,0,8,8"/><TextBox Style="{StaticResource InputStyle}" Width="90" Text="{Binding Parametar.Brzap2}"/></StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                                    <TextBlock Text="Specijalni parametri" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Smesec}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Snazmes}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Sredispl}"/>
+                                    <TextBlock Text="Arhiva / Arhiva2 / Preneto" Style="{StaticResource LabelStyle}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Style="{StaticResource InputStyle}" Width="70" Text="{Binding Parametar.Arhiva}" Margin="0,0,8,8"/>
+                                        <TextBox Style="{StaticResource InputStyle}" Width="70" Text="{Binding Parametar.Arhiva2}" Margin="0,0,8,8"/>
+                                        <TextBox Style="{StaticResource ReadOnlyBoxStyle}" Width="70" Text="{Binding Parametar.Preneto}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Pripravnost 1 / 2" Style="{StaticResource LabelStyle}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Style="{StaticResource InputStyle}" Width="120" Text="{Binding Parametar.Priprav1}" Margin="0,0,8,8"/>
+                                        <TextBox Style="{StaticResource InputStyle}" Width="120" Text="{Binding Parametar.Priprav2}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Sistemski IDBR" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource ReadOnlyBoxStyle}" Text="{Binding Parametar.Idbr}"/>
+                                    <TextBlock Text="KD sifre" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd1}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd4}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd9}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd12}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd20}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd22}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd24}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd25}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd27}"/>
+                                    <TextBox Style="{StaticResource InputStyle}" Text="{Binding Parametar.Kd28}"/>
+                                    <Button Content="Osveži mesec"
+                                            Style="{StaticResource TopButtonStyle}"
+                                            Background="#00897B"
+                                            HorizontalAlignment="Left"
+                                            Command="{Binding OsveziMesecCommand}"
+                                            IsEnabled="{Binding JeIzmena}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

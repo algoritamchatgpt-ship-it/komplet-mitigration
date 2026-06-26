@@ -1,0 +1,267 @@
+num records 14
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALKOPI | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  17.67
+    Width = 110.00
+    DoCreate = .T.
+    Caption = "KOPIRANJE NALOGA ZA KNJIŽENJE"
+    WindowType = 1
+    BackColor = 149,188,148
+    Name = "NALKOPI"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MBRNAL=BRNAL
+    THISFORM.LABEL2.CAPTION=MBRNAL
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALKOPITAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== label | Label1 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "STARI NALOG"
+    Height =   1.67
+    Left =   4.80
+    Top =   0.80
+    Width =  51.80
+    TabIndex = 6
+    ForeColor = 0,0,255
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== label | Label2 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  57.80
+    Top =   0.80
+    Width =  15.60
+    TabIndex = 7
+    ForeColor = 0,0,255
+    BackColor = 255,255,128
+    Name = "Label2"
+
+=== label | Label3 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "NOVI NALOG"
+    Height =   1.67
+    Left =   4.80
+    Top =   3.20
+    Width =  51.80
+    TabIndex = 8
+    ForeColor = 0,0,255
+    BackColor = 255,255,128
+    Name = "Label3"
+
+=== textbox | Text1 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  57.80
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   3.20
+    Width =  17.00
+    Name = "Text1"
+
+=== label | Label4 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "VREDNOST-ISTA=I   NEGATIVNA=N"
+    Height =   1.67
+    Left =   4.80
+    Top =   5.60
+    Width =  51.80
+    TabIndex = 9
+    ForeColor = 0,0,255
+    BackColor = 255,255,128
+    Name = "Label4"
+
+=== textbox | Text2 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = N
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  57.80
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   5.60
+    Width =   6.20
+    Name = "Text2"
+
+=== commandbutton | Command1 | parent=NALKOPI
+  PROPERTIES:
+    Top =  10.60
+    Left =   4.80
+    Height =   4.67
+    Width =  21.40
+    FontSize = 11
+    Picture = ..\ikone\adigitronisveska.png
+    Caption = "\<KOPIRAM"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET ORDER TO 2
+    MBRNAL=BRNAL
+    MNBRNAL=THISFORM.TEXT1.VALUE
+    MZNAK=THISFORM.TEXT2.VALUE
+    MDATDOK=THISFORM.TEXT3.VALUE   
+    
+    USE &KNALPA IN 0 ALIAS NALP EXCLU
+    SELECT NAL
+    SEEK MBRNAL
+    DO WHILE.NOT.EOF()
+       IF BRNAL<>MBRNAL
+          EXIT
+       ENDIF
+       SCATTER NAME POLJA
+       SELECT NALP
+       APPEND BLANK
+       GATHER NAME POLJA
+       REPLACE BRNAL WITH MNBRNAL
+       REPLACE DATDOK WITH MDATDOK
+       IF MZNAK='N'
+          REPLACE DUG WITH -DUG
+          REPLACE POT WITH -POT
+       ENDIF   
+       SELECT NAL
+       SKIP
+    ENDDO      
+    SELECT NALP
+    USE
+    SELECT NAL
+    SEEK MBRNAL
+    SET ORDER TO
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALKOPI
+  PROPERTIES:
+    Top =  10.53
+    Left =  86.40
+    Height =   4.67
+    Width =  21.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<IZLAZ"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== label | Label5 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "DATUM NALOGA"
+    Height =   1.67
+    Left =   4.80
+    Top =   8.00
+    Width =  51.80
+    TabIndex = 10
+    ForeColor = 0,0,255
+    BackColor = 255,255,128
+    Name = "Label5"
+
+=== textbox | Text3 | parent=NALKOPI
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  57.80
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   8.00
+    Width =  24.00
+    Name = "Text3"

@@ -1,0 +1,319 @@
+num records 20
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "osag"
+    CursorSource = ..\data00\osag.dbf
+    Name = "Cursor1"
+
+=== cursor | Cursor2 | parent=Dataenvironment
+  PROPERTIES:
+    Alias = "osagpod"
+    CursorSource = ..\data00\osagpod.dbf
+    Name = "Cursor2"
+
+=== form | OSAGPOD | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   4.60
+    Left =  19.80
+    Height =  32.20
+    Width = 119.40
+    DoCreate = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 0
+    BackColor = 183,188,249
+    Name = "OSAGPOD"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT OSAGPOD
+    SET ORDER TO 
+    GO TOP
+    THISFORM.CAPTION=' AMORTIZACIONE PODGRUPE '+OPERATER+' '+AKORIME
+    THISFORM.GRD0.RECORDSOURCE='OSAGPOD'
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERIO2
+       DO OSAGPODTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT OSAGPOD
+    POP KEY
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  28.73
+    Left =  16.20
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  28.73
+    Left =  32.00
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command3 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  28.80
+    Left =  47.60
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command4 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  28.80
+    Left =  63.40
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  26.00
+    Left = 135.60
+    Height =   1.80
+    Width =  14.40
+    Caption = "IZLAZ"
+    TabIndex = 8
+    Name = "Command6"
+
+=== commandbutton | Command7 | parent=OSAGPOD
+  PROPERTIES:
+    Top =  28.80
+    Left =  96.20
+    Height =   1.80
+    Width =  14.40
+    FontShadow = .F.
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 7
+    ColorSource = 3
+    ColorScheme = 15
+    BackColor = 255,128,128
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    
+    ENDPROC
+
+=== grid | grd0 | parent=OSAGPOD
+  PROPERTIES:
+    ColumnCount = 3
+    FontBold = .F.
+    FontSize = 11
+    DeleteMark = .F.
+    Height =  27.60
+    Left =  15.60
+    Panel = 1
+    RecordSource = "osagpod"
+    RecordSourceType = 1
+    RowHeight = 20
+    Top =   0.40
+    Width =  95.40
+    BackColor = 242,242,242
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = "osagpod.agpod"
+    Column1.Width =   9.60
+    Column1.BackColor = 242,242,242
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = "osagpod.ag"
+    Column2.Width =   4.40
+    Column2.BackColor = 242,242,242
+    Column2.Name = "Column2"
+    Column3.FontBold = .F.
+    Column3.FontSize = 11
+    Column3.ControlSource = "osagpod.opis"
+    Column3.Width =  74.60
+    Column3.BackColor = 242,242,242
+    Column3.Name = "Column3"
+
+=== header | Header1 | parent=OSAGPOD.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Agpod"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OSAGPOD.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 5
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OSAGPOD.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Ag"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OSAGPOD.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OSAGPOD.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "Opis"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OSAGPOD.grd0.Column3
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== commandbutton | Command8 | parent=OSAGPOD
+  PROPERTIES:
+    Top =   0.80
+    Left =   0.00
+    Height =   1.80
+    Width =  14.40
+    FontSize = 11
+    Caption = "OTVORI"
+    TabIndex = 2
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF THISFORM.GRD0.ReadOnly=.T.
+       THISFORM.GRD0.ReadOnly=.F.
+       THISFORM.GRD0.BACKCOLOR=RGB(255,255,255)
+       
+    ELSE
+       THISFORM.GRD0.ReadOnly=.T.
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC

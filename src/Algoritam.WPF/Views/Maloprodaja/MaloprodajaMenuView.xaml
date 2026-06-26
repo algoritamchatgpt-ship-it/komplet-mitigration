@@ -1,0 +1,172 @@
+<UserControl x:Class="Algoritam.WPF.Views.Maloprodaja.MaloprodajaMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="TmButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Width" Value="148"/>
+            <Setter Property="Margin" Value="3,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Padding="4,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GrupaHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#455A64"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        </Style>
+        <Style x:Key="SectionWrapPanelStyle" TargetType="WrapPanel">
+            <Setter Property="Width" Value="924"/>
+            <Setter Property="ItemWidth" Value="154"/>
+            <Setter Property="ItemHeight" Value="58"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <SolidColorBrush x:Key="BojaGlavna"  Color="#E65100"/>
+        <SolidColorBrush x:Key="BojaRoba"    Color="#F4511E"/>
+        <SolidColorBrush x:Key="BojaKasa"    Color="#EF6C00"/>
+        <SolidColorBrush x:Key="BojaIzlaz"   Color="#C62828"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F0F0F0">
+        <Border DockPanel.Dock="Top" Background="#E65100" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="GLAVNI MENI — MALOPRODAJA"
+                           FontFamily="Tahoma" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FirmaNaziv}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <TextBlock Text="{Binding FirmaMesto}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFCC80" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FirmaPib}"
+                                   FontFamily="Tahoma" FontSize="10" Foreground="#FFCC80"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#F0F0F0" Padding="20,8">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Izlaz" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaIzlaz}"
+                            Width="100" Height="38"
+                            Command="{Binding IzlazCommand}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#FFF3E0"
+                BorderThickness="0,0,0,1" BorderBrush="#FFE0B2" Padding="20,6"
+                Visibility="{Binding ImaBrzoUlaz, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Poslednje otvoreno:"
+                           FontFamily="Tahoma" FontSize="10" Foreground="#757575"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ItemsControl ItemsSource="{Binding BrzoUlazLista}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Naziv}"
+                                    Command="{Binding DataContext.OtvoriBrzoUlazCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="26" Padding="10,0" Margin="0,0,6,0"
+                                    FontFamily="Tahoma" FontSize="11"
+                                    Foreground="White" Background="#E65100"
+                                    BorderThickness="0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.80"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="20,12">
+            <StackPanel HorizontalAlignment="Left">
+
+                <TextBlock Text="Maloprodajne fakture" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="MALOPRODAJNA&#10;FAKTURA" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_FAKTURA"/>
+                    <Button Content="PREGLED&#10;MALOPRODAJE" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaGlavna}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_PREGLED"/>
+                </WrapPanel>
+
+                <TextBlock Text="Robno stanje" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="STANJE&#10;ROBE" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_STANJE"/>
+                    <Button Content="KALKULACIJA&#10;MALOPROD." Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_KAL"/>
+                    <Button Content="NIVELACIJA&#10;CENA" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaRoba}"
+                            ToolTip="Pregled izvršenih nivelacija (promena maloprodajnih cena/poreza)"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_NIV"/>
+                </WrapPanel>
+
+                <TextBlock Text="Kasa" Style="{StaticResource GrupaHeaderStyle}"/>
+                <WrapPanel Style="{StaticResource SectionWrapPanelStyle}">
+                    <Button Content="KASA&#10;PRODAJA" Style="{StaticResource TmButtonStyle}"
+                            Background="{StaticResource BojaKasa}"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_KASA"/>
+                    <Button Content="PARAMETRI&#10;MALOPROD." Style="{StaticResource TmButtonStyle}"
+                            Background="#455A64"
+                            Command="{Binding AkcijaCommand}" CommandParameter="TM_PARAM"/>
+                </WrapPanel>
+
+                <Border Height="16"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

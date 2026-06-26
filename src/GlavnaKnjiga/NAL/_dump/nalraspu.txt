@@ -1,0 +1,297 @@
+num records 15
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Top = 20
+    Left = 10
+    Height = 90
+    Width = 91
+    Alias = "nalraspu"
+    CursorSource = ..\databaze\nalraspu.dbf
+    Name = "Cursor1"
+
+=== form | NALRASPU | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  18.93
+    Width =  87.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PREUZIMANJE PODATAKA ZA RASPODELU KLASE 9"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALRASPU"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.TXTMTR.VALUE=''
+    THISFORM.REFRESH
+    SELECT NALRASPU
+    IF RECCOUNT()<1
+       APPEND BLANK
+       REPLACE DAT0 WITH TDAT0
+       REPLACE DAT1 WITH TDAT1
+       REPLACE BRNAL WITH '900001'
+       REPLACE MTR WITH 0
+    ENDIF
+    GO TOP
+    THISFORM.Refresh    
+    SET PROCEDURE TO TASTERI2
+      DO NALRASPUTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NALRASP
+    POP KEY
+    ENDPROC
+
+=== label | Label4 | parent=NALRASPU
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "MESTO TROŠKOVA"
+    Height =   1.67
+    Left =  15.00
+    Top =   7.47
+    Width =  28.40
+    TabIndex = 5
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label4"
+
+=== label | Label5 | parent=NALRASPU
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "POČETNI DATUM"
+    Height =   1.67
+    Left =  15.00
+    Top =   2.47
+    Width =  28.40
+    TabIndex = 7
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== label | Label6 | parent=NALRASPU
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "ZADNJI DATUM"
+    Height =   1.67
+    Left =  15.00
+    Top =   4.80
+    Width =  28.40
+    TabIndex = 8
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label6"
+
+=== commandbutton | Command1 | parent=NALRASPU
+  PROPERTIES:
+    Top =  12.00
+    Left =  57.60
+    Height =   4.80
+    Width =  26.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<IZLAZ"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC
+
+=== textbox | txtDat0 | parent=NALRASPU
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalraspu.dat0"
+    Height =   1.53
+    Left =  44.20
+    TabIndex = 1
+    Top =   2.40
+    Width =  17.20
+    Name = "txtDat0"
+
+=== textbox | txtDat1 | parent=NALRASPU
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalraspu.dat1"
+    Height =   1.53
+    Left =  44.20
+    TabIndex = 2
+    Top =   4.87
+    Width =  17.20
+    Name = "txtDat1"
+
+=== textbox | txtBrnal | parent=NALRASPU
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalraspu.brnal"
+    Height =   1.53
+    Left =  44.20
+    MaxLength = 6
+    TabIndex = 4
+    Top =  10.00
+    Width =  13.20
+    Name = "txtBrnal"
+
+=== textbox | txtMtr | parent=NALRASPU
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalraspu.mtr"
+    Height =   1.53
+    Left =  44.20
+    TabIndex = 3
+    Top =   7.40
+    Width =  12.00
+    Name = "txtMtr"
+
+=== label | Label1 | parent=NALRASPU
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "BROJ NALOGA"
+    Height =   1.67
+    Left =  15.00
+    Top =   9.93
+    Width =  28.40
+    TabIndex = 6
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command2 | parent=NALRASPU
+  PROPERTIES:
+    Top =  12.00
+    Left =   9.60
+    Height =   4.87
+    Width =  26.60
+    FontSize = 11
+    Picture = ..\ikone\afabrika.png
+    Caption = "\<PREUZMI"
+    TabIndex = 9
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    MMTR=THISFORM.TXTMTR.Value
+    MDAT0=THISFORM.TXTDAT0.Value
+    MDAT1=THISFORM.TXTDAT1.Value
+    MBRNAL=THISFORM.TXTBrnal.VALUE
+    
+    USE NAL IN 0 ORDER 1
+    SELECT NALRASP
+    SET ORDER TO 
+    GO TOP
+    DO WHILE.NOT.EOF()
+       MKONTO=KONTO
+       MMTR=MTR   
+       MDP=DP
+       REPLACE DATDOK WITH MDAT1
+       REPLACE BRNAL WITH MBRNAL
+       SELECT NAL
+       SEEK MKONTO
+       IF FOUND()
+          MDUG=0
+          MPOT=0
+          DO WHILE.NOT.EOF()
+             IF KONTO<>MKONTO
+                EXIT
+             ENDIF
+             IF DTOS(DATDOK)>=DTOS(MDAT0).AND.DTOS(DATDOK)<=DTOS(MDAT1)
+                IF MTR=MMTR.OR.MMTR=0
+                   MDUG=MDUG+DUG
+                   MPOT=MPOT+POT
+                ENDIF     
+             ENDIF   
+             SKIP
+          ENDDO      
+          SELECT NALRASP
+          IF MDP='D'
+             REPLACE DUG WITH MDUG-MPOT
+          ELSE
+             REPLACE POT WITH MPOT-MDUG
+          ENDIF
+       ENDIF   
+       SELECT NALRASP
+       SKIP
+    ENDDO
+    SELECT NAL
+    USE
+    SELECT NALRASP
+    GO TOP
+    DO WHILE.NOT.EOF()
+       MUCESCE=UCESCE
+       REPLACE DUG WITH ROUND(DUG*MUCESCE/100,2)
+       REPLACE POT WITH ROUND(POT*MUCESCE/100,2)
+       SKIP
+    ENDDO   
+    GO TOP
+    NALRASP.GRD0.REFRESH
+    THISFORM.RELEASE   
+    ENDPROC

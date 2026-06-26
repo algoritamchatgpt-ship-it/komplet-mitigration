@@ -1,0 +1,10 @@
+-- Source: ldzospec
+CREATE TABLE IF NOT EXISTS "ldzospec" (
+  "POVREDA" NUMERIC(2),
+  "TRUDNOCA" NUMERIC(2),
+  "NEGADET" NUMERIC(2),
+  "OSTALO" NUMERIC(2),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

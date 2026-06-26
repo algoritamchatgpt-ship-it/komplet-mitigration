@@ -1,0 +1,183 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.RekapitulacijaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Algoritam.WPF.Views.Zarade"
+        Title="{Binding Naslov}"
+        Width="750" Height="760"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+    <Window.InputBindings>
+        <KeyBinding Key="F7" Command="{Binding RekapitulacijaF7Command}"/>
+        <KeyBinding Key="F10" Command="{Binding StampaF10Command}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1565C0" Height="50">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock FontFamily="Tahoma" FontSize="11" Foreground="#90CAF9">
+                        <Run Text="Datum isplate: "/>
+                        <Run Text="{Binding DatumIsplate, Mode=OneWay}"/>
+                        <Run Text="  |  Broj radnika: "/>
+                        <Run Text="{Binding BrojRadnika, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock Grid.Column="1"
+                           Text="LDREK" FontFamily="Tahoma" FontSize="10"
+                           Foreground="#90CAF9" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Background="#1B5E20" Height="32">
+            <TextBlock Text="{Binding Poruka}"
+                       FontFamily="Tahoma" FontSize="12"
+                       Foreground="White" VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9"
+                BorderThickness="0,1,0,0" BorderBrush="#BBDEFB"
+                Padding="8,6">
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Command="{Binding RekapitulacijaF7Command}"
+                        Background="#1565C0" Foreground="White"
+                        FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                        Width="180" Height="36"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"
+                        ToolTip="Pregled rekapitulacije (F7)">
+                    <TextBlock Text="REKAPITULACIJA F7"/>
+                </Button>
+
+                <Button Command="{Binding StampaF10Command}"
+                        Background="#2E7D32" Foreground="White"
+                        FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                        Width="140" Height="36"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"
+                        ToolTip="Stampa tabele (F10)">
+                    <TextBlock Text="STAMPA F10"/>
+                </Button>
+
+                <Button Command="{Binding UcitajCommand}"
+                        Background="#E65100" Foreground="White"
+                        FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                        Width="120" Height="36"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"
+                        ToolTip="Ponovo ucitaj podatke">
+                    <TextBlock Text="OSVEZI"/>
+                </Button>
+
+                <Button Background="#C62828" Foreground="White"
+                        FontFamily="Tahoma" FontSize="12" FontWeight="Bold"
+                        Width="100" Height="36"
+                        BorderThickness="0" Cursor="Hand"
+                        Click="ZatvoriClick"
+                        ToolTip="Zatvori formu">
+                    <TextBlock Text="IZLAZ"/>
+                </Button>
+            </WrapPanel>
+        </Border>
+
+        <!-- DataGrid sa stavkama rekapitulacije -->
+        <DataGrid Margin="10"
+                  ItemsSource="{Binding Stavke}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column"
+                  AlternatingRowBackground="#F0F0F0"
+                  RowBackground="White"
+                  BorderBrush="#BBDEFB"
+                  BorderThickness="1"
+                  FontFamily="Consolas"
+                  FontSize="13"
+                  VerticalScrollBarVisibility="Auto">
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#1565C0"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="8,6"/>
+                    <Setter Property="BorderBrush" Value="#1565C0"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="MinHeight" Value="28"/>
+                    <Style.Triggers>
+                        <!-- Stavke sa linijom (separator) imaju donju borduru -->
+                        <DataTrigger Binding="{Binding ImaLiniju}" Value="True">
+                            <Setter Property="BorderBrush" Value="#1565C0"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                        </DataTrigger>
+                        <!-- Stavke bez koda (naslovi poput "OBUSTAVE") su bold -->
+                        <DataTrigger Binding="{Binding Kod}" Value="">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Background" Value="#E3F2FD"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="R.br." Binding="{Binding RedniBroj}"
+                                    Width="55">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="4,2"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Kod" Binding="{Binding Kod}"
+                                    Width="70">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Padding" Value="4,2"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"
+                                    Width="280">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Padding" Value="4,2"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Iznos" Binding="{Binding Sada, StringFormat=N2}"
+                                    Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Padding" Value="4,2"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

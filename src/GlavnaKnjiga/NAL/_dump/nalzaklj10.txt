@@ -1,0 +1,237 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALZAKLJ10 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  14.33
+    Width =  81.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "OSNOVNI ZAKLJUČNI LIST"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALZAKLJ10"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTKONP.VALUE=''
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO NALZAKLJ10TAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAKLJ10
+  PROPERTIES:
+    Top =   8.80
+    Left =  31.20
+    Height =   4.80
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\kutija.png
+    Caption = "\<PREGLED"
+    TabIndex = 11
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MKONP=THISFORM.TXTKONP.VALUE
+    MLENP=LEN(ALLTRIM(MKONP))
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    SELECT DATUMI
+    REPLACE DAT0 WITH MDAT0
+    REPLACE DAT1 WITH MDAT1
+    DO idel WITH (kkockax)
+    SELECT NALP
+    SET ORDER TO 1
+       DO idel WITH (kkockax)
+       DO idel WITH (kkockax2)
+    SET RELATION TO
+    COPY TO &KKOCKA FOR (substr(KONTO,1,MLENP)=ALLTRIM(MKONP));    
+                                       .AND.(DATDOK>=MDAT0.AND.DATDOK<=MDAT1)                                   
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON KONTO TAG KONTO
+    SET ORDER TO 1
+    TOTAL ON KONTO FIELDS DUG,POT TO &KKOCKA2
+    ZAP
+    APPEND FROM &KKOCKA2
+    SELECT KOCKA
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    
+    
+    
+    *REPORT FORM NALZAKLJ010  PREVIEW                                                                        
+       mfile='NALZAKLJ010'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    
+    SELECT KOCKA
+    SET RELATION TO
+    USE
+    SELECT NALP
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SET ORDER TO
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTKONP | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  43.80
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   2.33
+    Width =  27.20
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTKONP"
+
+=== label | Label1 | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto"
+    Height =   1.67
+    Left =  21.40
+    Top =   2.40
+    Width =  20.80
+    TabIndex = 12
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== textbox | TXTDAT0 | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.80
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   4.60
+    Width =  26.40
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Početni datum"
+    Height =   1.67
+    Left =  21.40
+    Top =   4.67
+    Width =  20.80
+    TabIndex = 18
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.80
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   6.87
+    Width =  26.20
+    BackColor = 255,255,255
+    BorderColor = 0,0,0
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALZAKLJ10
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Zadnji datum"
+    Height =   1.67
+    Left =  21.40
+    Top =   7.00
+    Width =  20.80
+    TabIndex = 19
+    ForeColor = 190,0,0
+    BackColor = 128,255,255
+    Name = "Label6"

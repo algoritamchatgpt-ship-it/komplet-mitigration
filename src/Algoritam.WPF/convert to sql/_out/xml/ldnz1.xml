@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldnz1">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="PDETE" type="N" length="2" decimals="0" />
+    <column name="OPOSTO" type="N" length="2" decimals="0" />
+    <column name="TPOSTO" type="N" length="2" decimals="0" />
+    <column name="SPOSTO" type="N" length="2" decimals="0" />
+    <column name="OSNOVP" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="ZAISPLAT" type="N" length="2" decimals="0" />
+    <column name="DOP" type="N" length="2" decimals="0" />
+    <column name="OBAVEZE" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

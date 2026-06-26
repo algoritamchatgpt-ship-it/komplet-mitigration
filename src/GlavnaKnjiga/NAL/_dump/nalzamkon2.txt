@@ -1,0 +1,182 @@
+num records 10
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALZAMKON2 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  10.73
+    Width =  88.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "UNOS DOKUMENTA ZA ODREDJENI KONTO"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 149,188,148
+    Name = "NALZAMKON2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTKONTO.VALUE=''
+    THISFORM.TXTDOK.VALUE=''
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO NALZAMKON2TAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAMKON2
+  PROPERTIES:
+    Top =   5.80
+    Left =   4.80
+    Height =   4.80
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\kutijanadole.png
+    Caption = "UNOS"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MKONTO=THISFORM.TXTKONTO.VALUE
+    MDOK=THISFORM.TXTDOK.VALUE
+    SELECT NAL
+    SET ORDER TO 
+    GO TOP
+    DO WHILE.NOT.EOF()
+       IF KONTO=MKONTO
+          REPLACE DOK WITH MDOK
+       ENDIF   
+       SKIP
+    ENDDO
+    GO TOP   
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTKONTO | parent=NALZAMKON2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.60
+    InputMask = ""
+    Left =  40.80
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.00
+    Width =  33.20
+    Name = "TXTKONTO"
+
+=== label | Label1 | parent=NALZAMKON2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO"
+    Height =   1.67
+    Left =  10.20
+    Top =   1.07
+    Width =  29.40
+    TabIndex = 5
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== textbox | TXTDOK | parent=NALZAMKON2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  40.60
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.00
+    Width =  11.60
+    Name = "TXTDOK"
+
+=== label | Label8 | parent=NALZAMKON2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "DOKUMENT"
+    Height =   1.67
+    Left =  10.20
+    Top =   3.07
+    Width =  29.40
+    TabIndex = 6
+    BackColor = 128,255,128
+    Name = "Label8"
+
+=== commandbutton | Command2 | parent=NALZAMKON2
+  PROPERTIES:
+    Top =   5.80
+    Left =  55.20
+    Height =   4.80
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\apalacdole.png
+    Caption = "\<IZLAZ"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC

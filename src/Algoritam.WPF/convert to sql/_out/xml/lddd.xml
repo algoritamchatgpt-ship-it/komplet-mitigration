@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="lddd">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="CASUK" type="N" length="1" decimals="0" />
+    <column name="CASVR" type="N" length="1" decimals="0" />
+    <column name="EFEKTBOD" type="N" length="0" decimals="0" />
+    <column name="OSTVARB" type="N" length="0" decimals="0" />
+    <column name="OBUKA" type="N" length="0" decimals="0" />
+    <column name="PROCBEZZ" type="N" length="2" decimals="0" />
+    <column name="PROCBEZUK" type="N" length="2" decimals="0" />
+    <column name="ZASTOJ" type="N" length="2" decimals="0" />
+    <column name="ZASTOJUC" type="N" length="2" decimals="0" />
+    <column name="PROCSAZ" type="N" length="2" decimals="0" />
+    <column name="STIMIN" type="N" length="2" decimals="0" />
+    <column name="STIMGOD" type="N" length="2" decimals="0" />
+    <column name="STIM" type="N" length="2" decimals="0" />
+    <column name="DESTIM" type="N" length="2" decimals="0" />
+    <column name="UKSTIM" type="N" length="2" decimals="0" />
+    <column name="DSTIMIN" type="N" length="2" decimals="0" />
+    <column name="DSTIMGOD" type="N" length="2" decimals="0" />
+    <column name="DSTIM" type="N" length="2" decimals="0" />
+    <column name="DDESTIM" type="N" length="2" decimals="0" />
+    <column name="DUKSTIM" type="N" length="2" decimals="0" />
+    <column name="OSTVARBS" type="N" length="0" decimals="0" />
+    <column name="OSTVARBSU" type="N" length="0" decimals="0" />
+    <column name="CASGOD" type="N" length="1" decimals="0" />
+    <column name="CASBOL" type="N" length="1" decimals="0" />
+    <column name="CASPRAZ" type="N" length="1" decimals="0" />
+    <column name="CASPROD" type="N" length="1" decimals="0" />
+    <column name="CASNOC" type="N" length="1" decimals="0" />
+    <column name="CASNED" type="N" length="1" decimals="0" />
+    <column name="CASPLAC" type="N" length="1" decimals="0" />
+    <column name="CASPLAC2" type="N" length="1" decimals="0" />
+    <column name="CASPAUZA" type="N" length="1" decimals="0" />
+    <column name="CASSVE" type="N" length="1" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="VRSTA" type="C" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="ARHIVA2" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

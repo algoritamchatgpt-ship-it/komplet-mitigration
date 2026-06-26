@@ -1,0 +1,68 @@
+using OsnovnaSredstva.ViewModels;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace OsnovnaSredstva.Views;
+
+public partial class OsObrazacOaWindow : Window
+{
+    public OsObrazacOaWindow(OsObrazacOaViewModel vm)
+    {
+        InitializeComponent();
+        DataContext = vm;
+    }
+
+    private void OnZatvoriClick(object sender, RoutedEventArgs e) => Close();
+
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+    {
+        if (DataContext is OsObrazacOaViewModel vm && vm.ImaNeSnimljenih)
+        {
+            var odg = System.Windows.MessageBox.Show(
+                "Imate nesačuvane promjene. Zatvoriti bez čuvanja?",
+                "Nesačuvane promjene",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+            if (odg != System.Windows.MessageBoxResult.Yes)
+                e.Cancel = true;
+        }
+        base.OnClosing(e);
+    }
+
+    private void OnDodajClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not OsObrazacOaViewModel vm) return;
+        vm.DodajCommand.Execute(null);
+        if (GridStavke.SelectedItem == null) return;
+        GridStavke.ScrollIntoView(GridStavke.SelectedItem);
+        GridStavke.Dispatcher.BeginInvoke(() =>
+        {
+            if (GridStavke.Columns.Count > 0)
+            {
+                GridStavke.CurrentCell = new DataGridCellInfo(GridStavke.SelectedItem, GridStavke.Columns[0]);
+                GridStavke.BeginEdit();
+            }
+        });
+    }
+
+    private void OnUcitajGrupeClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not OsObrazacOaViewModel vm) return;
+        if (vm.UcitajGrupeCommand.CanExecute(null))
+            vm.UcitajGrupeCommand.Execute(null);
+    }
+
+    private void OnUcitajPodatkeClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not OsObrazacOaViewModel vm) return;
+        if (vm.UcitajPodatkeCommand.CanExecute(null))
+            vm.UcitajPodatkeCommand.Execute(null);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape) Close();
+        base.OnKeyDown(e);
+    }
+}

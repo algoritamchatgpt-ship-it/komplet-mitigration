@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldparam">
+  <columns>
+    <column name="REDNIBR" type="N" length="0" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="REDISPL" type="N" length="0" decimals="0" />
+    <column name="DANA" type="N" length="0" decimals="0" />
+    <column name="CMES" type="N" length="0" decimals="0" />
+    <column name="CPRAZ" type="N" length="0" decimals="0" />
+    <column name="CZAKON" type="N" length="0" decimals="0" />
+    <column name="PROCNOC" type="N" length="2" decimals="0" />
+    <column name="PROCPROD" type="N" length="2" decimals="0" />
+    <column name="PROCPRAZ" type="N" length="2" decimals="0" />
+    <column name="PROCNED" type="N" length="2" decimals="0" />
+    <column name="PROCMIN" type="N" length="2" decimals="0" />
+    <column name="PROCSUS" type="N" length="2" decimals="0" />
+    <column name="EKOEFS" type="N" length="2" decimals="0" />
+    <column name="MINNAC" type="N" length="0" decimals="0" />
+    <column name="PROCBOL" type="N" length="2" decimals="0" />
+    <column name="PROCPLAC" type="N" length="2" decimals="0" />
+    <column name="PROSBRUTO" type="N" length="2" decimals="0" />
+    <column name="MINIMAL" type="N" length="2" decimals="0" />
+    <column name="BEN1" type="N" length="2" decimals="0" />
+    <column name="BEN2" type="N" length="2" decimals="0" />
+    <column name="BEN3" type="N" length="2" decimals="0" />
+    <column name="BEN4" type="N" length="2" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="SISPLATA" type="N" length="0" decimals="0" />
+    <column name="DOPPR1" type="N" length="2" decimals="0" />
+    <column name="DOPZR1" type="N" length="2" decimals="0" />
+    <column name="DOPNR1" type="N" length="2" decimals="0" />
+    <column name="DOPPF1" type="N" length="2" decimals="0" />
+    <column name="DOPZF1" type="N" length="2" decimals="0" />
+    <column name="DOPNF1" type="N" length="2" decimals="0" />
+    <column name="DOPPR2" type="N" length="2" decimals="0" />
+    <column name="DOPZR2" type="N" length="2" decimals="0" />
+    <column name="DOPNR2" type="N" length="2" decimals="0" />
+    <column name="DOPPF2" type="N" length="2" decimals="0" />
+    <column name="DOPZF2" type="N" length="2" decimals="0" />
+    <column name="DOPNF2" type="N" length="2" decimals="0" />
+    <column name="DOPPR3" type="N" length="2" decimals="0" />
+    <column name="DOPZR3" type="N" length="2" decimals="0" />
+    <column name="DOPNR3" type="N" length="2" decimals="0" />
+    <column name="DOPPF3" type="N" length="2" decimals="0" />
+    <column name="DOPZF3" type="N" length="2" decimals="0" />
+    <column name="DOPNF3" type="N" length="2" decimals="0" />
+    <column name="DOPPR4" type="N" length="2" decimals="0" />
+    <column name="DOPZR4" type="N" length="2" decimals="0" />
+    <column name="DOPNR4" type="N" length="2" decimals="0" />
+    <column name="DOPPF4" type="N" length="2" decimals="0" />
+    <column name="DOPZF4" type="N" length="2" decimals="0" />
+    <column name="DOPNF4" type="N" length="2" decimals="0" />
+    <column name="DOPPR5" type="N" length="2" decimals="0" />
+    <column name="DOPZR5" type="N" length="2" decimals="0" />
+    <column name="DOPNR5" type="N" length="2" decimals="0" />
+    <column name="DOPPF5" type="N" length="2" decimals="0" />
+    <column name="DOPZF5" type="N" length="2" decimals="0" />
+    <column name="DOPNF5" type="N" length="2" decimals="0" />
+    <column name="PROCPOR" type="N" length="2" decimals="0" />
+    <column name="S1" type="C" length="0" decimals="0" />
+    <column name="SDIN1" type="N" length="2" decimals="0" />
+    <column name="S3" type="C" length="0" decimals="0" />
+    <column name="SDIN3" type="N" length="2" decimals="0" />
+    <column name="S4" type="C" length="0" decimals="0" />
+    <column name="SDIN4" type="N" length="2" decimals="0" />
+    <column name="S5" type="C" length="0" decimals="0" />
+    <column name="SDIN5" type="N" length="2" decimals="0" />
+    <column name="S6" type="C" length="0" decimals="0" />
+    <column name="SDIN6" type="N" length="2" decimals="0" />
+    <column name="S71" type="C" length="0" decimals="0" />
+    <column name="SDIN71" type="N" length="2" decimals="0" />
+    <column name="S72" type="C" length="0" decimals="0" />
+    <column name="SDIN72" type="N" length="2" decimals="0" />
+    <column name="S8" type="C" length="0" decimals="0" />
+    <column name="SDIN8" type="N" length="2" decimals="0" />
+    <column name="KOMORAJ" type="N" length="3" decimals="0" />
+    <column name="KOMORAS" type="N" length="3" decimals="0" />
+    <column name="KOMORAR" type="N" length="3" decimals="0" />
+    <column name="SMESEC" type="N" length="0" decimals="0" />
+    <column name="SNAZMES" type="C" length="0" decimals="0" />
+    <column name="SREDISPL" type="N" length="0" decimals="0" />
+    <column name="CENARADA" type="N" length="6" decimals="0" />
+    <column name="KD1" type="C" length="0" decimals="0" />
+    <column name="KD4" type="C" length="0" decimals="0" />
+    <column name="KD9" type="C" length="0" decimals="0" />
+    <column name="KD12" type="C" length="0" decimals="0" />
+    <column name="KD20" type="C" length="0" decimals="0" />
+    <column name="KD22" type="C" length="0" decimals="0" />
+    <column name="KD24" type="C" length="0" decimals="0" />
+    <column name="KD25" type="C" length="0" decimals="0" />
+    <column name="KD27" type="C" length="0" decimals="0" />
+    <column name="KD28" type="C" length="0" decimals="0" />
+    <column name="DAT1" type="D" length="0" decimals="0" />
+    <column name="DAT2" type="D" length="0" decimals="0" />
+    <column name="DAT3" type="D" length="0" decimals="0" />
+    <column name="DAT4" type="D" length="0" decimals="0" />
+    <column name="GODINA" type="C" length="0" decimals="0" />
+    <column name="NAZP1" type="C" length="0" decimals="0" />
+    <column name="NAZP2" type="C" length="0" decimals="0" />
+    <column name="NAZP3" type="C" length="0" decimals="0" />
+    <column name="NAZP4" type="C" length="0" decimals="0" />
+    <column name="NAZP5" type="C" length="0" decimals="0" />
+    <column name="NAZP5TER" type="C" length="0" decimals="0" />
+    <column name="NAZO1" type="C" length="0" decimals="0" />
+    <column name="NAZO2" type="C" length="0" decimals="0" />
+    <column name="NAZO3" type="C" length="0" decimals="0" />
+    <column name="NAZO4" type="C" length="0" decimals="0" />
+    <column name="NAZO5" type="C" length="0" decimals="0" />
+    <column name="NAZO6" type="C" length="0" decimals="0" />
+    <column name="NEOPOREZ" type="N" length="2" decimals="0" />
+    <column name="NEOPOREZP" type="N" length="2" decimals="0" />
+    <column name="DECIMALE" type="C" length="0" decimals="0" />
+    <column name="AKTIVRAC" type="N" length="0" decimals="0" />
+    <column name="DATPOCDEL" type="D" length="0" decimals="0" />
+    <column name="BRZAP0" type="N" length="0" decimals="0" />
+    <column name="BRZAP1" type="N" length="0" decimals="0" />
+    <column name="BRZAP2" type="N" length="0" decimals="0" />
+    <column name="SRAZPOR" type="C" length="0" decimals="0" />
+    <column name="DINSAT" type="N" length="2" decimals="0" />
+    <column name="TOSAT" type="N" length="2" decimals="0" />
+    <column name="REGSAT" type="N" length="2" decimals="0" />
+    <column name="KONACNA" type="C" length="0" decimals="0" />
+    <column name="VRSTAPLATE" type="C" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="ARHIVA2" type="C" length="0" decimals="0" />
+    <column name="DATOD" type="D" length="0" decimals="0" />
+    <column name="DATDO" type="D" length="0" decimals="0" />
+    <column name="SOLPOROD1" type="N" length="2" decimals="0" />
+    <column name="SOLPORDO1" type="N" length="2" decimals="0" />
+    <column name="SOLPROC1" type="N" length="2" decimals="0" />
+    <column name="SOLPOROD2" type="N" length="2" decimals="0" />
+    <column name="SOLPORDO2" type="N" length="2" decimals="0" />
+    <column name="SOLPROC2" type="N" length="2" decimals="0" />
+    <column name="BKPROC" type="N" length="2" decimals="0" />
+    <column name="BKZASTITA" type="N" length="2" decimals="0" />
+    <column name="BKNACIN" type="C" length="0" decimals="0" />
+    <column name="NAKPOS" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+    <column name="PRIPRAV" type="N" length="2" decimals="0" />
+    <column name="PRIPRAV1" type="N" length="2" decimals="0" />
+    <column name="PRIPRAV2" type="N" length="2" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <REDNIBR />
+      <MESEC />
+      <NAZMES></NAZMES>
+      <REDISPL />
+      <DANA />
+      <CMES />
+      <CPRAZ />
+      <CZAKON />
+      <PROCNOC />
+      <PROCPROD />
+      <PROCPRAZ />
+      <PROCNED />
+      <PROCMIN>1</PROCMIN>
+      <PROCSUS>JA</PROCSUS>
+      <EKOEFS>NU</EKOEFS>
+      <MINNAC />
+      <PROCBOL>AR</PROCBOL>
+      <PROCPLAC />
+      <PROSBRUTO />
+      <MINIMAL>1</MINIMAL>
+      <BEN1 />
+      <BEN2 />
+      <BEN3>3</BEN3>
+      <BEN4>1</BEN4>
+      <ISPLATA />
+      <SISPLATA />
+      <DOPPR1 />
+      <DOPZR1 />
+      <DOPNR1>18</DOPNR1>
+      <DOPPF1>4</DOPPF1>
+      <DOPZF1 />
+      <DOPNF1 />
+      <DOPPR2 />
+      <DOPZR2 />
+      <DOPNR2 />
+      <DOPPF2 />
+      <DOPZF2>18</DOPZF2>
+      <DOPNF2>4</DOPNF2>
+      <DOPPR3 />
+      <DOPZR3>26</DOPZR3>
+      <DOPNR3>.0</DOPNR3>
+      <DOPPF3>0</DOPPF3>
+      <DOPZF3 />
+      <DOPNF3>26</DOPNF3>
+      <DOPPR4>.0</DOPPR4>
+      <DOPZR4>0</DOPZR4>
+      <DOPNR4>1</DOPNR4>
+      <DOPPF4>10</DOPPF4>
+      <DOPZF4>.0</DOPZF4>
+      <DOPNF4>0</DOPNF4>
+      <DOPPR5>1</DOPPR5>
+      <DOPZR5>10</DOPZR5>
+      <DOPNR5>.0</DOPNR5>
+      <DOPPF5>0</DOPPF5>
+      <DOPZF5 />
+      <DOPNF5>0</DOPNF5>
+      <PROCPOR>.4</PROCPOR>
+      <S1></S1>
+      <SDIN1>0</SDIN1>
+      <S3></S3>
+      <SDIN3 />
+      <S4></S4>
+      <SDIN4 />
+      <S5></S5>
+      <SDIN5 />
+      <S6></S6>
+      <SDIN6 />
+      <S71></S71>
+      <SDIN71 />
+      <S72></S72>
+      <SDIN72 />
+      <S8></S8>
+      <SDIN8 />
+      <KOMORAJ />
+      <KOMORAS>6</KOMORAS>
+      <KOMORAR>5.0</KOMORAR>
+      <SMESEC />
+      <SNAZMES></SNAZMES>
+      <SREDISPL />
+      <CENARADA>0   45</CENARADA>
+      <KD1></KD1>
+      <KD4></KD4>
+      <KD9></KD9>
+      <KD12></KD12>
+      <KD20></KD20>
+      <KD22></KD22>
+      <KD24></KD24>
+      <KD25></KD25>
+      <KD27></KD27>
+      <KD28></KD28>
+      <DAT1 />
+      <DAT2 />
+      <DAT3 />
+      <DAT4 />
+      <GODINA></GODINA>
+      <NAZP1></NAZP1>
+      <NAZP2></NAZP2>
+      <NAZP3></NAZP3>
+      <NAZP4></NAZP4>
+      <NAZP5></NAZP5>
+      <NAZP5TER></NAZP5TER>
+      <NAZO1></NAZO1>
+      <NAZO2></NAZO2>
+      <NAZO3></NAZO3>
+      <NAZO4></NAZO4>
+      <NAZO5></NAZO5>
+      <NAZO6></NAZO6>
+      <NEOPOREZ>.0</NEOPOREZ>
+      <NEOPOREZP>0</NEOPOREZP>
+      <DECIMALE></DECIMALE>
+      <AKTIVRAC />
+      <DATPOCDEL />
+      <BRZAP0 />
+      <BRZAP1 />
+      <BRZAP2 />
+      <SRAZPOR></SRAZPOR>
+      <DINSAT />
+      <TOSAT />
+      <REGSAT />
+      <KONACNA></KONACNA>
+      <VRSTAPLATE></VRSTAPLATE>
+      <ARHIVA></ARHIVA>
+      <ARHIVA2></ARHIVA2>
+      <DATOD />
+      <DATDO />
+      <SOLPOROD1 />
+      <SOLPORDO1>11</SOLPORDO1>
+      <SOLPROC1>46</SOLPROC1>
+      <SOLPOROD2>94</SOLPOROD2>
+      <SOLPORDO2>.0</SOLPORDO2>
+      <SOLPROC2>0</SOLPROC2>
+      <BKPROC />
+      <BKZASTITA />
+      <BKNACIN></BKNACIN>
+      <NAKPOS></NAKPOS>
+      <PRENETO></PRENETO>
+      <IDBR />
+      <PRIPRAV />
+      <PRIPRAV1 />
+      <PRIPRAV2>6</PRIPRAV2>
+    </row>
+  </rows>
+</dbf>

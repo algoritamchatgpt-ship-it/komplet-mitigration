@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldppoDSO">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="BRUTOR1" type="N" length="0" decimals="0" />
+    <column name="BRUTOR2" type="N" length="0" decimals="0" />
+    <column name="BRUTOR3" type="N" length="0" decimals="0" />
+    <column name="BRUTON1" type="N" length="0" decimals="0" />
+    <column name="BRUTON2" type="N" length="0" decimals="0" />
+    <column name="BRUTON3" type="N" length="0" decimals="0" />
+    <column name="STOPAP1" type="N" length="2" decimals="0" />
+    <column name="STOPAP2" type="N" length="2" decimals="0" />
+    <column name="STOPAP3" type="N" length="2" decimals="0" />
+    <column name="PORR1" type="N" length="2" decimals="0" />
+    <column name="PORR2" type="N" length="2" decimals="0" />
+    <column name="PORR3" type="N" length="2" decimals="0" />
+    <column name="PORN1" type="N" length="2" decimals="0" />
+    <column name="PORN2" type="N" length="2" decimals="0" />
+    <column name="PORN3" type="N" length="2" decimals="0" />
+    <column name="BRUTORUK" type="N" length="0" decimals="0" />
+    <column name="BRUTONUK" type="N" length="0" decimals="0" />
+    <column name="PORRUK" type="N" length="0" decimals="0" />
+    <column name="PORNUK" type="N" length="0" decimals="0" />
+    <column name="TROMES" type="N" length="0" decimals="0" />
+    <column name="DOKAZ1" type="C" length="0" decimals="0" />
+    <column name="DOKAZ2" type="C" length="0" decimals="0" />
+    <column name="DOKAZ3" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA1" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA2" type="C" length="0" decimals="0" />
+    <column name="NAPOMENA3" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

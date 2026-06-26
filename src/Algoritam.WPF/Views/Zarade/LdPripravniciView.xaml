@@ -1,0 +1,75 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPripravniciView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+    <DockPanel>
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <TextBlock Text="PRIPRAVNICI" FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                       Foreground="White" VerticalAlignment="Center" Margin="16,0"/>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#FFF9C4" BorderBrush="#D3C26B" BorderThickness="0,0,0,1" Padding="8" Margin="0,0,0,0">
+            <TextBlock Text="DATUM ISPLATE UNETI U PARAMETRE 2 KOD DATUMA PRVE ISPLATE"
+                       FontWeight="Bold" FontFamily="Tahoma" FontSize="11"/>
+        </Border>
+
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Stavke}"
+                  SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="20"
+                  BorderThickness="0"
+                  Background="#F5F5F5"
+                  AlternatingRowBackground="#EDF1F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj" Binding="{Binding Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="Ime_prez" Binding="{Binding ImePrez, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="220"/>
+                <DataGridTextColumn Header="Casrad" Binding="{Binding Casrad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Casbol" Binding="{Binding Casbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90"/>
+                <DataGridTextColumn Header="Neto" Binding="{Binding Neto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="110"/>
+                <DataGridTextColumn Header="Netobol" Binding="{Binding Netobol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="110"/>
+                <DataGridTextColumn Header="Porez" Binding="{Binding Porez, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="110"/>
+                <DataGridTextColumn Header="Dopsocr" Binding="{Binding Dopsocr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="110"/>
+                <DataGridTextColumn Header="Ukupno" Binding="{Binding Ukupno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="120"/>
+                <DataGridTextColumn Header="Nivo" Binding="{Binding Nivo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="360"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Padding="8,6">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Content="BRISANJE SVE" Width="120" Height="28" Margin="0,0,8,0" Command="{Binding BrisanjeSveCommand}" Style="{StaticResource DangerButtonStyle}"/>
+                    <Button Content="PREUZIMANJE" Width="120" Height="28" Margin="0,0,8,0" Command="{Binding PreuzimanjeCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+                    <Button Content="OBRAZAC" Width="100" Height="28" Margin="0,0,8,0" Command="{Binding ObrazacCommand}"
+                            Background="#1565C0" Foreground="White" BorderThickness="0" FontFamily="Tahoma" FontSize="11" Cursor="Hand"/>
+                    <Button Content="BRISANJE REDA" Width="130" Height="28" Margin="0,0,8,0" Command="{Binding BrisanjeRedaCommand}" Style="{StaticResource DangerButtonStyle}"/>
+                    <Button Content="SAČUVAJ" Width="100" Height="28" Margin="0,0,8,0" Command="{Binding SacuvajRucnoCommand}" Style="{StaticResource SaveButtonStyle}"/>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Right"
+                        Content="IZLAZ"
+                        Width="120"
+                        Height="28"
+                        Background="#455A64"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontFamily="Tahoma" FontSize="11" Cursor="Hand"
+                        Click="IzlazClick"/>
+
+                <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</Window>

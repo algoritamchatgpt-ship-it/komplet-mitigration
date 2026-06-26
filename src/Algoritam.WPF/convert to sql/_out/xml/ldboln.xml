@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldboln">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="POL" type="C" length="0" decimals="0" />
+    <column name="PRVAISPL" type="C" length="0" decimals="0" />
+    <column name="DOD" type="D" length="0" decimals="0" />
+    <column name="DDO" type="D" length="0" decimals="0" />
+    <column name="POVRAD" type="N" length="0" decimals="0" />
+    <column name="POVDAN" type="N" length="0" decimals="0" />
+    <column name="POVSIF" type="N" length="0" decimals="0" />
+    <column name="BOLRAD" type="N" length="0" decimals="0" />
+    <column name="BOLDAN" type="N" length="0" decimals="0" />
+    <column name="BOLSIF" type="N" length="0" decimals="0" />
+    <column name="IZORAD" type="N" length="0" decimals="0" />
+    <column name="IZODAN" type="N" length="0" decimals="0" />
+    <column name="IZOSIF" type="N" length="0" decimals="0" />
+    <column name="UKRAD" type="N" length="0" decimals="0" />
+    <column name="UKDAN" type="N" length="0" decimals="0" />
+    <column name="UKSIF" type="N" length="0" decimals="0" />
+    <column name="NEGRAD" type="N" length="0" decimals="0" />
+    <column name="NEGDAN" type="N" length="0" decimals="0" />
+    <column name="NEGSIF" type="N" length="0" decimals="0" />
+    <column name="BRUTO100" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="DOPPIO" type="N" length="2" decimals="0" />
+    <column name="DOPZDR" type="N" length="2" decimals="0" />
+    <column name="DOPNEZ" type="N" length="2" decimals="0" />
+    <column name="DOPPIOF" type="N" length="2" decimals="0" />
+    <column name="DOPZDRF" type="N" length="2" decimals="0" />
+    <column name="DOPNEZF" type="N" length="2" decimals="0" />
+    <column name="ZAISPLAT" type="N" length="2" decimals="0" />
+    <column name="SVEGA" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

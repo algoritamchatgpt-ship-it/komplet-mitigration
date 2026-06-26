@@ -1,0 +1,127 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPARAM | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   8.33
+    Width =  63.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PARAMETRI KNJIŽENJA"
+    WindowType = 1
+    BackColor = 149,188,148
+    Name = "NALPARAM"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NAL
+    POP KEY
+    
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT DATUMI
+    THISFORM.TXTPAR2.VALUE=PAR2
+    SET PROCEDURE TO TASTERI2
+       DO NALPARAMTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+
+=== textbox | txtPar2 | parent=NALPARAM
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontItalic = .F.
+    FontName = "Arial"
+    FontSize = 11
+    FontUnderline = .F.
+    Alignment = 0
+    BackStyle = 1
+    BorderStyle = 1
+    ControlSource = ""
+    Height =   1.53
+    Left =  56.40
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   2.40
+    Width =   6.20
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "txtPar2"
+
+=== label | Label1 | parent=NALPARAM
+  PROPERTIES:
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "PRIKAZ NALOGA SA ANALITIKOM 1=DA "
+    Height =   1.67
+    Left =   1.20
+    Top =   2.40
+    Width =  54.00
+    BackColor = 255,255,0
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALPARAM
+  PROPERTIES:
+    Top =   5.20
+    Left =  19.20
+    Height =   2.47
+    Width =  23.00
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    ForeColor = 0,0,0
+    BackColor = 236,233,216
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT DATUMI
+    REPLACE PAR2 WITH THISFORM.TXTPAR2.VALUE
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldosn">
+  <columns>
+    <column name="SSTEPEN" type="C" length="0" decimals="0" />
+    <column name="M1" type="N" length="2" decimals="0" />
+    <column name="M2" type="N" length="2" decimals="0" />
+    <column name="M3" type="N" length="2" decimals="0" />
+    <column name="M4" type="N" length="2" decimals="0" />
+    <column name="M5" type="N" length="2" decimals="0" />
+    <column name="M6" type="N" length="2" decimals="0" />
+    <column name="M7" type="N" length="2" decimals="0" />
+    <column name="M8" type="N" length="2" decimals="0" />
+    <column name="M9" type="N" length="2" decimals="0" />
+    <column name="M10" type="N" length="2" decimals="0" />
+    <column name="M11" type="N" length="2" decimals="0" />
+    <column name="M12" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>1</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>5</M5>
+      <M6>44</M6>
+      <M7>7.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>5</M11>
+      <M12>44</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>3</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>7</M5>
+      <M6>95</M6>
+      <M7>2.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>7</M11>
+      <M12>95</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>4</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>9</M5>
+      <M6>45</M6>
+      <M7>1.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>9</M11>
+      <M12>45</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>5</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>11</M5>
+      <M6>91</M6>
+      <M7>8.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>11</M11>
+      <M12>91</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>6</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>12</M5>
+      <M6>83</M6>
+      <M7>4.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>12</M11>
+      <M12>83</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>7/</M1>
+      <M2>1</M2>
+      <M3 />
+      <M4 />
+      <M5>16</M5>
+      <M6>90</M6>
+      <M7>0.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>16</M11>
+      <M12>90</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>7/</M1>
+      <M2>2</M2>
+      <M3 />
+      <M4 />
+      <M5>18</M5>
+      <M6>87</M6>
+      <M7>9.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>18</M11>
+      <M12>87</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1>8</M1>
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5>22</M5>
+      <M6>85</M6>
+      <M7>6.</M7>
+      <M8>00</M8>
+      <M9 />
+      <M10 />
+      <M11>22</M11>
+      <M12>85</M12>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <SSTEPEN></SSTEPEN>
+      <M1 />
+      <M2 />
+      <M3 />
+      <M4 />
+      <M5 />
+      <M6 />
+      <M7 />
+      <M8 />
+      <M9 />
+      <M10 />
+      <M11 />
+      <M12 />
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

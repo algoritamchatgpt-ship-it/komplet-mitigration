@@ -1,0 +1,12 @@
+-- Source: ldzah
+CREATE TABLE IF NOT EXISTS "ldzah" (
+  "KOD" VARCHAR(0),
+  "OPIS" VARCHAR(0),
+  "PRE" NUMERIC(2),
+  "SADA" NUMERIC(2),
+  "RAZLIKA" NUMERIC(2),
+  "RLINI" VARCHAR(0),
+  "PRENETO" VARCHAR(0),
+  "IDBR" NUMERIC(0)
+);
+

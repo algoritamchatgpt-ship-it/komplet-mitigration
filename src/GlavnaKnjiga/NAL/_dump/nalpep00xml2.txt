@@ -1,0 +1,313 @@
+num records 8
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPEP00XML2 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   3.20
+    Left =  31.00
+    Height =  16.67
+    Width = 150.00
+    DoCreate = .T.
+    Caption = "PUTANJA ZA PREUZIMANJE IZVODA XML2"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 230,230,230
+    Name = "NALPEP00XML2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    SELECT NALPEP00
+    USE
+    SELECT NALP
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE NALPEP00 IN 0 EXCLUSIVE
+    SELECT NALPEP00
+    IF RECCOUNT()<1
+       APPEND BLANK
+    ENDIF
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPEP00XMLTAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+
+=== textbox | txtPutanja | parent=NALPEP00XML2
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalpep00.putanja"
+    Height =   1.53
+    Left =   2.80
+    MaxLength = 70
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   4.27
+    Width = 142.60
+    Name = "txtPutanja"
+
+=== label | lblPutanja | parent=NALPEP00XML2
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Unesite putanju i ime datoteke"
+    Height =   1.27
+    Left =   3.40
+    Top =   2.80
+    Width =  38.80
+    TabIndex = 4
+    ForeColor = 125,0,0
+    Name = "lblPutanja"
+
+=== commandbutton | Command1 | parent=NALPEP00XML2
+  PROPERTIES:
+    Top =   8.80
+    Left =  10.60
+    Height =   5.53
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\kutijanadole.png
+    Caption = "\<Preuzmi"
+    TabIndex = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MFILE=ALLTRIM(THISFORM.TXTPutanja.Value)
+    *SET STEP ON 
+    *USE nalpixml IN 0 EXCLUSIVE
+    *SELECT nalpixml
+    *zap
+       USE NALPEP03 IN 0 EXCLU ALIAS NALPEP02
+       SELECT NALPEP02
+       ZAP
+    IF FILE(MFILE)
+    USE &TPREGLE IN 0 EXCLU ALIAS PREGLED
+    SELECT PREGLED
+    ZAP
+    APPEND FROM &mfile TYPE sdf
+    *BROWSE
+    GO TOP
+    GOTO 2
+    DO WHILE.NOT.EOF()
+       MPOLJE=PPOLJE+PPOLJE2+PPOLJE3+PPOLJE4
+       Miznos=SUBSTR(MPOLJE,135,11)+'.'+SUBSTR(MPOLJE,146,2)
+       MNAZIV=SUBSTR(mpolje,19,35)
+       mracund=SUBSTR(mpolje,149,18)
+       mdugpot=SUBSTR(mpolje,148,1)
+       MOPIS=SUBSTR(mpolje,100,34)   
+       IF mdugpot='D'
+          MDUG=VAL(MIZNOS)
+          MPOT=0
+       ELSE
+          MPOT=VAL(MIZNOS)
+          MDUG=0
+       ENDIF   
+       SELECT NALPEP02 
+       APPEND blank
+       replace dug WITH mdug
+       replace pot WITH mpot
+       replace racund WITH mRACUND
+       replace naziv WITH mnaziv
+       replace svrha WITH mopis
+       SELECT PREGLED
+       SKIP
+    ENDDO
+    SELECT pregled
+    use
+    SELECT NALPEP02
+    *BROW
+    ********************************************
+       SELECT AN0
+       SET ORDER TO 3
+       SELECT NALPEP02 
+       GO TOP
+       DO WHILE.NOT.EOF()
+          MNAZIV=NAZIV
+          MPOZIVP=POZIVP
+          MPOZIVZ=POZIVZ
+          MDATDOK=CTOD(DATUM)
+          MDUG=DUG
+          MPOT=POT
+          MSVRHA=SVRHA
+          MPOZIVP=POZIVP
+          MRACUNP=ALLTRIM(RACUND)
+          *---OVDE JE UPISAN ZIRORACUN
+          REPLACE RACUNP2 WITH RACUND
+          *----SKIDAMO NULE I CRTICE--------
+          DO WHILE.T.
+             MLEN=LEN(MRACUNP)
+             MAT=AT('0',MRACUNP)
+             IF MAT>0
+                M1=SUBSTR(MRACUNP,1,MAT-1)
+                M2=SUBSTR(MRACUNP,MAT+1,20)
+                M3=M1+M2
+                MRACUNP=M3
+                LOOP
+             ELSE
+                EXIT
+             ENDIF
+          ENDDO      
+          REPLACE RACUND WITH MRACUNP  
+          MRACUNP=ALLTRIM(RACUND)
+          DO WHILE.T.
+             MLEN=LEN(MRACUNP)
+             MAT=AT('-',MRACUNP)
+             IF MAT>0
+                M1=SUBSTR(MRACUNP,1,MAT-1)
+                M2=SUBSTR(MRACUNP,MAT+1,20)
+                M3=M1+M2
+                MRACUNP=M3
+                LOOP
+             ELSE
+                EXIT
+             ENDIF   
+          ENDDO      
+          REPLACE RACUND WITH MRACUNP  
+          MRACUN=RACUND
+          *-----KRAJ SKIDANJA NULA I CRTICA--
+          A1=0
+          MSIFRA=SPACE(5)
+          SELECT AN0
+          LOCATE FOR ALLTRIM(AZIRORAC)=MRACUNP
+          IF FOUND()
+             MSIFRA=SIFRA
+             A1=1
+          ENDIF      
+          IF A1=0 
+             LOCATE FOR ALLTRIM(AZIRORAC2)=MRACUNP
+             IF FOUND()
+                MSIFRA=SIFRA
+                A1=1
+             ENDIF
+          ENDIF
+          IF A1=0 
+             LOCATE FOR ALLTRIM(AZIRORAC3)=MRACUNP
+             IF FOUND()
+                MSIFRA=SIFRA
+                A1=1
+             ENDIF
+          ENDIF
+          IF A1=0 
+             LOCATE FOR ALLTRIM(AZIRORAC4)=MRACUNP
+             IF FOUND()
+                MSIFRA=SIFRA
+                A1=1
+             ENDIF
+          ENDIF
+          IF A1=0 
+             LOCATE FOR ALLTRIM(AZIRORAC5)=MRACUNP
+             IF FOUND()
+                MSIFRA=SIFRA
+                A1=1
+             ENDIF
+          ENDIF
+          IF A1=0 
+             LOCATE FOR ALLTRIM(AZIRORAC6)=MRACUNP
+             IF FOUND()
+                MSIFRA=SIFRA
+                A1=1
+             ENDIF
+          ENDIF
+          
+          SELECT NALP
+          APPEND BLANK
+          REPLACE DUG WITH MDUG
+          REPLACE POT WITH MPOT
+          REPLACE OPIS WITH MSVRHA
+          replace datdok WITH mdatdok
+          REPLACE VALUTA WITH MDATDOK
+          REPLACE NAZIV WITH MNAzIV
+          REPLACE POZIVP WITH MPOZIVP
+          REPLACE POZIVZ WITH MPOZIVZ
+          
+          IF MSIFRA<>SPACE(5)
+             REPLACE SIFRA WITH MSIFRA
+          ENDIF
+          REPLACE BRRAC WITH MPOZIVP
+          IF SIFRA<>SPACE(5)
+             IF POT<>0
+                REPLACE KONTO WITH '2020000000'
+             ELSE
+                REPLACE KONTO WITH '4330000000'
+             ENDIF
+          ELSE
+             REPLACE KONTO WITH '9999999999'   
+          ENDIF
+          SELECT NALPEP02
+          SKIP
+       ENDDO   
+       
+       SELECT NALPEP02
+       USE
+       SELECT AN0
+       SET ORDER TO 1
+    
+    ********************************
+    SELECT NALPEP00
+    ENDIF
+    thisform.release
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPEP00XML2
+  PROPERTIES:
+    Top =   8.80
+    Left = 107.20
+    Height =   5.60
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldprosz">
+  <columns>
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="VAZI" type="C" length="0" decimals="0" />
+    <column name="CASUK" type="N" length="2" decimals="0" />
+    <column name="DINUK" type="N" length="2" decimals="0" />
+    <column name="DINCAS" type="N" length="2" decimals="0" />
+    <column name="CASMES" type="N" length="2" decimals="0" />
+    <column name="DINEFEKT" type="N" length="2" decimals="0" />
+    <column name="INDEKS" type="N" length="2" decimals="0" />
+    <column name="RADNIKA" type="N" length="0" decimals="0" />
+    <column name="PUTANJA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

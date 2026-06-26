@@ -1,0 +1,246 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.BaznaKontaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Bazni šifarnik konta"
+        Width="860" Height="560"
+        MinWidth="700" MinHeight="420"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+
+    <Window.Resources>
+        <Style x:Key="BtnPrimary" TargetType="Button">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DgColHeader" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#1B5E20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="6,5"/>
+            <Setter Property="BorderBrush" Value="#2E7D32"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        </Style>
+
+        <Style x:Key="DgCell" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#BBDEFB"/>
+                    <Setter Property="Foreground" Value="#1565C0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EditCell" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#90CAF9"/>
+            <Setter Property="Padding" Value="3,1"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding OsveziCommand}"/>
+        <KeyBinding Key="Escape" Command="{Binding OsveziCommand}"/>
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ── Zaglavlje ── -->
+        <Border Grid.Row="0" Background="#1B5E20" Height="50">
+            <DockPanel Margin="16,0">
+                <TextBlock Text="BAZNI ŠIFARNIK KONTA"
+                           Foreground="White" FontSize="16" FontWeight="Bold"
+                           FontFamily="Tahoma" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Right"
+                           Text="ldkon00.dbf"
+                           Foreground="#A5D6A7" FontSize="10" FontFamily="Tahoma"
+                           VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </DockPanel>
+        </Border>
+
+        <!-- ── Grid konta ── -->
+        <Border Grid.Row="1" Margin="12,10,12,0"
+                BorderBrush="#B0BEC5" BorderThickness="1"
+                Background="White">
+            <DataGrid x:Name="GrdKonta"
+                      ItemsSource="{Binding Stavke}"
+                      SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserSortColumns="True"
+                      GridLinesVisibility="Horizontal"
+                      HorizontalGridLinesBrush="#E3F2FD"
+                      HeadersVisibility="Column"
+                      Background="White"
+                      AlternatingRowBackground="#F5F9FF"
+                      RowHeight="24"
+                      FontFamily="Tahoma"
+                      FontSize="11"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
+                      ColumnHeaderStyle="{StaticResource DgColHeader}"
+                      CellStyle="{StaticResource DgCell}"
+                      BorderThickness="0"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.VirtualizationMode="Recycling">
+
+                <DataGrid.Columns>
+                    <!-- Vrsta C(1) -->
+                    <DataGridTextColumn Header="Vrsta"
+                                        Binding="{Binding Vrsta, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="55"
+                                        EditingElementStyle="{StaticResource EditCell}"/>
+                    <!-- Kod C(7) -->
+                    <DataGridTextColumn Header="Kod"
+                                        Binding="{Binding Kod, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="80"
+                                        EditingElementStyle="{StaticResource EditCell}"/>
+                    <!-- Opis C(27) -->
+                    <DataGridTextColumn Header="Opis"
+                                        Binding="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*"
+                                        EditingElementStyle="{StaticResource EditCell}"/>
+                    <!-- Konto C(10) -->
+                    <DataGridTextColumn Header="Konto"
+                                        Binding="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="110"
+                                        EditingElementStyle="{StaticResource EditCell}"/>
+                    <!-- Kontop C(10) -->
+                    <DataGridTextColumn Header="Kontop"
+                                        Binding="{Binding Kontop, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="110"
+                                        EditingElementStyle="{StaticResource EditCell}"/>
+                </DataGrid.Columns>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#BBDEFB"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+        </Border>
+
+        <!-- ── Toolbar dugmad ── -->
+        <Border Grid.Row="2" Margin="12,8,12,0" Background="White"
+                BorderBrush="#B0BEC5" BorderThickness="1" Padding="10,8">
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="PRENOS IZ PRIMERA"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#1565C0"
+                        Width="155" Margin="0,0,6,0"
+                        ToolTip="Kopira konta iz uzorka (ldkon0b.dbf) — samo ako je tabela prazna"
+                        Command="{Binding PrenosIzPrimeraCommand}"/>
+
+                <Button Content="DODAVANJE"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#1565C0"
+                        Width="110" Margin="0,0,6,0"
+                        ToolTip="Dodaje prazan red na kraj tabele"
+                        Command="{Binding DodajCommand}"/>
+
+                <Button Content="BRISANJE REDA"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#C62828"
+                        Width="120" Margin="0,0,6,0"
+                        ToolTip="Brise selektovani red"
+                        Command="{Binding ObrisiRedCommand}"/>
+
+                <Button Content="BRIŠI SVE"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#E65100"
+                        Width="90" Margin="0,0,16,0"
+                        ToolTip="Brise sva konta iz tabele"
+                        Command="{Binding ObrisiSveCommand}"/>
+
+                <Separator Width="1" Background="#C8E6C9" Margin="0,0,16,0"/>
+
+                <Button Content="PREGLED KONTA"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#1565C0"
+                        Width="130" Margin="0,0,6,0"
+                        ToolTip="Pregled svih konta"
+                        Click="PregledKontaClick"/>
+
+                <Button Content="SAČUVAJ"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#2E7D32"
+                        Width="90"
+                        ToolTip="Snima promene u ldkon00.dbf (F5)"
+                        Command="{Binding SacuvajCommand}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- ── Status bar ── -->
+        <Border Grid.Row="3" Background="#E8F5E9"
+                BorderBrush="#C8E6C9" BorderThickness="0,1,0,0"
+                Padding="12,6">
+            <DockPanel>
+                <Button Content="IZLAZ"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#455A64"
+                        Width="90" Height="28"
+                        Click="ZatvoriClick"/>
+                <Button Content="OSVEZI"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource BtnPrimary}"
+                        Background="#607D8B"
+                        Width="80" Height="28" Margin="0,0,8,0"
+                        Command="{Binding OsveziCommand}"/>
+                <TextBlock Text="{Binding Poruka}"
+                           FontFamily="Tahoma" FontSize="11"
+                           VerticalAlignment="Center"
+                           Foreground="#37474F"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

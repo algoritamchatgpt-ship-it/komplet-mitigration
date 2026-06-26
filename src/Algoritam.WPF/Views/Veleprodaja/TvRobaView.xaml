@@ -1,0 +1,236 @@
+<Window x:Class="Algoritam.WPF.Views.Veleprodaja.TvRobaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1200" Height="720"
+        WindowStartupLocation="CenterOwner"
+        Background="#FFF8F6">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#BF360C" Padding="16,10">
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding StatusPoruka}"
+                               FontFamily="Tahoma" FontSize="10" Foreground="#FFAB91" Margin="0,2,0,0"/>
+                </StackPanel>
+                <ProgressBar IsIndeterminate="True" Width="80" Height="6"
+                             DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0"
+                             Foreground="White" Background="Transparent" BorderThickness="0"
+                             Visibility="{Binding Ucitava, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Filter -->
+        <Border Grid.Row="1" Background="#FBE9E7" Padding="12,8"
+                BorderThickness="0,0,0,1" BorderBrush="#FFCCBC">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Šifra:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#BF360C" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Text="{Binding FilterSifra, UpdateSourceTrigger=PropertyChanged}"
+                         Width="120" Height="26" Padding="6,0"
+                         FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"
+                         Margin="0,0,16,0"/>
+                <TextBlock Text="Naziv:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#BF360C" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Text="{Binding FilterNaziv, UpdateSourceTrigger=PropertyChanged}"
+                         Width="300" Height="26" Padding="6,0"
+                         FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"
+                         Margin="0,0,16,0"/>
+                <Button Content="Očisti" Width="72" Height="26"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#BF360C" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OcistiFilterCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Row="2" Margin="8,8,8,0" BorderBrush="#FFCCBC" BorderThickness="1">
+            <DataGrid ItemsSource="{Binding Stavke}"
+                      SelectedItem="{Binding IzabranaStavka}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      AlternatingRowBackground="#FFF3EE"
+                      RowBackground="White"
+                      BorderThickness="0"
+                      FontFamily="Tahoma" FontSize="12"
+                      SelectionMode="Single"
+                      EnableRowVirtualization="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#FBE9E7"/>
+                        <Setter Property="Foreground" Value="#BF360C"/>
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#FFCCBC"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.Columns>
+                    <!-- Roba -->
+                    <DataGridTextColumn Header="Rsif"    Binding="{Binding [RSIF]}"    Width="60"/>
+                    <!-- Partner -->
+                    <DataGridTextColumn Header="Šifra"   Binding="{Binding [SIFRA]}"   Width="60"/>
+                    <!-- Roba naziv -->
+                    <DataGridTextColumn Header="Naziv"   Binding="{Binding [NAZ]}"     Width="200"/>
+                    <!-- Partner naziv (an0) -->
+                    <DataGridTextColumn Header="Naziv2"  Binding="{Binding [NAZIV]}"   Width="180"/>
+                    <DataGridTextColumn Header="Jed."    Binding="{Binding [JED]}"     Width="50"/>
+                    <DataGridTextColumn Header="Stanje"  Binding="{Binding [KOL], StringFormat=N3}"  Width="80">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Vel.cena" Binding="{Binding [VELCENA], StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Mal.cena" Binding="{Binding [MALCENA], StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Tarifa"  Binding="{Binding [TARIFA]}"  Width="60"/>
+                    <DataGridTextColumn Header="PDV%"    Binding="{Binding [PROCPOR]}" Width="55"/>
+                    <DataGridTextColumn Header="Barkod"  Binding="{Binding [BARKOD]}"  Width="100"/>
+                    <!-- Partner fields -->
+                    <DataGridTextColumn Header="Mesto"   Binding="{Binding [MESTO]}"   Width="100"/>
+                    <DataGridTextColumn Header="PIB"     Binding="{Binding [PIB]}"     Width="90"/>
+                    <DataGridTextColumn Header="Konto"   Binding="{Binding [KONTO]}"   Width="90"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer -->
+        <Border Grid.Row="3" Background="#F5F5F5" Padding="12,8"
+                BorderThickness="0,1,0,0" BorderBrush="#E0E0E0" Margin="0,6,0,0">
+            <DockPanel>
+                <Button Content="Osveži" DockPanel.Dock="Left"
+                        Width="90" Height="30" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#BF360C" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OsveziCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Dodaj" DockPanel.Dock="Left" Margin="6,0,0,0"
+                        Width="90" Height="30" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#2E7D32" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding DodajCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Izmeni" DockPanel.Dock="Left" Margin="6,0,0,0"
+                        Width="90" Height="30" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#1565C0" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding IzmeniCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Obriši" DockPanel.Dock="Left" Margin="6,0,0,0"
+                        Width="90" Height="30" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#E65100" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding ObrisiCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Zatvori" DockPanel.Dock="Right"
+                        Width="90" Height="30" FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#C62828" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding ZatvoriCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

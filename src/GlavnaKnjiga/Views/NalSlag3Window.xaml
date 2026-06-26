@@ -1,0 +1,47 @@
+<Window x:Class="GlavnaKnjiga.Views.NalSlag3Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ZAMENA NALOGA IZ DRUGE TABELE"
+        Height="200" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#E9ECD8"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="ZAMENA NALOGA IZ DRUGE TABELE"
+                   FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"
+                   Background="#F1D1AD" Padding="8,4"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="UNESITE IME TABELE" Foreground="#BE0000"
+                       TextDecorations="Underline" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" FontSize="11"
+                     Text="{Binding Tabela, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <TextBlock Grid.Row="4" Text="{Binding LblStatus}" FontSize="11"
+                   HorizontalAlignment="Center" Foreground="#333"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Zamena" Width="100" Margin="8,0" Background="#C0C0C0"
+                    Command="{Binding ZamenaCommand}"/>
+            <Button Content="Izlaz"  Width="80"  Margin="8,0" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

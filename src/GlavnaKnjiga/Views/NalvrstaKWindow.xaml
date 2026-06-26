@@ -1,0 +1,106 @@
+<Window x:Class="GlavnaKnjiga.Views.NalvrstaKWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KARTICA VRSTE NALOGA"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#EBE9D8">
+
+    <Window.Resources>
+        <Style x:Key="Lbl" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize"   Value="11"/>
+            <Setter Property="Foreground" Value="#C40000"/>
+            <Setter Property="Width"      Value="80"/>
+            <Setter Property="Margin"     Value="4,4,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Txt" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize"   Value="11"/>
+            <Setter Property="Margin"     Value="0,4,4,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="12">
+        <!-- VRNAL -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Vrnal"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="50" MaxLength="3"
+                       Text="{Binding Vrnal, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- NAZIV -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Naziv"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="250" MaxLength="30"
+                       Text="{Binding Naziv, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- DOK -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Dok"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="50" MaxLength="3"
+                       Text="{Binding Dok, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- MP -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Mp"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="40" MaxLength="2"
+                       Text="{Binding Mp, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- OBL -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Obl"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="40" MaxLength="1"
+                       Text="{Binding Obl, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- PERIOD -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Period"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="50"
+                       Text="{Binding Period, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- NALDOK -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Naldok"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="40" MaxLength="1"
+                       Text="{Binding Naldok, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- ZNAKOVI -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Znakovi"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="50"
+                       Text="{Binding Znakovi, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- POCSIF -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Pocsif"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="50" MaxLength="3"
+                       Text="{Binding Pocsif, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- NAUTO -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Nauto"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="40" MaxLength="1"
+                       Text="{Binding Nauto, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <!-- KONTO -->
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Konto"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="120" MaxLength="10"
+                       Text="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,4">
+            <Button Content="SNIMI" Width="100" Margin="8,0"
+                    Command="{Binding SnimiCommand}"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+            <Button Content="Odustani" Width="100" Margin="8,0"
+                    Command="{Binding OdustaniCommand}"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

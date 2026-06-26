@@ -1,0 +1,158 @@
+num records 8
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 0
+    Left = 0
+    Width = 0
+    Height = 0
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | OSPRENOS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  11.00
+    Width =  69.40
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PRENOS IZ ŠIFARNIKA"
+    WindowType = 1
+    BackColor = 233,236,216
+    Name = "OSPRENOS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SET PROCEDURE TO TASTERIO2
+       DO OSPRENOSTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=OSPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "DA LI ŽELITE PRENOS IZ ŠIFARNIKA D/N"
+    Height =   1.60
+    Left =   3.60
+    Top =   0.80
+    Width =  60.20
+    TabIndex = 4
+    ForeColor = 171,33,44
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== textbox | Text1 | parent=OSPRENOS
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Value = N
+    Format = ""
+    Height =   2.07
+    InputMask = ""
+    Left =  26.40
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   3.20
+    Width =   7.40
+    EnableHyperlinks = .F.
+    Name = "Text1"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF THISFORM.TEXT1.VALUE='D'
+       THISFORM.COMMAND1.SETFOCUS
+    ELSE
+      THISFORM.COMMAND2.SETFOCUS
+       THISFORM.COMMAND1.VISIBLE=.F.
+    ENDIF
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=OSPRENOS
+  PROPERTIES:
+    Top =   7.60
+    Left =   8.40
+    Height =   1.93
+    Width =  23.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "POTVRDJUJEM"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF THISFORM.TEXT1.VALUE='D'
+       CLOSE ALL TABLES
+       USE OS0 IN 0
+       DO IDEL WITH (KKOCKAX)
+       SELECT OS0
+       COPY TO &KKOCKA FOR NAZ<>SPACE(40)
+       USE
+       USE OS IN 0 EXCLU
+       SELECT OS
+       ZAP
+       APPEND FROM &KKOCKA
+       USE
+    ENDIF
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=OSPRENOS
+  PROPERTIES:
+    Top =   7.60
+    Left =  36.00
+    Height =   1.93
+    Width =  23.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ODUSTAJEM"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC

@@ -1,0 +1,93 @@
+<Window x:Class="GlavnaKnjiga.Views.NalbrojK2Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KARTICA NALOGA 2"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="#EBE9D8">
+
+    <Window.Resources>
+        <Style x:Key="Lbl" TargetType="TextBlock">
+            <Setter Property="FontFamily"   Value="Tahoma"/>
+            <Setter Property="FontSize"     Value="11"/>
+            <Setter Property="Foreground"   Value="#C40000"/>
+            <Setter Property="FontWeight"   Value="Bold"/>
+            <Setter Property="Width"        Value="110"/>
+            <Setter Property="Margin"       Value="4,6,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Txt" TargetType="TextBox">
+            <Setter Property="FontFamily"   Value="Tahoma"/>
+            <Setter Property="FontSize"     Value="11"/>
+            <Setter Property="Foreground"   Value="#804000"/>
+            <Setter Property="Background"   Value="White"/>
+            <Setter Property="Margin"       Value="0,6,4,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="12">
+        <!-- VRNAL -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Vrsta naloga"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="70" MaxLength="3"
+                       Text="{Binding Vrnal, UpdateSourceTrigger=PropertyChanged}"
+                       LostFocus="TxtVrnal_LostFocus"/>
+            <Button Grid.Column="2" Content="..." Width="36" Height="25" Margin="2,6,0,0"
+                    Focusable="False"
+                    Command="{Binding IzaberiVrstuCommand}"/>
+        </Grid>
+
+        <!-- BRNAL -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Broj naloga"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="90" MaxLength="6"
+                       Text="{Binding Brnal, UpdateSourceTrigger=PropertyChanged}"
+                       LostFocus="TxtBrnal_LostFocus"/>
+        </Grid>
+
+        <!-- DATUM -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Datum naloga"/>
+            <DatePicker Grid.Column="1" Margin="0,6,4,0" Width="130"
+                        SelectedDate="{Binding Datum}"
+                        FontFamily="Tahoma" FontSize="11"/>
+        </Grid>
+
+        <!-- OPIS -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{StaticResource Lbl}" Text="Opis knjiženja"/>
+            <TextBox   Grid.Column="1" Style="{StaticResource Txt}" Width="300"
+                       Text="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,4">
+            <Button Content="IZLAZ" Width="120" Margin="8,0"
+                    Command="{Binding IzlazCommand}"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+            <Button Content="Odustani" Width="100" Margin="8,0"
+                    Command="{Binding OdustaniCommand}"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

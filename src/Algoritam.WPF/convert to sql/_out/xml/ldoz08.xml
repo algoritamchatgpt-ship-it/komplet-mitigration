@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldoz08">
+  <columns>
+    <column name="K1ZARADA" type="N" length="2" decimals="0" />
+    <column name="K1SATI" type="N" length="2" decimals="0" />
+    <column name="K1POSATU" type="N" length="2" decimals="0" />
+    <column name="K1MOGSATI" type="N" length="2" decimals="0" />
+    <column name="K1PROSMES" type="N" length="2" decimals="0" />
+    <column name="K1PZARADA" type="N" length="2" decimals="0" />
+    <column name="K2ZARADA" type="N" length="2" decimals="0" />
+    <column name="K2SATI" type="N" length="2" decimals="0" />
+    <column name="K2POSATU" type="N" length="2" decimals="0" />
+    <column name="K2MOGSATI" type="N" length="2" decimals="0" />
+    <column name="K2PROSMES" type="N" length="2" decimals="0" />
+    <column name="K2PZARADA" type="N" length="2" decimals="0" />
+    <column name="KOEF" type="N" length="4" decimals="0" />
+    <column name="MESEC1" type="C" length="0" decimals="0" />
+    <column name="MESEC2" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

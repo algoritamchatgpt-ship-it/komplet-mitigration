@@ -1,0 +1,963 @@
+num records 46
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Top = 20
+    Left = 10
+    Height = 90
+    Width = 90
+    Alias = "nalp"
+    CursorSource = ..\databaze\nalp.dbf
+    Name = "Cursor1"
+
+=== form | NALP2KART | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   4.73
+    Left =  33.80
+    Height =  33.00
+    Width = 121.60
+    DoCreate = .T.
+    ShowTips = .T.
+    Caption = "Knjiženje analitike"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALP2KART"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+       SELECT NALP
+       SET RELATION TO
+       SET RELATION TO BRNAL INTO NALBROJ ADDITIVE
+       SET RELATION TO KONTO INTO KONTo ADDITIVE
+       SET RELATION TO MP INTO MESTA ADDITIVE
+       SET RELATION TO MTR INTO MTR ADDITIVE
+       SET RELATION TO SIFRA INTO AN0 ADDITIVE
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PARAMETERS MADEVIZNO,maimetab,MAVRSTA,mAsifprod,madp
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT NALP
+    replace devizno WITH madevizno
+    replace imetabele WITH maimetab
+    REPLACE VRSTA WITH MAVRSTA
+    replace sifprod WITH mAsifprod
+    replace dp WITH madp
+    thisform.lblkonto.caption=konto.naziv
+    
+    IF MADEVIZNO='D'
+       THISFORM.LBLDEV.Visible=.T.   
+       THISFORM.LBLDEVkurs.Visible=.T.   
+       THISFORM.LBLDEVdug.Visible=.T.      
+       THISFORM.LBLDEVpot.Visible=.T.      
+       THISFORM.txtDEV.Visible=.T.      
+       THISFORM.txtDEVkuRs.Visible=.T.         
+       THISFORM.txtDEVdug.Visible=.T.      
+       THISFORM.txtDEVpot.Visible=.T.         
+       THISFORM.shape15.Visible=.T.         
+       THISFORM.shape16.Visible=.T.         
+       THISFORM.shape17.Visible=.T.         
+    ENDIF
+    SELECT nalp
+    SET RELATION to
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO nalp2KARTTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+
+=== shape | Shape15 | parent=NALP2KART
+  PROPERTIES:
+    Top =  21.27
+    Left =   3.00
+    Height =   3.80
+    Width = 117.60
+    Visible = .F.
+    BackColor = 185,182,241
+    Name = "Shape15"
+
+=== shape | Shape16 | parent=NALP2KART
+  PROPERTIES:
+    Top =  21.53
+    Left =   3.60
+    Height =   3.27
+    Width =  54.40
+    Visible = .F.
+    BackColor = 210,252,255
+    Name = "Shape16"
+
+=== shape | Shape17 | parent=NALP2KART
+  PROPERTIES:
+    Top =  21.53
+    Left =  58.40
+    Height =   3.27
+    Width =  61.60
+    Visible = .F.
+    BackColor = 253,235,227
+    Name = "Shape17"
+
+=== shape | Shape12 | parent=NALP2KART
+  PROPERTIES:
+    Top =  17.53
+    Left =  40.80
+    Height =   1.53
+    Width =   7.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape12"
+
+=== shape | Shape13 | parent=NALP2KART
+  PROPERTIES:
+    Top =  15.60
+    Left =  40.80
+    Height =   1.53
+    Width =  15.40
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape13"
+
+=== shape | Shape11 | parent=NALP2KART
+  PROPERTIES:
+    Top =   9.00
+    Left =   3.00
+    Height =   3.80
+    Width = 117.60
+    BackColor = 185,182,241
+    Name = "Shape11"
+
+=== shape | Shape8 | parent=NALP2KART
+  PROPERTIES:
+    Top =   0.20
+    Left =   2.40
+    Height =   6.07
+    Width = 117.80
+    BackColor = 184,254,247
+    Name = "Shape8"
+
+=== shape | Shape1 | parent=NALP2KART
+  PROPERTIES:
+    Top =   9.27
+    Left =   4.60
+    Height =   3.27
+    Width =  53.00
+    BackColor = 210,252,255
+    Name = "Shape1"
+
+=== shape | Shape3 | parent=NALP2KART
+  PROPERTIES:
+    Top =   9.27
+    Left =  64.40
+    Height =   3.27
+    Width =  53.00
+    BackColor = 253,235,227
+    Name = "Shape3"
+
+=== shape | Shape7 | parent=NALP2KART
+  PROPERTIES:
+    Top =  19.80
+    Left =  42.40
+    Height =   1.53
+    Width =  13.40
+    BorderStyle = 0
+    Visible = .F.
+    BackColor = 0,0,255
+    Name = "Shape7"
+
+=== shape | Shape2 | parent=NALP2KART
+  PROPERTIES:
+    Top =   6.87
+    Left =  42.40
+    Height =   1.53
+    Width =   8.20
+    BorderStyle = 0
+    BackColor = 0,0,255
+    Name = "Shape2"
+
+=== textbox | txtkonto | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 12
+    BackStyle = 0
+    ControlSource = "NALP.KONTO"
+    Height =   1.53
+    Left =  39.00
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 19
+    Top =   0.73
+    Width =  21.00
+    BackColor = 0,255,0
+    DisabledBackColor = 233,236,216
+    Name = "txtkonto"
+
+=== label | lblBrkal2 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Konto"
+    Height =   1.40
+    Left =   4.80
+    Top =   0.93
+    Width =   8.20
+    TabIndex = 20
+    ForeColor = 190,0,0
+    BackColor = 0,255,0
+    Name = "lblBrkal2"
+
+=== textbox | txtBrnal | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    BackStyle = 1
+    ControlSource = "NALP.BRNAL"
+    Height =   1.53
+    Left =  80.80
+    Margin = 0
+    MaxLength = 6
+    ReadOnly = .T.
+    SpecialEffect = 1
+    TabIndex = 17
+    Top =   0.80
+    Width =  17.60
+    BackColor = 0,255,0
+    DisabledBackColor = 233,236,216
+    Name = "txtBrnal"
+
+=== label | lblBrnal2 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Broj naloga"
+    Height =   1.40
+    Left =  62.60
+    Top =   0.87
+    Width =  16.40
+    TabIndex = 21
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblBrnal2"
+
+=== label | lblFvrsta2 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Naziv konta"
+    Height =   1.40
+    Left =   4.60
+    Top =   2.60
+    Width =  21.60
+    TabIndex = 22
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblFvrsta2"
+
+=== textbox | txtSifra | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    ControlSource = "NALP.SIFRA"
+    Height =   1.53
+    Left =  39.20
+    Margin = 0
+    MaxLength = 5
+    SpecialEffect = 0
+    TabIndex = 1
+    ToolTipText = "UNOS ŠIFRE PARTNERA, AKO JE PRAZNA SA ENTER SE PRELAZI U ŠIFARNIK PARTNERA"
+    Top =   6.60
+    Width =   9.80
+    BackColor = 189,221,197
+    Name = "txtSifra"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    THISFORM.TXTSIFRA.BackColoR=RGB(255,255,255)
+    ENDPROC
+    PROCEDURE DblClick
+    THISFORM.TXTSIFRA.LostFocus 
+    ENDPROC
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    THISFORM.TXTSIFRA.BackColoR=RGB(189,221,197)
+    MSIFRA=STR(VAL(ALLTRIM(THISFORM.TXTSIFRA.VALUE)),5,0)
+    SELECT AN0
+    SEEK MSIFRA
+    IF FOUND()
+       SELECT AN0
+       MSIFRA=SIFRA
+       MNAZIV=NAZIV
+       SELECT NALP
+       REPLACE SIFRA WITH MSIFRA
+       THISFORM.LBLAN0.CAPTION=MNAZIV
+       SELECT NALP
+       SET RELATION TO
+       SET RELATION TO BRNAL INTO NALBROJ ADDITIVE
+       SET RELATION TO KONTO INTO KONTo ADDITIVE
+       SET RELATION TO MP INTO MESTA ADDITIVE
+       SET RELATION TO MTR INTO MTR ADDITIVE
+       SET RELATION TO SIFRA INTO AN0 ADDITIVE
+       THISFORM.REFRESH
+    ELSE
+       SELECT AN0
+       SET ORDER TO 2
+       DO FORM FAN0
+       SELECT AN0
+       MSIFRA=SIFRA
+       MNAZIV=NAZIV
+       SET ORDER TO 1
+       SELECT NALP
+       REPLACE SIFRA WITH MSIFRA
+       THISFORM.LBLAN0.CAPTION=MNAZIV
+       THISFORM.REFRESH
+    ENDIF
+    SELECT NALP
+    POP KEY
+    ENDPROC
+
+=== label | lblSifra2 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Šifra partnera"
+    Height =   1.40
+    Left =   4.60
+    Top =   6.67
+    Width =  21.60
+    TabIndex = 24
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "lblSifra2"
+
+=== textbox | TXTDEV | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 12
+    ControlSource = "NALP.dev"
+    Height =   1.53
+    Left =  39.20
+    Margin = 0
+    MaxLength = 3
+    SpecialEffect = 0
+    TabIndex = 12
+    ToolTipText = "UNOS OZNAKE DEVIZA"
+    Top =  19.53
+    Visible = .F.
+    Width =  13.40
+    BackColor = 189,221,197
+    Name = "TXTDEV"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    THISFORM.TXTDEV.BackColoR=RGB(255,255,255)
+    ENDPROC
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    THISFORM.TXTDEV.BackColoR=RGB(189,221,197)
+    SELECT NALP
+    MDATDOK=DATDOK 
+    IF THISFORM.TXTDev.Value<>SPACE(3)
+       m2dev=THISFORM.TXTDev.Value 
+       MTDEV=MDATA00+'\'+'DEV.DBF'
+       USE &MTDEV ALIAS DEV IN 0
+       SELECT DEV 
+       SET ORDER TO 1
+       MDEVDAT=m2DEV+DTOS(MDATDOK)
+       SEEK MDEVDAT
+       IF FOUND()
+          MDEV=M2DEV
+          MDEVKURS=KURS
+      ELSE
+          MDEV=''
+          MDEVKURS=0
+      ENDIF   
+      USE
+      THISFORM.TXTDevkurs.Value=MDEVKURS
+    ELSE
+       MTDEV=MDATA00+'\'+'DEV.DBF'
+       USE &MTDEV ALIAS DEV IN 0
+       SELECT DEV 
+       SET ORDER TO 2
+       SEEK DTOS(MDATDOK)
+       SET ORDER TO 1
+       DO NALPSIFDEV
+       MMDATDOK=DATDOK
+       MMDEV=DEV
+       IF MDATDOK=MMDATDOK
+          MDEV=MMDEV
+          MDEVKURS=KURS
+       ELSE
+          MDEV=''
+          MDEVKURS=0
+       ENDIF
+       USE
+       THISFORM.TXTDevkurs.Value=MDEVKURS
+       THISFORM.TXTDev.Value=MDEV
+    ENDIF
+    SELECT NALP
+    IF MDEVKURS<>0
+       REPLACE DEV WITH MDEV
+       REPLACE DEVKURS WITH MDEVKURS
+    ENDIF
+    POP KEY
+    ENDPROC
+
+=== label | LBLDEV | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Šifra devize"
+    Height =   1.40
+    Left =   4.60
+    Top =  19.60
+    Visible = .F.
+    Width =  32.20
+    TabIndex = 32
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "LBLDEV"
+
+=== label | lblkonto | parent=NALP2KART
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BackStyle = 1
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  39.00
+    Top =   2.40
+    Width =  79.00
+    TabIndex = 18
+    BackColor = 233,236,216
+    DisabledBackColor = 233,236,216
+    Name = "lblkonto"
+
+=== label | LBLAN0 | parent=NALP2KART
+  PROPERTIES:
+    FontBold = .F.
+    FontName = "Ariall"
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  54.60
+    Top =   6.60
+    Width =  62.80
+    TabIndex = 33
+    BackColor = 245,249,176
+    Name = "LBLAN0"
+
+=== commandbutton | Command1 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    Top =  27.20
+    Left =  48.00
+    Height =   4.80
+    Width =  23.00
+    FontSize = 11
+    Picture = ..\ikone\aizlaz.png
+    Caption = "\<Izlaz"
+    TabIndex = 16
+    ToolTipText = "IZLAZ IZ TABELE"
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    ENDPROC
+
+=== textbox | txtDug | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.dug"
+    Height =   1.53
+    Left =  16.60
+    TabIndex = 5
+    Top =  10.07
+    Width =  38.40
+    Name = "txtDug"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF dug<>0
+       replace pot WITH 0
+    ENDIF
+    thisform.refresh
+    ENDPROC
+
+=== label | lblDug | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Duguje"
+    Left =   5.60
+    Top =  10.20
+    Width =   9.20
+    TabIndex = 35
+    Name = "lblDug"
+
+=== textbox | txtPot | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.pot"
+    Height =   1.53
+    Left =  82.80
+    TabIndex = 6
+    Top =  10.07
+    Width =  33.40
+    Name = "txtPot"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    IF pot<>0
+       replace dug WITH 0
+    ENDIF
+    thisform.refresh
+    ENDPROC
+
+=== label | lblPot | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Potražuje"
+    Left =  68.80
+    Top =  10.20
+    Width =  12.40
+    TabIndex = 36
+    Name = "lblPot"
+
+=== textbox | txtOpis | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalp.opis"
+    Height =   1.53
+    Left =  39.20
+    MaxLength = 30
+    ReadOnly = .T.
+    TabIndex = 37
+    Top =   4.27
+    Width =  79.20
+    Name = "txtOpis"
+
+=== label | Label1 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Opis knjiženja"
+    Height =   1.40
+    Left =   4.60
+    Top =   4.27
+    Width =  21.60
+    TabIndex = 23
+    ForeColor = 190,0,0
+    BackColor = 128,255,128
+    Name = "Label1"
+
+=== label | Label20 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto troškova"
+    Height =   1.60
+    Left =   4.60
+    Top =  15.33
+    Width =  24.80
+    TabIndex = 38
+    ForeColor = 171,33,44
+    BackColor = 128,255,255
+    Name = "Label20"
+
+=== label | lblmtr | parent=NALP2KART
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  56.40
+    Top =  15.33
+    Width =  64.00
+    TabIndex = 42
+    BackColor = 245,249,176
+    Name = "lblmtr"
+
+=== textbox | txtmtr | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    ControlSource = "NALP.MTR"
+    Format = "R"
+    Height =   1.53
+    InputMask = "99999"
+    Left =  39.00
+    Margin = 0
+    MaxLength = 5
+    MousePointer = 15
+    SpecialEffect = 0
+    TabIndex = 10
+    Top =  15.33
+    Width =  16.00
+    BackColor = 189,221,197
+    Name = "txtmtr"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    THISFORM.TXTMTR.BackColoR=RGB(255,255,255) 
+    
+    ENDPROC
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    THISFORM.TXTMTR.BackColoR=RGB(189,221,197) 
+    SELECT nalp
+    SET RELATION TO
+    Mmtr=THISFORM.TXTmtr.VALUE
+    REPLACE mtr WITH Mtr
+    THISFORM.Refresh 
+    SELECT MTR
+    SEEK MMTR
+    IF FOUND()
+       THISFORM.LBLMTR.Caption=MTR.NAZIV
+    ENDIF
+    SELECT nalp
+    THISFORM.TXTMTR.BackColoR=RGB(189,221,197) 
+    SELECT MTR
+    SEEK MMTR
+    IF FOUND()
+       SELECT MTR
+       M2MTR=MTR
+       MNAZIV=NAZIV
+       SELECT nalp
+       REPLACE MTR WITH M2MTR
+       THISFORM.LBLMTR.CAPTION=MNAZIV
+       THISFORM.REFRESH
+    ELSE
+       SELECT MTR
+       SET ORDER TO 1
+       DO  FORM MTR
+       SELECT MTR
+       SET ORDER TO 1
+       M2MTR=MTR
+       MNAZIV=NAZIV
+       SELECT NALP
+       REPLACE MTR WITH M2MTR
+       THISFORM.LBLMTR.CAPTION=MNAZIV
+       THISFORM.REFRESH
+    ENDIF
+    SELECT nalp
+    SET RELATION to
+    POP KEY
+    ENDPROC
+
+=== label | Label3 | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .F.
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Mesto-grad"
+    Height =   1.60
+    Left =   4.60
+    Top =  17.40
+    Width =  30.80
+    TabIndex = 40
+    ForeColor = 171,33,44
+    BackColor = 128,255,255
+    Name = "Label3"
+
+=== label | lblmp | parent=NALP2KART
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.53
+    Left =  56.40
+    Top =  17.40
+    Width =  64.00
+    TabIndex = 41
+    BackColor = 245,249,176
+    Name = "lblmp"
+
+=== textbox | txtmp | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = 0
+    ControlSource = "NALP.Mp"
+    Height =   1.53
+    Left =  39.00
+    Margin = 0
+    MaxLength = 2
+    MousePointer = 15
+    SpecialEffect = 0
+    TabIndex = 11
+    Top =  17.40
+    Width =   7.60
+    BackColor = 189,221,197
+    Name = "txtmp"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    THISFORM.TXTMP.BackColoR=RGB(189,221,197) 
+    SELECT nalp
+    SET RELATION TO
+    MMP=THISFORM.TXTmP.VALUE
+    REPLACE mP WITH MMP
+    THISFORM.Refresh 
+    SELECT MESTA
+    SEEK MMP
+    IF FOUND()
+       THISFORM.LBLMP.caption=MESTO
+    ENDIF
+    SELECT nalp
+    THISFORM.TXTMP.BackColoR=RGB(189,221,197) 
+    SELECT MESTA
+    SEEK MMP
+    IF FOUND()
+       SELECT MESTA
+       M2MP=MP
+       THISFORM.LBLMP.CAPTION=MESTO
+       SELECT nalp
+       REPLACE MP WITH M2MP
+       THISFORM.REFRESH
+    ELSE
+       SELECT MESTA
+       SET ORDER TO 1
+       DO  NALPFMESTA
+       SELECT MESTA
+       SET ORDER TO 1
+       M2MP=MP
+       THISFORM.LBLMP.CAPTION=MESTO
+       SELECT NALP
+       REPLACE MP WITH M2MP
+       THISFORM.REFRESH
+    ENDIF
+    SELECT nalp
+    SET RELATION to
+    POP KEY
+    ENDPROC
+    PROCEDURE GotFocus
+    THISFORM.TXTMp.BackColoR=RGB(255,255,255) 
+    
+    ENDPROC
+
+=== textbox | txtDevkurs | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devkurs"
+    Height =   1.53
+    Left =  77.00
+    ReadOnly = .T.
+    SpecialEffect = 0
+    TabIndex = 13
+    Top =  19.47
+    Visible = .F.
+    Width =  23.40
+    BackColor = 207,205,245
+    DisabledBackColor = 198,255,255
+    Name = "txtDevkurs"
+
+=== label | lblDevkurs | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizni kurs"
+    Height =   1.27
+    Left =  60.00
+    Top =  19.60
+    Visible = .F.
+    Width =  15.40
+    TabIndex = 29
+    ForeColor = 171,33,44
+    Name = "lblDevkurs"
+
+=== textbox | txtDevdug | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devdug"
+    Height =   1.53
+    Left =  25.40
+    SpecialEffect = 0
+    TabIndex = 14
+    Top =  22.27
+    Visible = .F.
+    Width =  29.80
+    ForeColor = 255,0,0
+    Name = "txtDevdug"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP
+    IF DEVDUG<>0
+       REPLACE DUG WITH DEVDUG*DEVKURS
+       REPLACE DEVPOT WITH 0
+       REPLACE POT WITH 0
+    ENDIF   
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | lblDevdug | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizno duguje"
+    Height =   1.27
+    Left =   4.80
+    Top =  22.33
+    Visible = .F.
+    Width =  19.40
+    TabIndex = 31
+    ForeColor = 171,33,44
+    Name = "lblDevdug"
+
+=== textbox | txtDevpot | parent=NALP2KART
+  PROPERTIES:
+    Comment = ""
+    FontBold = .T.
+    FontSize = 11
+    ControlSource = "nalp.devpot"
+    Height =   1.53
+    Left =  82.80
+    SpecialEffect = 0
+    TabIndex = 15
+    Top =  22.33
+    Visible = .F.
+    Width =  36.60
+    ForeColor = 255,0,0
+    Name = "txtDevpot"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    SELECT NALP
+    IF DEVPOT<>0
+       REPLACE POT WITH DEVPOT*DEVKURS
+       REPLACE DEVDUG WITH 0
+       REPLACE DUG WITH 0
+    ENDIF      
+    THISFORM.REFRESH
+    POP KEY
+    ENDPROC
+
+=== label | lblDevpot | parent=NALP2KART
+  PROPERTIES:
+    AutoSize = .T.
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "devizno potražuje"
+    Height =   1.27
+    Left =  59.20
+    Top =  22.40
+    Visible = .F.
+    Width =  22.80
+    TabIndex = 34
+    ForeColor = 171,33,44
+    Name = "lblDevpot"

@@ -1,0 +1,491 @@
+num records 8
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPEP00 | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   3.20
+    Left =  31.00
+    Height =  16.67
+    Width = 150.00
+    DoCreate = .T.
+    Caption = "PUTANJA ZA PREUZIMANJE IZVODA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALPEP00"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    USE NALPEP00 IN 0 EXCLUSIVE
+    SELECT NALPEP00
+    IF RECCOUNT()<1
+       APPEND BLANK
+    ENDIF
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALPEP00TAST
+    SET PROCEDURE TO 
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NALPEP00
+    USE
+    SELECT NALP
+    POP KEY
+    ENDPROC
+
+=== textbox | txtPutanja | parent=NALPEP00
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "nalpep00.putanja"
+    Height =   1.53
+    Left =   1.40
+    MaxLength = 70
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   4.47
+    Width = 142.60
+    Name = "txtPutanja"
+
+=== label | lblPutanja | parent=NALPEP00
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    FontUnderline = .T.
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Unesite putanju i ime datoteke"
+    Height =   1.27
+    Left =   2.00
+    Top =   3.00
+    Width =  38.80
+    TabIndex = 4
+    ForeColor = 190,0,0
+    Name = "lblPutanja"
+
+=== commandbutton | Command1 | parent=NALPEP00
+  PROPERTIES:
+    Top =   8.80
+    Left =  10.60
+    Height =   5.53
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\kutijanadole.png
+    Caption = "\<Preuzmi"
+    TabIndex = 2
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    Push Key Clear
+    MFILE=Alltrim(Thisform.TXTPutanja.Value)
+    
+    *SET STEP ON
+    *SET DEBUG ON
+    
+    If File(MFILE)
+    	Use NALPEP01 In 0 Exclu
+    	Select NALPEP01
+    	Zap
+    	Append From &MFILE Sdf
+    
+    	Delete All For Recno()>1
+    	Pack
+    	MDATDOK=Ctod(Substr(DATUM,1,2)+'-'+Substr(DATUM,3,2)+'-'+Substr(DATUM,5,4))
+    	Use
+    
+    	Use NALPEP02 In 0 Exclu
+    	Select NALPEP02
+    	Zap
+    	Append From &MFILE Sdf
+    	Delete All For Recno()=1
+    	Pack
+    	Select AN0
+    	Set Order To 3
+    	Set Filter To !Empty(ZIRORAC)
+    	Go Top
+    *********** sredjivanje azirorac,azirorac2,azirorac3,azirorac4,azirorac5,azirorac6,
+    *	Set Step On
+    *	Set Debug On
+    
+    	Do WHILE !EOF()
+    		If Empty(azirorac)
+    			MRACUNP=Alltrim(ZIRORAC)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac With MRACUNP
+    		Endif
+    		If Empty(azirorac2)
+    			MRACUNP=Alltrim(ZIRORAC2)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac2 With MRACUNP
+    		Endif
+    		If Empty(azirorac3)
+    			MRACUNP=Alltrim(ZIRORAC3)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac3 With MRACUNP
+    		Endif
+    		If Empty(azirorac4)
+    			MRACUNP=Alltrim(ZIRORAC4)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac4 With MRACUNP
+    		Endif
+    		If Empty(azirorac5)
+    			MRACUNP=Alltrim(ZIRORAC5)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac5 With MRACUNP
+    		Endif
+    		If Empty(azirorac6)
+    			MRACUNP=Alltrim(ZIRORAC6)
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('-',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			Enddo
+    			Do While.T.
+    				MLEN=Len(MRACUNP)
+    				MAT=At('0',MRACUNP)
+    				If MAT>0
+    					M1=Substr(MRACUNP,1,MAT-1)
+    					M2=Substr(MRACUNP,MAT+1,20)
+    					M3=M1+M2
+    					MRACUNP=M3
+    					Loop
+    				Else
+    					Exit
+    				Endif
+    			ENDDO
+    			Replace azirorac6 With MRACUNP
+    		Endif
+    		
+    		Skip
+    	Enddo
+    	Set Filter To
+    	Go Top
+    
+    *********** kraj sredjivanje *****************************************************
+    	Select NALPEP02
+    	Go Top
+    	Do While.Not.Eof()
+    		MSDUGC=Substr(IZNOS,1,11)
+    		MSDUGD=Substr(IZNOS,12,2)
+    		MSDUG=Val(MSDUGC+'.'+MSDUGD)
+    		MNAZIV=NAZIV
+    		MPOZIVP=POZIVP
+    		MPOZIVZ=POZIVZ
+    		If MSDUG<>0
+    			If DP='D'
+    				Replace DUG With MSDUG
+    			Else
+    				Replace POT With MSDUG
+    			Endif
+    		Endif
+    		MDUG=DUG
+    		MPOT=POT
+    		MSVRHA=SVRHA
+    		MPOZIVP=POZIVP
+    *---OVDE JE UPISAN ZIRORACUN
+    		Replace RACUNP2 With RACUNP
+    		MRACUNP=Alltrim(RACUNP)
+    *----SKIDAMO NULE I CRTICE--------
+    		Do While.T.
+    			MLEN=Len(MRACUNP)
+    			MAT=At('0',MRACUNP)
+    			If MAT>0
+    				M1=Substr(MRACUNP,1,MAT-1)
+    				M2=Substr(MRACUNP,MAT+1,20)
+    				M3=M1+M2
+    				MRACUNP=M3
+    				Loop
+    			Else
+    				Exit
+    			Endif
+    		Enddo
+    		Replace RACUNP With MRACUNP
+    		Do While.T.
+    			MLEN=Len(MRACUNP)
+    			MAT=At('-',MRACUNP)
+    			If MAT>0
+    				M1=Substr(MRACUNP,1,MAT-1)
+    				M2=Substr(MRACUNP,MAT+1,20)
+    				M3=M1+M2
+    				MRACUNP=M3
+    				Loop
+    			Else
+    				Exit
+    			Endif
+    		Enddo
+    		Replace RACUNP With MRACUNP
+    *-----KRAJ SKIDANJA NULA I CRTICA--
+    		A1=0
+    		MSIFRA=Space(5)
+    		Select AN0
+    		Locate For Alltrim(azirorac)=MRACUNP
+    		If Found()
+    			MSIFRA=SIFRA
+    			A1=1
+    		Endif
+    		If A1=0
+    			Locate For Alltrim(AZIRORAC2)=MRACUNP
+    			If Found()
+    				MSIFRA=SIFRA
+    				A1=1
+    			Endif
+    		Endif
+    		If A1=0
+    			Locate For Alltrim(AZIRORAC3)=MRACUNP
+    			If Found()
+    				MSIFRA=SIFRA
+    				A1=1
+    			Endif
+    		Endif
+    		If A1=0
+    			Locate For Alltrim(AZIRORAC4)=MRACUNP
+    			If Found()
+    				MSIFRA=SIFRA
+    				A1=1
+    			Endif
+    		Endif
+    		If A1=0
+    			Locate For Alltrim(AZIRORAC5)=MRACUNP
+    			If Found()
+    				MSIFRA=SIFRA
+    				A1=1
+    			Endif
+    		Endif
+    		If A1=0
+    			Locate For Alltrim(AZIRORAC6)=MRACUNP
+    			If Found()
+    				MSIFRA=SIFRA
+    				A1=1
+    			Endif
+    		Endif
+    		Select NALP
+    		Append Blank
+    		Replace DUG With MDUG
+    		Replace POT With MPOT
+    		Replace OPIS With MSVRHA
+    		Replace datdok With MDATDOK
+    		Replace VALUTA With MDATDOK
+    		Replace NAZIV With MNAZIV
+    		Replace POZIVP With MPOZIVP
+    		Replace POZIVZ With MPOZIVZ
+    
+    		If MSIFRA<>Space(5)
+    			Replace SIFRA With MSIFRA
+    		Endif
+    		Replace BRRAC With MPOZIVP
+    		If SIFRA<>Space(5)
+    			If POT<>0
+    * ------ Promenjena konta sa 202 i 433 na 204 i 435 16.08.2018. Milan.
+    				Replace KONTO With '2040000000'
+    			Else
+    				Replace KONTO With '4350000000'
+    * ------ Kraj promene konta.
+    			Endif
+    		Else
+    			Replace KONTO With '9999999999'
+    		Endif
+    		Select NALPEP02
+    		Skip
+    	Enddo
+    
+    	Select NALPEP02
+    	Use
+    	Select AN0
+    	Set Order To 1
+    
+    	Select NALPEP00
+    Endif
+    Pop Key
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALPEP00
+  PROPERTIES:
+    Top =   8.80
+    Left = 107.20
+    Height =   5.60
+    Width =  27.60
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC

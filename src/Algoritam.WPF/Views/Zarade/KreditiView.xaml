@@ -1,0 +1,428 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.KreditiView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:util="clr-namespace:Algoritam.WPF.Utilities"
+        Title="Evidencija kredita"
+        Width="1520" Height="820"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        Loaded="KreditiView_Loaded">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F4" Command="{Binding TraziPartneraCommand}"/>
+        <KeyBinding Key="F5" Command="{Binding TraziEvidBrojCommand}"/>
+        <KeyBinding Key="F6" Command="{Binding TraziSifruCommand}"/>
+        <KeyBinding Key="F7" Command="{Binding IzaberiRadnikaCommand}"/>
+        <KeyBinding Key="F8" Command="{Binding IzaberiPartneraCommand}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+
+        <!-- ══ Header ════════════════════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="EVIDENCIJA KREDITA"
+                               FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding Poruka}"
+                               FontFamily="Tahoma" FontSize="10"
+                               Foreground="#A5D6A7"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1"
+                           Text="LDKRED.DBF"
+                           FontFamily="Tahoma" FontSize="10"
+                           Foreground="#A5D6A7" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- ══ Status bar ════════════════════════════════════════════════ -->
+        <Border DockPanel.Dock="Bottom" Background="#2E7D32" Height="30">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           FontFamily="Tahoma" FontSize="11" Foreground="White"
+                           VerticalAlignment="Center">
+                    <Run Text="Kredita: " FontWeight="Bold"/>
+                    <Run Text="{Binding UkupnoStavki, Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Naslov}"
+                           FontFamily="Tahoma" FontSize="10"
+                           Foreground="#A5D6A7" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <Button Grid.Column="2"
+                        Content="IZLAZ"
+                        Width="90" Height="24"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        FontFamily="Tahoma" FontSize="11"
+                        Click="ZatvoriClick"/>
+            </Grid>
+        </Border>
+
+        <!-- ══ Toolbar ═══════════════════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9"
+                Padding="10,8">
+            <Border.Resources>
+                <Style x:Key="GroupBoxStyle" TargetType="GroupBox">
+                    <Setter Property="BorderBrush" Value="#B0BEC5"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="Margin" Value="0,0,8,0"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="Foreground" Value="#37474F"/>
+                </Style>
+                <Style x:Key="Btn" TargetType="Button">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Tahoma"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Height" Value="28"/>
+                    <Setter Property="Padding" Value="8,0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Margin" Value="0,0,4,0"/>
+                    <Setter Property="Background" Value="#1565C0"/>
+                </Style>
+            </Border.Resources>
+
+            <WrapPanel>
+                <!-- ── Navigacija ─────────────────────────────────────── -->
+                <GroupBox Header=" NAVIGACIJA " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="◀◀ PRVI"  Style="{StaticResource Btn}" Background="#607D8B" MinWidth="70"
+                                Command="{Binding PrviCommand}"/>
+                        <Button Content="▲ GORE"  Style="{StaticResource Btn}" Background="#607D8B" MinWidth="70"
+                                Command="{Binding PrethodniCommand}"/>
+                        <Button Content="▼ DOLE"  Style="{StaticResource Btn}" Background="#607D8B" MinWidth="70"
+                                Command="{Binding SledeciCommand}"/>
+                        <Button Content="ZADNJI ▶▶" Style="{StaticResource Btn}" Background="#607D8B" MinWidth="80" Margin="0"
+                                Command="{Binding PoslednjiCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Izmene ─────────────────────────────────────────── -->
+                <GroupBox Header=" IZMENE " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="DODAJ +" Style="{StaticResource Btn}" Background="#1565C0" MinWidth="80"
+                                Command="{Binding DodajCommand}"/>
+                        <Button Content="OBRIŠI"  Style="{StaticResource Btn}" Background="#C62828" MinWidth="70"
+                                Command="{Binding ObrisiCommand}"/>
+                        <Button Content="SAČUVAJ" Style="{StaticResource Btn}" Background="#2E7D32" MinWidth="80"
+                                Command="{Binding SacuvajCommand}"/>
+                        <Button Content="OSVEZI"  Style="{StaticResource Btn}" Background="#607D8B" MinWidth="70"
+                                Command="{Binding OsveziCommand}"/>
+                        <Button Content="SORT"    Style="{StaticResource Btn}" Background="#607D8B" MinWidth="60" Margin="0"
+                                Command="{Binding SortirajCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Rezim ──────────────────────────────────────────── -->
+                <GroupBox Header=" REZIM " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="KONAČNO"    Style="{StaticResource Btn}" MinWidth="90"
+                                Command="{Binding PostaviKonacnoCommand}"/>
+                        <Button Content="AKONTACIJA" Style="{StaticResource Btn}" MinWidth="95" Margin="0"
+                                Command="{Binding PostaviAkontacijuCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Obrada ─────────────────────────────────────────── -->
+                <GroupBox Header=" OBRADA KREDITA " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="JEDAN KREDIT"    Style="{StaticResource Btn}" MinWidth="110"
+                                Command="{Binding JedanKreditCommand}"/>
+                        <Button Content="OTPLATE"         Style="{StaticResource Btn}" MinWidth="80"
+                                Command="{Binding PregledOtplataCommand}"/>
+                        <Button Content="SREDI KREDITE"   Style="{StaticResource Btn}" Background="#E65100" MinWidth="110"
+                                Command="{Binding SrediKrediteCommand}"/>
+                        <Button Content="AKTIVNI KREDITI" Style="{StaticResource Btn}" MinWidth="120"
+                                Command="{Binding AktivniKreditiCommand}"/>
+                        <Button Content="RASKNJIZ. PLATE"  Style="{StaticResource Btn}" MinWidth="120"
+                                Command="{Binding RasknjizavanjePlateCommand}"/>
+                        <Button Content="RASKNJIZ. AKONT." Style="{StaticResource Btn}" MinWidth="120" Margin="0"
+                                Command="{Binding RasknjizavanjeAkontacijeCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Pretraga ───────────────────────────────────────── -->
+                <GroupBox Header=" PRETRAGA " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="180" Height="26"
+                                 VerticalContentAlignment="Center" Padding="4,0"
+                                 FontFamily="Tahoma" FontSize="11"
+                                 Text="{Binding Pretraga, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,4,0"/>
+                        <Button Content="PARTNER F4"  Style="{StaticResource Btn}" MinWidth="100"
+                                Command="{Binding TraziPartneraCommand}"/>
+                        <Button Content="EVIDBROJ F5" Style="{StaticResource Btn}" MinWidth="100"
+                                Command="{Binding TraziEvidBrojCommand}"/>
+                        <Button Content="ŠIFRA F6"    Style="{StaticResource Btn}" MinWidth="80"
+                                Command="{Binding TraziSifruCommand}"/>
+                        <Button Content="KREDIT"      Style="{StaticResource Btn}" MinWidth="70" Margin="0"
+                                Command="{Binding TraziKreditCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Radnici i partneri ─────────────────────────────── -->
+                <GroupBox Header=" ŠIFARNICI " Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="RADNICI F7"  Style="{StaticResource Btn}" MinWidth="100"
+                                Command="{Binding IzaberiRadnikaCommand}"/>
+                        <Button Content="PARTNERI F8" Style="{StaticResource Btn}" MinWidth="100" Margin="0"
+                                Command="{Binding IzaberiPartneraCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- ── Izveštaji ──────────────────────────────────────── -->
+                <GroupBox Header=" IZVEŠTAJI " Style="{StaticResource GroupBoxStyle}" Margin="0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="JEDNE FIRME"    Style="{StaticResource Btn}" MinWidth="100"
+                                Command="{Binding SpisakJedneFirmeCommand}"/>
+                        <Button Content="SALDO FIRMI"    Style="{StaticResource Btn}" MinWidth="95"
+                                Command="{Binding SaldoFirmiCommand}"/>
+                        <Button Content="SALDO RADNIKA"  Style="{StaticResource Btn}" MinWidth="105"
+                                Command="{Binding SaldoRadnikaCommand}"/>
+                        <Button Content="SVE FIRME"      Style="{StaticResource Btn}" MinWidth="85"
+                                Command="{Binding SveFirmeCommand}"/>
+                        <Button Content="LISTIĆI RADNICI" Style="{StaticResource Btn}" MinWidth="115"
+                                Command="{Binding ListiciRadniciCommand}"/>
+                        <Button Content="LISTIC RADNIK"  Style="{StaticResource Btn}" MinWidth="105" Margin="0"
+                                Command="{Binding ListicRadnikCommand}"/>
+                    </StackPanel>
+                </GroupBox>
+            </WrapPanel>
+        </Border>
+
+        <!-- ══ Radnik / Partner info ═════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9"
+                Padding="14,6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="#2E7D32" CornerRadius="2"/>
+                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                           Text="{Binding RadnikTekst}"
+                           FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                           Foreground="#1B5E20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2"
+                           Text="{Binding PartnerTekst}"
+                           FontFamily="Tahoma" FontSize="11"
+                           Foreground="#37474F" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- ══ Filter bar ════════════════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top" Background="#F5F5F5"
+                BorderThickness="0,0,0,1" BorderBrush="#E0E0E0"
+                Padding="8,5">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="🔍" FontSize="13" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="#757575"/>
+                <TextBox Text="{Binding FilterTekst, UpdateSourceTrigger=PropertyChanged}"
+                         Width="220" Height="24"
+                         VerticalContentAlignment="Center" Padding="4,0"
+                         FontFamily="Tahoma" FontSize="11"
+                         ToolTip="Filter po broju, partiji, evidencionom broju ili šifri partnera"/>
+                <TextBlock Text="  ×" FontSize="14" Foreground="#9E9E9E"
+                           VerticalAlignment="Center" Cursor="Hand"
+                           Visibility="{Binding FilterTekst, Converter={StaticResource StringToVisibilityConverter}}">
+                    <TextBlock.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding OcistiFilterCommand}"/>
+                    </TextBlock.InputBindings>
+                </TextBlock>
+                <TextBlock Margin="14,0,0,0" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#757575" VerticalAlignment="Center"
+                           Text="{Binding UkupnoStavki, StringFormat='od {0} kredita'}"
+                           Visibility="{Binding FilterTekst, Converter={StaticResource StringToVisibilityConverter}}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ══ DataGrid ══════════════════════════════════════════════════ -->
+        <Grid Margin="8,4,8,8">
+
+            <DataGrid x:Name="GridKrediti"
+                      ItemsSource="{Binding StavkeView}"
+                      SelectedItem="{Binding Selektovana, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="Horizontal"
+                      HorizontalGridLinesBrush="#E0E0E0"
+                      RowBackground="White"
+                      AlternatingRowBackground="#E3F2FD"
+                      FrozenColumnCount="3"
+                      FontFamily="Tahoma" FontSize="11"
+                      RowHeight="24"
+                      ColumnHeaderHeight="28"
+                      PreviewKeyDown="DataGridPreviewKeyDown"
+                      MouseDoubleClick="DataGridMouseDoubleClick">
+
+                <DataGrid.Resources>
+                    <util:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+                </DataGrid.Resources>
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#1B5E20"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="10"/>
+                        <Setter Property="Padding" Value="5,4"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                        <Setter Property="BorderBrush" Value="#2E7D32"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#C8E6C9"/>
+                                <Setter Property="Foreground" Value="#1B5E20"/>
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu FontFamily="Tahoma" FontSize="12">
+                                    <MenuItem Header="Jedan kredit (detalj)"
+                                              Command="{Binding DataContext.JedanKreditCommand,
+                                                  RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                              FontWeight="Bold"/>
+                                    <MenuItem Header="Pregled otplata"
+                                              Command="{Binding DataContext.PregledOtplataCommand,
+                                                  RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                    <Separator/>
+                                    <MenuItem Header="Obriši kredit"
+                                              Command="{Binding DataContext.ObrisiCommand,
+                                                  RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                              Foreground="#C62828"/>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Kredit" Binding="{Binding Kredit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="65">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Broj" Binding="{Binding Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Partija" Binding="{Binding Partija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                    <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                    <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Koliko" Binding="{Binding Koliko, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Prva rata" Binding="{Binding PrvaRata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Ostale rate" Binding="{Binding OstaleRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Za obav." Binding="{Binding ZaObaviti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="65"/>
+                    <DataGridTextColumn Header="Aktivna rata" Binding="{Binding AktivnaRata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="95">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Foreground" Value="#1565C0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Akont. rata" Binding="{Binding AkontRata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Ostatak" Binding="{Binding Ostatak, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Setter Property="Foreground" Value="#C62828"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Odbijeno" Binding="{Binding Odbijeno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Evidbroj" Binding="{Binding EvidBroj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="85"/>
+                    <DataGridTextColumn Header="Modelo" Binding="{Binding Modelo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="65"/>
+                    <DataGridTextColumn Header="Datdok" Binding="{Binding DatDok, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=dd.MM.yyyy}" Width="90"/>
+                    <DataGridTextColumn Header="Grupa" Binding="{Binding Grupa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/></Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Arhiva" Binding="{Binding Arhiva, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="55"/>
+                    <DataGridTextColumn Header="Arhiva2" Binding="{Binding Arhiva2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60"/>
+                    <DataGridTextColumn Header="Preneto" Binding="{Binding Preneto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60"/>
+                    <DataGridTextColumn Header="Idbr" Binding="{Binding IdBr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="85"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Empty state -->
+            <Border Background="#F0F0F0"
+                    Visibility="{Binding IsListaPrazan, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Panel.ZIndex="1">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="💳" FontSize="32" HorizontalAlignment="Center" Opacity="0.3"/>
+                    <TextBlock Text="Nema evidencije kredita"
+                               FontFamily="Tahoma" FontSize="13" Foreground="#9E9E9E"
+                               HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                    <TextBlock Text="Koristite DODAJ + da unesete novi kredit"
+                               FontFamily="Tahoma" FontSize="11" Foreground="#BDBDBD"
+                               HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Busy overlay -->
+            <Border Background="#CC1B5E20" Panel.ZIndex="100"
+                    Visibility="{Binding Ucitava, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="220" Height="6"
+                                 Foreground="White" Background="#2E7D32"/>
+                    <TextBlock Text="{Binding BusyPoruka}"
+                               FontFamily="Tahoma" FontSize="13" FontWeight="Bold"
+                               Foreground="White" HorizontalAlignment="Center"
+                               Margin="0,14,0,0"/>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldppodo">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="NAJNIZA" type="N" length="2" decimals="0" />
+    <column name="BROJLICA" type="N" length="2" decimals="0" />
+    <column name="OSNOVICA" type="N" length="2" decimals="0" />
+    <column name="PROCPIO" type="N" length="2" decimals="0" />
+    <column name="PROCZDR" type="N" length="2" decimals="0" />
+    <column name="PROCNEZ" type="N" length="2" decimals="0" />
+    <column name="DOPSOC" type="N" length="2" decimals="0" />
+    <column name="DOPPIO" type="N" length="2" decimals="0" />
+    <column name="DOPZDR" type="N" length="2" decimals="0" />
+    <column name="DOPNEZ" type="N" length="2" decimals="0" />
+    <column name="UKUPDOP" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="VRSTAID" type="C" length="0" decimals="0" />
+    <column name="PREBIVAL" type="C" length="0" decimals="0" />
+    <column name="MATICNIBR" type="C" length="0" decimals="0" />
+    <column name="PREZIME" type="C" length="0" decimals="0" />
+    <column name="IME" type="C" length="0" decimals="0" />
+    <column name="BROJDANA" type="N" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

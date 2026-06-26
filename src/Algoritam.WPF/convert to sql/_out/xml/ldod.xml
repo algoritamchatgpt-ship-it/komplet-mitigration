@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldod">
+  <columns>
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="OPIS" type="C" length="0" decimals="0" />
+    <column name="AOP" type="C" length="0" decimals="0" />
+    <column name="SK1" type="N" length="2" decimals="0" />
+    <column name="SK2" type="N" length="2" decimals="0" />
+    <column name="SK3" type="N" length="2" decimals="0" />
+    <column name="SK4" type="N" length="2" decimals="0" />
+    <column name="SK5" type="N" length="2" decimals="0" />
+    <column name="SK6" type="N" length="2" decimals="0" />
+    <column name="SK7" type="N" length="2" decimals="0" />
+    <column name="SK8" type="N" length="2" decimals="0" />
+    <column name="SK0" type="N" length="2" decimals="0" />
+    <column name="LINI" type="C" length="0" decimals="0" />
+    <column name="RLINI" type="C" length="0" decimals="0" />
+    <column name="PLINI" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

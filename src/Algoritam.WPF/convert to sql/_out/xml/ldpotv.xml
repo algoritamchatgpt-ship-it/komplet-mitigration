@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldpotv">
+  <columns>
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="PRIKAZ" type="C" length="0" decimals="0" />
+    <column name="LIN" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <MESEC />
+      <PRIKAZ></PRIKAZ>
+      <LIN></LIN>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

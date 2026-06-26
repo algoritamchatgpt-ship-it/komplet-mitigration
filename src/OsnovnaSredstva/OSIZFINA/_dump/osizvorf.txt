@@ -1,0 +1,330 @@
+num records 17
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | OSVRSTA | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   4.60
+    Left =  19.80
+    Height =  16.93
+    Width = 115.40
+    DoCreate = .T.
+    Caption = ""
+    WindowType = 1
+    WindowState = 0
+    BackColor = 183,188,249
+    Name = "OSVRSTA"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    SELECT OSIZVORF
+    SET ORDER TO 1
+    GO TOP
+    THISFORM.CAPTION=' IZVOR FINANSIRANJA NABAVKE '+OPERATER+' '+AKORIME
+    THISFORM.GRD0.RECORDSOURCE='OSIZVORF'
+    THISFORM.GRD0.SetFocus
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERIO2
+       DO OSIZVORFTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT OSizvorf
+    Mizvor=izvor
+    POP KEY
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.13
+    Left =  11.40
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "DOLE"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OSIZVORF
+    IF.NOT.EOF()
+       SKIP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command2 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.13
+    Left =  27.20
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "GORE"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OSIZVORF
+    IF.NOT.BoF()
+       SKIP-1
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command3 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.20
+    Left =  42.80
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "ZADNJI"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OSIZVORF
+    IF.NOT.EOF()
+       GO BOTTOM
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command4 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.20
+    Left =  58.60
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "PRVI"
+    TabIndex = 5
+    BackColor = 192,192,192
+    Name = "Command4"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OSIZVORF
+    IF.NOT.BoF()
+       GO TOP
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command5 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.20
+    Left =  74.60
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "\<DODAJ"
+    TabIndex = 6
+    BackColor = 192,192,192
+    Name = "Command5"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SELECT OSIZVORF
+    APPEND BLANK
+    IF RECNO()=RECCOUNT().OR.RECCOUNT()<1
+       REPLACE IZVOR WITH STR(RECNO(),4,0)
+    ENDIF
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC
+
+=== commandbutton | Command6 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  26.00
+    Left = 135.60
+    Height =   1.80
+    Width =  14.40
+    Caption = "IZLAZ"
+    TabIndex = 8
+    Name = "Command6"
+
+=== commandbutton | Command7 | parent=OSVRSTA
+  PROPERTIES:
+    Top =  14.20
+    Left =  91.40
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontShadow = .F.
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 7
+    ColorSource = 3
+    ColorScheme = 15
+    BackColor = 192,192,192
+    Name = "Command7"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    RELEASE THISFORM
+    
+    ENDPROC
+
+=== grid | grd0 | parent=OSVRSTA
+  PROPERTIES:
+    ColumnCount = 2
+    FontBold = .F.
+    FontSize = 11
+    DeleteMark = .F.
+    Height =  13.33
+    Left =  15.60
+    Panel = 1
+    ReadOnly = .T.
+    RecordSource = ""
+    RecordSourceType = 1
+    RowHeight = 20
+    Top =   0.40
+    Width =  87.80
+    BackColor = 242,242,242
+    GridLineColor = 183,188,249
+    Name = "grd0"
+    Column1.FontBold = .F.
+    Column1.FontSize = 11
+    Column1.ControlSource = ""
+    Column1.Width =   9.20
+    Column1.ReadOnly = .T.
+    Column1.BackColor = 242,242,242
+    Column1.Name = "Column1"
+    Column2.FontBold = .F.
+    Column2.FontSize = 11
+    Column2.ControlSource = ""
+    Column2.Width =  71.80
+    Column2.ReadOnly = .T.
+    Column2.BackColor = 242,242,242
+    Column2.Name = "Column2"
+
+=== header | Header1 | parent=OSVRSTA.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "VRSTA"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OSVRSTA.grd0.Column1
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    MaxLength = 5
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== header | Header1 | parent=OSVRSTA.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Caption = "NAZIV VRSTE SREDSTAVA"
+    Name = "Header1"
+
+=== textbox | Text1 | parent=OSVRSTA.grd0.Column2
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    BorderStyle = 0
+    Margin = 0
+    ReadOnly = .T.
+    ForeColor = 0,0,0
+    BackColor = 242,242,242
+    Name = "Text1"
+
+=== commandbutton | Command8 | parent=OSVRSTA
+  PROPERTIES:
+    Top =   0.80
+    Left =   0.00
+    Height =   1.80
+    Width =  14.40
+    FontBold = .F.
+    FontSize = 11
+    Caption = "OTVORI"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command8"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF THISFORM.GRD0.ReadOnly=.T.
+       THISFORM.GRD0.ReadOnly=.F.
+       THISFORM.GRD0.BACKCOLOR=RGB(255,255,255)
+    ELSE
+       THISFORM.GRD0.ReadOnly=.T.
+    ENDIF
+    THISFORM.GRD0.SETFOCUS
+    THISFORM.REFRESH
+    POP KEY
+    
+    ENDPROC

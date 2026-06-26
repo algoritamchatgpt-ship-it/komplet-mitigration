@@ -1,0 +1,224 @@
+num records 11
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALSLAG | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  18.47
+    Width =  88.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "PROVERA SLAGANJA NALOGA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 233,236,216
+    Name = "NALSLAG"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.TXTDANE.VALUE='N'
+    
+    THISFORM.REFRESH
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALSLAG
+  PROPERTIES:
+    Top =   9.60
+    Left =  33.60
+    Height =   4.47
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\apozicija.png
+    Caption = "\<Pregled"
+    TabIndex = 4
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    MDANE=THISFORM.TXTDANE.VALUE
+    
+    SELECT DATUMI
+    REPLACE DAT0 WITH MDAT0
+    REPLACE DAT1 WITH MDAT1
+    SELECT NAL
+       DO idel WITH (kkockax)   
+       DO idel WITH (kkockax2)   
+    
+    
+    COPY TO &KKOCKA FOR DATDOK>=MDAT0.AND.DATDOK<=MDAT1
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON BRNAL TAG BRNAL
+    SET ORDER TO 1
+    TOTAL ON BRNAL TO &KKOCKA2 FIELDS DUG,POT 
+    SELECT KOCKA
+    ZAP
+    APPEND FROM &KKOCKA2   
+    IF MDANE='N'
+       DELETE ALL FOR DUG=POT
+       PACK
+    ENDIF  
+    DO FORM nalslag2
+    
+    SELECT KOCKA
+    USE
+    SELECT NAL
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTDAT0 | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.20
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   0.87
+    Width =  26.40
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "POČETNI DATUM"
+    Height =   1.67
+    Left =   3.80
+    Top =   0.87
+    Width =  35.60
+    TabIndex = 5
+    ForeColor = 190,0,0
+    BackColor = 214,182,243
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  43.40
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   3.07
+    Width =  26.20
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "ZADNJI DATUM"
+    Height =   1.67
+    Left =   4.00
+    Top =   3.20
+    Width =  35.60
+    TabIndex = 6
+    ForeColor = 190,0,0
+    BackColor = 214,182,243
+    Name = "Label6"
+
+=== textbox | TXTDANE | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    Alignment = 3
+    Value = {}
+    Height =   1.67
+    InputMask = ""
+    Left =  43.60
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   5.80
+    Width =   6.80
+    ForeColor = 0,0,0
+    BackColor = 255,255,255
+    Name = "TXTDANE"
+
+=== label | Label1 | parent=NALSLAG
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 11
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "SVI=D NESLOŽENI=N"
+    Height =   1.67
+    Left =   4.20
+    Top =   5.73
+    Width =  35.60
+    TabIndex = 7
+    ForeColor = 190,0,0
+    BackColor = 214,182,243
+    Name = "Label1"

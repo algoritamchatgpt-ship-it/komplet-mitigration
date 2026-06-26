@@ -1,0 +1,95 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdRadvrePregledView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PREGLED ZA PERIOD"
+        Width="900" Height="620"
+        WindowStartupLocation="CenterOwner"
+        Background="#B0BEC5">
+    <!-- BackColor = RGB(162,213,240) -->
+
+    <DockPanel>
+
+        <!-- Gornji panel: izbor perioda -->
+        <Border DockPanel.Dock="Top" Background="#B0BEC5" BorderBrush="#5090B0"
+                BorderThickness="0,0,0,2" Padding="10,8">
+            <StackPanel>
+
+                <!-- Label1 -->
+                <Border BorderBrush="#808080" BorderThickness="1" Padding="4,3" Margin="0,0,0,8">
+                    <TextBlock Text="DODAVANJE SVIH AKTIVNIH RADNIKA"
+                               FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- POČETNI DATUM -->
+                    <Border Grid.Column="0" Background="#FFF9C4" BorderBrush="#808080" BorderThickness="1"
+                            Padding="6,3" Margin="0,0,4,0">
+                        <TextBlock Text="POČETNI DATUM" FontFamily="Tahoma" FontSize="11"/>
+                    </Border>
+                    <DatePicker x:Name="DatumOd" Grid.Column="1" FontFamily="Tahoma" FontSize="11"/>
+
+                    <!-- ZADNJI DATUM -->
+                    <Border Grid.Column="3" Background="#FFF9C4" BorderBrush="#808080" BorderThickness="1"
+                            Padding="6,3" Margin="0,0,4,0">
+                        <TextBlock Text="ZADNJI DATUM" FontFamily="Tahoma" FontSize="11"/>
+                    </Border>
+                    <DatePicker x:Name="DatumDo" Grid.Column="4" FontFamily="Tahoma" FontSize="11"/>
+                </Grid>
+
+                <!-- Dugmad: PREGLED | PREGLED SUMARNO | IZLAZ -->
+                <WrapPanel Margin="0,10,0,0">
+                    <Button Content="PREGLED"
+                            Width="140" Height="30" Margin="0,0,10,0"
+                            FontFamily="Tahoma" FontSize="11" Background="#E0E0E0"
+                            BorderBrush="#808080" BorderThickness="1" Cursor="Hand"
+                            Click="PregledClick"/>
+                    <Button Content="PREGLED SUMARNO"
+                            Width="160" Height="30" Margin="0,0,10,0"
+                            FontFamily="Tahoma" FontSize="11" Background="#E0E0E0"
+                            BorderBrush="#808080" BorderThickness="1" Cursor="Hand"
+                            Click="PregledSumarnoClick"/>
+                    <Button Content="IZLAZ"
+                            Width="120" Height="30"
+                            FontFamily="Tahoma" FontSize="11" Background="#FFEBEE"
+                            BorderBrush="#808080" BorderThickness="1" Cursor="Hand"
+                            Click="IzlazClick"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Status -->
+        <Border DockPanel.Dock="Bottom" Background="#B0BEC5" Padding="8,4">
+            <TextBlock x:Name="TxtStatus" FontFamily="Tahoma" FontSize="11"/>
+        </Border>
+
+        <!-- Pregled tabele -->
+        <DataGrid x:Name="GrdPregled"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  Background="#FAFAFA" GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#C0C0C0" HeadersVisibility="Column"
+                  RowHeight="20" FontFamily="Tahoma" FontSize="11"
+                  BorderBrush="#808080" BorderThickness="1" Margin="6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj"         Binding="{Binding Broj}"    Width="55"/>
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding ImePrez}" Width="*"/>
+                <DataGridTextColumn Header="Datum"        Binding="{Binding Datum, StringFormat=dd.MM.yyyy}" Width="90"/>
+                <DataGridTextColumn Header="Poc.sat"      Binding="{Binding PocSat}"  Width="70"/>
+                <DataGridTextColumn Header="Zad.sat"      Binding="{Binding ZadSat}"  Width="70"/>
+                <DataGridTextColumn Header="Sati"         Binding="{Binding Sati}"    Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

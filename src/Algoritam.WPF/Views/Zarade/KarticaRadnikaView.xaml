@@ -1,0 +1,479 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.KarticaRadnikaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="980" Height="820"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+
+
+    <Window.Resources>
+        <Style x:Key="hdr" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+        <Style x:Key="lbl" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="8,0,4,0"/>
+        </Style>
+        <Style x:Key="val" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+        <Style x:Key="valEdit" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Padding" Value="4,0"/>
+        </Style>
+        <Style x:Key="valBold" TargetType="TextBlock" BasedOn="{StaticResource val}">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <DockPanel Margin="16,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="16" FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding PeriodInfo}"
+                               FontFamily="Tahoma" FontSize="10"
+                               Foreground="#A5D6A7"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                    <TextBlock Text="Startbod" Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="10" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StartbodPrikaz, StringFormat=N6}" Foreground="White" FontFamily="Tahoma" FontSize="11" FontWeight="Bold" Margin="0,0,16,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Staz" Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="10" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StazPrikaz}" Foreground="White" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" Margin="0,0,16,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Stepen" Foreground="#A5D6A7" FontFamily="Tahoma" FontSize="10" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StepenPrikaz}" Foreground="White" FontFamily="Tahoma" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Status poruka -->
+        <Border DockPanel.Dock="Top" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,0,0,1" Padding="8,4"
+                Visibility="{Binding StatusPoruka, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}">
+            <TextBlock Text="{Binding StatusPoruka}"
+                       FontFamily="Tahoma" FontSize="11"
+                       Foreground="#1B5E20"
+                       VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Dugmad na dnu — POTVRDI / IZLAZ -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Padding="8,6">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="POTVRDI + OBRAČUN" Click="PotvrdiSaObracunom_Click"
+                        Width="170" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                        Background="#1565C0" Foreground="White"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"/>
+                <Button Content="POTVRDI" Click="Potvrdi_Click"
+                        Width="120" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                        Background="#2E7D32" Foreground="White"
+                        BorderThickness="0" Cursor="Hand" Margin="0,0,8,0"
+                        IsDefault="True"/>
+                <Button Content="IZLAZ" Click="Izlaz_Click"
+                        Width="120" Height="32"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="Bold"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        IsCancel="True"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+            <StackPanel>
+
+                <!-- ═══ ČASOVI I DINARI ═══════════════════════════════════ -->
+                <Border Background="#1B5E20" CornerRadius="4,4,0,0" Margin="0,4,0,0">
+                    <TextBlock Style="{StaticResource hdr}" Text="ČASOVI I DINARI"/>
+                </Border>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="0" Margin="0,0,0,4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="28"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Zaglavlja -->
+                        <Border Grid.Row="0" Grid.Column="0" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="Stavka" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource val}" Text="Časovi" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="2" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource val}" Text="Dinari" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="4" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="Stavka" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="5" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource val}" Text="Časovi" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="6" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource val}" Text="Dinari" FontWeight="Bold"/>
+                        </Border>
+
+                        <!-- Leva strana -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource lbl}" Text="Redovni rad"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casuc, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinuc, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}" Text="Noćni rad"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casnoc, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinnoc, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource lbl}" Text="Produženi rad"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casprod, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="3" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinprod, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource lbl}" Text="Rad na praznik"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casradnap, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="4" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinradnap, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource lbl}" Text="Rad nedeljom"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casned, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="5" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinned, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource lbl}" Text="Dor"/>
+                        <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casdor, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="6" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dindor, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource lbl}" Text="Služb. put"/>
+                        <TextBox Grid.Row="7" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Cslput, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="7" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinsl, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource lbl}" Text="Suspenzija"/>
+                        <TextBox Grid.Row="8" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Cassus, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="8" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinsus, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource lbl}" Text="Minuli rad"/>
+                        <TextBox Grid.Row="9" Grid.Column="2" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinmin, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <!-- Desna strana — Naknade -->
+                        <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource lbl}" Text="Praznik"/>
+                        <TextBox Grid.Row="1" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Caspraz, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="1" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinpraz, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="4" Style="{StaticResource lbl}" Text="Bolovanje"/>
+                        <TextBox Grid.Row="2" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casbol, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="2" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinbol, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="4" Style="{StaticResource lbl}" Text="Bolovanje 2"/>
+                        <TextBox Grid.Row="3" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casbol2, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="3" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinbol2, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="4" Style="{StaticResource lbl}" Text="Plaćeno odsustvo"/>
+                        <TextBox Grid.Row="4" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casplac, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="4" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinplac, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="4" Style="{StaticResource lbl}" Text="Plaćeno 2"/>
+                        <TextBox Grid.Row="5" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casplac2, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="5" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinplac2, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="4" Style="{StaticResource lbl}" Text="Godišnji"/>
+                        <TextBox Grid.Row="6" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casgod, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="6" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dingod, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="4" Style="{StaticResource lbl}" Text="V.V."/>
+                        <TextBox Grid.Row="7" Grid.Column="5" Style="{StaticResource valEdit}" Text="{Binding Stavka.Casvv, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBox Grid.Row="7" Grid.Column="6" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dinvv, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <!-- UKUPNO -->
+                        <Border Grid.Row="10" Grid.Column="0" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="UKUPNO" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="10" Grid.Column="1" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource valBold}" Text="{Binding Casuk, StringFormat=N2}"/>
+                        </Border>
+                        <Border Grid.Row="10" Grid.Column="2" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource valBold}" Text="{Binding Dinuk, StringFormat=N2}"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- ═══ STIMULACIJE I DODACI ══════════════════════════════ -->
+                <Border Background="#1B5E20" CornerRadius="4,4,0,0" Margin="0,8,0,0">
+                    <TextBlock Style="{StaticResource hdr}" Text="STIMULACIJE I DODACI"/>
+                </Border>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="28"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource lbl}" Text="Stim. 1"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Stim1, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource lbl}" Text="Stim. 2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Stim2, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}" Text="Stim. 3"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Stim3, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource lbl}" Text="Topli obrok"/>
+                        <TextBox Grid.Row="0" Grid.Column="4" Style="{StaticResource valEdit}"
+                                 Text="{Binding Stavka.Topli, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource lbl}" Text="Regres"/>
+                        <TextBox Grid.Row="1" Grid.Column="4" Style="{StaticResource valEdit}"
+                                 Text="{Binding Stavka.Regres, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{StaticResource lbl}" Text="Terenski"/>
+                        <TextBox Grid.Row="2" Grid.Column="4" Style="{StaticResource valEdit}"
+                                 Text="{Binding Stavka.Terenski, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource lbl}" Text="Fiksna"/>
+                        <TextBox Grid.Row="0" Grid.Column="7" Style="{StaticResource valEdit}"
+                                 Text="{Binding Stavka.Fiksna, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <Border Grid.Row="3" Grid.Column="0" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="Dodaci uk." FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="1" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource valBold}" Text="{Binding Ldodaci, StringFormat=N2}"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="3" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="Naknade uk." FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="4" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource valBold}" Text="{Binding Naknade, StringFormat=N2}"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- ═══ BRUTO / DOPRINOSI / POREZ / NETO ═════════════════ -->
+                <Border Background="#1B5E20" Margin="0,8,0,0">
+                    <TextBlock Style="{StaticResource hdr}" Text="BRUTO / DOPRINOSI / POREZ / NETO"/>
+                </Border>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- BRUTO -->
+                        <Border Grid.Row="0" Grid.Column="0" Background="#E3F2FD">
+                            <TextBlock Style="{StaticResource lbl}" Text="BRUTO" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="#E3F2FD">
+                            <TextBox Style="{StaticResource valEdit}" Text="{Binding Stavka.Bruto, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontSize="14" Foreground="#1565C0"/>
+                        </Border>
+
+                        <Border Grid.Row="0" Grid.Column="3" Background="#E3F2FD">
+                            <TextBlock Style="{StaticResource lbl}" Text="Osnovica" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="4" Background="#E3F2FD">
+                            <TextBlock Style="{StaticResource valBold}" Text="{Binding Osnovica, StringFormat=N2}"/>
+                        </Border>
+
+                        <Border Grid.Row="1" Grid.ColumnSpan="6" Background="#BDBDBD"/>
+
+                        <!-- Doprinosi radnik -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}" Text="Dop. PIO (radnik)"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Doppr, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource lbl}" Text="Dop. Zdravstveni (r.)"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopzr, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource lbl}" Text="Dop. Nezaposlenost (r.)"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopnr, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource lbl}" Text="Doprinosi radnik UK." FontWeight="Bold"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopsocr, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontWeight="Bold"/>
+
+                        <!-- Doprinosi firma -->
+                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{StaticResource lbl}" Text="Dop. PIO (firma)"/>
+                        <TextBox Grid.Row="2" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Doppf, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="3" Style="{StaticResource lbl}" Text="Dop. Zdravstveni (f.)"/>
+                        <TextBox Grid.Row="3" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopzf, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="3" Style="{StaticResource lbl}" Text="Dop. Nezaposlenost (f.)"/>
+                        <TextBox Grid.Row="4" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopnf, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="3" Style="{StaticResource lbl}" Text="Doprinosi firma UK." FontWeight="Bold"/>
+                        <TextBox Grid.Row="5" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Dopsocf, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontWeight="Bold"/>
+
+                        <Border Grid.Row="6" Grid.ColumnSpan="6" Background="#BDBDBD"/>
+
+                        <!-- Porez -->
+                        <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource lbl}" Text="Porez oslobođenje"/>
+                        <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Poroslob, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource lbl}" Text="Porez obračunati"/>
+                        <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Porezs, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource lbl}" Text="Porez umanjenje"/>
+                        <TextBlock Grid.Row="9" Grid.Column="1" Style="{StaticResource val}" Text="{Binding Porezu, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="3" Style="{StaticResource lbl}" Text="POREZ (za uplatu)" FontWeight="Bold"/>
+                        <TextBox Grid.Row="7" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Porez, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Foreground="#C62828" FontWeight="Bold"/>
+
+                        <Border Grid.Row="10" Grid.ColumnSpan="6" Background="#BDBDBD"/>
+
+                        <!-- NETO -->
+                        <Border Grid.Row="11" Grid.Column="0" Background="#E8F5E9">
+                            <TextBlock Style="{StaticResource lbl}" Text="NETO" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <Border Grid.Row="11" Grid.Column="1" Background="#E8F5E9">
+                            <TextBox Style="{StaticResource valEdit}" Text="{Binding Stavka.Neto, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontSize="14" Foreground="#2E7D32"/>
+                        </Border>
+
+                        <TextBlock Grid.Row="11" Grid.Column="3" Style="{StaticResource lbl}" Text="Obustave ukupno"/>
+                        <TextBlock Grid.Row="11" Grid.Column="4" Style="{StaticResource val}" Text="{Binding Ukobust, StringFormat=N2}"/>
+
+                        <Border Grid.Row="12" Grid.Column="0" Background="#FFEBEE">
+                            <TextBlock Style="{StaticResource lbl}" Text="ZA ISPLATU" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <Border Grid.Row="12" Grid.Column="1" Background="#FFEBEE">
+                            <TextBox Style="{StaticResource valEdit}" Text="{Binding Stavka.Zaisplatu, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontSize="14" Foreground="#C62828"/>
+                        </Border>
+
+                        <TextBlock Grid.Row="12" Grid.Column="3" Style="{StaticResource lbl}" Text="Sol. porez"/>
+                        <TextBox Grid.Row="12" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Solpor, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                    </Grid>
+                </Border>
+
+                <!-- ═══ OBUSTAVE ═════════════════════════════════════════ -->
+                <Border Background="#BF360C" CornerRadius="4,4,0,0" Margin="0,8,0,0">
+                    <TextBlock Style="{StaticResource hdr}" Text="OBUSTAVE"/>
+                </Border>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource lbl}" Text="Krediti"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Krediti, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource lbl}" Text="Prevoz"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource valEdit}"
+                                 Text="{Binding Stavka.Prevoz, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource lbl}" Text="Kasa"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Kasa, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource lbl}" Text="Kasa rata"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Kasarata, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource lbl}" Text="Samodoprinos"/>
+                        <TextBox Grid.Row="0" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Samodopr, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource lbl}" Text="Sindikat 1"/>
+                        <TextBox Grid.Row="1" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Sindikat1, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{StaticResource lbl}" Text="Sindikat 2"/>
+                        <TextBox Grid.Row="2" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Sindikat2, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource lbl}" Text="Solidarnost"/>
+                        <TextBox Grid.Row="0" Grid.Column="7" Style="{StaticResource valEdit}" Text="{Binding Stavka.Solidarn, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource lbl}" Text="Alimentacija"/>
+                        <TextBox Grid.Row="1" Grid.Column="7" Style="{StaticResource valEdit}" Text="{Binding Stavka.Aliment, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                    </Grid>
+                </Border>
+
+                <!-- ═══ KOMORE / BENEFICIJE ══════════════════════════════ -->
+                <Border Background="#37474F" CornerRadius="4,4,0,0" Margin="0,8,0,0">
+                    <TextBlock Style="{StaticResource hdr}" Text="KOMORE I BENEFICIJE"/>
+                </Border>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="4" Margin="0,0,0,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="24"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource lbl}" Text="Komora JD"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource valEdit}" Text="{Binding Stavka.Komorajd, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource lbl}" Text="Komora SD"/>
+                        <TextBox Grid.Row="0" Grid.Column="4" Style="{StaticResource valEdit}" Text="{Binding Stavka.Komorasd, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource lbl}" Text="Ben. procenat"/>
+                        <TextBox Grid.Row="0" Grid.Column="7" Style="{StaticResource valEdit}" Text="{Binding Stavka.Benproc, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource lbl}" Text="Ben. dinari"/>
+                        <TextBox Grid.Row="1" Grid.Column="7" Style="{StaticResource valEdit}" Text="{Binding Stavka.Bendin, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

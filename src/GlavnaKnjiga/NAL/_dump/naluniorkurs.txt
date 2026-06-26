@@ -1,0 +1,164 @@
+num records 9
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 0
+    Left = 0
+    Width = 0
+    Height = 0
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALUNIORKURS | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  16.93
+    Width = 108.60
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "UNOS KURSA  U DEVIZNIM RACUNIMA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 236,233,216
+    Name = "NALUNIORKURS"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.TXTDEV.VALUE='EUR'
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO naluniorKURSTAST
+    SET PROCEDURE TO   
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALUNIORKURS
+  PROPERTIES:
+    FontSize = 11
+    Alignment = 2
+    Caption = "Unos kursa"
+    Height =   1.60
+    Left =  13.00
+    Top =   0.60
+    Width =  86.40
+    TabIndex = 5
+    BackColor = 241,209,173
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALUNIORKURS
+  PROPERTIES:
+    Top =  11.20
+    Left =  12.00
+    Height =   5.07
+    Width =  26.40
+    FontSize = 11
+    Picture = ..\ikone\aknjigalenjir.png
+    Caption = "\<Unesi kurs"
+    TabIndex = 3
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET CENTURY OFF
+    MDEV=THISFORM.TXTDEV.Value
+    USE &Kdev ALIAS dev IN 0 ORDER 1
+    SELECT unior
+    GO top
+    DO while.not.eof()
+       IF devdug<>0
+          MDATPDV=DATPDV
+          SELECT dev
+          LOCATE FOR Mdatpdv=datdok.and.dev=mdev
+          IF FOUND()
+             mkurs=kurs
+          ELSE
+             mkurs=0
+          ENDIF
+          SELECT unior   
+          replace dev WITH mdev   
+          replace ukprod WITH ROUND(devdug*mkurs,2)
+          replace OSN18	 WITH ROUND(devdug*mkurs,2) 
+       else
+          REPLACE UKPROD WITH OSN18+PDV18 
+       ENDIF     
+       SELECT unior   
+       SKIP
+    enddo   
+    SELECT DEV
+    USE
+    SELECT UNIOR
+    GO TOP
+    THISFORM.Release
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALUNIORKURS
+  PROPERTIES:
+    Top =  11.20
+    Left =  72.00
+    Height =   5.07
+    Width =  26.40
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<IZLAZ"
+    TabIndex = 4
+    BackColor = 192,192,192
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release 
+    ENDPROC
+
+=== textbox | TXTDEV | parent=NALUNIORKURS
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.60
+    Left =  50.40
+    MaxLength = 3
+    Top =   4.00
+    Width =  12.00
+    Name = "TXTDEV"
+
+=== label | Label2 | parent=NALUNIORKURS
+  PROPERTIES:
+    FontSize = 11
+    Caption = "unesite oznaku devize"
+    Height =   1.67
+    Left =  16.80
+    Top =   4.00
+    Width =  31.40
+    Name = "Label2"

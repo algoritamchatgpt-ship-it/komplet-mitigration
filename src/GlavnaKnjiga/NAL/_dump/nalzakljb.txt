@@ -1,0 +1,134 @@
+num records 6
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALZAKLJB | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  10.40
+    Width = 132.80
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "BRZI ZAKLJUČNI LIST"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 149,188,148
+    Name = "NALZAKLJB"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+      DO NALZAKLJBTAST
+    SET PROCEDURE TO
+    
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALZAKLJB
+  PROPERTIES:
+    Top =   2.40
+    Left =   9.60
+    Height =   5.60
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\pregled2.png
+    Caption = "\<Pregled"
+    TabIndex = 11
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    MDAT0=DTOS(Tdat0)
+    MDAT1=DTOS(tdat1)
+    DO IDEL WITH (KKOCKAX)
+    DO IDEL WITH (KKOCKAX2)
+    
+    SELECT NAL
+    SET RELATION TO
+    SELECT DUG,POT,KONTO,DATDOK FROM NAL;
+           WHERE (DTOS(DATDOK)>=MDAT0.AND.DTOS(DATDOK)<=MDAT1);
+           ORDER BY KONTO;
+           INTO TABLE &KKOCKA
+           USE
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    SELECT KOCKA
+    INDEX ON konto tag konto
+    SET ORDER TO 1
+    TOTAL ON konto FIELDS dug,pot TO &kkocka2
+    ZAP
+    APPEND FROM &kkocka2
+    SELECT KOCKA
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    *REPORT FORM NALZAKLJ0B  PREVIEW                                                                        
+       mfile='NALZAKLJ0B'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+    
+    USE
+    SELECT NAL
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SET RELATION TO MP INTO MESTA ADDITIVE
+    SET RELATION TO MTR INTO MTR ADDITIVE
+    SET RELATION TO BRNAL INTO NALBROJ  ADDITIVE
+    SET ORDER TO 3                                                                      
+    RELEASE THISFORM
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command2 | parent=NALZAKLJB
+  PROPERTIES:
+    Top =   2.40
+    Left = 105.60
+    Height =   5.60
+    Width =  21.80
+    FontSize = 11
+    Picture = ..\ikone\aizlaz0.png
+    Caption = "\<Izlaz"
+    TabIndex = 11
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    thisform.release
+    ENDPROC

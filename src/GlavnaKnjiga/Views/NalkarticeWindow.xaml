@@ -1,0 +1,77 @@
+<Window x:Class="GlavnaKnjiga.Views.NalkarticeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ŠTAMPA KARTICA GLAVNE KNJIGE"
+        Height="320" Width="560"
+        WindowStartupLocation="CenterOwner"
+        Background="#F2F2F2"
+        ResizeMode="NoResize">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- KONTO -->
+        <Label Grid.Row="0" Grid.Column="0" Content="KONTO" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#80FF80" Padding="2"/>
+        <TextBox Grid.Row="0" Grid.Column="1" MaxLength="10"
+                 Text="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- POČETNI DATUM -->
+        <Label Grid.Row="1" Grid.Column="0" Content="POČETNI DATUM" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#80FFFF" Padding="2"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding DatumOd}"
+                    FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- ZADNJI DATUM -->
+        <Label Grid.Row="2" Grid.Column="0" Content="ZADNJI DATUM" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#80FFFF" Padding="2"/>
+        <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding DatumDo}"
+                    FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- OBJEKAT -->
+        <Label Grid.Row="3" Grid.Column="0" Content="OBJEKAT" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#FFFF80" Padding="2"/>
+        <TextBox Grid.Row="3" Grid.Column="1" MaxLength="3"
+                 Text="{Binding Dok, UpdateSourceTrigger=PropertyChanged}"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2" Width="60" HorizontalAlignment="Left"/>
+
+        <!-- MESTO-GRAD -->
+        <Label Grid.Row="4" Grid.Column="0" Content="MESTO-GRAD" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#FFFF80" Padding="2"/>
+        <TextBox Grid.Row="4" Grid.Column="1" MaxLength="2"
+                 Text="{Binding Mp, UpdateSourceTrigger=PropertyChanged}"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2" Width="50" HorizontalAlignment="Left"/>
+
+        <!-- MESTO TROŠKOVA -->
+        <Label Grid.Row="5" Grid.Column="0" Content="MESTO TROŠKOVA" FontFamily="Tahoma" FontSize="11"
+               Foreground="#7D0000" Background="#FFFF80" Padding="2"/>
+        <TextBox Grid.Row="5" Grid.Column="1" MaxLength="3"
+                 Text="{Binding Mtr, UpdateSourceTrigger=PropertyChanged}"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2" Width="60" HorizontalAlignment="Left"/>
+
+        <!-- Button row -->
+        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+            <Button Content="Pregled" Width="120" Height="36"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"
+                    Command="{Binding PregledCommand}"/>
+            <Button Content="Izlaz" Width="80" Height="36" Margin="12,0,0,0"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

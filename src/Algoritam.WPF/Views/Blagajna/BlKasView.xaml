@@ -1,0 +1,145 @@
+<Window x:Class="Algoritam.WPF.Views.Blagajna.BlKasView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="1380" Height="740"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1B5E20" Padding="16,10">
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding Naslov}"
+                               FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding StatusPoruka}"
+                               FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7" Margin="0,2,0,0"/>
+                </StackPanel>
+                <ProgressBar IsIndeterminate="True" Width="80" Height="6"
+                             DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0"
+                             Foreground="White" Background="Transparent" BorderThickness="0"
+                             Visibility="{Binding Ucitava, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Filter -->
+        <Border Grid.Row="1" Background="#E8F5E9" Padding="12,8"
+                BorderThickness="0,0,0,1" BorderBrush="#C8E6C9">
+            <WrapPanel>
+                <TextBlock Text="Od:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <DatePicker SelectedDate="{Binding DatumOd}"
+                            Width="120" Height="26" FontFamily="Tahoma" FontSize="11" Margin="0,0,12,0"/>
+                <TextBlock Text="Do:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <DatePicker SelectedDate="{Binding DatumDo}"
+                            Width="120" Height="26" FontFamily="Tahoma" FontSize="11" Margin="0,0,16,0"/>
+                <TextBlock Text="Pretraga:" FontFamily="Tahoma" FontSize="11"
+                           Foreground="#1B5E20" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Text="{Binding FilterTekst, UpdateSourceTrigger=PropertyChanged}"
+                         Width="220" Height="26" Padding="6,0"
+                         FontFamily="Tahoma" FontSize="12" VerticalContentAlignment="Center"
+                         Margin="0,0,10,0"/>
+                <Button Content="Očisti" Height="26" Padding="10,0"
+                        FontFamily="Tahoma" FontSize="11" FontWeight="SemiBold"
+                        Foreground="White" Background="#1B5E20" BorderThickness="0" Cursor="Hand"
+                        Command="{Binding OcistiFilterCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="3"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </WrapPanel>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Row="2" Margin="8,8,8,0" BorderBrush="#C8E6C9" BorderThickness="1">
+            <DataGrid ItemsSource="{Binding Nalozi}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      AlternatingRowBackground="#E8F5E9"
+                      RowBackground="White"
+                      BorderThickness="0"
+                      FontFamily="Tahoma" FontSize="12"
+                      SelectionMode="Single"
+                      EnableRowVirtualization="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#E8F5E9"/>
+                        <Setter Property="Foreground" Value="#1B5E20"/>
+                        <Setter Property="FontFamily" Value="Tahoma"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#A5D6A7"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dat.dok"  Binding="{Binding [DATDOK], StringFormat='dd.MM.yyyy'}"
+                                        Width="90"/>
+                    <DataGridTextColumn Header="Dnev."    Binding="{Binding [DNEV]}"   Width="50"/>
+                    <DataGridTextColumn Header="Nalu."    Binding="{Binding [NALU]}"   Width="60"/>
+                    <DataGridTextColumn Header="Nali."    Binding="{Binding [NALI]}"   Width="60"/>
+                    <DataGridTextColumn Header="Konto"    Binding="{Binding [KONTO]}"  Width="90"/>
+                    <DataGridTextColumn Header="Duguje" Binding="{Binding [DUG], StringFormat=N2}" Width="110">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Potražuje" Binding="{Binding [POT], StringFormat=N2}" Width="110">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="4,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Opis"     Binding="{Binding [OPIS]}"   Width="*"/>
+                    <DataGridTextColumn Header="Šifra"    Binding="{Binding [SIFRA]}"  Width="60"/>
+                    <DataGridTextColumn Header="Ime"      Binding="{Binding [IME]}"    Width="140"/>
+                    <DataGridTextColumn Header="Dok"      Binding="{Binding [DOK]}"    Width="50"/>
+                    <DataGridTextColumn Header="Br.nal"   Binding="{Binding [BRNAL]}"  Width="70"/>
+                    <DataGridTextColumn Header="MP"       Binding="{Binding [MP]}"     Width="45"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer -->
+        <Border Grid.Row="3" Background="#E8F5E9" Padding="12,8"
+                BorderThickness="0,1,0,0" BorderBrush="#C8E6C9" Margin="0,4,0,0">
+            <DockPanel>
+                <Button Content="Osveži" DockPanel.Dock="Left" Width="80" Height="28" Margin="0,0,6,0"
+                        Command="{Binding OsveziCommand}"
+                        Style="{StaticResource NavButtonStyle}"/>
+                <Button Content="Zatvori" DockPanel.Dock="Right" Width="80" Height="28"
+                        Command="{Binding ZatvoriCommand}"
+                        Style="{StaticResource DangerButtonStyle}"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

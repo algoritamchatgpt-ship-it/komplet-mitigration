@@ -1,0 +1,47 @@
+<Window x:Class="GlavnaKnjiga.Views.NalSlag2Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SLAGANJE NALOGA — REZULTATI"
+        Height="500" Width="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#E9ECD8"
+        KeyDown="Window_KeyDown">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#2B2B8C" Padding="8,4">
+            <TextBlock Text="SLAGANJE NALOGA — REZULTATI"
+                       Foreground="White" FontSize="11" FontWeight="Bold"/>
+        </Border>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="4,4">
+            <Button Content="ŠTAMPA"       Width="100" Margin="2" Background="#C0C0C0"
+                    Command="{Binding StampaCommand}"/>
+            <Button Content="UBACI U NAL"  Width="120" Margin="2" Background="#C0C0C0"
+                    Command="{Binding UbaciUNalCommand}"/>
+            <Button Content="SLAG3"        Width="80"  Margin="2" Background="#C0C0C0"
+                    Command="{Binding OtvoriSlag3Command}"/>
+            <Button Content="|&lt;" Width="36" Margin="2" Background="#C0C0C0" Command="{Binding PrviCommand}"/>
+            <Button Content="&lt;"  Width="36" Margin="2" Background="#C0C0C0" Command="{Binding GoreCommand}"/>
+            <Button Content="&gt;"  Width="36" Margin="2" Background="#C0C0C0" Command="{Binding DoleCommand}"/>
+            <Button Content="&gt;|" Width="36" Margin="2" Background="#C0C0C0" Command="{Binding ZadnjiCommand}"/>
+            <Button Content="Izlaz" Width="80" Margin="2" Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Rows}"
+                  SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  FontSize="11"
+                  Margin="4">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Brnal"  Binding="{Binding Brnal}"    Width="100"/>
+                <DataGridTextColumn Header="Dug"    Binding="{Binding Dug,  StringFormat={}{0:F2}}" Width="120"/>
+                <DataGridTextColumn Header="Pot"    Binding="{Binding Pot,  StringFormat={}{0:F2}}" Width="120"/>
+                <DataGridTextColumn Header="Saldo"  Binding="{Binding Saldo,StringFormat={}{0:F2}}" Width="120"/>
+                <DataGridCheckBoxColumn Header="Složen" Binding="{Binding JeSlozen}" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

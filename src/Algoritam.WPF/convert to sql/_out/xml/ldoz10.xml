@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldoz10">
+  <columns>
+    <column name="BR" type="C" length="0" decimals="0" />
+    <column name="IME_PREZ" type="C" length="0" decimals="0" />
+    <column name="POL" type="C" length="0" decimals="0" />
+    <column name="PRVAISPL" type="C" length="0" decimals="0" />
+    <column name="DOD" type="D" length="0" decimals="0" />
+    <column name="DDO" type="D" length="0" decimals="0" />
+    <column name="BOLEST" type="N" length="0" decimals="0" />
+    <column name="POVRAD" type="N" length="0" decimals="0" />
+    <column name="PROFBOL" type="N" length="0" decimals="0" />
+    <column name="NEGA65" type="N" length="0" decimals="0" />
+    <column name="NEGA" type="N" length="0" decimals="0" />
+    <column name="IZOLAC" type="N" length="0" decimals="0" />
+    <column name="DAVALAC" type="N" length="0" decimals="0" />
+    <column name="TRUDNOCA" type="N" length="0" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="DOPR" type="N" length="2" decimals="0" />
+    <column name="DOPF" type="N" length="2" decimals="0" />
+    <column name="POREZ" type="N" length="2" decimals="0" />
+    <column name="ZAISPLAT" type="N" length="2" decimals="0" />
+    <column name="SVEGA" type="N" length="2" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

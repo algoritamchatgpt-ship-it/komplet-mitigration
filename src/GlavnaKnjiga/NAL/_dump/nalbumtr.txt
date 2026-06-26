@@ -1,0 +1,534 @@
+num records 23
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALBUMTR | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =  20.20
+    Width = 149.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "BILANS USPEHA PO MESTIMA TROŠKOVA"
+    WindowType = 1
+    WindowState = 0
+    BackColor = 242,242,242
+    Name = "NALBUMTR"
+  METHODS (literal FoxPro source):
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+    PROCEDURE Init
+    PARAMETERS nacin0
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    PUBLIC NACIN1
+    NACIN1=nacin0
+    
+    PUSH KEY CLEAR
+    THISFORM.TXTKONP.VALUE='6'
+    THISFORM.TXTKONR.VALUE='5'
+    THISFORM.TXTDAT0.VALUE=TDAT0
+    THISFORM.TXTDAT1.VALUE=TDAT1
+    THISFORM.TXTDODPRIH.VALUE='N'
+    
+    THISFORM.REFRESH
+    SET PROCEDURE TO TASTERI2
+       DO NALBUMTRTAST
+    SET PROCEDURE TO
+    
+    
+    
+    ENDPROC
+
+=== commandbutton | Command1 | parent=NALBUMTR
+  PROPERTIES:
+    Top =  16.80
+    Left =  38.40
+    Height =   2.07
+    Width =  21.80
+    FontSize = 11
+    Caption = "\<PREGLED"
+    TabIndex = 10
+    BackColor = 227,190,149
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    SET EXACT ON
+    MKONP=THISFORM.TXTKONP.VALUE
+    MKONP2=THISFORM.TXTKONP2.VALUE
+    MKONP3=THISFORM.TXTKONP3.VALUE
+    MKONR=THISFORM.TXTKONR.VALUE
+    MKONR2=THISFORM.TXTKONR2.VALUE
+    MKONR3=THISFORM.TXTKONR3.VALUE
+    MLENP=LEN(ALLTRIM(MKONP))
+    MLENP2=LEN(ALLTRIM(MKONP2))
+    MLENP3=LEN(ALLTRIM(MKONP3))
+    MLENR=LEN(ALLTRIM(MKONR))
+    MLENR2=LEN(ALLTRIM(MKONR2))
+    MLENR3=LEN(ALLTRIM(MKONR3))
+    MDODPRIH=THISFORM.TXTDODPRIH.VALUE
+    MDAT0=THISFORM.TXTDAT0.VALUE
+    MDAT1=THISFORM.TXTDAT1.VALUE
+    
+    SELECT DATUMI
+    REPLACE DAT0 WITH MDAT0
+    REPLACE DAT1 WITH MDAT1
+    SELECT NAL
+    
+    DO IDEL WITH (KKOCKAX)
+    DO IDEL WITH (KKOCKAX2)
+    
+    SELECT NAL
+    COPY STRUCTURE TO &KKOCKA
+    USE &KKOCKA IN 0 ALIAS KOCKA EXCLU
+    GO TOP
+    I=0
+    DO WHILE.NOT.EOF()
+       i=0
+       IF NAL.DATDOK>=MDAT0.AND.NAL.DATDOK<=MDAT1
+          IF MLENP<>0
+             IF substr(KONTO,1,MLENP)=ALLTRIM(MKONP).AND.MKONP<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF MLENR<>0
+             IF substr(KONTO,1,MLENR)=ALLTRIM(MKONR).AND.MKONR<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF MLENP2<>0
+             IF substr(KONTO,1,MLENP2)=ALLTRIM(MKONP2).AND.MKONP2<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF MLENR2<>0
+             IF substr(KONTO,1,MLENR2)=ALLTRIM(MKONR2).AND.MKONR2<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF MLENP3<>0
+             IF substr(KONTO,1,MLENP3)=ALLTRIM(MKONP3).AND.MKONP3<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF MLENR3<>0   
+             IF substr(KONTO,1,MLENR3)=ALLTRIM(MKONR3).AND.MKONR3<>SPACE(10)
+                I=1
+             ENDIF
+          ENDIF
+          IF I=1
+             MKONTO=KONTO
+             IF mdodprih<>'D'
+                MDUG=DUG
+                MPOT=POT
+             ELSE
+                MDUG=DUG+DODDUG
+                MPOT=POT+DODPOT
+             ENDIF
+             MDATDOK=DATDOK
+             MMTR=MTR
+             SELECT KOCKA
+             APPEND BLANK
+             REPLACE KONTO WITH MKONTO
+             REPLACE DUG WITH MDUG
+             REPLACE POT WITH MPOT
+             REPLACE DATDOK WITH MDATDOK
+             replace mtr WITH mmtr
+             I=0
+          ENDIF
+       ENDIF
+       SELECT NAL
+       SKIP
+    ENDDO      
+       DO idel WITH (kkockax)
+    
+    SELECT KOCKA
+    INDEX ON STR(mtr,5,0)+KONTO TAG mtr
+    SET ORDER TO 1
+    TOTAL ON STR(mtr,5,0)+konto TO &KKOCKA2 FIELDS DUG,POT
+    ZAP
+    APPEND FROM &KKOCKA2
+    GO TOP
+    SELECT KOCKA
+    SET RELATION TO KONTO INTO KONTO ADDITIVE
+    SET RELATION TO MTR INTO MTR ADDITIVE
+    IF nacin1=1
+       *REPORT FORM NALBU0MTR PREVIEW
+       mfile='NALBU0MTR'
+       uslov=""
+       DO printer_bullzip WITH mdata02,mfile,uslov
+       
+    ELSE
+       *REPORT FORM nalbu0mtr PREVIEW summary
+       mfile='NALBU0MTR'
+       uslov=""
+       DO printer_bullzip_sum WITH mdata02,mfile,uslov
+       
+       
+       
+    endif
+    SELECT KOCKA
+    USE
+    SELECT NAL      
+                                                                                                          
+    SET ORDER TO 3            
+    SET EXACT OFF                                                          
+    THISFORM.RELEASE
+    POP KEY
+    ENDPROC
+
+=== textbox | TXTKONP | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   0.27
+    Width =  30.80
+    Name = "TXTKONP"
+
+=== label | Label1 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO PRIHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   0.33
+    Width =  29.00
+    TabIndex = 16
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label1"
+
+=== textbox | TXTDAT0 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 7
+    Top =   9.87
+    Width =  30.80
+    BackColor = 255,255,255
+    Name = "TXTDAT0"
+
+=== label | Label5 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "POČETNI DATUM"
+    Height =   1.67
+    Left =  16.00
+    Top =   9.93
+    Width =  29.00
+    TabIndex = 18
+    ForeColor = 125,0,0
+    BackColor = 128,255,255
+    Name = "Label5"
+
+=== textbox | TXTDAT1 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Alignment = 3
+    Value = {}
+    Format = "D"
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 8
+    SpecialEffect = 0
+    TabIndex = 8
+    Top =  11.47
+    Width =  30.80
+    BackColor = 255,255,255
+    Name = "TXTDAT1"
+
+=== label | Label6 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "ZADNJI DATUM"
+    Height =   1.67
+    Left =  16.00
+    Top =  11.53
+    Width =  29.00
+    TabIndex = 19
+    ForeColor = 125,0,0
+    BackColor = 128,255,255
+    Name = "Label6"
+
+=== textbox | TXTKONR | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 4
+    Top =   5.07
+    Width =  30.80
+    Name = "TXTKONR"
+
+=== label | Label8 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO RASHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   5.13
+    Width =  29.00
+    TabIndex = 11
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label8"
+
+=== textbox | TXTKONP2 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 2
+    Top =   1.87
+    Width =  30.80
+    Name = "TXTKONP2"
+
+=== label | Label7 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO PRIHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   1.93
+    Width =  29.00
+    TabIndex = 15
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label7"
+
+=== textbox | TXTKONP3 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 3
+    Top =   3.47
+    Width =  30.80
+    Name = "TXTKONP3"
+
+=== label | Label9 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO PRIHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   3.47
+    Width =  29.00
+    TabIndex = 14
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label9"
+
+=== textbox | TXTKONR2 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 5
+    Top =   6.67
+    Width =  30.80
+    Name = "TXTKONR2"
+
+=== label | Label10 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO RASHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   6.73
+    Width =  29.00
+    TabIndex = 13
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label10"
+
+=== textbox | TXTKONR3 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    StrictDateEntry = 1
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  55.60
+    Margin = 0
+    MaxLength = 10
+    SpecialEffect = 0
+    TabIndex = 6
+    Top =   8.27
+    Width =  30.80
+    Name = "TXTKONR3"
+
+=== label | Label11 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "KONTO RASHODA"
+    Height =   1.67
+    Left =  16.00
+    Top =   8.33
+    Width =  29.00
+    TabIndex = 12
+    ForeColor = 125,0,0
+    BackColor = 187,255,187
+    Name = "Label11"
+
+=== textbox | TXTDODPRIH | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    Value = 
+    Format = ""
+    Height =   1.67
+    InputMask = ""
+    Left =  77.60
+    Margin = 0
+    MaxLength = 1
+    SpecialEffect = 0
+    TabIndex = 9
+    Top =  13.33
+    Width =   5.00
+    Name = "TXTDODPRIH"
+
+=== label | Label12 | parent=NALBUMTR
+  PROPERTIES:
+    FontBold = .F.
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "UKLJUČI DODATNE PRIH/RASH D/N"
+    Height =   1.67
+    Left =  16.00
+    Top =  13.40
+    Width =  56.00
+    TabIndex = 17
+    ForeColor = 125,0,0
+    BackColor = 196,0,0
+    Name = "Label12"

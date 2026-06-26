@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldodn">
+  <columns>
+    <column name="KOD" type="C" length="0" decimals="0" />
+    <column name="OPIS" type="C" length="0" decimals="0" />
+    <column name="AOP" type="C" length="0" decimals="0" />
+    <column name="SK1" type="N" length="2" decimals="0" />
+    <column name="SK2" type="N" length="2" decimals="0" />
+    <column name="SK3" type="N" length="2" decimals="0" />
+    <column name="SK4" type="N" length="2" decimals="0" />
+    <column name="ZIRORAC" type="C" length="0" decimals="0" />
+    <column name="LINI" type="C" length="0" decimals="0" />
+    <column name="RLINI" type="C" length="0" decimals="0" />
+    <column name="PLINI" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>I</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>O</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4>D</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>1.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>O</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>B</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>1.</SK2>
+      <SK3 />
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3 />
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4>(</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3>1.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3>2.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3>3.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3>4.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>2.</SK1>
+      <SK2>2.</SK2>
+      <SK3>5.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>3.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>O</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>U</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>1.</SK2>
+      <SK3 />
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>1.</SK2>
+      <SK3>1.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>1.</SK2>
+      <SK3>2.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>1.</SK2>
+      <SK3>3.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>2.</SK2>
+      <SK3 />
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>2.</SK2>
+      <SK3>1.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>2.</SK2>
+      <SK3>2.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>4.</SK1>
+      <SK2>2.</SK2>
+      <SK3>3.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>5.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>B</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4>s</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>6.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>D</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>II</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>R</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>7.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>R</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>U</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>1.</SK2>
+      <SK3 />
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>1.</SK2>
+      <SK3>1.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>1.</SK2>
+      <SK3>2.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>1.</SK2>
+      <SK3>3.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>2.</SK2>
+      <SK3 />
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>2.</SK2>
+      <SK3>1.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>2.</SK2>
+      <SK3>2.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>8.</SK1>
+      <SK2>2.</SK2>
+      <SK3>3.</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>9.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>P</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>II</SK1>
+      <SK2>I</SK2>
+      <SK3 />
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>10</SK1>
+      <SK2>.</SK2>
+      <SK3 />
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.</SK2>
+      <SK3 />
+      <SK4>d</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.1</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.1</SK2>
+      <SK3>.1</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.1</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.1</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.2</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.2</SK2>
+      <SK3>.1</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.2</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>11</SK1>
+      <SK2>.2</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>12</SK1>
+      <SK2>.</SK2>
+      <SK3 />
+      <SK4>D</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>IV</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>V</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.</SK2>
+      <SK3 />
+      <SK4>V</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.1</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.1</SK2>
+      <SK3>.1</SK3>
+      <SK4>Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.1</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.1</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.2</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.2</SK2>
+      <SK3>.1</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.2</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>13</SK1>
+      <SK2>.2</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>V.</SK1>
+      <SK2 />
+      <SK3 />
+      <SK4>I</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4>V</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.</SK2>
+      <SK3 />
+      <SK4>D</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.1</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.1</SK2>
+      <SK3>.1</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.1</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.1</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.2</SK2>
+      <SK3>.</SK3>
+      <SK4>N</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.2</SK2>
+      <SK3>.1</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.2</SK2>
+      <SK3>.2</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1>14</SK1>
+      <SK2>.2</SK2>
+      <SK3>.3</SK3>
+      <SK4>.Z</SK4>
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+    <row>
+      <KOD></KOD>
+      <OPIS></OPIS>
+      <AOP></AOP>
+      <SK1 />
+      <SK2 />
+      <SK3 />
+      <SK4 />
+      <ZIRORAC></ZIRORAC>
+      <LINI></LINI>
+      <RLINI></RLINI>
+      <PLINI></PLINI>
+      <PRENETO></PRENETO>
+      <IDBR />
+    </row>
+  </rows>
+</dbf>

@@ -1,0 +1,90 @@
+<Window x:Class="Algoritam.WPF.Views.Zarade.LdPorodiljeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Naslov}"
+        Width="660"
+        Height="320"
+        MinWidth="660"
+        MinHeight="320"
+        MaxWidth="660"
+        MaxHeight="320"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F0F0F0"
+        FontFamily="Tahoma"
+        FontSize="11">
+
+    <DockPanel>
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#1B5E20" Height="50">
+            <StackPanel VerticalAlignment="Center" Margin="16,0">
+                <TextBlock Text="PORODILJE" FontFamily="Tahoma" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Obrasci i izveštaji za porodilje" FontFamily="Tahoma" FontSize="10" Foreground="#A5D6A7"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Footer -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="0,1,0,0" Height="56">
+            <Grid>
+                <Button Content="_Izlaz"
+                        Width="182" Height="32"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="#455A64" Foreground="White"
+                        BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                        Cursor="Hand"
+                        Click="IzlazClick"/>
+            </Grid>
+        </Border>
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Background="#E8F5E9" BorderBrush="#C8E6C9"
+                BorderThickness="0,1,0,0" Padding="10,4">
+            <TextBlock Text="{Binding Poruka}" FontFamily="Tahoma" FontSize="11" Foreground="#1B5E20"/>
+        </Border>
+
+        <!-- Content -->
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+            <Button Content="PORODILJE-NZ-1"
+                    ToolTip="Izrada i štampanje obrasca NZ-1 za porodilje"
+                    Width="494" Height="28" Margin="0,0,0,8"
+                    Background="#1565C0" Foreground="White"
+                    BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                    Cursor="Hand" HorizontalAlignment="Center"
+                    Command="{Binding PorodiljeNz1Command}"/>
+
+            <Button Content="KRETANJE ZARADA"
+                    ToolTip="Kretanje zarada za porodilje"
+                    Width="494" Height="28" Margin="0,0,0,8"
+                    Background="#1565C0" Foreground="White"
+                    BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                    Cursor="Hand" HorizontalAlignment="Center"
+                    Command="{Binding KretanjeZaradaCommand}"/>
+
+            <Button Content="ZARADA ZA 12 MESECI"
+                    ToolTip="Pregled zarade za poslednjih 12 meseci"
+                    Width="494" Height="28" Margin="0,0,0,8"
+                    Background="#1565C0" Foreground="White"
+                    BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                    Cursor="Hand" HorizontalAlignment="Center"
+                    Command="{Binding Zarada12MeseciCommand}"/>
+
+            <Button Content="ZAHTEV Z-1"
+                    ToolTip="Izrada i štampanje obrasca Z-1"
+                    Width="494" Height="28" Margin="0,0,0,8"
+                    Background="#1565C0" Foreground="White"
+                    BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                    Cursor="Hand" HorizontalAlignment="Center"
+                    Command="{Binding ZahtevZ1Command}"/>
+
+            <Button Content="POTVRDA O STAZU"
+                    ToolTip="Potvrda o stažu za porodilje"
+                    Width="494" Height="28"
+                    Background="#1565C0" Foreground="White"
+                    BorderThickness="0" FontFamily="Tahoma" FontSize="11"
+                    Cursor="Hand" HorizontalAlignment="Center"
+                    Command="{Binding PotvrdaStazuCommand}"/>
+        </StackPanel>
+
+    </DockPanel>
+</Window>

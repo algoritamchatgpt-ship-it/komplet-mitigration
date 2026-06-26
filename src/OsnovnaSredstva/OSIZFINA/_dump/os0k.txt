@@ -1,0 +1,1687 @@
+num records 123
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 26
+    Left = 731
+    Width = 145
+    Height = 544
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== cursor | Cursor1 | parent=Dataenvironment
+  PROPERTIES:
+    Top = 20
+    Left = 10
+    Height = 483
+    Width = 90
+    Alias = "os0"
+    CursorSource = ..\databaze\os0.dbf
+    Name = "Cursor1"
+
+=== form | OS0K | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Top =   0.00
+    Left =   0.00
+    Height =  49.00
+    Width = 203.40
+    DoCreate = .T.
+    Caption = "KARTICA OSNOVNOG SREDSTVA"
+    WindowType = 1
+    WindowState = 2
+    BackColor = 233,236,216
+    Name = "OS0K"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+       THISFORM.LBLOSVRSTA.CAPTION=OSVRSTA.NAZIV 
+       THISFORM.LBLOSOSNK.CAPTION=OSOSNK.NAZIV 
+       THISFORM.LBLOSIZVORF.CAPTION=OSIZVORF.NAZIV 
+       THISFORM.REFRESH
+    SET PROCEDURE TO TASTERIO2
+       DO OS0KTAST
+    SET PROCEDURE TO
+    
+    ENDPROC
+    PROCEDURE Unload
+    POP KEY
+    ENDPROC
+
+=== shape | Shape1 | parent=OS0K
+  PROPERTIES:
+    Top =   2.33
+    Left =   0.20
+    Height =   1.73
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape1"
+
+=== shape | Shape2 | parent=OS0K
+  PROPERTIES:
+    Top =   5.60
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape2"
+
+=== shape | Shape3 | parent=OS0K
+  PROPERTIES:
+    Top =   7.20
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape3"
+
+=== shape | Shape4 | parent=OS0K
+  PROPERTIES:
+    Top =   8.73
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape4"
+
+=== shape | Shape5 | parent=OS0K
+  PROPERTIES:
+    Top =  10.33
+    Left =   0.20
+    Height =   1.73
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape5"
+
+=== shape | Shape6 | parent=OS0K
+  PROPERTIES:
+    Top =  12.00
+    Left =   0.20
+    Height =   3.27
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape6"
+
+=== shape | Shape7 | parent=OS0K
+  PROPERTIES:
+    Top =  15.20
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape7"
+
+=== shape | Shape8 | parent=OS0K
+  PROPERTIES:
+    Top =  16.80
+    Left =   0.20
+    Height =   4.87
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape8"
+
+=== shape | Shape9 | parent=OS0K
+  PROPERTIES:
+    Top =  21.60
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape9"
+
+=== shape | Shape11 | parent=OS0K
+  PROPERTIES:
+    Top =  23.20
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape11"
+
+=== shape | Shape10 | parent=OS0K
+  PROPERTIES:
+    Top =  24.80
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape10"
+
+=== shape | Shape12 | parent=OS0K
+  PROPERTIES:
+    Top =  26.40
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape12"
+
+=== shape | Shape13 | parent=OS0K
+  PROPERTIES:
+    Top =  28.00
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape13"
+
+=== shape | Shape14 | parent=OS0K
+  PROPERTIES:
+    Top =  29.60
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape14"
+
+=== shape | Shape15 | parent=OS0K
+  PROPERTIES:
+    Top =  31.20
+    Left =   0.20
+    Height =   1.73
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape15"
+
+=== shape | Shape16 | parent=OS0K
+  PROPERTIES:
+    Top =  32.87
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape16"
+
+=== shape | Shape17 | parent=OS0K
+  PROPERTIES:
+    Top =  34.47
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape17"
+
+=== shape | Shape18 | parent=OS0K
+  PROPERTIES:
+    Top =  36.07
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape18"
+
+=== shape | Shape19 | parent=OS0K
+  PROPERTIES:
+    Top =  37.67
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape19"
+
+=== shape | Shape20 | parent=OS0K
+  PROPERTIES:
+    Top =  39.27
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape20"
+
+=== shape | Shape21 | parent=OS0K
+  PROPERTIES:
+    Top =   2.33
+    Left = 117.00
+    Height =   1.73
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape21"
+
+=== shape | Shape22 | parent=OS0K
+  PROPERTIES:
+    Top =   4.00
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape22"
+
+=== shape | Shape23 | parent=OS0K
+  PROPERTIES:
+    Top =   5.60
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape23"
+
+=== shape | Shape24 | parent=OS0K
+  PROPERTIES:
+    Top =   7.13
+    Left = 117.00
+    Height =   1.73
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape24"
+
+=== shape | Shape25 | parent=OS0K
+  PROPERTIES:
+    Top =   8.80
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape25"
+
+=== shape | Shape26 | parent=OS0K
+  PROPERTIES:
+    Top =  10.40
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape26"
+
+=== shape | Shape27 | parent=OS0K
+  PROPERTIES:
+    Top =  12.00
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape27"
+
+=== shape | Shape28 | parent=OS0K
+  PROPERTIES:
+    Top =  13.60
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape28"
+
+=== shape | Shape29 | parent=OS0K
+  PROPERTIES:
+    Top =  15.20
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape29"
+
+=== shape | Shape30 | parent=OS0K
+  PROPERTIES:
+    Top =  16.80
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape30"
+
+=== shape | Shape31 | parent=OS0K
+  PROPERTIES:
+    Top =  18.40
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape31"
+
+=== textbox | txtOsifra | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.osifra"
+    Height =   1.53
+    Left =  15.60
+    MaxLength = 4
+    ReadOnly = .T.
+    SpecialEffect = 1
+    TabIndex = 44
+    Top =   0.13
+    Width =  10.80
+    Name = "txtOsifra"
+
+=== label | lblOsifra | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "ŠIFRA "
+    Left =   6.80
+    Top =   0.27
+    Width =   8.40
+    TabIndex = 43
+    Name = "lblOsifra"
+
+=== textbox | txtNaz | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.naz"
+    Height =   1.53
+    Left =  36.00
+    MaxLength = 40
+    SpecialEffect = 1
+    TabIndex = 1
+    Top =   0.27
+    Width =  66.60
+    Name = "txtNaz"
+
+=== label | lblNaz | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Naz"
+    Left =  29.00
+    Top =   0.27
+    Width =   5.20
+    TabIndex = 45
+    Name = "lblNaz"
+
+=== textbox | txtDatnab | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.datnab"
+    Height =   1.73
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 2
+    Top =   2.33
+    Width =  17.60
+    Name = "txtDatnab"
+
+=== label | lblDatnab | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM NABAVKE"
+    Height =   1.27
+    Left =   1.20
+    Top =   2.47
+    Width =  23.80
+    TabIndex = 46
+    ForeColor = 171,33,44
+    Name = "lblDatnab"
+
+=== textbox | txtDatprod | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.datprod"
+    Height =   1.67
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 5
+    Top =   5.60
+    Width =  17.60
+    Name = "txtDatprod"
+
+=== label | lblDatprod | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM PRODAJE"
+    Height =   1.27
+    Left =   1.20
+    Top =   5.67
+    Width =  24.60
+    TabIndex = 49
+    ForeColor = 171,33,44
+    Name = "lblDatprod"
+
+=== textbox | txtSifra | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.sifra"
+    Height =   1.73
+    Left = 165.20
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 27
+    Top =   2.33
+    Width =  13.00
+    Name = "txtSifra"
+
+=== label | lblSifra | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "FIRMA"
+    Left = 119.40
+    Top =   2.47
+    Width =   8.60
+    TabIndex = 50
+    ForeColor = 171,33,44
+    Name = "lblSifra"
+
+=== textbox | txtGodpro | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.godpro"
+    Height =   1.60
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 6
+    Top =   7.20
+    Width =  11.40
+    Name = "txtGodpro"
+
+=== label | lblGodpro | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "GODINA "
+    Height =   1.27
+    Left =   1.20
+    Top =   7.27
+    Width =  11.20
+    TabIndex = 51
+    ForeColor = 171,33,44
+    Name = "lblGodpro"
+
+=== textbox | txtVrsta | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.vrsta"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 7
+    Top =   8.73
+    Width =  11.40
+    Name = "txtVrsta"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF VRSTA=SPACE(4)
+       SELECT OSVRSTA
+       DO  FORM OSVRSTA 
+       MVRSTA=VRSTA
+       SELECT OS0
+       REPLACE VRSTA WITH MVRSTA
+       THISFORM.REFRESH
+       THISFORM.LBLOSVRSTA.CAPTION=OSVRSTA.NAZIV 
+    ENDIF   
+    POP KEY
+    ENDPROC
+
+=== label | lblVrsta | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "VRSTA "
+    Height =   1.27
+    Left =   1.20
+    Top =   8.87
+    Width =   9.40
+    TabIndex = 52
+    ForeColor = 171,33,44
+    Name = "lblVrsta"
+
+=== textbox | txtPovrsina | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.povrsina"
+    Height =   1.80
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 8
+    Top =  10.33
+    Width =  20.60
+    Name = "txtPovrsina"
+
+=== label | lblPovrsina | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POVRŠINA"
+    Height =   1.27
+    Left =   1.20
+    Top =  10.47
+    Width =  14.80
+    TabIndex = 53
+    ForeColor = 171,33,44
+    Name = "lblPovrsina"
+
+=== textbox | txtStrukt1 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.strukt1"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 9
+    Top =  12.07
+    Width =  46.40
+    Name = "txtStrukt1"
+
+=== label | lblStrukt1 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "STRUKTURA OBJEKTA"
+    Height =   1.27
+    Left =   1.20
+    Top =  12.07
+    Width =  31.60
+    TabIndex = 54
+    ForeColor = 171,33,44
+    Name = "lblStrukt1"
+
+=== textbox | txtStrukt2 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.strukt2"
+    Height =   1.60
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 10
+    Top =  13.67
+    Width =  46.40
+    Name = "txtStrukt2"
+
+=== textbox | txtParcela | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.parcela"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 11
+    Top =  15.20
+    Width =  46.40
+    Name = "txtParcela"
+
+=== label | lblParcela | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "BROJ PARCELE I KAT.OPŠTINA"
+    Height =   1.27
+    Left =   1.20
+    Top =  15.27
+    Width =  43.00
+    TabIndex = 55
+    ForeColor = 171,33,44
+    Name = "lblParcela"
+
+=== textbox | txtIsprave1 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.isprave1"
+    Height =   1.60
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 12
+    Top =  16.80
+    Width =  46.40
+    Name = "txtIsprave1"
+
+=== label | lblIsprave1 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "ISPRAVE O SVOJINI"
+    Height =   1.27
+    Left =   1.20
+    Top =  16.87
+    Width =  27.00
+    TabIndex = 56
+    ForeColor = 171,33,44
+    Name = "lblIsprave1"
+
+=== textbox | txtIsprave2 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.isprave2"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 13
+    Top =  18.33
+    Width =  46.40
+    Name = "txtIsprave2"
+
+=== textbox | txtIsprave3 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.isprave3"
+    Height =   1.73
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 14
+    Top =  19.93
+    Width =  46.40
+    Name = "txtIsprave3"
+
+=== textbox | txtOsnovkor | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.osnovkor"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 15
+    Top =  21.60
+    Width =  11.60
+    Name = "txtOsnovkor"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF OSNOVKOR=SPACE(4)
+       SELECT OSOSNK
+       DO  FORM ososnk	 
+       MOSNOVKOR=OSNOVKOR
+       SELECT OS0
+       REPLACE OSNOVKOR WITH MOSNOVKOR
+       THISFORM.REFRESH
+       THISFORM.LBLOSOSNK.CAPTION=OSOSNK.NAZIV 
+    ENDIF   
+    POP KEY
+    ENDPROC
+
+=== label | lblOsnovkor | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .F.
+    BackStyle = 0
+    Caption = "OSNOV KORIŠĆENJA"
+    Height =   1.27
+    Left =   1.20
+    Top =  21.67
+    Width =  30.40
+    TabIndex = 57
+    ForeColor = 171,33,44
+    Name = "lblOsnovkor"
+
+=== textbox | txtIzvor | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.izvor"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 16
+    Top =  23.20
+    Width =  11.60
+    Name = "txtIzvor"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    IF IZVOR=SPACE(4)
+       SELECT OSIZVORF
+       DO  FORM OSIZVORF 
+       MIZVOR=IZVOR
+       SELECT OS0
+       REPLACE IZVOR WITH MIZVOR
+       THISFORM.REFRESH
+       THISFORM.LBLOSIZVORF.CAPTION=OSIZVORF.NAZIV 
+    ENDIF   
+    POP KEY
+    ENDPROC
+
+=== label | lblIzvor | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "IZVOR FINANSIRANJA NABAVKE"
+    Height =   1.27
+    Left =   1.20
+    Top =  23.27
+    Width =  43.20
+    TabIndex = 58
+    ForeColor = 171,33,44
+    Name = "lblIzvor"
+
+=== textbox | txtNacinstic | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.nacinstic"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 40
+    SpecialEffect = 1
+    TabIndex = 17
+    Top =  24.80
+    Width =  63.40
+    Name = "txtNacinstic"
+
+=== label | lblNacinstic | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NAČIN STICANJA"
+    Height =   2.40
+    Left =   1.20
+    Top =  24.87
+    Width =  14.00
+    TabIndex = 59
+    ForeColor = 171,33,44
+    Name = "lblNacinstic"
+
+=== textbox | txtRashod | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.rashod"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 30
+    SpecialEffect = 1
+    TabIndex = 18
+    Top =  26.40
+    Width =  46.40
+    Name = "txtRashod"
+
+=== label | lblRashod | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "BROJ I DATUM ODLUKE O RASHOD."
+    Height =   1.27
+    Left =   1.20
+    Top =  26.47
+    Width =  50.40
+    TabIndex = 60
+    ForeColor = 171,33,44
+    Name = "lblRashod"
+
+=== textbox | txtKom | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.kom"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 28
+    Top =   4.00
+    Width =  22.20
+    Name = "txtKom"
+
+=== label | lblKom | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "KOLIEINA"
+    Left = 119.40
+    Top =   4.07
+    Width =  13.00
+    TabIndex = 61
+    ForeColor = 171,33,44
+    Name = "lblKom"
+
+=== textbox | txtStopaot | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.stopaot"
+    Height =   1.60
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 29
+    Top =   5.60
+    Width =  18.20
+    Name = "txtStopaot"
+
+=== label | lblStopaot | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "STOPA OTPISA MRS"
+    Height =   1.27
+    Left = 119.60
+    Top =   5.67
+    Width =  28.00
+    TabIndex = 62
+    ForeColor = 171,33,44
+    Name = "lblStopaot"
+
+=== textbox | txtStopaot2 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.stopaot2"
+    Height =   1.73
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 30
+    Top =   7.13
+    Width =  18.20
+    Name = "txtStopaot2"
+
+=== label | lblStopaot2 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "STOPA OTPISA POR.PROP."
+    Height =   1.27
+    Left = 119.60
+    Top =   7.27
+    Width =  38.00
+    TabIndex = 63
+    ForeColor = 171,33,44
+    Name = "lblStopaot2"
+
+=== textbox | txtMesto | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.MP"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 2
+    SpecialEffect = 1
+    TabIndex = 19
+    Top =  28.00
+    Width =  11.40
+    Name = "txtMesto"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF MP=SPACE(2)
+       SELECT MESTA
+       DO  FORM OSMESTA 
+       MMP=MP
+       SELECT OS0
+       REPLACE MP WITH MMP
+       THISFORM.REFRESH
+       THISFORM.LBLMESTA.CAPTION=MESTA.NAZIV 
+    ENDIF   
+    POP KEY
+    ENDPROC
+
+=== label | lblMesto | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "MESTO"
+    Height =   1.27
+    Left =   1.20
+    Top =  28.07
+    Width =  10.40
+    TabIndex = 64
+    ForeColor = 171,33,44
+    Name = "lblMesto"
+
+=== textbox | txtMtr | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.mtr"
+    Height =   1.67
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 20
+    Top =  29.60
+    Width =  12.40
+    Name = "txtMtr"
+
+=== label | lblMtr | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "MESTO TROŠKOVA"
+    Height =   1.27
+    Left =   1.20
+    Top =  29.67
+    Width =  27.40
+    TabIndex = 65
+    ForeColor = 171,33,44
+    Name = "lblMtr"
+
+=== textbox | txtKonto | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.konto"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 8
+    SpecialEffect = 1
+    TabIndex = 21
+    Top =  31.20
+    Width =  16.20
+    Name = "txtKonto"
+
+=== label | lblKonto | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "KONTO"
+    Height =   1.27
+    Left =   1.20
+    Top =  31.27
+    Width =  10.60
+    TabIndex = 66
+    ForeColor = 171,33,44
+    Name = "lblKonto"
+
+=== textbox | txtNomenkl | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.nomenkl"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 20
+    SpecialEffect = 1
+    TabIndex = 22
+    Top =  32.80
+    Width =  32.40
+    Name = "txtNomenkl"
+
+=== label | lblNomenkl | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "NOMENKLATURNI BROJ"
+    Height =   1.27
+    Left =   1.20
+    Top =  32.87
+    Width =  33.20
+    TabIndex = 67
+    ForeColor = 171,33,44
+    Name = "lblNomenkl"
+
+=== textbox | txtInvbroj | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.invbroj"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 20
+    SpecialEffect = 1
+    TabIndex = 23
+    Top =  34.40
+    Width =  32.40
+    Name = "txtInvbroj"
+
+=== label | lblInvbroj | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "INVENTARSKI BROJ"
+    Height =   1.27
+    Left =   1.20
+    Top =  34.47
+    Width =  27.40
+    TabIndex = 68
+    ForeColor = 171,33,44
+    Name = "lblInvbroj"
+
+=== textbox | txtNab0 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.nab0"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 31
+    Top =   8.80
+    Width =  30.40
+    Name = "txtNab0"
+
+=== label | lblNab0 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA NABAVNA MRS"
+    Height =   1.27
+    Left = 119.60
+    Top =   8.87
+    Width =  34.60
+    TabIndex = 69
+    ForeColor = 171,33,44
+    Name = "lblNab0"
+
+=== textbox | txtIsp0 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.isp0"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 32
+    Top =  10.40
+    Width =  30.40
+    Name = "txtIsp0"
+
+=== label | lblIsp0 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA ISPRAVKA MRS"
+    Height =   1.27
+    Left = 119.60
+    Top =  10.47
+    Width =  35.60
+    TabIndex = 70
+    ForeColor = 171,33,44
+    Name = "lblIsp0"
+
+=== textbox | txtSad0 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.sad0"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 33
+    Top =  12.00
+    Width =  30.40
+    Name = "txtSad0"
+
+=== label | lblSad0 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA SADAŠNJA MRS"
+    Height =   1.27
+    Left = 119.60
+    Top =  12.07
+    Width =  36.60
+    TabIndex = 71
+    ForeColor = 171,33,44
+    Name = "lblSad0"
+
+=== textbox | txtNab02 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.nab02"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 34
+    Top =  13.60
+    Width =  30.40
+    Name = "txtNab02"
+
+=== label | lblNab02 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA NABAVNA PP"
+    Height =   1.27
+    Left = 119.60
+    Top =  13.67
+    Width =  32.20
+    TabIndex = 72
+    ForeColor = 171,33,44
+    Name = "lblNab02"
+
+=== textbox | txtIsp02 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.isp02"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 35
+    Top =  15.20
+    Width =  30.40
+    Name = "txtIsp02"
+
+=== label | lblIsp02 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA ISPRAVKA PP"
+    Height =   1.27
+    Left = 119.60
+    Top =  15.27
+    Width =  33.20
+    TabIndex = 73
+    ForeColor = 171,33,44
+    Name = "lblIsp02"
+
+=== textbox | txtSad02 | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.sad02"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 36
+    Top =  16.80
+    Width =  30.40
+    Name = "txtSad02"
+
+=== label | lblSad02 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "POEETNA SADAŠNJA PP"
+    Height =   1.27
+    Left = 119.60
+    Top =  16.87
+    Width =  34.20
+    TabIndex = 74
+    ForeColor = 171,33,44
+    Name = "lblSad02"
+
+=== textbox | txtAg | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.ag"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 1
+    SpecialEffect = 1
+    TabIndex = 25
+    Top =  37.60
+    Width =   8.80
+    Name = "txtAg"
+
+=== label | lblAg | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "AMORTIZACIONA GRUPA"
+    Height =   1.27
+    Left =   1.20
+    Top =  37.67
+    Width =  34.00
+    TabIndex = 75
+    ForeColor = 171,33,44
+    Name = "lblAg"
+
+=== textbox | txtAgpod | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.agpod"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 2
+    SpecialEffect = 1
+    TabIndex = 26
+    Top =  39.27
+    Width =  10.20
+    Name = "txtAgpod"
+
+=== label | lblAgpod | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "AMORTIZACIONA PODGRUPA"
+    Height =   1.27
+    Left =   1.20
+    Top =  39.27
+    Width =  40.60
+    TabIndex = 76
+    ForeColor = 171,33,44
+    Name = "lblAgpod"
+
+=== textbox | txtProcgod | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.procgod"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 37
+    Top =  18.40
+    Width =  15.20
+    Name = "txtProcgod"
+
+=== label | lblProcgod | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .F.
+    BackStyle = 0
+    Caption = "PROCENA KORIŠĆENJA"
+    Height =   1.27
+    Left = 119.60
+    Top =  18.47
+    Width =  34.40
+    TabIndex = 79
+    ForeColor = 171,33,44
+    Name = "lblProcgod"
+
+=== textbox | txtGrupa | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.grupa"
+    Height =   1.67
+    Left =  53.80
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 24
+    Top =  36.00
+    Width =  11.40
+    Name = "txtGrupa"
+
+=== label | lblGrupa | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "GRUPA"
+    Height =   1.27
+    Left =   1.20
+    Top =  36.07
+    Width =  10.00
+    TabIndex = 80
+    ForeColor = 171,33,44
+    Name = "lblGrupa"
+
+=== commandbutton | Command1 | parent=OS0K
+  PROPERTIES:
+    Top =  39.20
+    Left = 175.20
+    Height =   2.47
+    Width =  21.80
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 42
+    BackColor = 255,128,128
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.RELEASE
+    ENDPROC
+
+=== label | LBLOSVRSTA | parent=OS0K
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  65.00
+    Top =   8.73
+    Width =  52.00
+    TabIndex = 81
+    BackColor = 157,206,206
+    Name = "LBLOSVRSTA"
+
+=== label | LBLOSOSNK | parent=OS0K
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  65.40
+    Top =  21.60
+    Width =  51.80
+    TabIndex = 82
+    BackColor = 157,206,206
+    Name = "LBLOSOSNK"
+
+=== label | LBLOSIZVORF | parent=OS0K
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  65.40
+    Top =  23.20
+    Width =  51.80
+    TabIndex = 83
+    BackColor = 157,206,206
+    Name = "LBLOSIZVORF"
+
+=== commandbutton | Command2 | parent=OS0K
+  PROPERTIES:
+    Top =  41.40
+    Left =  66.80
+    Height =   2.47
+    Width =  18.20
+    FontSize = 11
+    Caption = "\<GORE"
+    TabIndex = 40
+    Name = "Command2"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.BOF()
+       SKIP -1
+    ENDIF   
+    THISFORM.Refresh 
+    POP KEY
+    ENDPROC
+
+=== commandbutton | Command3 | parent=OS0K
+  PROPERTIES:
+    Top =  41.40
+    Left =  86.60
+    Height =   2.47
+    Width =  18.20
+    FontSize = 11
+    Caption = "\<DOLE"
+    TabIndex = 41
+    Name = "Command3"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    PUSH KEY CLEAR
+    IF.NOT.EOF()
+       SKIP 
+    ENDIF   
+    THISFORM.Refresh 
+    POP KEY
+    ENDPROC
+
+=== label | LBLMESTA | parent=OS0K
+  PROPERTIES:
+    FontSize = 11
+    BorderStyle = 1
+    Caption = ""
+    Height =   1.67
+    Left =  65.40
+    Top =  28.00
+    Width =  51.80
+    TabIndex = 84
+    BackColor = 157,206,206
+    Name = "LBLMESTA"
+
+=== shape | Shape32 | parent=OS0K
+  PROPERTIES:
+    Top =   4.00
+    Left =   0.20
+    Height =   1.67
+    Width = 117.00
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape32"
+
+=== label | Label3 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "DATUM POCETKA  AMORTIZACIJE"
+    Height =   1.27
+    Left =   1.20
+    Top =   4.07
+    Width =  46.60
+    TabIndex = 48
+    ForeColor = 171,33,44
+    Name = "Label3"
+
+=== textbox | txtdatstartam | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.datstartam"
+    Height =   1.67
+    Left =  53.80
+    SpecialEffect = 1
+    TabIndex = 4
+    Top =   4.00
+    Width =  17.60
+    Name = "txtdatstartam"
+  METHODS (literal FoxPro source):
+    PROCEDURE GotFocus
+    IF thisform.txtdatnab.value=thisform.txtdatstartam.value OR EMPTY(thisform.txtdatstartam.value)
+    	IF MONTH(os0.datnab)# 12
+    		thisform.txtdatstartam.value=CTOD('01'+'/'+str(MONTH(os0.datnab)+1)+'/'+str(year(os0.datnab)))
+    	ELSE
+    		thisform.txtdatstartam.value=CTOD('01/01/'+str(year(os0.datnab)+1))
+    	endif	
+    endif	
+    ENDPROC
+
+=== label | Label4 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .T.
+    FontSize = 11
+    WordWrap = .T.
+    BackStyle = 0
+    Caption = "Način obračuna(POA/014) "
+    Height =   1.27
+    Left =  72.00
+    Top =   2.67
+    Width =  35.00
+    TabIndex = 47
+    ForeColor = 171,33,44
+    Name = "Label4"
+
+=== textbox | txtnacinobr | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.nacinob"
+    Height =   1.73
+    InputMask = "!!!"
+    Left = 108.40
+    MaxLength = 4
+    SpecialEffect = 1
+    TabIndex = 3
+    Top =   2.33
+    Width =   8.80
+    Name = "txtnacinobr"
+
+=== shape | Shape33 | parent=OS0K
+  PROPERTIES:
+    Top =  20.00
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape33"
+
+=== shape | Shape34 | parent=OS0K
+  PROPERTIES:
+    Top =  21.60
+    Left = 117.00
+    Height =   1.67
+    Width =  81.20
+    BackStyle = 1
+    BackColor = 233,236,216
+    Name = "Shape34"
+
+=== label | Label5 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .F.
+    BackStyle = 0
+    Caption = "IZNOS NAKNADNOG ULAGANJA"
+    Height =   1.27
+    Left = 119.60
+    Top =  20.20
+    Width =  46.00
+    TabIndex = 77
+    ForeColor = 171,33,44
+    Name = "Label5"
+
+=== label | Label6 | parent=OS0K
+  PROPERTIES:
+    AutoSize = .F.
+    FontSize = 11
+    WordWrap = .F.
+    BackStyle = 0
+    Caption = "DATUM NAKNADNOG ULAGANJA"
+    Height =   1.27
+    Left = 119.80
+    Top =  21.80
+    Width =  46.00
+    TabIndex = 78
+    ForeColor = 171,33,44
+    Name = "Label6"
+
+=== textbox | TXTdatulag | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.datulag"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 39
+    Top =  21.60
+    Width =  17.60
+    Name = "TXTdatulag"
+
+=== textbox | TXTIZNOSULAG | parent=OS0K
+  PROPERTIES:
+    Comment = ""
+    FontSize = 11
+    ControlSource = "os0.iznosulag"
+    Height =   1.67
+    Left = 165.20
+    SpecialEffect = 1
+    TabIndex = 38
+    Top =  20.00
+    Width =  30.40
+    Name = "TXTIZNOSULAG"

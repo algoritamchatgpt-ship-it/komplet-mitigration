@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbf name="ldopj3">
+  <columns>
+    <column name="BROJ" type="N" length="0" decimals="0" />
+    <column name="SIFRAPRIH" type="C" length="0" decimals="0" />
+    <column name="GRUPA" type="N" length="0" decimals="0" />
+    <column name="DATDOK" type="D" length="0" decimals="0" />
+    <column name="KAMBRUTO" type="N" length="2" decimals="0" />
+    <column name="KAMPROC" type="N" length="2" decimals="0" />
+    <column name="KAMPOREZ" type="N" length="2" decimals="0" />
+    <column name="KAMNETO" type="N" length="2" decimals="0" />
+    <column name="DIVISPL" type="N" length="2" decimals="0" />
+    <column name="DIVUMANJ" type="N" length="2" decimals="0" />
+    <column name="DIVOPOREZ" type="N" length="2" decimals="0" />
+    <column name="DIVOPOREZ2" type="N" length="2" decimals="0" />
+    <column name="DIVPROC" type="N" length="2" decimals="0" />
+    <column name="DIVPOREZ" type="N" length="2" decimals="0" />
+    <column name="DIVNETO" type="N" length="2" decimals="0" />
+    <column name="BRUTO" type="N" length="2" decimals="0" />
+    <column name="PR_NORM" type="N" length="2" decimals="0" />
+    <column name="NORMIRTR" type="N" length="2" decimals="0" />
+    <column name="SNORMIRTR" type="N" length="2" decimals="0" />
+    <column name="OPOREZIVO" type="N" length="2" decimals="0" />
+    <column name="PR_DOH" type="N" length="2" decimals="0" />
+    <column name="PORDOH" type="N" length="2" decimals="0" />
+    <column name="CNETO" type="N" length="2" decimals="0" />
+    <column name="INVISPLAC" type="N" length="2" decimals="0" />
+    <column name="INVOPOREZ" type="N" length="2" decimals="0" />
+    <column name="INVPOREZ" type="N" length="2" decimals="0" />
+    <column name="INVPROC" type="N" length="2" decimals="0" />
+    <column name="INVNETO" type="N" length="2" decimals="0" />
+    <column name="DOBOPOREZ" type="N" length="2" decimals="0" />
+    <column name="DOBPROC" type="N" length="2" decimals="0" />
+    <column name="DOBPOREZ" type="N" length="2" decimals="0" />
+    <column name="DOBNETO" type="N" length="2" decimals="0" />
+    <column name="VLAOPOREZ" type="N" length="2" decimals="0" />
+    <column name="VLAPROC" type="N" length="2" decimals="0" />
+    <column name="VLAPOREZ" type="N" length="2" decimals="0" />
+    <column name="VLANETO" type="N" length="2" decimals="0" />
+    <column name="UKUPNO" type="N" length="2" decimals="0" />
+    <column name="MESEC" type="N" length="0" decimals="0" />
+    <column name="ISPLATA" type="N" length="0" decimals="0" />
+    <column name="NAZMES" type="C" length="0" decimals="0" />
+    <column name="ARHIVA" type="C" length="0" decimals="0" />
+    <column name="PRENETO" type="C" length="0" decimals="0" />
+    <column name="IDBR" type="N" length="0" decimals="0" />
+  </columns>
+  <rows>
+  </rows>
+</dbf>

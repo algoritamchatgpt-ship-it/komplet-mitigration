@@ -1,0 +1,125 @@
+<Window x:Class="GlavnaKnjiga.Views.NalpMatulWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title=""
+        Height="330" Width="760"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#B7BCF9"
+        KeyDown="Window_KeyDown">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header row: NALOG + DATUM -->
+        <Grid Grid.Row="0" Background="#FFFFB7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="NALOG" FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="1" FontSize="11" Text="{Binding Row.Brnal, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+            <TextBlock Grid.Column="2" Text="DATUM" FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="3" FontSize="11" Text="{Binding Row.Datdok, StringFormat=dd.MM.yyyy, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+        </Grid>
+
+        <!-- Konto + Naziv -->
+        <Grid Grid.Row="2" Background="#FFFFB7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Konto" FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="1" FontSize="11" Text="{Binding Row.Konto, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+            <TextBox Grid.Column="2" FontSize="11" Text="{Binding Naziv, Mode=OneWay}" IsReadOnly="True" Margin="4,1,0,1"/>
+        </Grid>
+
+        <!-- Dug + Pot + Opis -->
+        <Grid Grid.Row="4" Background="#FFFFB7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="DUGUJE"    FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="1"   FontSize="11" Text="{Binding Row.Dug, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+            <TextBlock Grid.Column="2" Text="POTRAŽUJE" FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="3"   FontSize="11" Text="{Binding Row.Pot, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+            <TextBlock Grid.Column="4" Text="OPIS" FontSize="11" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Grid.Column="5"   FontSize="11" Text="{Binding Row.Opis, Mode=OneWay}" IsReadOnly="True" Margin="0,1"/>
+        </Grid>
+
+        <!-- Separator label -->
+        <Border Grid.Row="6" Background="#D3EBF1" Padding="4,2">
+            <TextBlock Text="EVIDENCIJA ULAZA MATERIJALA" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"/>
+        </Border>
+
+        <!-- ULAZNA KOLIČINA -->
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="ULAZNA KOLIČINA" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox x:Name="TxtUlaz" Grid.Column="1" FontSize="11"
+                     Text="{Binding Row.Ulaz, UpdateSourceTrigger=LostFocus}"
+                     LostFocus="TxtUlaz_LostFocus"/>
+        </Grid>
+
+        <!-- NABAVNA CENA -->
+        <Grid Grid.Row="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="NABAVNA CENA" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox x:Name="TxtCena" Grid.Column="1" FontSize="11"
+                     Text="{Binding Row.Cena, UpdateSourceTrigger=LostFocus}"
+                     LostFocus="TxtCena_LostFocus"/>
+        </Grid>
+
+        <!-- NABAVNA VREDNOST -->
+        <Grid Grid.Row="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="NABAVNA VREDNOST" FontSize="11" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" FontSize="11"
+                     Text="{Binding Row.UkupnoD}" IsReadOnly="True"/>
+        </Grid>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="18" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="&lt;Izlaz" Width="100" Margin="8,0"
+                    Background="#C0C0C0" Foreground="Red"
+                    Command="{Binding IzlazCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

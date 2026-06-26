@@ -1,0 +1,31 @@
+REPLACE UKUPNO WITH IZNOS01+;
+                    IZNOS02+;
+                    IZNOS03+;
+                    IZNOS04+;
+                    IZNOS05+;
+                    IZNOS06+;
+                    IZNOS07+;
+                    IZNOS08+;
+                    IZNOS09+;
+                    IZNOS10+;
+                    IZNOS11+;
+                    IZNOS12+;
+                    IZNOS13+;
+                    IZNOS14+;
+                    IZNOS15+;
+                    IZNOS16+;
+                    IZNOS17+;
+                    IZNOS18+;
+                    IZNOS19+;
+                    IZNOS20+;
+                    IZNOS21+;
+                    IZNOS22+;
+                    IZNOS23+;
+                    IZNOS24+;
+                    IZNOS25+;
+                    IZNOS26+;
+                    IZNOS27+;
+                    IZNOS28+;
+                    IZNOS29+;
+                    IZNOS30
+REPLACE RAZLIKA WITH SALDO-UKUPNO

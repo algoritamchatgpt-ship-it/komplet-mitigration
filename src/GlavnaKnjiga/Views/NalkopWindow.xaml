@@ -1,0 +1,60 @@
+<Window x:Class="GlavnaKnjiga.Views.NalkopWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KOPIRANJE NALOGA ZA KNJIŽENJE"
+        Height="280" Width="540"
+        WindowStartupLocation="CenterOwner"
+        Background="#95BC94"
+        ResizeMode="NoResize">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- STARI NALOG (readonly display) -->
+        <Label Grid.Row="0" Grid.Column="0" Content="STARI NALOG"
+               FontFamily="Tahoma" FontSize="11" Foreground="Blue" Background="#FFFF80" Padding="2"/>
+        <Label x:Name="LblStariBrnal" Grid.Row="0" Grid.Column="1"
+               FontFamily="Tahoma" FontSize="11" Foreground="Blue" Background="#FFFF80"
+               BorderThickness="1" BorderBrush="Gray" Padding="2" Margin="0,2"/>
+
+        <!-- NOVI NALOG -->
+        <Label Grid.Row="1" Grid.Column="0" Content="NOVI NALOG"
+               FontFamily="Tahoma" FontSize="11" Foreground="Blue" Background="#FFFF80" Padding="2"/>
+        <TextBox x:Name="TxtNoviBrnal" Grid.Row="1" Grid.Column="1" MaxLength="6"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2" Width="80" HorizontalAlignment="Left"/>
+
+        <!-- VREDNOST -->
+        <Label Grid.Row="2" Grid.Column="0" Content="VREDNOST — ISTA=I   NEGATIVNA=N"
+               FontFamily="Tahoma" FontSize="11" Foreground="Blue" Background="#FFFF80" Padding="2"/>
+        <TextBox x:Name="TxtVrednost" Grid.Row="2" Grid.Column="1" MaxLength="1" Text="N"
+                 FontFamily="Tahoma" FontSize="11" Margin="0,2" Width="40" HorizontalAlignment="Left"/>
+
+        <!-- DATUM NALOGA -->
+        <Label Grid.Row="3" Grid.Column="0" Content="DATUM NALOGA"
+               FontFamily="Tahoma" FontSize="11" Foreground="Blue" Background="#FFFF80" Padding="2"/>
+        <DatePicker x:Name="TxtDatdok" Grid.Row="3" Grid.Column="1"
+                    FontFamily="Tahoma" FontSize="11" Margin="0,2"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+            <Button x:Name="BtnKopiram" Content="KOPIRAM" Width="120" Height="36"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0"
+                    Click="BtnKopiram_Click"/>
+            <Button Content="IZLAZ" Width="80" Height="36" Margin="12,0,0,0"
+                    FontFamily="Tahoma" FontSize="11" Background="#C0C0C0" Foreground="Red"
+                    Click="BtnIzlaz_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

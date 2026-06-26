@@ -1,0 +1,134 @@
+num records 7
+
+=== dataenvironment | Dataenvironment | parent=(root)
+  PROPERTIES:
+    Top = 220
+    Left = 1
+    Width = 520
+    Height = 200
+    AutoOpenTables = .F.
+    AutoCloseTables = .F.
+    DataSource = .NULL.
+    Name = "Dataenvironment"
+
+=== form | NALPNALTRAZI | parent=(root)
+  PROPERTIES:
+    ScaleMode = 0
+    Height =   7.07
+    Width =  71.20
+    DoCreate = .T.
+    AutoCenter = .T.
+    Caption = "TRAŽENJE NALOGA"
+    WindowType = 1
+    AlwaysOnTop = .T.
+    BackColor = 236,233,216
+    Name = "NALPNALTRAZI"
+  METHODS (literal FoxPro source):
+    PROCEDURE Init
+    PUSH KEY CLEAR
+    *-----------CIRILICA--------
+    IF ACIRILICA=1
+       MSEL=SELECT()
+       mkscx=mbazni+'\'+'kscx.dbf'
+       SET EXACT ON
+       MNAME=LOWER(ALLTRIM(THISFORM.NAME))
+       USE &mkscx IN 0 ORDER 1 ALIAS kscx
+       SELECT kscx
+       SEEK mname
+       IF FOUND()
+          DO while.not.eof()
+             IF LOWER(ALLTRIM(imetab))<>mname
+                EXIT
+             endif   
+             IF UPPER(ALLTRIM(kontrola))<>ALLTRIM(UPPER('form'))
+                mstring=ALLTRIM(imekontr)+'.'+npodatak
+             ELSE
+                mstring=npodatak         
+             endif   
+             THISFORM.&MSTRING
+             SKIP
+          enddo   
+       endif
+       USE
+       SELECT(msel)
+       SET EXACT off
+    ENDIF
+    *---------kraj cirilice
+    
+    MBRNAL=BRNAL
+    THISFORM.TXTNAL.VALUE=MBRNAL
+    THISFORM.Refresh 
+    SET PROCEDURE TO TASTERI2
+       DO NALNALTRAZITAST
+    SET PROCEDURE TO    
+    
+    ENDPROC
+    PROCEDURE Unload
+    SELECT NAL
+    SET ORDER TO 3
+    POP KEY
+    ENDPROC
+
+=== label | Label1 | parent=NALPNALTRAZI
+  PROPERTIES:
+    FontSize = 12
+    FontUnderline = .T.
+    BackStyle = 0
+    BorderStyle = 0
+    Caption = "Unesite nalog"
+    Height =   1.60
+    Left =  12.40
+    Top =   1.60
+    Width =  21.60
+    TabIndex = 3
+    ForeColor = 190,0,0
+    BackColor = 255,255,128
+    Name = "Label1"
+
+=== commandbutton | Command1 | parent=NALPNALTRAZI
+  PROPERTIES:
+    AutoSize = .F.
+    Top =   4.00
+    Left =  24.00
+    Height =   2.00
+    Width =  19.20
+    FontSize = 11
+    Caption = "\<IZLAZ"
+    TabIndex = 2
+    BackColor = 192,192,192
+    Name = "Command1"
+  METHODS (literal FoxPro source):
+    PROCEDURE Click
+    THISFORM.Release
+    
+    ENDPROC
+
+=== textbox | TXTNAL | parent=NALPNALTRAZI
+  PROPERTIES:
+    FontSize = 11
+    Height =   1.67
+    Left =  35.40
+    MaxLength = 6
+    SpecialEffect = 0
+    TabIndex = 1
+    Top =   1.60
+    Width =  24.20
+    Name = "TXTNAL"
+  METHODS (literal FoxPro source):
+    PROCEDURE LostFocus
+    PUSH KEY CLEAR
+    MNALOG=THISFORM.TXTNAL.VALUE
+    MLEN=LEN(ALLTRIM(THISFORM.TXTNAL.VALUE))
+    IF MLEN<6
+       MNALOG=STR(VAL(ALLTRIM(THISFORM.TXTNAL.VALUE)),6,0)
+    ENDIF
+    IF MNALOG<>SPACE(6)
+       SET ORDER TO 2
+       SEEK MNALOG
+    ENDIF
+    SET EXACT ON
+    NAL.GRD0.SETFOCUS
+    NAL.REFRESH
+    THISFORM.Release
+    POP KEY
+    ENDPROC
